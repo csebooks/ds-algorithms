@@ -1,2 +1,4 @@
-# ds-algorithms
-DS and Algo Notes
+## Dev
+```sh
+hugo server --themesDir ../
+```
