@@ -7,15 +7,7 @@ weight: 1
 
 CHAPTER 1: INTRODUCTION
 
-In this chapter, we discuss the aims and goals of this text and briefly review programming concepts and discrete mathematics. We will
-
-See that how a program performs for reasonably large input is just as important as its performance on moderate amounts of input.
-
-Review good programming style.
-
-Summarize the basic mathematical background needed for the rest of the book.
-
-Briefly review recursion.
+In this chapter, we discuss the aims and goals of this text and briefly review programming concepts and discrete mathematics. We will See that how a program performs for reasonably large input is just as important as its performance on moderate amounts of input.Review good programming style. Summarize the basic mathematical background needed for the rest of the book.Briefly review recursion.
 
 1.1. What's the Book About?
 
