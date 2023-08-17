@@ -1,11 +1,9 @@
 ---
-title: 'CHAPTER 3 LISTS, STACKS, AND QUEUES'
+title: "CHAPTER 3 LISTS, STACKS, AND QUEUES"
 weight: 3
 ---
 
-  
-
-CHAPTER 3: LISTS, STACKS, AND QUEUES
+# CHAPTER 3: LISTS, STACKS, AND QUEUES
 
 This chapter discusses three of the most simple and basic data structures. Virtually every significant program will use at least one of these structures explicitly, and a stack is always implicitly used in your program, whether or not you declare one. Among the highlights of this chapter, we will
 
@@ -19,7 +17,7 @@ Introduce the queue ADT and its use in operating systems and algorithm design.
 
 Because these data structures are so important, one might expect that they are hard to implement. In fact, they are extremely easy to code up; the main difficulty is keeping enough discipline to write good general-purpose code for routines that are generally only a few lines long.
 
-3.1. Abstract Data Types (ADTs)
+Abstract Data Types (ADTs)
 
 One of the basic rules concerning programming is that no routine should ever exceed a page. This is accomplished by breaking the program down into modules. Each module is a logical unit and does a specific job. Its size is kept small by calling other modules. Modularity has several advantages. First, it is much easier to debug small routines than large routines. Second, it is easier for several people to work on a modular program simultaneously. Third, a well-written modular program places certain dependencies in only one routine, making changes easier. For instance, if output needs to be written in a certain format, it is certainly important to have one routine to do this. If printing statements are scattered throughout the program, it will take considerably longer to make modifications. The idea that global variables and side effects are bad is directly attributable to the idea that modularity is good.
 
@@ -31,7 +29,7 @@ Next ChapterReturn to Table of ContentsPrevious Chapter
 
 页码，1/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 intersection, size, and complement. Alternately, we might only want the two operations union and find, which would define a different ADT on the set.
 
@@ -39,7 +37,7 @@ The basic idea is that the implementation of these operations is written once in
 
 There is no rule telling us which operations must be supported for each ADT; this is a design decision. Error handling and tie breaking (where appropriate) are also generally up to the program designer. The three data structures that we will study in this chapter are primary examples of ADTs. We will see how each can be implemented in several ways, but if they are done correctly, the programs that use them will not need to know which implementation was used.
 
-3.2. The List ADT
+###3.2. The List ADT
 
 We will deal with a general list of the form a1, a2, a3, . . . , an. We say that
 
@@ -55,21 +53,21 @@ of an. The position of element ai in a list is i. Throughout this discussion, we
 
 will assume, to simplify matters, that the elements in the list are integers, but in general, arbitrarily complex elements are allowed.
 
-Associated with these "definitions" is a set of operations that we would like to perform on the list ADT. Some popular operations are print\_list and make\_null, which do the obvious things; find, which returns the position of the first occurrence of a key; insert and delete, which generally insert and delete some key from some position in the list; and find\_kth, which returns the element in some position (specified as an argument). If the list is 34, 12, 52, 16, 12, then find(52) might return 3; insert(x,3) might make the list into 34, 12, 52, x, 16, 12 (if we insert after the position given); and delete(3) might turn that list into 34, 12, x, 16, 12.
+Associated with these "definitions" is a set of operations that we would like to perform on the list ADT. Some popular operations are print_list and make_null, which do the obvious things; find, which returns the position of the first occurrence of a key; insert and delete, which generally insert and delete some key from some position in the list; and find_kth, which returns the element in some position (specified as an argument). If the list is 34, 12, 52, 16, 12, then find(52) might return 3; insert(x,3) might make the list into 34, 12, 52, x, 16, 12 (if we insert after the position given); and delete(3) might turn that list into 34, 12, x, 16, 12.
 
 Of course, the interpretation of what is appropriate for a function is entirely up to the programmer, as is the handling of special cases (for example, what does find(1) return above?). We could also add operations such as next and previous, which would take a position as argument and return the position of the successor and predecessor, respectively.
 
-3.2.1. Simple Array Implementation of Lists
+###3.2.1. Simple Array Implementation of Lists
 
 Obviously all of these instructions can be implemented just by using an array. Even if the array is dynamically allocated, an estimate of the maximum size of the list is required. Usually this requires a high over-estimate, which wastes
 
 页码，2/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 considerable space. This could be a serious limitation, especially if there are many lists of unknown size.
 
-An array implementation allows print\_list and find to be carried out in linear time, which is as good as can be expected, and the find\_kth operation takes constant time. However, insertion and deletion are expensive. For example, inserting at position 0 (which amounts to making a new first element) requires first pushing the entire array down one spot to make room, whereas deleting the first element requires shifting all the elements in the list up one, so the worst case of these operations is O(n). On average, half the list needs to be moved for either operation, so linear time is still required. Merely building a list by n successive inserts would require quadratic time.
+An array implementation allows print_list and find to be carried out in linear time, which is as good as can be expected, and the find_kth operation takes constant time. However, insertion and deletion are expensive. For example, inserting at position 0 (which amounts to making a new first element) requires first pushing the entire array down one spot to make room, whereas deleting the first element requires shifting all the elements in the list up one, so the worst case of these operations is O(n). On average, half the list needs to be moved for either operation, so linear time is still required. Merely building a list by n successive inserts would require quadratic time.
 
 Because the running time for insertions and deletions is so slow and the list size must be known in advance, simple arrays are generally not used to implement lists.
 
@@ -81,13 +79,13 @@ The linked list consists of a series of structures, which are not necessarily ad
 
 Recall that a pointer variable is just a variable that contains the address where some other data is stored. Thus, if p is declared to be a pointer to a structure, then the value stored in p is interpreted as the location, in main memory, where a structure can be found. A field of that structure can be accessed by p
 
-field\_name, where field\_name is the name of the field we wish to examine. Figure 3.2 shows the actual representation of the list in Figure 3.1. The list contains five structures, which happen to reside in memory locations 1000, 800, 712, 992, and 692 respectively. The next pointer in the first structure has the value 800, which provides the indication of where the second structure is. The other structures each have a pointer that serves a similar purpose. Of course, in order to access this list, we need to know where the first cell can be found. A pointer variable can be used for this purpose. It is important to remember that a pointer is just a number. For the rest of this chapter, we will draw pointers with arrows, because they are more illustrative.
+field_name, where field_name is the name of the field we wish to examine. Figure 3.2 shows the actual representation of the list in Figure 3.1. The list contains five structures, which happen to reside in memory locations 1000, 800, 712, 992, and 692 respectively. The next pointer in the first structure has the value 800, which provides the indication of where the second structure is. The other structures each have a pointer that serves a similar purpose. Of course, in order to access this list, we need to know where the first cell can be found. A pointer variable can be used for this purpose. It is important to remember that a pointer is just a number. For the rest of this chapter, we will draw pointers with arrows, because they are more illustrative.
 
 Figure 3.1 A linked list
 
 页码，3/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Figure 3.2 Linked list with actual pointer values
 
@@ -95,7 +93,7 @@ Figure 3.3 Deletion from a linked list
 
 Figure 3.4 Insertion into a linked list
 
-To execute print\_list(L) or find(L,key), we merely pass a pointer to the first element in the list and then traverse the list by following the next pointers. This operation is clearly linear-time, although the constant is likely to be larger than if an array implementation were used. The find\_kth operation is no longer quite as efficient as an array implementation; find\_kth(L,i) takes O(i) time and works by traversing down the list in the obvious manner. In practice, this bound is pessimistic, because frequently the calls to find\_kth are in sorted order (by i). As an example, find\_kth(L,2), find\_kth(L,3), find\_kth(L,4), find\_kth(L,6) can all be executed in one scan down the list.
+To execute print_list(L) or find(L,key), we merely pass a pointer to the first element in the list and then traverse the list by following the next pointers. This operation is clearly linear-time, although the constant is likely to be larger than if an array implementation were used. The find_kth operation is no longer quite as efficient as an array implementation; find_kth(L,i) takes O(i) time and works by traversing down the list in the obvious manner. In practice, this bound is pessimistic, because frequently the calls to find_kth are in sorted order (by i). As an example, find_kth(L,2), find_kth(L,3), find_kth(L,4), find_kth(L,6) can all be executed in one scan down the list.
 
 The delete command can be executed in one pointer change. Figure 3.3 shows the result of deleting the third element in the original list.
 
@@ -107,13 +105,13 @@ The description above is actually enough to get everything working, but there ar
 
 页码，4/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Figure 3.5 Linked list with a header
 
 It turns out that one simple change solves all three problems. We will keep a sentinel node, which is sometimes referred to as a header or dummy node. This is a common practice, which we will see several times in the future. Our convention will be that the header is in position 0. Figure 3.5 shows a linked list with a header representing the list a1, a2, . . . , a5.
 
-To avoid the problems associated with deletions, we need to write a routine find\_previous, which will return the position of the predecessor of the cell we wish to delete. If we use a header, then if we wish to delete the first element in the list, find\_previous will return the position of the header. The use of a header node is somewhat controversial. Some people argue that avoiding special cases is not sufficient justification for adding fictitious cells; they view the use of header nodes as little more than old-style hacking. Even so, we will use them here, precisely because they allow us to show the basic pointer manipulations without obscuring the code with special cases. Otherwise, whether or not a header should be used is a matter of personal preference.
+To avoid the problems associated with deletions, we need to write a routine find_previous, which will return the position of the predecessor of the cell we wish to delete. If we use a header, then if we wish to delete the first element in the list, find_previous will return the position of the header. The use of a header node is somewhat controversial. Some people argue that avoiding special cases is not sufficient justification for adding fictitious cells; they view the use of header nodes as little more than old-style hacking. Even so, we will use them here, precisely because they allow us to show the basic pointer manipulations without obscuring the code with special cases. Otherwise, whether or not a header should be used is a matter of personal preference.
 
 As examples, we will write about half of the list ADT routines. First, we need our declarations, which are given in Figure 3.6.
 
@@ -121,33 +119,33 @@ The first function that we will write tests for an empty list. When we write cod
 
 The next function, which is shown in Figure 3.9, tests whether the current element, which by assumption exists, is the last of the list.
 
-typedef struct node \*node\_ptr;
+typedef struct node \*node_ptr;
 
 struct node
 
 {
 
-element\_type element;
+element_type element;
 
-node\_ptr next;
+node_ptr next;
 
 };
 
-typedef node\_ptr LIST;
+typedef node_ptr LIST;
 
-typedef node\_ptr position;
+typedef node_ptr position;
 
 Figure 3.6 Type declarations for linked lists
 
 页码，5/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Figure 3.7 Empty list with header
 
 int
 
-is\_empty( LIST L )
+is_empty( LIST L )
 
 {
 
@@ -159,7 +157,7 @@ Figure 3.8 Function to test whether a linked list is empty
 
 int
 
-is\_last( position p, LIST L )
+is_last( position p, LIST L )
 
 {
 
@@ -175,7 +173,7 @@ The next routine we will write is find. Find, shown in Figure 3.10, returns the 
 
 position
 
-find ( element\_type x, LIST L )
+find ( element_type x, LIST L )
 
 {
 
@@ -191,7 +189,7 @@ position p;
 
 页码，6/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 }
 
@@ -199,11 +197,11 @@ Figure 3.10 Find routine
 
 Some programmers find it tempting to code the find routine recursively, possibly because it avoids the sloppy termination condition. We shall see later that this is a very bad idea and should be avoided at all costs.
 
-Our fourth routine will delete some element x in list L. We need to decide what to do if x occurs more than once or not at all. Our routine deletes the first occurrence of x and does nothing if x is not in the list. To do this, we find p, which is the cell prior to the one containing x, via a call to find\_previous. The code to implement this is shown in Figure 3.11. The find\_previous routine is similar to find and is shown in Figure 3.12.
+Our fourth routine will delete some element x in list L. We need to decide what to do if x occurs more than once or not at all. Our routine deletes the first occurrence of x and does nothing if x is not in the list. To do this, we find p, which is the cell prior to the one containing x, via a call to find_previous. The code to implement this is shown in Figure 3.11. The find_previous routine is similar to find and is shown in Figure 3.12.
 
-The last routine we will write is an insertion routine. We will pass an element to be inserted along with the list L and a position p. Our particular insertion routine will insert an element after the position implied by p. This decision is arbitrary and meant to show that there are no set rules for what insertion does. It is quite possible to insert the new element into position p (which means before the element currently in position p), but doing this requires knowledge of the element before position p. This could be obtained by a call to find\_previous. It is thus important to comment what you are doing. This has been done in Figure 3.13.
+The last routine we will write is an insertion routine. We will pass an element to be inserted along with the list L and a position p. Our particular insertion routine will insert an element after the position implied by p. This decision is arbitrary and meant to show that there are no set rules for what insertion does. It is quite possible to insert the new element into position p (which means before the element currently in position p), but doing this requires knowledge of the element before position p. This could be obtained by a call to find_previous. It is thus important to comment what you are doing. This has been done in Figure 3.13.
 
-Notice that we have passed the list to the insert and is\_last routines, even though it was never used. We did this because another implementation might need this information, and so not passing the list would defeat the idea of using ADTs.\*
+Notice that we have passed the list to the insert and is_last routines, even though it was never used. We did this because another implementation might need this information, and so not passing the list would defeat the idea of using ADTs.\*
 
 \* This is legal, but some compilers will issue a warning.
 
@@ -217,13 +215,13 @@ Notice that we have passed the list to the insert and is\_last routines, even th
 
 void
 
-delete( element\_type x, LIST L )
+delete( element_type x, LIST L )
 
 {
 
-position p, tmp\_cell;
+position p, tmp_cell;
 
-p = find\_previous( x, L );
+p = find_previous( x, L );
 
 if( p->next != NULL ) /\* Implicit assumption of header use \*/
 
@@ -231,13 +229,13 @@ if( p->next != NULL ) /\* Implicit assumption of header use \*/
 
 页码，7/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-tmp\_cell = p->next;
+tmp_cell = p->next;
 
-p->next = tmp\_cell->next; /\* bypass the cell to be deleted \*/
+p->next = tmp_cell->next; /\* bypass the cell to be deleted \*/
 
-free( tmp\_cell );
+free( tmp_cell );
 
 }
 
@@ -251,7 +249,7 @@ Figure 3.11 Deletion routine for linked lists
 
 position
 
-find\_previous( element\_type x, LIST L )
+find_previous( element_type x, LIST L )
 
 {
 
@@ -267,7 +265,7 @@ position p;
 
 }
 
-Figure 3.12 Find\_previous--the find routine for use with delete
+Figure 3.12 Find_previous--the find routine for use with delete
 
 /\* Insert (after legal position p).\*/
 
@@ -275,31 +273,31 @@ Figure 3.12 Find\_previous--the find routine for use with delete
 
 void
 
-insert( element\_type x, LIST L, position p )
+insert( element_type x, LIST L, position p )
 
 {
 
-position tmp\_cell;
+position tmp_cell;
 
-/\*1\*/ tmp\_cell = (position) malloc( sizeof (struct node) );
+/\*1\*/ tmp_cell = (position) malloc( sizeof (struct node) );
 
-/\*2\*/ if( tmp\_cell == NULL )
+/\*2\*/ if( tmp_cell == NULL )
 
-/\*3\*/ fatal\_error("Out of space!!!");
+/\*3\*/ fatal_error("Out of space!!!");
 
 else
 
 页码，8/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 {
 
-/\*4\*/ tmp\_cell->element = x;
+/\*4\*/ tmp_cell->element = x;
 
-/\*5\*/ tmp\_cell->next = p->next;
+/\*5\*/ tmp_cell->next = p->next;
 
-/\*6\*/ p->next = tmp\_cell;
+/\*6\*/ p->next = tmp_cell;
 
 }
 
@@ -307,7 +305,7 @@ else
 
 Figure 3.13 Insertion routine for linked lists
 
-With the exception of the find and find\_previous routines, all of the operations we have coded take O(1) time. This is because in all cases only a fixed number of instructions are performed, no matter how large the list is. For the find and find\_previous routines, the running time is O(n) in the worst case, because the entire list might need to be traversed if the element is either not found or is last in the list. On average, the running time is O(n), because on average, half the list must be traversed.
+With the exception of the find and find_previous routines, all of the operations we have coded take O(1) time. This is because in all cases only a fixed number of instructions are performed, no matter how large the list is. For the find and find_previous routines, the running time is O(n) in the worst case, because the entire list might need to be traversed if the element is either not found or is last in the list. On average, the running time is O(n), because on average, half the list must be traversed.
 
 We could write additional routines to print a list and to perform the next function. These are fairly straightforward. We could also write a routine to implement previous. We leave these as exercises.
 
@@ -315,15 +313,15 @@ We could write additional routines to print a list and to perform the next funct
 
 The most common error that you will get is that your program will crash with a nasty error message from the system, such as "memory access violation" or "segmentation violation." This message usually means that a pointer variable contained a bogus address. One common reason is failure to initialize the variable. For instance, if line 1 in Figure 3.14 is omitted, then p is undefined and is not likely to be pointing at a valid part of memory. Another typical error would be line 6 in Figure 3.13. If p is , then the indirection is illegal. This function knows that p is not , so the routine is OK. Of course, you should comment this so that the routine that calls insert will insure this. Whenever you do an indirection, you must make sure that the pointer is not NULL. Some C compliers will implicity do this check for you, but this is not part of the C standard. When you port a program from one compiler to another, you may find that it no longer works. This is one of the common reasons why.
 
-The second common mistake concerns when and when not to use malloc to get a new cell. You must remember that declaring a pointer to a structure does not create the structure but only gives enough space to hold the address where some structure might be. The only way to create a record that is not already declared is to use the malloc command. The command malloc(size\_p) has the system create, magically, a new structure and return a pointer to it. If, on the other hand, you want to use a pointer variable to run down a list, there is no need to declare a new structure; in that case the malloc command is inappropriate. A type cast is used to make both sides of the assignment operator compatible. The C library provides other variations of malloc such as calloc.
+The second common mistake concerns when and when not to use malloc to get a new cell. You must remember that declaring a pointer to a structure does not create the structure but only gives enough space to hold the address where some structure might be. The only way to create a record that is not already declared is to use the malloc command. The command malloc(size_p) has the system create, magically, a new structure and return a pointer to it. If, on the other hand, you want to use a pointer variable to run down a list, there is no need to declare a new structure; in that case the malloc command is inappropriate. A type cast is used to make both sides of the assignment operator compatible. The C library provides other variations of malloc such as calloc.
 
 页码，9/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 void
 
-delete\_list( LIST L )
+delete_list( LIST L )
 
 {
 
@@ -355,15 +353,15 @@ After a deletion in a linked list, it is usually a good idea to free the cell, e
 
 Figure 3.15 shows the correct way to do this. Disposal is not necessarily a fast thing, so you might want to check to see if the disposal routine is causing any slow performance and comment it out if this is the case. This author has written a program (see the exercises) that was made 25 times faster by commenting out the disposal (of 10,000 nodes). It turned out that the cells were freed in a rather peculiar order and apparently caused an otherwise linear program to spend O(n log n) time to dispose of n cells.
 
-One last warning: malloc(sizeof node\_ptr) is legal, but it doesn't allocate enough space for a structure. It allocates space only for a pointer.
+One last warning: malloc(sizeof node_ptr) is legal, but it doesn't allocate enough space for a structure. It allocates space only for a pointer.
 
 页码，10/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 void
 
-delete\_list( LIST L )
+delete_list( LIST L )
 
 {
 
@@ -401,7 +399,7 @@ A popular convention is to have the last cell keep a pointer back to the first. 
 
 页码，11/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 3.2.7. Examples
 
@@ -427,9 +425,9 @@ typedef struct
 
 {
 
-int coeff\_array\[ MAX\_DEGREE+1 \];
+int coeff_array\[ MAX_DEGREE+1 \];
 
-unsigned int high\_power;
+unsigned int high_power;
 
 } \*POLYNOMIAL;
 
@@ -443,19 +441,19 @@ void
 
 页码，12/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-zero\_polynomial( POLYNOMIAL poly )
+zero_polynomial( POLYNOMIAL poly )
 
 {
 
 unsigned int i;
 
-for( i=0; i<=MAX\_DEGREE; i++ )
+for( i=0; i<=MAX_DEGREE; i++ )
 
-poly->coeff\_array\[i\] = 0;
+poly->coeff_array\[i\] = 0;
 
-poly->high\_power = 0;
+poly->high_power = 0;
 
 }
 
@@ -463,25 +461,25 @@ Figure 3.19 Procedure to initialize a polynomial to zero
 
 void
 
-add\_polynomial( POLYNOMIAL poly1, POLYNOMIAL poly2,
+add_polynomial( POLYNOMIAL poly1, POLYNOMIAL poly2,
 
-POLYNOMIAL poly\_sum )
+POLYNOMIAL poly_sum )
 
 {
 
 int i;
 
-zero\_polynomial( poly\_sum );
+zero_polynomial( poly_sum );
 
-poly\_sum->high\_power = max( poly1->high\_power,
+poly_sum->high_power = max( poly1->high_power,
 
-poly2->high\_power);
+poly2->high_power);
 
-for( i=poly\_sum->high\_power; i>=0; i-- )
+for( i=poly_sum->high_power; i>=0; i-- )
 
-poly\_sum->coeff\_array\[i\] = poly1->coeff\_array\[i\]
+poly_sum->coeff_array\[i\] = poly1->coeff_array\[i\]
 
-\+ poly2->coeff\_array\[i\];
+\+ poly2->coeff_array\[i\];
 
 }
 
@@ -489,37 +487,37 @@ Figure 3.20 Procedure to add two polynomials
 
 void
 
-mult\_polynomial( POLYNOMIAL poly1, POLYNOMIAL poly2,
+mult_polynomial( POLYNOMIAL poly1, POLYNOMIAL poly2,
 
-POLYNOMIAL poly\_prod )
+POLYNOMIAL poly_prod )
 
 {
 
 unsigned int i, j;
 
-zero\_polynomial( poly\_prod );
+zero_polynomial( poly_prod );
 
-poly\_prod->high\_power = poly1->high\_power
+poly_prod->high_power = poly1->high_power
 
 页码，13/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-\+ poly2->high\_power;
+\+ poly2->high_power;
 
-if( poly\_prod->high\_power > MAX\_DEGREE )
+if( poly_prod->high_power > MAX_DEGREE )
 
 error("Exceeded array size");
 
 else
 
-for( i=0; i<=poly->high\_power; i++ )
+for( i=0; i<=poly->high_power; i++ )
 
-for( j=0; j<=poly2->high\_power; j++ )
+for( j=0; j<=poly2->high_power; j++ )
 
-poly\_prod->coeff\_array\[i+j\] +=
+poly_prod->coeff_array\[i+j\] +=
 
-poly1->coeff\_array\[i\] \* poly2->coeff\_array\[j\];
+poly1->coeff_array\[i\] \* poly2->coeff_array\[j\];
 
 }
 
@@ -527,7 +525,7 @@ Figure 3.21 Procedure to multiply two polynomials
 
 Figure 3.22 Linked list representations of two polynomials
 
-typedef struct node \*node\_ptr;
+typedef struct node \*node_ptr;
 
 struct node
 
@@ -537,11 +535,11 @@ int coefficient;
 
 int exponent;
 
-node\_ptr next;
+node_ptr next;
 
 } ;
 
-typedef node\_ptr POLYNOMIAL; /\* keep nodes sorted by exponent \*/
+typedef node_ptr POLYNOMIAL; /\* keep nodes sorted by exponent \*/
 
 Figure 3.23 Type declaration for linked list implementation of the Polynomial **ADT**
 
@@ -549,7 +547,7 @@ The operations would then be straightforward to implement. The only potential di
 
 页码，14/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Radix Sort
 
@@ -579,7 +577,7 @@ To see that the algorithm works, notice that the only possible failure would occ
 
 页码，15/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 0 1 2 3 4 5 6 7 8 9
 
@@ -627,7 +625,7 @@ What is needed is a list for each class, which contains the students in the clas
 
 页码，16/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 As the figure shows, we have combined two lists into one. All lists use a header and are circular. To list all of the students in class C3, we start at C3 and traverse its list (by going right). The first cell belongs to student S1. Although there is no explicit information to this effect, this can be determined by following the student's linked list until the header is reached. Once this is done, we return to C3's list (we stored the position we were at in the course list before we traversed the student's list) and find another cell, which can be determined to belong to S3. We can continue and find that S4 and S5 are also in this class. In a similar manner, we can determine, for any student, all of the classes in which the student is registered.
 
@@ -643,7 +641,7 @@ The two important items present in a pointer implementation of linked lists are
 
 页码，17/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 1\. The data is stored in a collection of structures. Each structure contains the data and a pointer to the next structure.
 
@@ -651,27 +649,27 @@ The two important items present in a pointer implementation of linked lists are
 
 Our cursor implementation must be able to simulate this. The logical way to satisfy condition 1 is to have a global array of structures. For any cell in the array, its array index can be used in place of an address. Figure 3.28 gives the type declarations for a cursor implementation of linked lists.
 
-We must now simulate condition 2 by allowing the equivalent of malloc and free for cells in the CURSOR\_SPACE array. To do this, we will keep a list (the freelist) of cells that are not in any list. The list will use cell 0 as a header. The initial configuration is shown in Figure 3.29.
+We must now simulate condition 2 by allowing the equivalent of malloc and free for cells in the CURSOR_SPACE array. To do this, we will keep a list (the freelist) of cells that are not in any list. The list will use cell 0 as a header. The initial configuration is shown in Figure 3.29.
 
-A value of 0 for next is the equivalent of a pointer. The initialization of CURSOR\_SPACE is a straightforward loop, which we leave as an exercise. To perform an malloc, the first element (after the header) is removed from the freelist.
+A value of 0 for next is the equivalent of a pointer. The initialization of CURSOR_SPACE is a straightforward loop, which we leave as an exercise. To perform an malloc, the first element (after the header) is removed from the freelist.
 
-typedef unsigned int node\_ptr;
+typedef unsigned int node_ptr;
 
 struct node
 
 {
 
-element\_type element;
+element_type element;
 
-node\_ptr next;
+node_ptr next;
 
 };
 
-typedef node\_ptr LIST;
+typedef node_ptr LIST;
 
-typedef node\_ptr position;
+typedef node_ptr position;
 
-struct node CURSOR\_SPACE\[ SPACE\_SIZE \];
+struct node CURSOR_SPACE\[ SPACE_SIZE \];
 
 Figure 3.28 Declarations for cursor implementation of linked lists
 
@@ -693,7 +691,7 @@ Slot Element Next
 
 页码，18/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 6 7
 
@@ -705,23 +703,23 @@ Slot Element Next
 
 10 0
 
-Figure 3.29 An initialized CURSOR\_SPACE
+Figure 3.29 An initialized CURSOR_SPACE
 
-To perform a free, we place the cell at the front of the freelist. Figure 3.30 shows the cursor implementation of malloc and free. Notice that if there is no space available, our routine does the correct thing by setting p = 0. This indicates that there are no more cells left, and also makes the second line of cursor\_new a nonoperation (no-op).
+To perform a free, we place the cell at the front of the freelist. Figure 3.30 shows the cursor implementation of malloc and free. Notice that if there is no space available, our routine does the correct thing by setting p = 0. This indicates that there are no more cells left, and also makes the second line of cursor_new a nonoperation (no-op).
 
 Given this, the cursor implementation of linked lists is straightforward. For consistency, we will implement our lists with a header node. As an example, in Figure 3.31, if the value of L is 5 and the value of M is 3, then L represents the list a, b, e, and M represents the list c, d, f.
 
 position
 
-cursor\_alloc( void )
+cursor_alloc( void )
 
 {
 
 position p;
 
-p = CURSOR\_SPACE\[O\].next;
+p = CURSOR_SPACE\[O\].next;
 
-CURSOR\_SPACE\[0\].next = CURSOR\_SPACE\[p\].next;
+CURSOR_SPACE\[0\].next = CURSOR_SPACE\[p\].next;
 
 return p;
 
@@ -729,13 +727,13 @@ return p;
 
 void
 
-cursor\_free( position p)
+cursor_free( position p)
 
 {
 
-CURSOR\_SPACE\[p\].next = CURSOR\_SPACE\[O\].next;
+CURSOR_SPACE\[p\].next = CURSOR_SPACE\[O\].next;
 
-CURSOR\_SPACE\[O\].next = p;
+CURSOR_SPACE\[O\].next = p;
 
 }
 
@@ -747,7 +745,7 @@ Slot Element Next
 
 页码，19/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 0 - 6
 
@@ -783,11 +781,11 @@ The rest of the routines are similarly coded. The crucial point is that these ro
 
 int
 
-is\_empty( LIST L ) /\* using a header node \*/
+is_empty( LIST L ) /\* using a header node \*/
 
 {
 
-return( CURSOR\_SPACE\[L\].next == 0
+return( CURSOR_SPACE\[L\].next == 0
 
 }
 
@@ -795,15 +793,15 @@ Figure 3.32 Function to test whether a linked list is empty--cursor implementati
 
 页码，20/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 int
 
-is\_last( position p, LIST L) /\* using a header node \*/
+is_last( position p, LIST L) /\* using a header node \*/
 
 {
 
-return( CURSOR\_SPACE\[p\].next == 0
+return( CURSOR_SPACE\[p\].next == 0
 
 }
 
@@ -811,17 +809,17 @@ Figure 3.33 Function to test whether p is last in a linked list--cursor implemen
 
 position
 
-find( element\_type x, LIST L) /\* using a header node \*/
+find( element_type x, LIST L) /\* using a header node \*/
 
 {
 
 position p;
 
-/\*1\*/ p = CURSOR\_SPACE\[L\].next;
+/\*1\*/ p = CURSOR_SPACE\[L\].next;
 
-/\*2\*/ while( p && CURSOR\_SPACE\[p\].element != x )
+/\*2\*/ while( p && CURSOR_SPACE\[p\].element != x )
 
-/\*3\*/ p = CURSOR\_SPACE\[p\].next;
+/\*3\*/ p = CURSOR_SPACE\[p\].next;
 
 /\*4\*/ return p;
 
@@ -831,23 +829,23 @@ Figure 3.34 Find routine--cursor implementation
 
 void
 
-delete( element\_type x, LIST L )
+delete( element_type x, LIST L )
 
 {
 
-position p, tmp\_cell;
+position p, tmp_cell;
 
-p = find\_previous( x, L );
+p = find_previous( x, L );
 
-if( !is\_last( p, L) )
+if( !is_last( p, L) )
 
 {
 
-tmp\_cell = CURSOR\_SPACE\[p\].next;
+tmp_cell = CURSOR_SPACE\[p\].next;
 
-CURSOR\_SPACE\[p\].next = CURSOR\_SPACE\[tmp\_cell\].next;
+CURSOR_SPACE\[p\].next = CURSOR_SPACE\[tmp_cell\].next;
 
-cursor\_free( tmp\_cell );
+cursor_free( tmp_cell );
 
 }
 
@@ -855,7 +853,7 @@ cursor\_free( tmp\_cell );
 
 页码，21/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Figure 3.35 Deletion routine for linked lists--cursor implementation
 
@@ -865,27 +863,27 @@ Figure 3.35 Deletion routine for linked lists--cursor implementation
 
 void
 
-insert( element\_type x, LIST L, position p )
+insert( element_type x, LIST L, position p )
 
 {
 
-position tmp\_cell;
+position tmp_cell;
 
-/\*1\*/ tmp\_cell = cursor\_alloc( )
+/\*1\*/ tmp_cell = cursor_alloc( )
 
-/\*2\*/ if( tmp\_cell ==0 )
+/\*2\*/ if( tmp_cell ==0 )
 
-/\*3\*/ fatal\_error("Out of space!!!");
+/\*3\*/ fatal_error("Out of space!!!");
 
 else
 
 {
 
-/\*4\*/ CURSOR\_SPACE\[tmp\_cell\].element = x;
+/\*4\*/ CURSOR_SPACE\[tmp_cell\].element = x;
 
-/\*5\*/ CURSOR\_SPACE\[tmp\_cell\].next = CURSOR\_SPACE\[p\].next;
+/\*5\*/ CURSOR_SPACE\[tmp_cell\].next = CURSOR_SPACE\[p\].next;
 
-/\*6\*/ CURSOR\_SPACE\[p\].next = tmp\_cell;
+/\*6\*/ CURSOR_SPACE\[p\].next = tmp_cell;
 
 }
 
@@ -903,7 +901,7 @@ A stack is a list with the restriction that inserts and deletes can be performed
 
 页码，22/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 error but not an ADT error.
 
@@ -925,13 +923,13 @@ The first implementation of a stack uses a singly linked list. We perform a push
 
 页码，23/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 section, but we will rewrite the stack routines from scratch for the sake of clarity.
 
 First, we give the definitions in Figure 3.39. We implement the stack using a header. Then Figure 3.40 shows that an empty stack is tested for in the same manner as an empty list.
 
-Creating an empty stack is also simple. We merely create a header node; make\_null sets the next pointer to NULL (see Fig. 3.41). The push is implemented as an insertion into the front of a linked list, where the front of the list serves as the top of the stack (see Fig. 3.42). The top is performed by examining the element in the first position of the list (see Fig. 3.43). Finally, we implement pop as a delete from the front of the list (see Fig. 3.44).
+Creating an empty stack is also simple. We merely create a header node; make_null sets the next pointer to NULL (see Fig. 3.41). The push is implemented as an insertion into the front of a linked list, where the front of the list serves as the top of the stack (see Fig. 3.42). The top is performed by examining the element in the first position of the list (see Fig. 3.43). Finally, we implement pop as a delete from the front of the list (see Fig. 3.44).
 
 It should be clear that all the operations take constant time, because nowhere in any of the routines is there even a reference to the size of the stack (except for emptiness), much less a loop that depends on this size. The drawback of this implementation is that the calls to malloc and free are expensive, especially in comparison to the pointer manipulation routines. Some of this can be avoided by using a second stack, which is initially empty. When a cell is to be disposed from the first stack, it is merely placed on the second stack. Then, when new cells are needed for the first stack, the second stack is checked first.
 
@@ -941,7 +939,7 @@ An alternative implementation avoids pointers and is probably the more popular s
 
 If we use an array implementation, the implementation is trivial. Associated with each stack is the top of stack, tos, which is -1 for an empty stack (this is how an empty stack is initialized). To push some element x onto the stack, we increment tos and then set STACK\[tos\] = x, where STACK is the array representing the actual stack. To pop, we set the return value to STACK\[tos\] and then decrement tos. Of course, since there are potentially several stacks, the STACK array and tos are part of one structure representing a stack. It is almost always a bad idea to use global variables and fixed names to represent this (or any) data structure, because in most real-life situations there will be more than one stack. When writing your actual code, you should attempt to follow the model as closely as possible, so that no part of your code, except for the stack routines, can attempt to access the array or top-of-stack variable implied by each stack. This is true for all ADT operations. Modern languages such as Ada and C++ can actually enforce this rule.
 
-typedef struct node \*node\_ptr;
+typedef struct node \*node_ptr;
 
 struct node
 
@@ -949,15 +947,15 @@ struct node
 
 页码，24/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-element\_type element;
+element_type element;
 
-node\_ptr next;
+node_ptr next;
 
 };
 
-typedef node\_ptr STACK;
+typedef node_ptr STACK;
 
 /\* Stack implementation will use a header. \*/
 
@@ -965,7 +963,7 @@ Figure 3.39 Type declaration for linked list implementation of the stack **ADT**
 
 int
 
-is\_empty( STACK S )
+is_empty( STACK S )
 
 {
 
@@ -977,7 +975,7 @@ Figure 3.40 Routine to test whether a stack is empty-linked list implementation
 
 STACK
 
-create\_stack( void )
+create_stack( void )
 
 {
 
@@ -987,7 +985,7 @@ S = (STACK) malloc( sizeof( struct node ) );
 
 if( S == NULL )
 
-fatal\_error("Out of space!!!");
+fatal_error("Out of space!!!");
 
 return S;
 
@@ -995,7 +993,7 @@ return S;
 
 void
 
-make\_null( STACK S )
+make_null( STACK S )
 
 {
 
@@ -1005,11 +1003,11 @@ S->next = NULL;
 
 else
 
-error("Must use create\_stack first");
+error("Must use create_stack first");
 
 页码，25/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 }
 
@@ -1017,27 +1015,27 @@ Figure 3.41 Routine to create an empty stack-linked list implementation
 
 void
 
-push( element\_type x, STACK S )
+push( element_type x, STACK S )
 
 {
 
-node\_ptr tmp\_cell;
+node_ptr tmp_cell;
 
-tmp\_cell = (node\_ptr) malloc( sizeof ( struct node ) );
+tmp_cell = (node_ptr) malloc( sizeof ( struct node ) );
 
-if( tmp\_cell == NULL )
+if( tmp_cell == NULL )
 
-fatal\_error("Out of space!!!");
+fatal_error("Out of space!!!");
 
 else
 
 {
 
-tmp\_cell->element = x;
+tmp_cell->element = x;
 
-tmp\_cell->next = S->next;
+tmp_cell->next = S->next;
 
-S->next = tmp\_cell;
+S->next = tmp_cell;
 
 }
 
@@ -1045,13 +1043,13 @@ S->next = tmp\_cell;
 
 Figure 3.42 Routine to push onto a stack-linked list implementation
 
-element\_type
+element_type
 
 top( STACK S )
 
 {
 
-if( is\_empty( S ) )
+if( is_empty( S ) )
 
 error("Empty stack");
 
@@ -1069,13 +1067,13 @@ pop( STACK S )
 
 页码，26/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 {
 
-node\_ptr first\_cell;
+node_ptr first_cell;
 
-if( is\_empty( S ) )
+if( is_empty( S ) )
 
 error("Empty stack");
 
@@ -1083,11 +1081,11 @@ else
 
 {
 
-first\_cell = S->next;
+first_cell = S->next;
 
 S->next = S->next->next;
 
-free( first\_cell );
+free( first_cell );
 
 }
 
@@ -1099,67 +1097,67 @@ Notice that these operations are performed in not only constant time, but very f
 
 One problem that affects the efficiency of implementing stacks is error testing. Our linked list implementation carefully checked for errors. As described above, a pop on an empty stack or a push on a full stack will overflow the array bounds and cause a crash. This is obviously undesirable, but if checks for these conditions were put in the array implementation, they would likely take as much time as the actual stack manipulation. For this reason, it has become a common practice to skimp on error checking in the stack routines, except where error handling is crucial (as in operating systems). Although you can probably get away with this in most cases by declaring the stack to be large enough not to overflow and ensuring that routines that use pop never attempt to pop an empty stack, this can lead to code that barely works at best, especially when programs get large and are written by more than one person or at more than one time. Because stack operations take such fast constant time, it is rare that a significant part of the running time of a program is spent in these routines. This means that it is generally not justifiable to omit error checks. You should always write the error checks; if they are redundant, you can always comment them out if they really cost too much time. Having said all this, we can now write routines to implement a general stack using arrays.
 
-A STACK is defined in Figure 3.45 as a pointer to a structure. The structure contains the top\_of\_stack and stack\_size fields. Once the maximum size is known, the stack array can be dynamically allocated. Figure 3.46 creates a stack of a
+A STACK is defined in Figure 3.45 as a pointer to a structure. The structure contains the top_of_stack and stack_size fields. Once the maximum size is known, the stack array can be dynamically allocated. Figure 3.46 creates a stack of a
 
 页码，27/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-given maximum size. Lines 3-5 allocate the stack structure, and lines 6-8 allocate the stack array. Lines 9 and 10 initialize the top\_of\_stack and stack\_size fields. The stack array does not need to be initialized. The stack is returned at line 11.
+given maximum size. Lines 3-5 allocate the stack structure, and lines 6-8 allocate the stack array. Lines 9 and 10 initialize the top_of_stack and stack_size fields. The stack array does not need to be initialized. The stack is returned at line 11.
 
-The routine dispose\_stack should be written to free the stack structure. This routine first frees the stack array and then the stack structure (See Figure 3.47). Since create\_stack requires an argument in the array implementation, but not in the linked list implementation, the routine that uses a stack will need to know which implementation is being used unless a dummy parameter is added for the later implementation. Unfortunately, efficiency and software idealism often create conflicts.
+The routine dispose_stack should be written to free the stack structure. This routine first frees the stack array and then the stack structure (See Figure 3.47). Since create_stack requires an argument in the array implementation, but not in the linked list implementation, the routine that uses a stack will need to know which implementation is being used unless a dummy parameter is added for the later implementation. Unfortunately, efficiency and software idealism often create conflicts.
 
-struct stack\_record
+struct stack_record
 
 {
 
-unsigned int stack\_size;
+unsigned int stack_size;
 
-int top\_of\_stack;
+int top_of_stack;
 
-element\_type \*stack\_array;
+element_type \*stack_array;
 
 };
 
-typedef struct stack\_record \*STACK;
+typedef struct stack_record \*STACK;
 
-#define EMPTY\_TOS (-1) /\* Signifies an empty stack \*/
+define EMPTY_TOS (-1) /\* Signifies an empty stack \*/
 
 Figure 3.45 STACK definition--array implementaion
 
 STACK
 
-create\_stack( unsigned int max\_elements )
+create_stack( unsigned int max_elements )
 
 {
 
 STACK S;
 
-/\*1\*/ if( max\_elements < MIN\_STACK\_SIZE )
+/\*1\*/ if( max_elements < MIN_STACK_SIZE )
 
 /\*2\*/ error("Stack size is too small");
 
-/\*3\*/ S = (STACK) malloc( sizeof( struct stack\_record ) );
+/\*3\*/ S = (STACK) malloc( sizeof( struct stack_record ) );
 
 /\*4\*/ if( S == NULL )
 
-/\*5\*/ fatal\_error("Out of space!!!");
+/\*5\*/ fatal_error("Out of space!!!");
 
-/\*6\*/ S->stack\_array = (element\_type \*)
+/\*6\*/ S->stack_array = (element_type \*)
 
-malloc( sizeof( element\_type ) \* max\_elements );
+malloc( sizeof( element_type ) \* max_elements );
 
-/\*7\*/ if( S->stack\_array == NULL )
+/\*7\*/ if( S->stack_array == NULL )
 
-/\*8\*/ fatal\_error("Out of space!!!");
+/\*8\*/ fatal_error("Out of space!!!");
 
 页码，28/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-/\*9\*/ S->top\_of\_stack = EMPTY\_TOS;
+/\*9\*/ S->top_of_stack = EMPTY_TOS;
 
-/\*10\*/ S->stack\_size = max\_elements;
+/\*10\*/ S->stack_size = max_elements;
 
 /\*11\*/ return( S );
 
@@ -1169,7 +1167,7 @@ Figure 3.46 Stack creation--array implementaion
 
 void
 
-dispose\_stack( STACK S )
+dispose_stack( STACK S )
 
 {
 
@@ -1177,7 +1175,7 @@ if( S != NULL )
 
 {
 
-free( S->stack\_array );
+free( S->stack_array );
 
 free( S );
 
@@ -1197,15 +1195,15 @@ Pop is occasionally written as a function that returns the popped element (and a
 
 int
 
-is\_empty( STACK S )
+is_empty( STACK S )
 
 页码，29/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 {
 
-return( S->top\_of\_stack == EMPTY\_TOS );
+return( S->top_of_stack == EMPTY_TOS );
 
 }
 
@@ -1213,11 +1211,11 @@ Figure 3.48 Routine to test whether a stack is empty--array implementation
 
 void
 
-make\_null( STACK S )
+make_null( STACK S )
 
 {
 
-S->top\_of\_stack = EMPTY\_TOS;
+S->top_of_stack = EMPTY_TOS;
 
 }
 
@@ -1225,35 +1223,35 @@ Figure 3.49 Routine to create an empty stack--array implementation
 
 void
 
-push( element\_type x, STACK S )
+push( element_type x, STACK S )
 
 {
 
-if( is\_full( S ) )
+if( is_full( S ) )
 
 error("Full stack");
 
 else
 
-S->stack\_array\[ ++S->top\_of\_stack \] = x;
+S->stack_array\[ ++S->top_of_stack \] = x;
 
 }
 
 Figure 3.50 Routine to push onto a stack--array implementation
 
-element\_type
+element_type
 
 top( STACK S )
 
 {
 
-if( is\_empty( S ) )
+if( is_empty( S ) )
 
 error("Empty stack");
 
 else
 
-return S->stack\_array\[ S->top\_of\_stack \];
+return S->stack_array\[ S->top_of_stack \];
 
 }
 
@@ -1261,7 +1259,7 @@ Figure 3.51 Routine to return top of stack--array implementation
 
 页码，30/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 void
 
@@ -1269,31 +1267,31 @@ pop( STACK S )
 
 {
 
-if( is\_empty( S ) )
+if( is_empty( S ) )
 
 error("Empty stack");
 
 else
 
-S->top\_of\_stack--;
+S->top_of_stack--;
 
 }
 
 Figure 3.52 Routine to pop from a stack--array implementation
 
-element\_type
+element_type
 
 pop( STACK S )
 
 {
 
-if( is\_empty( S ) )
+if( is_empty( S ) )
 
 error("Empty stack");
 
 else
 
-return S->stack\_array\[ S->top\_of\_stack-- \];
+return S->stack_array\[ S->top_of_stack-- \];
 
 }
 
@@ -1311,7 +1309,7 @@ A useful tool in this situation is a program that checks whether everything is b
 
 页码，31/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 that it is easy to check these things. For simplicity, we will just check for balancing of parentheses, brackets, and braces and ignore any other character that appears.
 
@@ -1349,7 +1347,7 @@ This notation is known as postfix or reverse Polish notation and is evaluated ex
 
 页码，32/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 When a number is seen, it is pushed onto the stack; when an operator is seen, the operator is applied to the two numbers (symbols) that are popped from the stack and the result is pushed onto the stack. For instance, the postfix expression
 
@@ -1369,7 +1367,7 @@ Now, 3 is pushed.
 
 页码，33/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Next '+' pops 3 and 45 and pushes 45 + 3 = 48.
 
@@ -1397,7 +1395,7 @@ entry of lower priority. One exception is that we never remove a '(' from the st
 
 页码，34/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Finally, if we read the end of input, we pop the stack until it is empty, writing symbols onto the output.
 
@@ -1419,7 +1417,7 @@ parenthesis is being processed, there is no output. Next, e is read and output.
 
 页码，35/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 The next symbol read is a '+'. We pop and output '\*' and then push '+'. Then we read and output
 
@@ -1441,7 +1439,7 @@ The algorithm to check balanced symbols suggests a way to implement function cal
 
 页码，36/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 should work.
 
@@ -1459,7 +1457,7 @@ Removal of tail recursion is so simple that some compilers do it automatically. 
 
 void /\* Not using a header \*/
 
-print\_list( LIST L )
+print_list( LIST L )
 
 {
 
@@ -1467,13 +1465,13 @@ print\_list( LIST L )
 
 {
 
-/\*2\*/ print\_element( L->element );
+/\*2\*/ print_element( L->element );
 
 页码，37/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-/\*3\*/ print\_list( L->next );
+/\*3\*/ print_list( L->next );
 
 }
 
@@ -1483,7 +1481,7 @@ Figure 3.54 A bad use of recursion: printing a linked list
 
 void
 
-print\_list( LIST L ) /\* No header \*/
+print_list( LIST L ) /\* No header \*/
 
 {
 
@@ -1493,7 +1491,7 @@ if( L != NULL )
 
 {
 
-print\_element( L->element );
+print_element( L->element );
 
 L = L->next;
 
@@ -1517,7 +1515,7 @@ The basic operations on a queue are enqueue, which inserts an element at the end
 
 页码，38/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 Figure 3.56 Model of a queue
 
@@ -1525,33 +1523,33 @@ Figure 3.56 Model of a queue
 
 As with stacks, any list implementation is legal for queues. Like stacks, both the linked list and array implementations give fast O(1) running times for every operation. The linked list implementation is straightforward and left as an exercise. We will now discuss an array implementation of queues.
 
-For each queue data structure, we keep an array, QUEUE\[\], and the positions q\_front and q\_rear, which represent the ends of the queue. We also keep track of the number of elements that are actually in the queue, q\_size. All this information is part of one structure, and as usual, except for the queue routines themselves, no routine should ever access these directly. The following figure shows a queue in some intermediate state. By the way, the cells that are blanks have undefined values in them. In particular, the first two cells have elements that used to be in the queue.
+For each queue data structure, we keep an array, QUEUE\[\], and the positions q_front and q_rear, which represent the ends of the queue. We also keep track of the number of elements that are actually in the queue, q_size. All this information is part of one structure, and as usual, except for the queue routines themselves, no routine should ever access these directly. The following figure shows a queue in some intermediate state. By the way, the cells that are blanks have undefined values in them. In particular, the first two cells have elements that used to be in the queue.
 
-The operations should be clear. To enqueue an element x, we increment q\_size and q\_rear, then set QUEUE\[q\_rear\] = x. To dequeue an element, we set the return value to QUEUE\[q\_front\], decrement q\_size, and then increment q\_front. Other strategies are possible (this is discussed later). We will comment on checking for errors presently.
+The operations should be clear. To enqueue an element x, we increment q_size and q_rear, then set QUEUE\[q_rear\] = x. To dequeue an element, we set the return value to QUEUE\[q_front\], decrement q_size, and then increment q_front. Other strategies are possible (this is discussed later). We will comment on checking for errors presently.
 
-There is one potential problem with this implementation. After 10 enqueues, the queue appears to be full, since q\_front is now 10, and the next enqueue would be in a nonexistent position. However, there might only be a few elements in the queue, because several elements may have already been dequeued. Queues, like stacks, frequently stay small even in the presence of a lot of operations.
+There is one potential problem with this implementation. After 10 enqueues, the queue appears to be full, since q_front is now 10, and the next enqueue would be in a nonexistent position. However, there might only be a few elements in the queue, because several elements may have already been dequeued. Queues, like stacks, frequently stay small even in the presence of a lot of operations.
 
-The simple solution is that whenever q\_front or q\_rear gets to the end of the array, it is wrapped around to the beginning. The following figure shows the queue during some operations. This is known as a circular array implementation.
+The simple solution is that whenever q_front or q_rear gets to the end of the array, it is wrapped around to the beginning. The following figure shows the queue during some operations. This is known as a circular array implementation.
 
 页码，39/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-The extra code required to implement the wraparound is minimal (although it probably doubles the running time). If incrementing either q\_rear or q\_front causes it to go past the array, the value is reset to the first position in the array.
+The extra code required to implement the wraparound is minimal (although it probably doubles the running time). If incrementing either q_rear or q_front causes it to go past the array, the value is reset to the first position in the array.
 
 There are two warnings about the circular array implementation of queues. First, it is important to check the queue for emptiness, because a dequeue when the queue is empty will return an undefined value, silently.
 
-Secondly, some programmers use different ways of representing the front and rear of a queue. For instance, some do not use an entry to keep track of the size, because they rely on the base case that when the queue is empty, q\_rear = q\_front - 1. The size is computed implicitly by comparing q\_rear and q\_front. This is a very tricky way to go, because there are some special cases, so be very careful if you need to modify code written this way. If the size is not part of the structure, then if the array size is A\_SIZE, the queue is full when there are A\_SIZE -1 elements, since only A\_SIZE different sizes can be differentiated, and one of these is 0. Pick any style you like and make sure that all your routines are consistent. Since there are a few options for implementation, it is probably worth a comment or two in the code, if you don't use the size field.
+Secondly, some programmers use different ways of representing the front and rear of a queue. For instance, some do not use an entry to keep track of the size, because they rely on the base case that when the queue is empty, q_rear = q_front - 1. The size is computed implicitly by comparing q_rear and q_front. This is a very tricky way to go, because there are some special cases, so be very careful if you need to modify code written this way. If the size is not part of the structure, then if the array size is A_SIZE, the queue is full when there are A_SIZE -1 elements, since only A_SIZE different sizes can be differentiated, and one of these is 0. Pick any style you like and make sure that all your routines are consistent. Since there are a few options for implementation, it is probably worth a comment or two in the code, if you don't use the size field.
 
 页码，40/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 In applications where you are sure that the number of enqueues is not larger than the size of the queue, obviously the wraparound is not necessary. As with stacks, dequeues are rarely performed unless the calling routines are certain that the queue is not empty. Thus error calls are frequently skipped for this operation, except in critical code. This is generally not justifiable, because the time savings that you are likely to achieve are too minimal.
 
 We finish this section by writing some of the queue routines. We leave the others as an exercise to the reader. First, we give the type definitions in
 
-Figure 3.57. We add a maximum size field, as was done for the array implementation of the stack; queue\_create and queue\_dispose routines also need to be provided. We also provide routines to test whether a queue is empty and to make an empty queue (Figs. 3.58 and 3.59). The reader can write the function is\_full, which performs the test implied by its name. Notice that q\_rear is preinitialized to 1 before q\_front. The final operation we will write is the enqueue routine. Following the exact description above, we arrive at the implementation in Figure 3.60.
+Figure 3.57. We add a maximum size field, as was done for the array implementation of the stack; queue_create and queue_dispose routines also need to be provided. We also provide routines to test whether a queue is empty and to make an empty queue (Figs. 3.58 and 3.59). The reader can write the function is_full, which performs the test implied by its name. Notice that q_rear is preinitialized to 1 before q_front. The final operation we will write is the enqueue routine. Following the exact description above, we arrive at the implementation in Figure 3.60.
 
 3.4.3. Applications of Queues
 
@@ -1559,35 +1557,35 @@ There are several algorithms that use queues to give efficient running times. Se
 
 Chapter 9. For now, we will give some simple examples of queue usage.
 
-struct queue\_record
+struct queue_record
 
 {
 
-unsigned int q\_max\_size; /\* Maximum # of elements \*/
+unsigned int q_max_size; /\* Maximum # of elements \*/
 
 /\* until Q is full \*/
 
-unsigned int q\_front;
+unsigned int q_front;
 
-unsigned int q\_rear;
+unsigned int q_rear;
 
-unsigned int q\_size; /\* Current # of elements in Q \*/
+unsigned int q_size; /\* Current # of elements in Q \*/
 
-element\_type \*q\_array;
+element_type \*q_array;
 
 };
 
-typedef struct queue\_record \* QUEUE;
+typedef struct queue_record \* QUEUE;
 
 Figure 3.57 Type declarations for queue--array implementation
 
 int
 
-is\_empty( QUEUE Q )
+is_empty( QUEUE Q )
 
 {
 
-return( Q->q\_size == 0 );
+return( Q->q_size == 0 );
 
 }
 
@@ -1595,19 +1593,19 @@ Figure 3.58 Routine to test whether a queue is empty-array implementation
 
 void
 
-make\_null ( QUEUE Q )
+make_null ( QUEUE Q )
 
 {
 
 页码，41/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
-Q->q\_size = 0;
+Q->q_size = 0;
 
-Q->q\_front = 1;
+Q->q_front = 1;
 
-Q->q\_rear = 0;
+Q->q_rear = 0;
 
 }
 
@@ -1619,7 +1617,7 @@ succ( unsigned int value, QUEUE Q )
 
 {
 
-if( ++value == Q->q\_max\_size )
+if( ++value == Q->q_max_size )
 
 value = 0;
 
@@ -1629,11 +1627,11 @@ return value;
 
 void
 
-enqueue( element\_type x, QUEUE Q )
+enqueue( element_type x, QUEUE Q )
 
 {
 
-if( is\_full( Q ) )
+if( is_full( Q ) )
 
 error("Full queue");
 
@@ -1641,11 +1639,11 @@ else
 
 {
 
-Q->q\_size++;
+Q->q_size++;
 
-Q->q\_rear = succ( Q->q\_rear, Q );
+Q->q_rear = succ( Q->q_rear, Q );
 
-Q->q\_array\[ Q->q\_rear \] = x;
+Q->q_array\[ Q->q_rear \] = x;
 
 }
 
@@ -1663,7 +1661,7 @@ Another example concerns computer networks. There are many network setups of per
 
 页码，42/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 are given access to files on a first-come first-served basis, so the data structure is a queue.
 
@@ -1689,13 +1687,13 @@ Exercises
 
 3.1 Write a program to print out the elements of a singly linked list.
 
-3.2 You are given a linked list, L, and another linked list, P, containing integers, sorted in ascending order. The operation print\_lots(L,P) will print the elements in L that are in positions specified by P. For instance, if P = 1, 3, 4, 6, the first, third, fourth, and sixth elements in L are printed. Write the routine print\_lots(L,P). You should use only the basic list operations. What is the running time of your routine?
+3.2 You are given a linked list, L, and another linked list, P, containing integers, sorted in ascending order. The operation print_lots(L,P) will print the elements in L that are in positions specified by P. For instance, if P = 1, 3, 4, 6, the first, third, fourth, and sixth elements in L are printed. Write the routine print_lots(L,P). You should use only the basic list operations. What is the running time of your routine?
 
 3.3 Swap two adjacent elements by adjusting only the pointers (and not the data) using
 
 页码，43/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 a. singly linked lists,
 
@@ -1741,7 +1739,7 @@ c. If m = 1, what is the running time of your program? How is the actual speed a
 
 页码，44/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 before the recursive version crashes?
 
@@ -1765,19 +1763,19 @@ b. Write a linked list implementation of self-adjusting lists.
 
 with highest access probability are expected to be close to the front.
 
-3.16 Suppose we have an array-based list a\[0..n -1\] and we want to delete all duplicates. last\_position is initially n - 1, but gets smaller as elements are deleted. Consider the pseudocode program fragment in Figure 3.61. The procedure DELETE deletes the element in position j and collapses the list.
+3.16 Suppose we have an array-based list a\[0..n -1\] and we want to delete all duplicates. last_position is initially n - 1, but gets smaller as elements are deleted. Consider the pseudocode program fragment in Figure 3.61. The procedure DELETE deletes the element in position j and collapses the list.
 
 a. Explain how this procedure works.
 
 b. Rewrite this procedure using general list operations.
 
-/\*1\*/ for( i=0; i<last\_position; i++ )
+/\*1\*/ for( i=0; i<last_position; i++ )
 
 {
 
 /\*2\*/ j = i + 1;
 
-/\*3\*/ while( j<last\_position )
+/\*3\*/ while( j<last_position )
 
 /\*4\*/ if( a\[i\] == a\[j\]
 
@@ -1795,7 +1793,7 @@ Figure 3.61 Routine to remove duplicates from a lists--array implementation
 
 页码，45/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 d. What is the running time using a linked list implementation?
 
@@ -1831,9 +1829,9 @@ c. Write a program to convert a postfix expression to infix.
 
 3.21 Write routines to implement two stacks using only one array. Your stack routines should not declare an overflow unless every slot in the array is used.
 
-3.22 \*a. Propose a data structure that supports the stack push and pop operations and a third operation find\_min, which returns the smallest element in the data structure, all in O(1) worst case time.
+3.22 \*a. Propose a data structure that supports the stack push and pop operations and a third operation find_min, which returns the smallest element in the data structure, all in O(1) worst case time.
 
-\*b. Prove that if we add the fourth operation delete\_min which finds and removes the smallest
+\*b. Prove that if we add the fourth operation delete_min which finds and removes the smallest
 
 element, then at least one of the operations must take (logn) time. (This requires reading
 
@@ -1845,7 +1843,7 @@ Chapter 7.)
 
 页码，46/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 3.25 Write the routines to implement queues using
 
