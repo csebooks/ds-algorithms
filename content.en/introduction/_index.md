@@ -88,9 +88,9 @@ Let x = logc b, y = logc a, and z = loga b. Then, by the definition of logarithm
 a, and az = b. Combining these three equalities yields (cy)z = cx = b. Therefore, x = yz, which implies z = x/y, proving the theorem.
 
 THEOREM 1.2.
-
+```
 log ab = log a + log b
-
+```
 PROOF:
 
 Let x = log a, y = log b, z = log ab. Then, assuming the default base of 2, 2x= a, 2y = b, 2z =
@@ -175,7 +175,7 @@ There are a lot of theorems that apply to modular arithmetic, some of which requ
 
 The two most common ways of proving statements in data structure analysis are proof by induction and proof by contradiction (and occasionally a proof by intimidation, by professors only). The best way of proving that a theorem is false is by exhibiting a counterexample.
 
-Proof by Induction
+## Proof by Induction
 
 A proof by induction has two standard parts. The first step is proving a base case, that is,
 
@@ -215,7 +215,9 @@ proving the theorem.
 
 As a second example, we establish the following theorem.
 
-THEOREM 1.3.
+## THEOREM 1.3.
+
+![Alt text](figure-1.3.png)
 
 PROOF:
 
@@ -223,22 +225,26 @@ The proof is by induction. For the basis, it is readily seen that the theorem is
 
 For the inductive hypothesis, assume that the theorem is true for 1 k n. We will establish that, under this assumption, the theorem is true for n + 1. We have
 
+![Alt text](figure-1.31.png)
+
 Applying the inductive hypothesis, we obtain
+
+![Alt text](figure-1.32.png)
 
 Thus,
 
+![Alt text](image.png)
+
 proving the theorem.
 
-Proof by Counterexample
+## Proof by Counterexample
 
 
 The statement Fk k2 is false. The easiest way to prove this is to compute F11 = 144 > 11 2.
 
-Proof by Contradiction
+## Proof by Contradiction
 
-Proof by contradiction proceeds by assuming that the theorem is false and showing that this
-
-assumption implies that some known property is false, and hence the original assumption was erroneous. A classic example is the proof that there is an infinite number of primes. To prove this, we assume that the theorem is false, so that there is some largest prime pk. Let p1, p2, .
+Proof by contradiction proceeds by assuming that the theorem is false and showing that this assumption implies that some known property is false, and hence the original assumption was erroneous. A classic example is the proof that there is an infinite number of primes. To prove this, we assume that the theorem is false, so that there is some largest prime pk. Let p1, p2, .
 
 . . , pk be all the primes in order and consider
 
@@ -266,9 +272,9 @@ else
 
 }
 
-Figure 1.2 A recursive function
+**Figure 1.2 A recursive function**
 
-1.3. A Brief Introduction to Recursion
+## 1.3. A Brief Introduction to Recursion
 
 Most mathematical functions that we are familiar with are described by a simple formula. For
 
@@ -325,11 +331,11 @@ else
 
 }
 
-Figure 1.3 A nonterminating recursive program
+**Figure 1.3 A nonterminating recursive program**
 
 Our recursive strategy to understand words is as follows: If we know the meaning of a word, then we are done; otherwise, we look the word up in the dictionary. If we understand all the words in the definition, we are done; otherwise, we figure out what the definition means by recursively looking up the words we don't know. This procedure will terminate if the dictionary is well defined but can loop indefinitely if a word is either not defined or circularly defined.
 
-Printing Out Numbers
+## Printing Out Numbers
 
 Suppose we have a positive integer, n, that we wish to print out. Our routine will have the
 
@@ -347,7 +353,7 @@ We have made no effort to do this efficiently. We could have avoided using the m
 
 is very expensive) because n%10 = n - _n_/10 * 10.
 
-Recursion and Induction
+## Recursion and Induction
 
 Let us prove (somewhat) rigorously that the recursive number-printing program works. To do so,
 
@@ -386,7 +392,7 @@ print_digit( n%10 );
 
 }
 
-Figure 1.4 Recursive routine to print an integer
+**Figure 1.4 Recursive routine to print an integer**
 
 This proof probably seems a little strange in that it is virtually identical to the algorithm description. It illustrates that in designing a recursive program, all smaller instances of the same problem (which are on the path to a base case) may be assumed to work correctly. The recursive program needs only to combine solutions to smaller problems, which are "magically" obtained by recursion, into a solution for the current problem. The mathematical justification for this is proof by induction. This gives the third rule of recursion:
 
@@ -411,11 +417,11 @@ The fourth rule, which will be justified (along with its nickname) in later sect
 
 reason that it is generally a bad idea to use recursion to evaluate simple mathematical functions, such as the Fibonacci numbers. As long as you keep these rules in mind, recursive programming should be straightforward.
 
-Summary
+## Summary
 
 This chapter sets the stage for the rest of the book. The time taken by an algorithm confronted with large amounts of input will be an important criterion for deciding if it is a good algorithm. (Of course, correctness is most important.) Speed is relative. What is fast for one problem on one machine might be slow for another problem or a different machine. We will begin to address these issues in the next chapter and will use the mathematics discussed here to establish a formal model.
 
-Exercises
+## Exercises
 
 1.1 Write a program to solve the selection problem. Let k = n/2. Draw a table showing the running
 
@@ -451,7 +457,9 @@ b. log(ab) = b log a
 
 1.10 Prove the following formulas:
 
-References
+![Alt text](figure-1.34.png)
+
+## References
 
 There are many good textbooks covering the mathematics reviewed in this chapter. A small subset is [1], [2], [3], [11], [13], and [14]. Reference [11] is specifically geared toward the analysis
 
