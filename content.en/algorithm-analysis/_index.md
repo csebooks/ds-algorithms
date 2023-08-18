@@ -5,61 +5,48 @@ weight: 2
 
   
 
-CHAPTER 2: ALGORITHM ANALYSIS
+#CHAPTER 2: ALGORITHM ANALYSIS
 
 An algorithm is a clearly specified set of simple instructions to be followed to solve a problem. Once an algorithm is given for a problem and decided (somehow) to be correct, an important step is to determine how much in the way of resources, such as time or space, the algorithm will require. An algorithm that solves a problem but requires a year is hardly of any use. Likewise, an algorithm that requires a gigabyte of main memory is not (currently) useful.
 
 In this chapter, we shall discuss
 
-How to estimate the time required for a program.
+- How to estimate the time required for a program.
 
-How to reduce the running time of a program from days or years to fractions of a second.
+- How to reduce the running time of a program from days or years to fractions of a second.
 
-The results of careless use of recursion.
+- The results of careless use of recursion.
 
-Very efficient algorithms to raise a number to a power and to compute the greatest common divisor of two numbers.
+- Very efficient algorithms to raise a number to a power and to compute the greatest common divisor of two numbers.
 
-2.1. Mathematical Background
+# Mathematical Background
 
 The analysis required to estimate the resource use of an algorithm is generally a theoretical issue, and therefore a formal framework is required. We begin with some mathematical definitions.
 
 Throughout the book we will use the following four definitions:
 
-DEFINITION: T(n) = O(f(n)) if there are constants c and n0 such that T(n) cf
+**DEFINITION:** 
+T(n) = O(f(n)) if there are constants c and n0 such that T(n) cf (n) when n  n0.
 
-(n) when n n0.
+**DEFINITION:**
+ T(n) = (g(n)) if there are constants c and n0 such that T(n) cg(n) when n n0.
 
-DEFINITION: T(n) = (g(n)) if there are constants c and n0 such that T(n)
+**DEFINITION:** 
+ T(n) = (h(n)) if and only if T(n) = O(h(n)) and T(n) = (h(n)).
 
-cg(n) when n n0.
-
-DEFINITION: T(n) = (h(n)) if and only if T(n) = O(h(n)) and T(n) = (h(n)).
-
-DEFINITION: T(n) = o(p(n)) if T(n) = O(p(n)) and T(n) (p(n)).
-
-Next ChapterReturn to Table of ContentsPrevious Chapter
-
-页码，1/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**DEFINITION:** 
+T(n) = o(p(n)) if T(n) = O(p(n)) and T(n) (p(n)).
 
 The idea of these definitions is to establish a relative order among functions. Given two functions, there are usually points where one function is smaller than the other function, so it does not make sense to claim, for instance, f(n) < g (n). Thus, we compare their relative rates of growth. When we apply this to the analysis of algorithms, we shall see why this is the important measure.
 
-Although 1,000n is larger than n2 for small values of n, n2 grows at a faster
-
-rate, and thus n2 will eventually be the larger function. The turning point is n = 1,000 in this case. The first definition says that eventually there is some
+Although 1,000n is larger than n2 for small values of n, n2 grows at a faster rate, and thus n2 will eventually be the larger function. The turning point is n = 1,000 in this case. The first definition says that eventually there is some
 
 point n0 past which c f (n) is always at least as large as T(n), so that if
-
-constant factors are ignored, f(n) is at least as big as T(n). In our case, we
-
-have T(n) = 1,000n, f(n) = n2, n0 = 1,000, and c = 1. We could also use n0 = 10
+constant factors are ignored, f(n) is at least as big as T(n). In our case, we have T(n) = 1,000n, f(n) = n2, n0 = 1,000, and c = 1. We could also use n0 = 10
 
 and c = 100. Thus, we can say that 1,000n = O(n2) (order n-squared). This notation is known as Big-Oh notation. Frequently, instead of saying "order . . . ," one says "Big-Oh . . . ."
 
-If we use the traditional inequality operators to compare growth rates, then the first definition says that the growth rate of T(n) is less than or equal to (
-
-) that of f(n). The second definition, T(n) = (g(n)) (pronounced "omega"),
+If we use the traditional inequality operators to compare growth rates, then the first definition says that the growth rate of T(n) is less than or equal to () that of f(n). The second definition, T(n) = (g(n)) (pronounced "omega"),
 
 says that the growth rate of T(n) is greater than or equal to ( ) that of g
 
@@ -67,27 +54,11 @@ says that the growth rate of T(n) is greater than or equal to ( ) that of g
 
 To prove that some function T(n) = O(f(n)), we usually do not apply these definitions formally but instead use a repertoire of known results. In general, this means that a proof (or determination that the assumption is incorrect) is a very simple calculation and should not involve calculus, except in extraordinary circumstances (not likely to occur in an algorithm analysis).
 
-When we say that T(n) = O(f(n)), we are guaranteeing that the function T(n) grows at a rate no faster than f(n); thus f(n) is an upper bound on T(n). Since this
+When we say that T(n) = O(f(n)), we are guaranteeing that the function T(n) grows at a rate no faster than f(n); thus f(n) is an upper bound on T(n). Since this implies that f(n) = (T(n)), we say that T(n) is a lower bound on f(n).
 
-implies that f(n) = (T(n)), we say that T(n) is a lower bound on f(n).
+As an example, n3 grows faster than n2, so we can say that n2 = O(n3) or n3 = (n2). f(n) = n2 and g(n) = 2n2 grow at the same rate, so both f(n) = O(g(n)) and f(n) = (g(n)) are true. When two functions grow at the same rate, then the decision whether or not to signify this with () can depend on the particular
 
-As an example, n3 grows faster than n2, so we can say that n2 = O(n3) or n3 =
-
-(n2). f(n) = n2 and g(n) = 2n2 grow at the same rate, so both f(n) = O(g(n)) and
-
-f(n) = (g(n)) are true. When two functions grow at the same rate, then the
-
-decision whether or not to signify this with () can depend on the particular
-
-context. Intuitively, if g(n) = 2n2, then g(n) = O(n4), g(n) = O(n3), and g(n) =
-
-O(n2) are all technically correct, but obviously the last option is the best
-
-answer. Writing g(n) = (n2) says not only that g(n) = O(n2), but also that
-
-页码，2/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+context. Intuitively, if g(n) = 2n2, then g(n) = O(n4), g(n) = O(n3), and g(n) = O(n2) are all technically correct, but obviously the last option is the best answer. Writing g(n) = (n2) says not only that g(n) = O(n2), but also that
 
 the result is as good (tight) as possible.
 
@@ -101,25 +72,25 @@ If T1(n) = O(f(n)) and T2(n) = O(g(n)), then
 
 (b) T1(n) \* T2(n) = O(f(n) \* g(n)),
 
-Function Name
+Function    Name
 
 \--------------------
 
-c Constant
+c           Constant
 
-logn Logarithmic
+logn        Logarithmic
 
-log2n Log-squared
+log2n       Log-squared
 
-n Linear
+n           Linear
 
-n log n
+n           log n
 
-n2 Quadratic
+n2          Quadratic
 
-n3 Cubic
+n3          Cubic
 
-2n Exponential
+2n          Exponential
 
 Figure 2.1 Typical growth rates
 
@@ -141,27 +112,17 @@ c2g(n) for n n2. Let n0 = max(n1, n2). Then, for n n0, T1(n) c1f
 
 (c1, c2). Then,
 
-页码，3/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-T1(n) + T2(n) c3f(n) + c3g(n)
-
-c3(f(n) + g(n))
-
-2c3 max(f(n), g(n))
-
-c max(f(n), g(n))
+T1(n) + T2(n)
+- c3f(n) + c3g(n)
+- c3(f(n) + g(n))
+- 2c3 max(f(n), g(n))
+- c max(f(n), g(n))
 
 for c = 2c3 and n n0.
 
 We leave proofs of the other relations given above as exercises for the reader. This information is sufficient to arrange most of the common functions by growth rate (see Fig. 2.1).
 
-Several points are in order. First, it is very bad style to include constants or
-
-low-order terms inside a Big-Oh. Do not say T(n) = O(2n2) or T(n) = O(n2 + n). In
-
-both cases, the correct form is T(n) = O(n2). This means that in any analysis that will require a Big-Oh answer, all sorts of shortcuts are possible. Lower- order terms can generally be ignored, and constants can be thrown away. Considerably less precision is required in these cases.
+Several points are in order. First, it is very bad style to include constants or low-order terms inside a Big-Oh. Do not say T(n) = O(2n2) or T(n) = O(n2 + n). In both cases, the correct form is T(n) = O(n2). This means that in any analysis that will require a Big-Oh answer, all sorts of shortcuts are possible. Lower- order terms can generally be ignored, and constants can be thrown away. Considerably less precision is required in these cases.
 
 Secondly, we can always determine the relative growth rates of two functions f(n)
 
@@ -174,24 +135,15 @@ and g(n) by computing limn f(n)/g(n), using L'Hôpital's rule if necessary.\*
 are the derivatives of f(n) and g(n), respectively.
 
 The limit can have four possible values:
+- The limit is 0: This means that f(n) = o(g(n)).
 
-The limit is 0: This means that f(n) = o(g(n)).
+- The limit is c 0: This means that f(n) = (g(n)).
 
-The limit is c 0: This means that f(n) = (g(n)).
+- The limit is : This means that g(n) = o(f(n)).
 
-The limit is : This means that g(n) = o(f(n)).
+- The limit oscillates: There is no relation (this will not happen in our context).
 
-The limit oscillates: There is no relation (this will not happen in our context).
-
-页码，4/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Using this method almost always amounts to overkill. Usually the relation between f(n) and g(n) can be derived by simple algebra. For instance, if f(n) = n log n
-
-and g(n) = n1.5, then to decide which of f(n) and g(n) grows faster, one really
-
-needs to determine which of log n and n0.5 grows faster. This is like determining
+Using this method almost always amounts to overkill. Usually the relation between f(n) and g(n) can be derived by simple algebra. For instance, if f(n) = n log n and g(n) = n1.5, then to decide which of f(n) and g(n) grows faster, one really needs to determine which of log n and n0.5 grows faster. This is like determining
 
 which of log2 n or n grows faster. This is a simple problem, because it is already known that n grows faster than any power of a log. Thus, g(n) grows faster than f(n).
 
@@ -199,39 +151,25 @@ One stylistic note: It is bad to say f(n) O(g(n)), because the inequality is
 
 implied by the definition. It is wrong to write f(n) O(g(n)), which does not make sense.
 
-2.2. Model
+# Model
 
 In order to analyze algorithms in a formal framework, we need a model of computation. Our model is basically a normal computer, in which instructions are executed sequentially. Our model has the standard repertoire of simple instructions, such as addition, multiplication, comparison, and assignment, but, unlike real computers, it takes exactly one time unit to do anything (simple). To be reasonable, we will assume that, like a modern computer, our model has fixed size (say 32-bit) integers and that there are no fancy operations, such as matrix inversion or sorting, that clearly cannot be done in one time unit. We also assume infinite memory.
 
 This model clearly has some weaknesses. Obviously, in real life, not all operations take exactly the same time. In particular, in our model one disk read counts the same as an addition, even though the addition is typically several orders of magnitude faster. Also, by assuming infinite memory, we never worry about page faulting, which can be a real problem, especially for efficient algorithms. This can be a major problem in many applications.
 
-2.3. What to Analyze
+# 2.3. What to Analyze
 
 The most important resource to analyze is generally the running time. Several factors affect the running time of a program. Some, such as the compiler and computer used, are obviously beyond the scope of any theoretical model, so, although they are important, we cannot deal with them here. The other main factors are the algorithm used and the input to the algorithm.
 
-Typically, the size of the input is the main consideration. We define two functions, Tavg(n) and Tworst(n), as the average and worst-case running time,
+Typically, the size of the input is the main consideration. We define two functions, Tavg(n) and Tworst(n), as the average and worst-case running time,respectively, used by an algorithm on input of size n. Clearly, Tavg(n) Tworst(n). If there is more than one input, these functions may have more than one argument.
 
-respectively, used by an algorithm on input of size n. Clearly, Tavg(n)
-
-Tworst(n). If there is more than one input, these functions may have more than
-
-one argument.
-
-We remark that generally the quantity required is the worst-case time, unless otherwise specified. One reason for this is that it provides a bound for all
-
-页码，5/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-input, including particularly bad input, that an average-case analysis does not provide. The other reason is that average-case bounds are usually much more difficult to compute. In some instances, the definition of "average" can affect the result. (For instance, what is average input for the following problem?)
+We remark that generally the quantity required is the worst-case time, unless otherwise specified. One reason for this is that it provides a bound for all input, including particularly bad input, that an average-case analysis does not provide. The other reason is that average-case bounds are usually much more difficult to compute. In some instances, the definition of "average" can affect the result. (For instance, what is average input for the following problem?)
 
 As an example, in the next section, we shall consider the following problem:
 
-MAXIMUM SUBSEQUENCE SUM PROBLEM:
+**MAXIMUM SUBSEQUENCE SUM PROBLEM:**
 
-Given (possibly negative) integers a1, a2, . . . , an, find the maximum value of
-
-. (For convenience, the maximum subsequence sum is 0 if all the integers are negative.)
+Given (possibly negative) integers a1, a2, . . . , an, find the maximum value of. (For convenience, the maximum subsequence sum is 0 if all the integers are negative.)
 
 Example:
 
@@ -255,17 +193,13 @@ Input n = 10 0.00103 0.00045 0.00066 0.00034
 
 Size n = 100 0.47015 0.01112 0.00486 0.00063
 
-页码，6/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 n = 1,000 448.77 1.1233 0.05843 0.00333
 
 n = 10,000 NA 111.13 0.68631 0.03042
 
 n = 100,000 NA NA 8.0113 0.29832
 
-Figure 2.2 Running time of several algorithms for maximum subsequence sum (in seconds)
+**Figure 2.2 Running time of several algorithms for maximum subsequence sum (in seconds)**
 
 Figure 2.3 shows the growth rates of the running times of the four algorithms. Even though this graph encompasses only values of n ranging from 10 to 100, the relative growth rates are still evident. Although the graph for Algorithm 3 seems linear, it is easy to verify that it is not, by using a straightedge (or piece of paper). Figure 2.4 shows the performance for larger values. It dramatically illustrates how useless inefficient algorithms are for even moderately large amounts of input.
 
@@ -273,11 +207,7 @@ Figure 2.3 Plot (n vs. milliseconds) of various maximum subsequence sum algorith
 
 Figure 2.4 Plot (n vs. seconds) of various maximum subsequence sum algorithms
 
-页码，7/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-2.4. Running Time Calculations
+#2.4. Running Time Calculations
 
 There are several ways to estimate the running time of a program. The previous table was obtained empirically. If two programs are expected to take similar times, probably the best way to decide which is faster is to code them both up and run them!
 
@@ -285,7 +215,7 @@ Generally, there are several algorithmic ideas, and we would like to eliminate t
 
 To simplify the analysis, we will adopt the convention that there are no particular units of time. Thus, we throw away leading constants. We will also throw away low-order terms, so what we are essentially doing is computing a Big- Oh running time. Since Big-Oh is an upper bound, we must be careful to never underestimate the running time of the program. In effect, the answer provided is a guarantee that the program will terminate within a certain time period. The program may stop earlier than this, but never later.
 
-2.4.1. A Simple Example
+##2.4.1. A Simple Example
 
 Here is a simple program fragment to calculate
 
@@ -307,23 +237,17 @@ unsigned int i, partial\_sum;
 
 }
 
-The analysis of this program is simple. The declarations count for no time. Lines 1 and 4 count for one unit each. Line 3 counts for three units per time executed (two multiplications and one addition) and is executed n times, for a total of 3n
-
-units. Line 2 has the hidden costs of initializing i, testing i n, and incrementing i. The total cost of all these is 1 to initialize, n + 1 for all the tests, and n for all the increments, which is 2n + 2. We ignore the costs of calling the function and returning, for a total of 5n + 4. Thus, we say that this function is O (n).
-
-页码，8/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+The analysis of this program is simple. The declarations count for no time. Lines 1 and 4 count for one unit each. Line 3 counts for three units per time executed (two multiplications and one addition) and is executed n times, for a total of 3n units. Line 2 has the hidden costs of initializing i, testing i n, and incrementing i. The total cost of all these is 1 to initialize, n + 1 for all the tests, and n for all the increments, which is 2n + 2. We ignore the costs of calling the function and returning, for a total of 5n + 4. Thus, we say that this function is O (n).
 
 If we had to perform all this work every time we needed to analyze a program, the task would quickly become infeasible. Fortunately, since we are giving the answer in terms of Big-Oh, there are lots of shortcuts that can be taken without affecting the final answer. For instance, line 3 is obviously an O (1) statement (per execution), so it is silly to count precisely whether it is two, three, or four units -- it does not matter. Line 1 is obviously insignificant compared to the for loop, so it is silly to waste time here. This leads to several obvious general rules.
 
-2.4.2. General Rules
+##2.4.2. General Rules
 
-RULE 1-FOR LOOPS:
+**RULE 1-FOR LOOPS:**
 
 The running time of a for loop is at most the running time of the statements inside the for loop (including tests) times the number of iterations.
 
-RULE 2-NESTED FOR LOOPS:
+**RULE 2-NESTED FOR LOOPS:**
 
 Analyze these inside out. The total running time of a statement inside a group of nested for loops is the running time of the statement multiplied by the product of the sizes of all the for loops.
 
@@ -335,7 +259,7 @@ for( j=0; j<n; j++ )
 
 k++;
 
-RULE 3-CONSECUTIVE STATEMENTS:
+**RULE 3-CONSECUTIVE STATEMENTS:**
 
 These just add (which means that the maximum is the one that counts -- see 1(a) on page 16).
 
@@ -345,23 +269,19 @@ As an example, the following program fragment, which has O(n) work followed by O
 
 for( i=0; i<n; i++)
 
-a\[i\] = 0;
+a[i] = 0;
 
 for( i=0; i<n; i++ )
 
 for( j=0; j<n; j++ )
 
-a\[i\] += a\[j\] + i + j;
+a[i] += a[j] + i + j;
 
-RULE 4-lF/ELSE:
+**RULE 4-lF/ELSE:**
 
 For the fragment
 
 if( cond )
-
-页码，9/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 S1
 
@@ -387,13 +307,13 @@ return 1;
 
 else
 
-return( n \* factorial(n-1) );
+return( n * factorial(n-1) );
 
 }
 
 This example is really a poor use of recursion. When recursion is properly used, it is difficult to convert the recursion into a simple loop structure. In this case, the analysis will involve a recurrence relation that needs to be solved. To see what might happen, consider the following program, which turns out to be a horrible use of recursion:
 
-/\* Compute Fibonacci numbers as described Chapter 1 \*/
+/* Compute Fibonacci numbers as described Chapter 1 */
 
 unsigned int
 
@@ -401,17 +321,13 @@ fib( unsigned int n )
 
 {
 
-/\*1\*/ if( n <= 1 )
+/*1*/ if( n <= 1 )
 
-/\*2\*/ return 1;
+/*2*/ return 1;
 
 else
 
-页码，10/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-/\*3\*/ return( fib(n-1) + fib(n-2) );
+/*3*/ return( fib(n-1) + fib(n-2) );
 
 }
 
@@ -429,25 +345,19 @@ calculation shows that fib(n) (3/2) , and so the running time of this program gr
 
 This program is slow because there is a huge amount of redundant work being performed, violating the fourth major rule of recursion (the compound interest rule), which was discussed in Section 1.3. Notice that the first call on line 3, fib(n - 1), actually computes fib(n - 2) at some point. This information is thrown away and recomputed by the second call on line 3. The amount of information thrown away compounds recursively and results in the huge running time. This is perhaps the finest example of the maxim "Don't compute anything more than once" and should not scare you away from using recursion. Throughout this book, we shall see outstanding uses of recursion.
 
-2.4.3 Solutions for the Maximum Subsequence Sum Problem
+##2.4.3 Solutions for the Maximum Subsequence Sum Problem
 
 We will now present four algorithms to solve the maximum subsequence sum problem posed earlier. The first algorithm is depicted in Figure 2.5. The indices in the for loops reflect the fact that, in C, arrays begin at 0, instead of 1. Also, the algorithm computes the actual subsequences (not just the sum); additional code is required to transmit this information to the calling routine.
 
 Convince yourself that this algorithm works (this should not take much). The
 
-页码，11/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 running time is O(n ) and is entirely due to lines 5 and 6, which consist of an O (1) statement buried inside three nested for loops. The loop at line 2 is of size n.
 
-int
-
-max\_subsequence\_sum( int a\[\], unsigned int n )
+int max_subsequence_sum( int a[],unsigned int n )
 
 {
 
-int this\_sum, max\_sum, best\_i, best\_j, i, j, k;
+int this_sum, max_sum, best_i, best_j, i, j, k;
 
 /\*1\*/ max\_sum = 0; best\_i = best\_j = -1;
 
@@ -457,13 +367,13 @@ int this\_sum, max\_sum, best\_i, best\_j, i, j, k;
 
 {
 
-/\*4\*/ this\_sum=0;
+/\*4\*/ this_sum=0;
 
 /\*5\*/ for( k = i; k<=j; k++ )
 
-/\*6\*/ this\_sum += a\[k\];
+/\*6\*/ this_sum += a\[k\];
 
-/\*7\*/ if( this\_sum > max\_sum )
+/\*7\*/ if( this_sum > max\_sum )
 
 { /\* update max\_sum, best\_i, best\_j \*/
 
@@ -481,71 +391,47 @@ int this\_sum, max\_sum, best\_i, best\_j, i, j, k;
 
 }
 
-Figure 2.5 Algorithm 1
+**Figure 2.5 Algorithm 1**
 
 The second loop has size n - i + 1, which could be small, but could also be of size n. We must assume the worst, with the knowledge that this could make the final bound a bit high. The third loop has size j - i + 1, which, again, we must
 
-assume is of size n. The total is O(1 n n n) = O(n ). Statement 1
+assume is of size n. The total is O(1 n n n) = O(n ). Statement 1 takes only O(1) total, and statements 7 to 10 take only O(n ) total, since they are easy statements inside only two loops.
 
-takes only O(1) total, and statements 7 to 10 take only O(n ) total, since they are easy statements inside only two loops.
-
-It turns out that a more precise analysis, taking into account the actual size of
-
-页码，12/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-these loops, shows that the answer is (n ), and that our estimate above was a factor of 6 too high (which is all right, because constants do not matter). This is generally true in these kinds of problems. The precise analysis is obtained
-
-from the sum 1, which tells how many times line 6 is executed. The sum can be evaluated inside out, using formulas from Section 1.2.3. In particular, we will use the formulas for the sum of the first n integers and first n squares. First we have
+It turns out that a more precise analysis, taking into account the actual size of these loops, shows that the answer is (n ), and that our estimate above was a factor of 6 too high (which is all right, because constants do not matter). This is generally true in these kinds of problems. The precise analysis is obtained from the sum 1, which tells how many times line 6 is executed. The sum can be evaluated inside out, using formulas from Section 1.2.3. In particular, we will use the formulas for the sum of the first n integers and first n squares. First we have
 
 Next we evaluate
 
-This sum is computed by observing that it is just the sum of the first n - i + 1 integers. To complete the calculation, we evaluate
-
-We can avoid the cubic running time by removing a for loop. Obviously, this is not always possible, but in this case there are an awful lot of unnecessary computations present in the algorithm. The inefficiency that the improved
-
-algorithm corrects can be seen by noticing that so the computation at lines 5 and 6 in Algorithm 1 is unduly expensive. Figure 2.6 shows
-
-an improved algorithm. Algorithm 2 is clearly O(n ); the analysis is even simpler than before.
+This sum is computed by observing that it is just the sum of the first n - i + 1 integers. To complete the calculation, we evaluate We can avoid the cubic running time by removing a for loop. Obviously, this is not always possible, but in this case there are an awful lot of unnecessary computations present in the algorithm. The inefficiency that the improved algorithm corrects can be seen by noticing that so the computation at lines 5 and 6 in Algorithm 1 is unduly expensive. Figure 2.6 shows an improved algorithm. Algorithm 2 is clearly O(n ); the analysis is even simpler than before.
 
 There is a recursive and relatively complicated O(n log n) solution to this problem, which we now describe. If there didn't happen to be an O(n) (linear) solution, this would be an excellent example of the power of recursion. The algorithm uses a "divide-and-conquer" strategy. The idea is to split the problem into two roughly equal subproblems, each of which is half the size of the original. The subproblems are then solved recursively. This is the "divide" part. The "conquer" stage consists of patching together the two solutions of the subproblems, and possibly doing a small amount of additional work, to arrive at a solution for the whole problem.
 
-int
-
-max\_subsequence\_sum( int a\[\], unsigned int n )
-
-页码，13/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+int max_subsequence_sum( int a[], unsigned int n )
 {
 
-int this\_sum, max\_sum, best\_i, best\_j, i, j, k;
+int this_sum, max_sum, best_i, best\_j, i, j, k;
 
-/\*1\*/ max\_sum = 0; best\_i = best\_j = -1;
+/\*1\*/ max_sum = 0; best_i = best_j = -1;
 
 /\*2\*/ for( i=0; i<n; i++ )
 
 {
 
-/\*3\*/ this\_sum = 0;
+/\*3\*/ this_sum = 0;
 
 /\*4\*/ for( j=i; j<n; j++ )
 
 {
 
-/\*5\*/ this\_sum += a\[j\];
+/\*5\*/ this_sum += a[j];
 
-/\*6\*/ if( this\_sum > max\_sum )
+/\*6\*/ if( this_sum > max_sum )
 
-/\* update max\_sum, best\_i, best\_j \*/;
-
+/\* update max_sum, best_i, best_j \*/;
 }
 
 }
 
-/\*7\*/ return( max\_sum );
+/\*7\*/ return( max_sum );
 
 }
 
@@ -553,57 +439,43 @@ Figure 2.6 Algorithm 2
 
 In our case, the maximum subsequence sum can be in one of three places. Either it occurs entirely in the left half of the input, or entirely in the right half, or it crosses the middle and is in both halves. The first two cases can be solved recursively. The last case can be obtained by finding the largest sum in the first half that includes the last element in the first half and the largest sum in the second half that includes the first element in the second half. These two sums can then be added together. As an example, consider the following input:
 
-First Half Second Half
+First Half      Second Half
 
 \----------------------------------------
 
-4 -3 5 -2 -1 2 6 -2
+4 -3 5 -2       -1 2 6 -2
 
-The maximum subsequence sum for the first half is 6 (elements a1 through a3), and
+The maximum subsequence sum for the first half is 6 (elements a1 through a3), and for the second half is 8 (elements a6 through a7).
 
-for the second half is 8 (elements a6 through a7).
-
-The maximum sum in the first half that includes the last element in the first half is 4 (elements a1 through a4), and the maximum sum in the second half that
-
-includes the first element in the second half is 7 (elements a5 though a7). Thus,
-
-the maximum sum that spans both halves and goes through the middle is 4 + 7 = 11 (elements a1 through a7).
-
-页码，14/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+The maximum sum in the first half that includes the last element in the first half is 4 (elements a1 through a4), and the maximum sum in the second half that includes the first element in the second half is 7 (elements a5 though a7). Thus, the maximum sum that spans both halves and goes through the middle is 4 + 7 = 11 (elements a1 through a7).
 
 We see, then, that among the three ways to form a large maximum subsequence, for our example, the best way is to include elements from both halves. Thus, the answer is 11. Figure 2.7 shows an implementation of this strategy.
 
-int
-
-max\_sub\_sequence\_sum( int a\[\], unsigned int n )
+int max_sub_sequence_sum( int a[], unsigned int n )
 
 {
 
-return max\_sub\_sum( a, 0, n-1 );
+return max_sub_sum( a, 0, n-1 );
 
 }
 
-int
-
-max\_sub\_sum( int a\[\], int left, int right )
+int max_sub_sum( int a[], int left, int right )
 
 {
 
-int max\_left\_sum, max\_right\_sum;
+int max_left_sum, max_right_sum;
 
-int max\_left\_border\_sum, max\_right\_border\_sum;
+int max_left_border_sum, max_right_border_sum;
 
-int left\_border\_sum, right\_border\_sum;
+int left_border_sum, right_border_sum;
 
 int center, i;
 
 /\*1\*/ if ( left == right ) /\* Base Case \*/
 
-/\*2\*/ if( a\[left\] > 0 )
+/\*2\*/ if( a[left] > 0 )
 
-/\*3\*/ return a\[left\];
+/\*3\*/ return a[left];
 
 else
 
@@ -611,45 +483,41 @@ else
 
 /\*5\*/ center = (left + right )/2;
 
-/\*6\*/ max\_left\_sum = max\_sub\_sum( a, left, center );
+/\*6\*/ max_left_sum = max_sub_sum( a, left, center );
 
-/\*7\*/ max\_right\_sum = max\_sub\_sum( a, center+1, right );
+/\*7\*/ max_right_sum = max\_sub\_sum( a, center+1, right );
 
-/\*8\*/ max\_left\_border\_sum = 0; left\_border\_sum = 0;
+/\*8\*/ max_left_border_sum = 0; left_border_sum = 0;
 
 /\*9\*/ for( i=center; i>=left; i-- )
 
 {
 
-/\*10\*/ left\_border\_sum += a\[i\];
+/\*10\*/ left_border_sum += a[i];
 
-/\*11\*/ if( left\_border\_sum > max\_left\_border\_sum )
+/\*11\*/ if( left_border_sum > max_left_border_sum )
 
-/\*12\*/ max\_left\_border\_sum = left\_border\_sum;
-
-页码，15/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+/\*12\*/ max_left_border_sum = left_border_sum;
 
 }
 
-/\*13\*/ max\_right\_border\_sum = 0; right\_border\_sum = 0;
+/\*13\*/ max_right_border_sum = 0; right_border_sum = 0;
 
 /\*14\*/ for( i=center+1; i<=right; i++ )
 
 {
 
-/\*15\*/ right\_border\_sum += a\[i\];
+/\*15\*/ right_border_sum += a[i];
 
-/\*16\*/ if( right\_border\_sum > max\_right\_border\_sum )
+/\*16\*/ if( right_border_sum > max_right_border_sum )
 
-/\*17\*/ max\_right\_border\_sum = right\_border\_sum;
+/\*17\*/ max_right_border_sum = right_border_sum;
 
 }
 
-/\*18\*/ return max3( max\_left\_sum, max\_right\_sum,
+/\*18\*/ return max3( max_left_sum, max_right_sum,
 
-max\_left\_border\_sum + max\_right\_border\_sum );
+max_left_border_sum + max_right_border_sum );
 
 }
 
@@ -661,95 +529,73 @@ Lines 1 to 4 handle the base case. If left == right, then there is one element, 
 
 Algorithm 3 clearly requires more effort to code than either of the two previous algorithms. However, shorter code does not always mean better code. As we have seen in the earlier table showing the running times of the algorithms, this algorithm is considerably faster than the other two for all but the smallest of input sizes.
 
-The running time is analyzed in much the same way as for the program that computes the Fibonacci numbers. Let T(n) be the time it takes to solve a maximum subsequence sum problem of size n. If n = 1, then the program takes some constant amount of time to execute lines 1 to 4, which we shall call one unit. Thus, T(1) = 1. Otherwise, the program must perform two recursive calls, the two for loops between lines 9 and 17, and some small amount of bookkeeping, such as lines 5 and 18. The two for loops combine to touch every element from a0 to an\_1, and there
-
-页码，16/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-is constant work inside the loops, so the time expended in lines 9 to 17 is O(n). The code in lines 1 to 5, 8, and 18 is all a constant amount of work and can thus be ignored when compared to O(n). The remainder of the work is performed in lines 6 and 7. These lines solve two subsequence problems of size n/2 (assuming n is even). Thus, these lines take T(n/2) units of time each, for a total of 2T(n/2). The total time for the algorithm then is 2T(n/2) + O(n). This gives the equations
+The running time is analyzed in much the same way as for the program that computes the Fibonacci numbers. Let T(n) be the time it takes to solve a maximum subsequence sum problem of size n. If n = 1, then the program takes some constant amount of time to execute lines 1 to 4, which we shall call one unit. Thus, T(1) = 1. Otherwise, the program must perform two recursive calls, the two for loops between lines 9 and 17, and some small amount of bookkeeping, such as lines 5 and 18. The two for loops combine to touch every element from a0 to an\_1, and there is constant work inside the loops, so the time expended in lines 9 to 17 is O(n). The code in lines 1 to 5, 8, and 18 is all a constant amount of work and can thus be ignored when compared to O(n). The remainder of the work is performed in lines 6 and 7. These lines solve two subsequence problems of size n/2 (assuming n is even). Thus, these lines take T(n/2) units of time each, for a total of 2T(n/2). The total time for the algorithm then is 2T(n/2) + O(n). This gives the equations
 
 T(1) = 1
 
 T(n) = 2T(n/2) + O(n)
 
-To simplify the calculations, we can replace the O(n) term in the equation above with n; since T(n) will be expressed in Big-Oh notation anyway, this will not affect the answer. In Chapter 7, we shall see how to solve this equation rigorously. For now, if T(n) = 2T(n/2) + n, and T(1) = 1, then T(2) = 4 = 2 \* 2, T(4) = 12 = 4 \* 3, T(8) = 32 = 8 \* 4, T(16) = 80 = 16 \* 5. The pattern that is
-
-evident, and can be derived, is that if n = 2 , then T(n) = n \* (k + 1) = n log n + n = O(n log n).
+To simplify the calculations, we can replace the O(n) term in the equation above with n; since T(n) will be expressed in Big-Oh notation anyway, this will not affect the answer. In Chapter 7, we shall see how to solve this equation rigorously. For now, if T(n) = 2T(n/2) + n, and T(1) = 1, then T(2) = 4 = 2 * 2, T(4) = 12 = 4 * 3, T(8) = 32 = 8 * 4, T(16) = 80 = 16 * 5. The pattern that is evident, and can be derived, is that if n = 2 , then T(n) = n * (k + 1) = n log n + n = O(n log n).
 
 This analysis assumes n is even, since otherwise n/2 is not defined. By the recursive nature of the analysis, it is really valid only when n is a power of 2, since otherwise we eventually get a subproblem that is not an even size, and the equation is invalid. When n is not a power of 2, a somewhat more complicated analysis is required, but the Big-Oh result remains unchanged.
 
 In future chapters, we will see several clever applications of recursion. Here, we present a fourth algorithm to find the maximum subsequence sum. This algorithm is simpler to implement than the recursive algorithm and also is more efficient. It is shown in Figure 2.8.
 
-int
-
-max\_subsequence\_sum( int a\[\], unsigned int n )
+int max_subsequence_sum( int a[], unsigned int n )
 
 {
 
-int this\_sum, max\_sum, best\_i, best\_j, i, j;
+int this_sum, max_sum, best_i, best_j, i, j;
 
-/\*1\*/ i = this\_sum = max\_sum = 0; best\_i = best\_j = -1;
+/\*1\*/ i = this_sum = max_sum = 0; best_i = best_j = -1;
 
 /\*2\*/ for( j=0; j<n; j++ )
 
 {
 
-/\*3\*/ this\_sum += a\[j\];
+/\*3\*/ this_sum += a[j];
 
-/\*4\*/ if( this\_sum > max\_sum )
+/\*4\*/ if( this_sum > max_sum )
 
-{ /\* update max\_sum, best\_i, best\_j \*/
+{ /* update max_sum, best_i, best_j */
 
-/\*5\*/ max\_sum = this\_sum;
+/\*5\*/ max_sum = this_sum;
 
-/\*6\*/ best\_i = i;
+/\*6\*/ best_i = i;
 
-/\*7\*/ best\_j = j;
-
-页码，17/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+/\*7\*/ best_j = j;
 
 }
 
 else
 
-/\*8\*/ if( this\_sum < 0 )
+/\*8\*/ if( this_sum < 0 )
 
 {
 
 /\*9\*/ i = j + 1;
 
-/\*10\*/ this\_sum = 0;
+/\*10\*/ this_sum = 0;
 
 }
 
 }
 
-/\*11\*/ return( max\_sum );
+/\*11\*/ return( max_sum );
 
 }
 
 Figure 2.8 Algorithm 4
 
-It should be clear why the time bound is correct, but it takes a little thought to see why the algorithm actually works. This is left to the reader. An extra advantage of this algorithm is that it makes only one pass through the data, and once a\[i\] is read and processed, it does not need to be remembered. Thus, if the array is on a disk or tape, it can be read sequentially, and there is no need to store any part of it in main memory. Furthermore, at any point in time, the algorithm can correctly give an answer to the subsequence problem for the data it has already read (the other algorithms do not share this property). Algorithms that can do this are called on-line algorithms. An on-line algorithm that requires only constant space and runs in linear time is just about as good as possible.
+It should be clear why the time bound is correct, but it takes a little thought to see why the algorithm actually works. This is left to the reader. An extra advantage of this algorithm is that it makes only one pass through the data, and once a[i] is read and processed, it does not need to be remembered. Thus, if the array is on a disk or tape, it can be read sequentially, and there is no need to store any part of it in main memory. Furthermore, at any point in time, the algorithm can correctly give an answer to the subsequence problem for the data it has already read (the other algorithms do not share this property). Algorithms that can do this are called on-line algorithms. An on-line algorithm that requires only constant space and runs in linear time is just about as good as possible.
 
-2.4.4 Logarithms in the Running Time
+##2.4.4 Logarithms in the Running Time
 
-The most confusing aspect of analyzing algorithms probably centers around the logarithm. We have already seen that some divide-and-conquer algorithms will run in O(n log n) time. Besides divide-and-conquer algorithms, the most frequent appearance of logarithms centers around the following general rule: An algorithm is O(log n) if it takes constant (O(1)) time to cut the problem size by a
+The most confusing aspect of analyzing algorithms probably centers around the logarithm. We have already seen that some divide-and-conquer algorithms will run in O(n log n) time. Besides divide-and-conquer algorithms, the most frequent appearance of logarithms centers around the following general rule: An algorithm is O(log n) if it takes constant (O(1)) time to cut the problem size by a fraction (which is usually ). On the other hand, if constant time is required to merely reduce the problem by a constant amount (such as to make the problem smaller by 1), then the algorithm is O(n).
 
-fraction (which is usually ). On the other hand, if constant time is required to merely reduce the problem by a constant amount (such as to make the problem smaller by 1), then the algorithm is O(n).
+Something that should be obvious is that only special kinds of problems can be O (log n). For instance, if the input is a list of n numbers, an algorithm must take (n) merely to read the input in. Thus when we talk about O(log n) algorithms for these kinds of problems, we usually presume that the input is preread. We provide three examples of logarithmic behavior.
 
-Something that should be obvious is that only special kinds of problems can be O (log n). For instance, if the input is a list of n numbers, an algorithm must
-
-take (n) merely to read the input in. Thus when we talk about O(log n) algorithms for these kinds of problems, we usually presume that the input is preread. We provide three examples of logarithmic behavior.
-
-Binary Search
-
-页码，18/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**Binary Search**
 
 The first example is usually referred to as binary search:
 
@@ -773,13 +619,7 @@ the number of times around the loop is at most log(n - 1) + 2. (As an example, i
 
 Binary search can be viewed as our first data structure. It supports the find operation in O(log n) time, but all other operations (in particular insert) require O(n) time. In applications where the data are static (that is, insertions and deletions are not allowed), this could be a very useful data structure. The input would then need to be sorted once, but afterward accesses would be fast. An example could be a program that needs to maintain information about the periodic table of elements (which arises in chemistry and physics). This table is relatively stable, as new elements are added infrequently. The element names could be kept sorted. Since there are only about 110 elements, at most eight accesses would be required to find an element. Performing a sequential search would require many more accesses.
 
-int
-
-页码，19/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-binary\_search( input\_type a\[ \], input\_type x, unsigned int n )
+int binary_search( input_type a[ ], input_type x, unsigned int n )
 
 {
 
@@ -793,29 +633,29 @@ int low, mid, high; /\* Can't be unsigned; why? \*/
 
 /\*3\*/ mid = (low + high)/2;
 
-/\*4\*/ if( a\[mid\] < x )
+/\*4\*/ if( a[mid] < x )
 
 /\*5\*/ low = mid + 1;
 
 else
 
-/\*6\*/ if ( a\[mid\] < x )
+/\*6\*/ if ( a[mid] < x )
 
 /\*7\*/ high = mid - 1;
 
 else
 
-/\*8\*/ return( mid ); /\* found \*/
+/\*8\*/ return( mid ); /* found */
 
 }
 
-/\*9\*/ return( NOT\_FOUND );
+/\*9\*/ return( NOT_FOUND );
 
 }
 
-Figure 2.9 Binary search.
+**Figure 2.9 Binary search.**
 
-Euclid's Algorithm
+**Euclid's Algorithm**
 
 A second example is Euclid's algorithm for computing the greatest common divisor. The greatest common divisor (gcd) of two integers is the largest integer that divides both. Thus, gcd (50, 15) = 5. The algorithm in Figure 2.10 computes gcd
 
@@ -825,15 +665,9 @@ The algorithm works by continually computing remainders until 0 is reached. The 
 
 As before, the entire running time of the algorithm depends on determining how long the sequence of remainders is. Although log n seems like a good answer, it is not at all obvious that the value of the remainder has to decrease by a constant factor, since we see that the remainder went from 399 to only 393 in the example. Indeed, the remainder does not decrease by a constant factor in one
 
-页码，20/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 iteration. However, we can prove that after two iterations, the remainder is at most half of its original value. This would show that the number of iterations is at most 2 log n = O(log n) and establish the running time. This proof is easy, so we include it here. It follows directly from the following theorem.
 
-unsigned int
-
-gcd( unsigned int m, unsigned int n )
+unsigned int gcd( unsigned int m, unsigned int n )
 
 {
 
@@ -857,11 +691,11 @@ unsigned int rem;
 
 Figure 2.10 Euclid's algorithm.
 
-THEOREM 2.1.
+**THEOREM 2.1.**
 
 If m > n, then mmod n < m/2.
 
-PROOF:
+**PROOF:**
 
 There are two cases. If n m/2, then obviously, since the remainder is smaller than n, the theorem is true for this case. The other case is n > m/2. But then n goes into m once with a remainder m - n < m/2, proving the theorem.
 
@@ -869,19 +703,11 @@ One might wonder if this is the best bound possible, since 2 log n is about 20 f
 
 iterations is about .
 
-Exponentiation
+**Exponentiation**
 
-Our last example in this section deals with raising an integer to a power (which is also an integer). Numbers that result from exponentiation are generally quite
+Our last example in this section deals with raising an integer to a power (which is also an integer). Numbers that result from exponentiation are generally quite large, so an analysis only works if we can assume that we have a machine that can store such large integers (or a compiler that can simulate this). We will count the number of multiplications as the measurement of running time.
 
-页码，21/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-large, so an analysis only works if we can assume that we have a machine that can store such large integers (or a compiler that can simulate this). We will count the number of multiplications as the measurement of running time.
-
-int
-
-pow( int x, unsigned int n)
+int pow( int x, unsigned int n)
 
 {
 
@@ -895,41 +721,31 @@ pow( int x, unsigned int n)
 
 /\*5\*/ if( even( n ) )
 
-/\*6\*/ return( pow( x\*x, n/2 ) );
+/\*6\*/ return( pow( x*x, n/2 ) );
 
 else
 
-/\*7\*/ return( pow( x\*x, n/2 ) \* x );
+/\*7\*/ return( pow( x*x, n/2 ) * x );
 
 }
 
-Figure 2.11 Efficient exponentiation
+**Figure 2.11 Efficient exponentiation**
 
 The obvious algorithm to compute xn uses n - 1 multiples. The recursive algorithm in Figure 2.11 does better. Lines 1 to 4 handle the base case of the recursion.
 
-Otherwise, if n is even, we have xn = xn/2 . xn/2, and if n is odd, x = x(n-1)/2
-
-x(n-1)/2 x.
+Otherwise, if n is even, we have xn = xn/2 . xn/2, and if n is odd, x = x(n-1)/2 , x(n-1)/2 x.
 
 For instance, to compute x62, the algorithm does the following calculations, which involves only nine multiplications:
 
 x3 = (x2)x, x7 = (x3)2x, x15 = (x7)2x, x31 = (x15)2x, x62 = (x31)2
 
-The number of multiplications required is clearly at most 2 log n, because at most two
-
-multiplications (if n is odd) are required to halve the problem. Again, a recurrence formula can
-
-be written and solved. Simple intuition obviates the need for a brute-force approach.
+The number of multiplications required is clearly at most 2 log n, because at most two multiplications (if n is odd) are required to halve the problem. Again, a recurrence formula can be written and solved. Simple intuition obviates the need for a brute-force approach.
 
 It is sometimes interesting to see how much the code can be tweaked without affecting correctness. In Figure 2.11, lines 3 to 4 are actually unnecessary, because if n is 1, then line 7 does the right thing. Line 7 can also be rewritten as
 
-/\*7\*/ return( pow( x, n-1 ) \* x );
+/\*7\*/ return( pow( x, n-1 ) * x );
 
 without affecting the correctness of the program. Indeed, the program will still run in O(log n), because the sequence of multiplications is the same as before. However, all of the following alternatives for line 6 are bad, even though they look correct:
-
-页码，22/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 /\*6a\*/ return( pow( pow( x, 2 ), n/2 ) );
 
@@ -941,15 +757,13 @@ Both lines 6a and 6b are incorrect because when n is 2, one of the recursive cal
 
 Using line 6c affects the efficiency, because there are now two recursive calls of size n/2 instead of only one. An analysis will show that the running time is no longer O(log n). We leave it as an exercise to the reader to determine the new running time.
 
-2.4.5 Checking Your Analysis
+##2.4.5 Checking Your Analysis
 
 Once an analysis has been performed, it is desirable to see if the answer is correct and as good
 
 as possible. One way to do this is to code up the program and see if the empirically observed running time matches the running time predicted by the analysis. When n doubles, the running time goes up by a factor of 2 for linear programs, 4 for quadratic programs, and 8 for cubic programs. Programs that run in logarithmic time take only an additive constant longer when n doubles, and programs that run in O(n log n) take slightly more than twice as long to run under the same circumstances. These increases can be hard to spot if the lower-order terms have relatively large coefficients and n is not large enough. An example is the jump from n = 10 to n = 100 in the running time for the various implementations of the maximum subsequence sum problem. It also can be very difficult to differentiate linear programs from O(n log n) programs purely on empirical evidence.
 
-Another commonly used trick to verify that some program is O(f(n)) is to compute the values T(n)/
-
-f(n) for a range of n (usually spaced out by factors of 2), where T(n) is the empirically observed running time. If f(n) is a tight answer for the running time, then the computed values converge to a positive constant. If f(n) is an over-estimate, the values converge to zero. If f (n) is an under-estimate and hence wrong, the values diverge.
+Another commonly used trick to verify that some program is O(f(n)) is to compute the values T(n)/f(n) for a range of n (usually spaced out by factors of 2), where T(n) is the empirically observed running time. If f(n) is a tight answer for the running time, then the computed values converge to a positive constant. If f(n) is an over-estimate, the values converge to zero. If f (n) is an under-estimate and hence wrong, the values diverge.
 
 As an example, the program fragment in Figure 2.12 computes the probability that two distinct positive integers, less than or equal to n and chosen randomly, are relatively prime. (As n gets
 
@@ -959,17 +773,13 @@ You should be able to do the analysis for this program instantaneously. Figure 2
 
 Notice that there is not a great deal of difference between O(n2) and O(n2 log n), since logarithms grow so slowly.
 
-2.4.6. A Grain of Salt
+##2.4.6. A Grain of Salt
 
 Sometimes the analysis is shown empirically to be an over-estimate. If this is the case, then either the analysis needs to be tightened (usually by a clever observation), or it may be the case that the average running time is significantly less than the worst-case running time and no improvement in the bound is possible. There are many complicated algorithms for which the worst- case bound is achievable by some bad input but is usually an over-estimate in practice. Unfortunately, for most of these problems, an average-case analysis is extremely complex (in many cases still unsolved), and a worst-case bound, even though overly pessimistic, is the best analytical result known.
 
 rel = 0; tot = 0;
 
 for( i=1; i<=n; i++ )
-
-页码，23/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 for( j=i+1; j<=n; j++ )
 
@@ -983,7 +793,7 @@ rel++;
 
 }
 
-printf( "Percentage of relatively prime pairs is %lf\\n",
+printf( "Percentage of relatively prime pairs is %lf\n",
 
 ( (double) rel )/tot );
 
@@ -1027,13 +837,7 @@ Figure 2.13 Empirical running times for previous routine
 
 Summary
 
-This chapter gives some hints on how to analyze the complexity of programs. Unfortunately, it is
-
-not a complete guide. Simple programs usually have simple analyses, but this is not always the case. As an example, we shall see, later in the text, a sorting algorithm (Shellsort, Chapter 7) and an algorithm for maintaining disjoint sets (Chapter 8) each of which requires about 20 lines
-
-页码，24/30Structures, Algorithm Analysis: CHAPTER 2: ALGORITHM ANALYSIS
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+This chapter gives some hints on how to analyze the complexity of programs. Unfortunately, it is not a complete guide. Simple programs usually have simple analyses, but this is not always the case. As an example, we shall see, later in the text, a sorting algorithm (Shellsort, Chapter 7) and an algorithm for maintaining disjoint sets (Chapter 8) each of which requires about 20 lines
 
 of code. The analysis of Shellsort is still not complete, and the disjoint set algorithm has an analysis that is extremely difficult and requires pages and pages of intricate calculations. Most of the analysis that we will encounter here will be simple and involve counting through loops.
 
