@@ -5,7 +5,7 @@ weight: 2
 
   
 
-#CHAPTER 2: ALGORITHM ANALYSIS
+# CHAPTER 2: ALGORITHM ANALYSIS
 
 An algorithm is a clearly specified set of simple instructions to be followed to solve a problem. Once an algorithm is given for a problem and decided (somehow) to be correct, an important step is to determine how much in the way of resources, such as time or space, the algorithm will require. An algorithm that solves a problem but requires a year is hardly of any use. Likewise, an algorithm that requires a gigabyte of main memory is not (currently) useful.
 
@@ -60,7 +60,7 @@ If T1(n) = O(f(n)) and T2(n) = O(g(n)), then
 
 (a) T1(n) + T2(n) = max (O(f(n)), O(g(n))),
 
-(b) T1(n) \* T2(n) = O(f(n) \* g(n)),
+(b) T1(n) * T2(n) = O(f(n) * g(n)),
 
 ```
 
@@ -116,9 +116,9 @@ We leave proofs of the other relations given above as exercises for the reader. 
 
 Several points are in order. First, it is very bad style to include constants or low-order terms inside a Big-Oh. Do not say T(n) = O(2n2) or T(n) = O(n2 + n). In both cases, the correct form is T(n) = O(n2). This means that in any analysis that will require a Big-Oh answer, all sorts of shortcuts are possible. Lower- order terms can generally be ignored, and constants can be thrown away. Considerably less precision is required in these cases.
 
-Secondly, we can always determine the relative growth rates of two functions f(n) and g(n) by computing limn f(n)/g(n), using L'Hôpital's rule if necessary.\*
+Secondly, we can always determine the relative growth rates of two functions f(n) and g(n) by computing limn f(n)/g(n), using L'Hôpital's rule if necessary.*
 
-\*L'Hôpital's rule states that if limn f(n) = and limn g(n), then limn f(n)/g(n) = limn f'(n) / g'(n), where f'(n) and g'(n)
+*L'Hôpital's rule states that if limn f(n) = and limn g(n), then limn f(n)/g(n) = limn f'(n) / g'(n), where f'(n) and g'(n)
 
 are the derivatives of f(n) and g(n), respectively.
 ```
@@ -217,7 +217,7 @@ unsigned int i, partial_sum;
 
 /*2*/ for( i=1; i<=n; i++ )
 
-/*3*/ partial_sum += i*i\*i;
+/*3*/ partial_sum += i*i*i;
 
 /*4*/ return( partial_sum );
 
@@ -580,6 +580,7 @@ else
 Figure 2.8 Algorithm 4
 
 It should be clear why the time bound is correct, but it takes a little thought to see why the algorithm actually works. This is left to the reader. An extra advantage of this algorithm is that it makes only one pass through the data, and once a[i] is read and processed, it does not need to be remembered. Thus, if the array is on a disk or tape, it can be read sequentially, and there is no need to store any part of it in main memory. Furthermore, at any point in time, the algorithm can correctly give an answer to the subsequence problem for the data it has already read (the other algorithms do not share this property). Algorithms that can do this are called on-line algorithms. An on-line algorithm that requires only constant space and runs in linear time is just about as good as possible.
+
 ### 2.4.4 Logarithms in the Running Time
 
 The most confusing aspect of analyzing algorithms probably centers around the logarithm. We have already seen that some divide-and-conquer algorithms will run in O(n log n) time. Besides divide-and-conquer algorithms, the most frequent appearance of logarithms centers around the following general rule: An algorithm is O(log n) if it takes constant (O(1)) time to cut the problem size by a fraction (which is usually ). On the other hand, if constant time is required to merely reduce the problem by a constant amount (such as to make the problem smaller by 1), then the algorithm is O(n).
