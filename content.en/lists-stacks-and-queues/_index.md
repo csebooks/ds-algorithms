@@ -7,7 +7,7 @@ weight: 3
 
 This chapter discusses three of the most simple and basic data structures. Virtually every significant program will use at least one of these structures explicitly, and a stack is always implicitly used in your program, whether or not you declare one. Among the highlights of this chapter, we will
 
-- I ntroduce the concept of Abstract Data Types (ADTs).
+- Introduce the concept of Abstract Data Types (ADTs).
 
 - Show how to efficiently perform operations on lists.
 
@@ -88,7 +88,7 @@ The first function that we will write tests for an empty list. When we write cod
 The next function, which is shown in Figure 3.9, tests whether the current element, which by assumption exists, is the last of the list.
 
 ```js
-typedef struct node \*node_ptr;
+typedef struct node *node_ptr;
 
 struct node
 
@@ -139,7 +139,7 @@ return( p->next == NULL );
 
 The next routine we will write is find. Find, shown in Figure 3.10, returns the position in the list of some element. Line 2 takes advantage of the fact that the and (&&) operation is short-circuited: if the first half of the and is false, the result is automatically false and the second half is not executed.
 
-/\* Return position of x in L; NULL if not found \*/
+/* Return position of x in L; NULL if not found */
 
 position
 
@@ -149,13 +149,13 @@ find ( element_type x, LIST L )
 
 position p;
 
-/\*1\*/ p = L->next;
+/*1*/ p = L->next;
 
-/\*2\*/ while( (p != NULL) && (p->element != x) )
+/*2*/ while( (p != NULL) && (p->element != x) )
 
-/\*3\*/ p = p->next;
+/*3*/ p = p->next;
 
-/\*4\*/ return p;
+/*4*/ return p;
 
 }
 
@@ -167,18 +167,18 @@ Our fourth routine will delete some element x in list L. We need to decide what 
 
 The last routine we will write is an insertion routine. We will pass an element to be inserted along with the list L and a position p. Our particular insertion routine will insert an element after the position implied by p. This decision is arbitrary and meant to show that there are no set rules for what insertion does. It is quite possible to insert the new element into position p (which means before the element currently in position p), but doing this requires knowledge of the element before position p. This could be obtained by a call to find_previous. It is thus important to comment what you are doing. This has been done in **Figure 3.13.**
 
-Notice that we have passed the list to the insert and is_last routines, even though it was never used. We did this because another implementation might need this information, and so not passing the list would defeat the idea of using **ADTs.**\*
+Notice that we have passed the list to the insert and is_last routines, even though it was never used. We did this because another implementation might need this information, and so not passing the list would defeat the idea of using **ADTs.***
 
 - This is legal, but some compilers will issue a warning.
 
 ```js
-/\* Delete from a list. Cell pointed \*/
+/* Delete from a list. Cell pointed */
 
-/\* to by p->next is wiped out. \*/
+/* to by p->next is wiped out. */
 
-/\* Assume that the position is legal. \*/
+/* Assume that the position is legal. */
 
-/\* Assume use of a header node. \*/
+/* Assume use of a header node. */
 
 void
 
@@ -190,14 +190,14 @@ position p, tmp_cell;
 
 p = find_previous( x, L );
 
-if( p->next != NULL ) /\* Implicit assumption of header use \*/
+if( p->next != NULL ) /* Implicit assumption of header use */
 
-{ /\* x is found: delete it \*/
+{ /* x is found: delete it */
 
 
 tmp_cell = p->next;
 
-p->next = tmp_cell->next; /\* bypass the cell to be deleted \*/
+p->next = tmp_cell->next; /* bypass the cell to be deleted */
 
 free( tmp_cell );
 
@@ -209,9 +209,9 @@ free( tmp_cell );
 **Figure 3.11 Deletion routine for linked lists**
 
 ```js
-/\* Uses a header. If element is not found, then next field \*/
+/* Uses a header. If element is not found, then next field */
 
-/\* of returned value is NULL \*/
+/* of returned value is NULL */
 
 position
 
@@ -221,13 +221,13 @@ find_previous( element_type x, LIST L )
 
 position p;
 
-/\*1\*/ p = L;
+/*1*/ p = L;
 
-/\*2\*/ while( (p->next != NULL) && (p->next->element != x) )
+/*2*/ while( (p->next != NULL) && (p->next->element != x) )
 
-/\*3\*/ p = p->next;
+/*3*/ p = p->next;
 
-/\*4\*/ return p;
+/*4*/ return p;
 
 }
 ```
@@ -235,9 +235,9 @@ position p;
 **Figure 3.12 Find_previous--the find routine for use with delete**
 
 ```js
-/\* Insert (after legal position p).\*/
+/* Insert (after legal position p).*/
 
-/\* Header implementation assumed. \*/
+/* Header implementation assumed. */
 
 void
 
@@ -247,20 +247,20 @@ insert( element_type x, LIST L, position p )
 
 position tmp_cell;
 
-/\*1\*/ tmp_cell = (position) malloc( sizeof (struct node) );
+/*1*/ tmp_cell = (position) malloc( sizeof (struct node) );
 
-/\*2\*/ if( tmp_cell == NULL )
+/*2*/ if( tmp_cell == NULL )
 
-/\*3\*/ fatal_error("Out of space!!!");
+/*3*/ fatal_error("Out of space!!!");
 
 else
 {
 
-/\*4\*/ tmp_cell->element = x;
+/*4*/ tmp_cell->element = x;
 
-/\*5\*/ tmp_cell->next = p->next;
+/*5*/ tmp_cell->next = p->next;
 
-/\*6\*/ p->next = tmp_cell;
+/*6*/ p->next = tmp_cell;
 
 }
 
@@ -288,17 +288,17 @@ delete_list( LIST L )
 
 position p;
 
-/\*1\*/ p = L->next; /\* header assumed \*/
+/*1*/ p = L->next; /* header assumed */
 
-/\*2\*/ L->next = NULL;
+/*2*/ L->next = NULL;
 
-/\*3\*/ while( p != NULL )
+/*3*/ while( p != NULL )
 
 {
 
-/\*4\*/ free( p );
+/*4*/ free( p );
 
-/\*5\*/ p = p->next;
+/*5*/ p = p->next;
 
 }
 
@@ -326,19 +326,19 @@ delete_list( LIST L )
 
 position p, tmp;
 
-/\*1\*/ p = L->next; /\* header assumed \*/
+/*1*/ p = L->next; /* header assumed */
 
-/\*2\*/ L->next = NULL;
+/*2*/ L->next = NULL;
 
-/\*3\*/ while( p != NULL )
+/*3*/ while( p != NULL )
 
 {
 
-/\*4\*/ tmp = p->next;
+/*4*/ tmp = p->next;
 
-/\*5\*/ free( p );
+/*5*/ free( p );
 
-/\*6\*/ p = tmp;
+/*6*/ p = tmp;
 
 }
 
@@ -380,11 +380,11 @@ typedef struct
 
 {
 
-int coeff_array\[ MAX_DEGREE+1 \];
+int coeff_array[ MAX_DEGREE+1 ];
 
 unsigned int high_power;
 
-} \*POLYNOMIAL;
+} *POLYNOMIAL;
 ```
 
 **Figure 3.18 Type declarations for array implementation of the polynomial ADT**
@@ -404,7 +404,7 @@ unsigned int i;
 
 for( i=0; i<=MAX_DEGREE; i++ )
 
-poly->coeff_array\[i\] = 0;
+poly->coeff_array[i] = 0;
 
 poly->high_power = 0;
 
@@ -432,9 +432,9 @@ poly2->high_power);
 
 for( i=poly_sum->high_power; i>=0; i-- )
 
-poly_sum->coeff_array\[i\] = poly1->coeff_array\[i\]
+poly_sum->coeff_array[i] = poly1->coeff_array[i]
 
-\+ poly2->coeff_array\[i\];
+\+ poly2->coeff_array[i];
 
 }
 ```
@@ -468,9 +468,9 @@ for( i=0; i<=poly->high_power; i++ )
 
 for( j=0; j<=poly2->high_power; j++ )
 
-poly_prod->coeff_array\[i+j\] +=
+poly_prod->coeff_array[i+j] +=
 
-poly1->coeff_array\[i\] \* poly2->coeff_array\[j\];
+poly1->coeff_array[i] * poly2->coeff_array[j];
 
 }
 ```
@@ -480,7 +480,7 @@ poly1->coeff_array\[i\] \* poly2->coeff_array\[j\];
 ![Alt text](Image/Linkedlist22.png)
 
 ```js
-typedef struct node \*node_ptr;
+typedef struct node *node_ptr;
 
 struct node
 
@@ -495,7 +495,7 @@ node_ptr next;
 } ;
 ```
 
-typedef node_ptr POLYNOMIAL; /\* keep nodes sorted by exponent \*/
+typedef node_ptr POLYNOMIAL; /* keep nodes sorted by exponent */
 
 **Figure 3.23 Type declaration for linked list implementation of the Polynomial ADT**
 
@@ -523,7 +523,7 @@ To see that the algorithm works, notice that the only possible failure would occ
 
 0 1 512 343 64 125 216 27 8 729
 
-\-------------------------------------------
+-------------------------------------------
 0 1 2 3 4 5 6 7 8 9
 
 **Figure 3.24 Buckets after first step of radix sort**
@@ -534,7 +534,7 @@ To see that the algorithm works, notice that the only possible failure would occ
 
 0 512 125 343 64
 
-\--------------------------------------
+--------------------------------------
 
 0 1 2 3 4 5 6 7 8 9
 
@@ -550,7 +550,7 @@ To see that the algorithm works, notice that the only possible failure would occ
 
 0 125 216 343 512 729
 
-\------------------------------------------
+------------------------------------------
 
 0 1 2 3 4 5 6 7 8 9
 
@@ -580,9 +580,9 @@ Many languages, such as BASIC and FORTRAN, do not support pointers. If linked li
 
 The two important items present in a pointer implementation of linked lists are
 
-1\. The data is stored in a collection of structures. Each structure contains the data and a pointer to the next structure.
+1. The data is stored in a collection of structures. Each structure contains the data and a pointer to the next structure.
 
-2\. A new structure can be obtained from the system's global memory by a call to malloc and released by a call to free.
+2. A new structure can be obtained from the system's global memory by a call to malloc and released by a call to free.
 
 Our cursor implementation must be able to simulate this. The logical way to satisfy condition 1 is to have a global array of structures. For any cell in the array, its array index can be used in place of an address. Figure 3.28 gives the type declarations for a cursor implementation of linked lists.
 
@@ -607,14 +607,14 @@ typedef node_ptr LIST;
 
 typedef node_ptr position;
 
-struct node CURSOR_SPACE\[ SPACE_SIZE \];
+struct node CURSOR_SPACE[ SPACE_SIZE ];
 ```
 
 **Figure 3.28 Declarations for cursor implementation of linked lists**
 
 Slot Element Next
 
-\----------------------
+----------------------
 
 0 1
 
@@ -653,9 +653,9 @@ cursor_alloc( void )
 
 position p;
 
-p = CURSOR_SPACE\[O\].next;
+p = CURSOR_SPACE[O].next;
 
-CURSOR_SPACE\[0\].next = CURSOR_SPACE\[p\].next;
+CURSOR_SPACE[0].next = CURSOR_SPACE[p].next;
 
 return p;
 
@@ -667,9 +667,9 @@ cursor_free( position p)
 
 {
 
-CURSOR_SPACE\[p\].next = CURSOR_SPACE\[O\].next;
+CURSOR_SPACE[p].next = CURSOR_SPACE[O].next;
 
-CURSOR_SPACE\[O\].next = p;
+CURSOR_SPACE[O].next = p;
 
 }
 ```
@@ -678,7 +678,7 @@ CURSOR_SPACE\[O\].next = p;
 
 Slot Element Next
 
-\----------------------
+----------------------
 0 - 6
 
 1 b 9
@@ -714,11 +714,11 @@ The rest of the routines are similarly coded. The crucial point is that these ro
 ```js
 int
 
-is_empty( LIST L ) /\* using a header node \*/
+is_empty( LIST L ) /* using a header node */
 
 {
 
-return( CURSOR_SPACE\[L\].next == 0
+return( CURSOR_SPACE[L].next == 0
 
 }
 ```
@@ -728,11 +728,11 @@ return( CURSOR_SPACE\[L\].next == 0
 ```js
 int
 
-is_last( position p, LIST L) /\* using a header node \*/
+is_last( position p, LIST L) /* using a header node */
 
 {
 
-return( CURSOR_SPACE\[p\].next == 0
+return( CURSOR_SPACE[p].next == 0
 
 }
 ```
@@ -742,19 +742,19 @@ return( CURSOR_SPACE\[p\].next == 0
 ```js
 position
 
-find( element_type x, LIST L) /\* using a header node \*/
+find( element_type x, LIST L) /* using a header node */
 
 {
 
 position p;
 
-/\*1\*/ p = CURSOR_SPACE\[L\].next;
+/*1*/ p = CURSOR_SPACE[L].next;
 
-/\*2\*/ while( p && CURSOR_SPACE\[p\].element != x )
+/*2*/ while( p && CURSOR_SPACE[p].element != x )
 
-/\*3\*/ p = CURSOR_SPACE\[p\].next;
+/*3*/ p = CURSOR_SPACE[p].next;
 
-/\*4\*/ return p;
+/*4*/ return p;
 
 }
 ```
@@ -776,9 +776,9 @@ if( !is_last( p, L) )
 
 {
 
-tmp_cell = CURSOR_SPACE\[p\].next;
+tmp_cell = CURSOR_SPACE[p].next;
 
-CURSOR_SPACE\[p\].next = CURSOR_SPACE\[tmp_cell\].next;
+CURSOR_SPACE[p].next = CURSOR_SPACE[tmp_cell].next;
 
 cursor_free( tmp_cell );
 
@@ -790,9 +790,9 @@ cursor_free( tmp_cell );
 **Figure 3.35 Deletion routine for linked lists--cursor implementation**
 
 ```js
-/\* Insert (after legal position p); \*/
+/* Insert (after legal position p); */
 
-/\* header implementation assumed \*/
+/* header implementation assumed */
 
 void
 
@@ -802,21 +802,21 @@ insert( element_type x, LIST L, position p )
 
 position tmp_cell;
 
-/\*1\*/ tmp_cell = cursor_alloc( )
+/*1*/ tmp_cell = cursor_alloc( )
 
-/\*2\*/ if( tmp_cell ==0 )
+/*2*/ if( tmp_cell ==0 )
 
-/\*3\*/ fatal_error("Out of space!!!");
+/*3*/ fatal_error("Out of space!!!");
 
 else
 
 {
 
-/\*4\*/ CURSOR_SPACE\[tmp_cell\].element = x;
+/*4*/ CURSOR_SPACE[tmp_cell].element = x;
 
-/\*5\*/ CURSOR_SPACE\[tmp_cell\].next = CURSOR_SPACE\[p\].next;
+/*5*/ CURSOR_SPACE[tmp_cell].next = CURSOR_SPACE[p].next;
 
-/\*6\*/ CURSOR_SPACE\[p\].next = tmp_cell;
+/*6*/ CURSOR_SPACE[p].next = tmp_cell;
 
 }
 
@@ -858,10 +858,10 @@ It should be clear that all the operations take constant time, because nowhere i
 
 An alternative implementation avoids pointers and is probably the more popular solution. The only potential hazard with this strategy is that we need to declare an array size ahead of time. Generally this is not a problem, because in typical applications, even if there are quite a few stack operations, the actual number of elements in the stack at any time never gets too large. It is usually easy to declare the array to be large enough without wasting too much space. If this is not possible, then a safe course would be to use a linked list implementation.
 
-If we use an array implementation, the implementation is trivial. Associated with each stack is the top of stack, tos, which is -1 for an empty stack (this is how an empty stack is initialized). To push some element x onto the stack, we increment tos and then set STACK\[tos\] = x, where STACK is the array representing the actual stack. To pop, we set the return value to STACK\[tos\] and then decrement tos. Of course, since there are potentially several stacks, the STACK array and tos are part of one structure representing a stack. It is almost always a bad idea to use global variables and fixed names to represent this (or any) data structure, because in most real-life situations there will be more than one stack. When writing your actual code, you should attempt to follow the model as closely as possible, so that no part of your code, except for the stack routines, can attempt to access the array or top-of-stack variable implied by each stack. This is true for all ADT operations. Modern languages such as Ada and C++ can actually enforce this rule.
+If we use an array implementation, the implementation is trivial. Associated with each stack is the top of stack, tos, which is -1 for an empty stack (this is how an empty stack is initialized). To push some element x onto the stack, we increment tos and then set STACK[tos] = x, where STACK is the array representing the actual stack. To pop, we set the return value to STACK[tos] and then decrement tos. Of course, since there are potentially several stacks, the STACK array and tos are part of one structure representing a stack. It is almost always a bad idea to use global variables and fixed names to represent this (or any) data structure, because in most real-life situations there will be more than one stack. When writing your actual code, you should attempt to follow the model as closely as possible, so that no part of your code, except for the stack routines, can attempt to access the array or top-of-stack variable implied by each stack. This is true for all ADT operations. Modern languages such as Ada and C++ can actually enforce this rule.
 
 ```js
-typedef struct node \*node_ptr;
+typedef struct node *node_ptr;
 
 struct node
 
@@ -875,7 +875,7 @@ node_ptr next;
 
 typedef node_ptr STACK;
 
-/\* Stack implementation will use a header. \*/
+/* Stack implementation will use a header. */
 ```
 
 **Figure 3.39 Type declaration for linked list implementation of the stack ADT**
@@ -1031,13 +1031,13 @@ unsigned int stack_size;
 
 int top_of_stack;
 
-element_type \*stack_array;
+element_type *stack_array;
 
 };
 
-typedef struct stack_record \*STACK;
+typedef struct stack_record *STACK;
 
-define EMPTY_TOS (-1) /\* Signifies an empty stack \*/
+define EMPTY_TOS (-1) /* Signifies an empty stack */
 
 Figure 3.45 STACK definition--array implementaion
 
@@ -1049,29 +1049,29 @@ create_stack( unsigned int max_elements )
 
 STACK S;
 
-/\*1\*/ if( max_elements < MIN_STACK_SIZE )
+/*1*/ if( max_elements < MIN_STACK_SIZE )
 
-/\*2\*/ error("Stack size is too small");
+/*2*/ error("Stack size is too small");
 
-/\*3\*/ S = (STACK) malloc( sizeof( struct stack_record ) );
+/*3*/ S = (STACK) malloc( sizeof( struct stack_record ) );
 
-/\*4\*/ if( S == NULL )
+/*4*/ if( S == NULL )
 
-/\*5\*/ fatal_error("Out of space!!!");
+/*5*/ fatal_error("Out of space!!!");
 
-/\*6\*/ S->stack_array = (element_type \*)
+/*6*/ S->stack_array = (element_type *)
 
-malloc( sizeof( element_type ) \* max_elements );
+malloc( sizeof( element_type ) * max_elements );
 
-/\*7\*/ if( S->stack_array == NULL )
+/*7*/ if( S->stack_array == NULL )
 
-/\*8\*/ fatal_error("Out of space!!!");
+/*8*/ fatal_error("Out of space!!!");
 
-/\*9\*/ S->top_of_stack = EMPTY_TOS;
+/*9*/ S->top_of_stack = EMPTY_TOS;
 
-/\*10\*/ S->stack_size = max_elements;
+/*10*/ S->stack_size = max_elements;
 
-/\*11\*/ return( S );
+/*11*/ return( S );
 
 }
 ```
@@ -1100,9 +1100,9 @@ free( S );
 
 **Figure 3.47 Routine for freeing stack--array implementation**
 
-We have assumed that all stacks deal with the same type of element. In many languages, if there are different types of stacks, then we need to rewrite a new version of the stack routines for each different type, giving each version a different name. A cleaner alternative is provided in C++, which allows one to write a set of generic stack routines and essentially pass the type as an argument.\* C++ also allows stacks of several different types to retain the same procedure and function names (such as push and pop): The compiler decides which routines are implied by checking the type of the calling routine.
+We have assumed that all stacks deal with the same type of element. In many languages, if there are different types of stacks, then we need to rewrite a new version of the stack routines for each different type, giving each version a different name. A cleaner alternative is provided in C++, which allows one to write a set of generic stack routines and essentially pass the type as an argument.* C++ also allows stacks of several different types to retain the same procedure and function names (such as push and pop): The compiler decides which routines are implied by checking the type of the calling routine.
 
-\*This is somewhat of an oversimplification.
+*This is somewhat of an oversimplification.
 
 Having said all this, we will now rewrite the four stack routines. In true ADT spirit, we will make the function and procedure heading look identical to the linked list implementation. The routines themselves are very simple and follow the written description exactly (see Figs. 3.48 to 3.52).
 
@@ -1149,7 +1149,7 @@ error("Full stack");
 
 else
 
-S->stack_array\[ ++S->top_of_stack \] = x;
+S->stack_array[ ++S->top_of_stack ] = x;
 
 }
 ```
@@ -1169,7 +1169,7 @@ error("Empty stack");
 
 else
 
-return S->stack_array\[ S->top_of_stack \];
+return S->stack_array[ S->top_of_stack ];
 
 }
 ```
@@ -1209,7 +1209,7 @@ error("Empty stack");
 
 else
 
-return S->stack_array\[ S->top_of_stack-- \];
+return S->stack_array[ S->top_of_stack-- ];
 
 }
 ```
@@ -1224,7 +1224,7 @@ It should come as no surprise that if we restrict the operations allowed on a li
 
 Compilers check your programs for syntax errors, but frequently a lack of one symbol (such as a missing brace or comment starter) will cause the compiler to spill out a hundred lines of diagnostics without identifying the real error.
 
-A useful tool in this situation is a program that checks whether everything is balanced. Thus, every right brace, bracket, and parenthesis must correspond to their left counterparts. The sequence [()] is legal, but [(\] is wrong. Obviously, it is not worthwhile writing a huge program for this, but it turns out that it is easy to check these things. For simplicity, we will just check for balancing of parentheses, brackets, and braces and ignore any other character that appears.
+A useful tool in this situation is a program that checks whether everything is balanced. Thus, every right brace, bracket, and parenthesis must correspond to their left counterparts. The sequence [()] is legal, but [(] is wrong. Obviously, it is not worthwhile writing a huge program for this, but it turns out that it is easy to check these things. For simplicity, we will just check for balancing of parentheses, brackets, and braces and ignore any other character that appears.
 
 > **The simple algorithm uses a stack and is as follows:**
 >
@@ -1236,13 +1236,13 @@ A useful tool in this situation is a program that checks whether everything is b
 
 Suppose we have a pocket calculator and would like to compute the cost of a shopping trip. To do so, we add a list of numbers and multiply the result by 1.06; this computes the purchase price of some items with local sales tax added. If the items are 4.99, 5.99, and 6.99, then a natural way to enter this would be the sequence
 
-4.99 + 5.99 + 6.99 \* 1.06 =
+4.99 + 5.99 + 6.99 * 1.06 =
 
 Depending on the calculator, this produces either the intended answer, 19.05, or the scientific answer, 18.39. Most simple four-function calculators will give the first answer, but better calculators know that multiplication has higher precedence than addition.
 
 On the other hand, some items are taxable and some are not, so if only the first and last items were actually taxable, then the sequence
 
-4.99 \* 1.06 + 5.99 + 6.99 \* 1.06 =
+4.99 * 1.06 + 5.99 + 6.99 * 1.06 =
 
 would give the correct answer (18.69) on a scientific calculator and the wrong answer (19.37) on a simple calculator. A scientific calculator generally comes with parentheses, so we can always get the right answer by parenthesizing, but with a simple calculator we need to remember intermediate results.
 
@@ -1254,13 +1254,13 @@ a~2~, leaving the final answer in al. We can write this sequence of operations a
 
 follows:
 
-4.99 1.06 \* 5.99 + 6.99 1.06 \* +
+4.99 1.06 * 5.99 + 6.99 1.06 * +
 
 This notation is known as postfix or reverse Polish notation and is evaluated exactly as we have described above. The easiest way to do this is to use a stack.
 
 When a number is seen, it is pushed onto the stack; when an operator is seen, the operator is applied to the two numbers (symbols) that are popped from the stack and the result is pushed onto the stack. For instance, the postfix expression
 
-6 5 2 3 + 8 \* + 3 + \*
+6 5 2 3 + 8 * + 3 + *
 
 is evaluated as follows: The first four symbols are placed on the stack. The resulting stack is
 
@@ -1269,7 +1269,7 @@ Next a '+' is read, so 3 and 2 are popped from the stack and their sum, 5, is pu
 ![Alt text](Image/image1.png)
 Next 8 is pushed.
 ![Alt text](Image/image2.png)
-Now a '\*' is seen, so 8 and 5 are popped as 8 \* 5 = 40 is pushed.
+Now a '*' is seen, so 8 and 5 are popped as 8 * 5 = 40 is pushed.
 ![Alt text](Image/image3.png)
 Next a '+' is seen, so 40 and 5 are popped and 40 + 5 = 45 is pushed.
 ![Alt text](Image/image4.png)
@@ -1277,25 +1277,25 @@ Now, 3 is pushed.
 ![Alt text](Image/image5.png)
 Next '+' pops 3 and 45 and pushes 45 + 3 = 48.
 ![Alt text](Image/image6.png)
-Finally, a '\*' is seen and 48 and 6 are popped, the result 6 \* 48 = 288 is pushed.
+Finally, a '*' is seen and 48 and 6 are popped, the result 6 * 48 = 288 is pushed.
 ![Alt text](Image/image7.png)
 The time to evaluate a postfix expression is O(n), because processing each element in the input consists of stack operations and thus takes constant time. The algorithm to do so is very simple. Notice that when an expression is given in postfix notation, there is no need to know any precedence rules; this is an obvious advantage.
 
 **Infix to Postfix Conversion**
 
-Not only can a stack be used to evaluate a postfix expression, but we can also use a stack to convert an expression in standard form (otherwise known as infix) into postfix. We will concentrate on a small version of the general problem by allowing only the operators +, \*, and
+Not only can a stack be used to evaluate a postfix expression, but we can also use a stack to convert an expression in standard form (otherwise known as infix) into postfix. We will concentrate on a small version of the general problem by allowing only the operators +, *, and
 
 (, ), and insisting on the usual precedence rules. We will further assume that the expression is legal. Suppose we want to convert the infix expression
 
-a + b ~\*~ c + ( d ~\*~ e + f ) ~\*~ g
+a + b ~*~ c + ( d ~*~ e + f ) ~*~ g
 
-into postfix. A correct answer is a b c \* + d e \* f + g \* +.
+into postfix. A correct answer is a b c * + d e * f + g * +.
 
 When an operand is read, it is immediately placed onto the output. Operators are not immediately output, so they must be saved somewhere. The correct thing to do is to place operators that have been seen, but not placed on the output, onto the stack. We will also stack left parentheses when they are encountered. We start with an initially empty stack.
 
 If we see a right parenthesis, then we pop the stack, writing symbols until we encounter a (corresponding) left parenthesis, which is popped but not output.
 
-If we see any other symbol ('+','\*', '(' ), then we pop entries from the stack until we find an
+If we see any other symbol ('+','*', '(' ), then we pop entries from the stack until we find an
 
 entry of lower priority. One exception is that we never remove a '(' from the stack except when processing a ')'. For the purposes of this operation, '+' has lowest priority and '(' highest. When the popping is done, we push the operand onto the stack.
 
@@ -1303,20 +1303,20 @@ Finally, if we read the end of input, we pop the stack until it is empty, writin
 
 To see how this algorithm performs, we will convert the infix expression above into its postfix form. First, the symbol a is read, so it is passed through to the output. Then '+' is read and pushed onto the stack. Next b is read and passed through to the output. The state of affairs at this juncture is as follows:
 ![Alt text](Image/image8.png)
-Next a '\*' is read. The top entry on the operator stack has lower precedence than '\*', so nothing is output and '\*' is put on the stack. Next, c is read and output. Thus far, we have
+Next a '*' is read. The top entry on the operator stack has lower precedence than '*', so nothing is output and '*' is put on the stack. Next, c is read and output. Thus far, we have
 ![Alt text](Image/image9.png)
-The next symbol is a '+'. Checking the stack, we find that we will pop a '\*' and place it on the
+The next symbol is a '+'. Checking the stack, we find that we will pop a '*' and place it on the
 output, pop the other '+', which is not of lower but equal priority, on the stack, and then push the '+'.
 ![Alt text](Image/image10.png)
 The next symbol read is an '(', which, being of highest precedence, is placed on the stack. Then d is read and output.
 ![Alt text](Image/image11.png)
-We continue by reading a '\*'. Since open parentheses do not get removed except when a closed parenthesis is being processed, there is no output. Next, e is read and output.
+We continue by reading a '*'. Since open parentheses do not get removed except when a closed parenthesis is being processed, there is no output. Next, e is read and output.
 ![Alt text](Image/image12.png)
-The next symbol read is a '+'. We pop and output '\*' and then push '+'. Then we read and output.
+The next symbol read is a '+'. We pop and output '*' and then push '+'. Then we read and output.
 ![Alt text](Image/image13.png)
 Now we read a ')', so the stack is emptied back to the '('. We output a '+'.
 ![Alt text](Image/image14.png)
-We read a '\*' next; it is pushed onto the stack. Then g is read and output.
+We read a '*' next; it is pushed onto the stack. Then g is read and output.
 ![Alt text](Image/image15.png)
 The input is now empty, so we pop and output symbols from the stack until it is empty.
 ![Alt text](Image/image16.png)
@@ -1341,19 +1341,19 @@ This program is an example of an extremely bad use of recursion known as tail re
 Removal of tail recursion is so simple that some compilers do it automatically. Even so, it is best not to find out that yours does not.
 
 ```js
-void /\* Not using a header \*/
+void /* Not using a header */
 
 print_list( LIST L )
 
 {
 
-/\*1\*/ if( L != NULL )
+/*1*/ if( L != NULL )
 
 {
 
-/\*2\*/ print_element( L->element );
+/*2*/ print_element( L->element );
 
-/\*3\*/ print_list( L->next );
+/*3*/ print_list( L->next );
 
 }
 
@@ -1365,7 +1365,7 @@ print_list( LIST L )
 ```js
 void
 
-print_list( LIST L ) /\* No header \*/
+print_list( LIST L ) /* No header */
 
 {
 
@@ -1404,9 +1404,9 @@ The basic operations on a queue are enqueue, which inserts an element at the end
 
 As with stacks, any list implementation is legal for queues. Like stacks, both the linked list and array implementations give fast O(1) running times for every operation. The linked list implementation is straightforward and left as an exercise. We will now discuss an array implementation of queues.
 
-For each queue data structure, we keep an array, QUEUE\[\], and the positions q_front and q_rear, which represent the ends of the queue. We also keep track of the number of elements that are actually in the queue, q_size. All this information is part of one structure, and as usual, except for the queue routines themselves, no routine should ever access these directly. The following figure shows a queue in some intermediate state. By the way, the cells that are blanks have undefined values in them. In particular, the first two cells have elements that used to be in the queue.
+For each queue data structure, we keep an array, QUEUE[], and the positions q_front and q_rear, which represent the ends of the queue. We also keep track of the number of elements that are actually in the queue, q_size. All this information is part of one structure, and as usual, except for the queue routines themselves, no routine should ever access these directly. The following figure shows a queue in some intermediate state. By the way, the cells that are blanks have undefined values in them. In particular, the first two cells have elements that used to be in the queue.
 ![Alt text](Image/image17.png)
-The operations should be clear. To enqueue an element x, we increment q_size and q_rear, then set QUEUE\[q_rear\] = x. To dequeue an element, we set the return value to QUEUE\[q_front\], decrement q_size, and then increment q_front. Other strategies are possible (this is discussed later). We will comment on checking for errors presently.
+The operations should be clear. To enqueue an element x, we increment q_size and q_rear, then set QUEUE[q_rear] = x. To dequeue an element, we set the return value to QUEUE[q_front], decrement q_size, and then increment q_front. Other strategies are possible (this is discussed later). We will comment on checking for errors presently.
 
 There is one potential problem with this implementation. After 10 enqueues, the queue appears to be full, since q_front is now 10, and the next enqueue would be in a nonexistent position. However, there might only be a few elements in the queue, because several elements may have already been dequeued. Queues, like stacks, frequently stay small even in the presence of a lot of operations.
 
@@ -1436,21 +1436,21 @@ struct queue_record
 
 {
 
-unsigned int q_max_size; /\* Maximum # of elements \*/
+unsigned int q_max_size; /* Maximum # of elements */
 
-/\* until Q is full \*/
+/* until Q is full */
 
 unsigned int q_front;
 
 unsigned int q_rear;
 
-unsigned int q_size; /\* Current # of elements in Q \*/
+unsigned int q_size; /* Current # of elements in Q */
 
-element_type \*q_array;
+element_type *q_array;
 
 };
 
-typedef struct queue_record \* QUEUE;
+typedef struct queue_record * QUEUE;
 
 Figure 3.57 Type declarations for queue--array implementation
 
@@ -1518,7 +1518,7 @@ Q->q_size++;
 
 Q->q_rear = succ( Q->q_rear, Q );
 
-Q->q_array\[ Q->q_rear \] = x;
+Q->q_array[ Q->q_rear ] = x;
 
 }
 
@@ -1527,9 +1527,9 @@ Q->q_array\[ Q->q_rear \] = x;
 
 **Figure 3.60 Routines to enqueue-array implementation**
 
-When jobs are submitted to a printer, they are arranged in order of arrival. Thus, essentially, jobs sent to a line printer are placed on a queue.\*
+When jobs are submitted to a printer, they are arranged in order of arrival. Thus, essentially, jobs sent to a line printer are placed on a queue.*
 
-\*We say essentially a queue, because jobs can be killed. This amounts to a deletion from the middle of the queue, which is a violation of the strict definition.
+*We say essentially a queue, because jobs can be killed. This amounts to a deletion from the middle of the queue, which is a violation of the strict definition.
 
 Virtually every real-life line is (supposed to be) a queue. For instance, lines at ticket counters are queues, because service is first-come first-served.
 
@@ -1547,7 +1547,7 @@ If there are k operators, then this problem is much more difficult to solve. Pro
 
 Additional uses for queues abound, and as with stacks, it is staggering that such a simple data structure can be so important.
 
-**Summary**
+## Summary
 
 This chapter describes the concept of ADTs and illustrates the concept with three of the most common abstract data types. The primary objective is to separate the implementation of the abstract data types from their function. The program must know what the operations do, but it is actually better off not knowing how it is done.
 
@@ -1579,9 +1579,9 @@ basic list operations.
 
 a. Give an algorithm to solve this problem in O(m2n2) time.
 
-\*b. Write a program to perform the multiplication in O(m2n) time, where m is the number of terms in the polynomial of fewer terms.
+*b. Write a program to perform the multiplication in O(m2n) time, where m is the number of terms in the polynomial of fewer terms.
 
-\*c. Write a program to perform the multiplication in O(mn log(mn)) time.
+*c. Write a program to perform the multiplication in O(mn log(mn)) time.
 
 d. Which time bound above is the best?
 
@@ -1607,7 +1607,7 @@ before the recursive version crashes?
 
 3.12 a. Write a nonrecursive procedure to reverse a singly linked list in O(n) time.
 
-\*b. Write a procedure to reverse a singly linked list in O(n) time using constant extra space.
+*b. Write a procedure to reverse a singly linked list in O(n) time using constant extra space.
 
 3.13 You have to sort an array of student records by social security number. Write a program to do this, using radix sort with 1000 buckets and three passes.
 
@@ -1621,49 +1621,49 @@ b. cursors
 
 b. Write a linked list implementation of self-adjusting lists.
 
-\*c. Suppose each element has a fixed probability, pi, of being accessed. Show that the elements
+*c. Suppose each element has a fixed probability, pi, of being accessed. Show that the elements
 
 with highest access probability are expected to be close to the front.
 
-3.16 Suppose we have an array-based list a\[0..n -1\] and we want to delete all duplicates. last_position is initially n - 1, but gets smaller as elements are deleted. Consider the pseudocode program fragment in Figure 3.61. The procedure DELETE deletes the element in position j and collapses the list.
+3.16 Suppose we have an array-based list a[0..n -1] and we want to delete all duplicates. last_position is initially n - 1, but gets smaller as elements are deleted. Consider the pseudocode program fragment in Figure 3.61. The procedure DELETE deletes the element in position j and collapses the list.
 
 a. Explain how this procedure works.
 
 b. Rewrite this procedure using general list operations.
 
 ```js
-/\*1\*/ for( i=0; i<last_position; i++ )
+/*1*/ for( i=0; i<last_position; i++ )
 
 {
 
-/\*2\*/ j = i + 1;
+/*2*/ j = i + 1;
 
-/\*3\*/ while( j<last_position )
+/*3*/ while( j<last_position )
 
-/\*4\*/ if( a\[i\] == a\[j\]
+/*4*/ if( a[i] == a[j]
 
-/\*5\*/ DELETE(j);
+/*5*/ DELETE(j);
 
 else
 
-/\*6\*/ j++;
+/*6*/ j++;
 
 }
 ```
 
 **Figure 3.61 Routine to remove duplicates from a lists--array implementation**
 
-\*c. Using a standard array implementation, what is the running time of this procedure?
+*c. Using a standard array implementation, what is the running time of this procedure?
 
 d. What is the running time using a linked list implementation?
 
-\*e. Give an algorithm to solve this problem in O(n log n) time.
+*e. Give an algorithm to solve this problem in O(n log n) time.
 
-\*\*f. Prove that any algorithm to solve this problem requires (n log n) comparisons if only comparisons are used. Hint: Look to
+**f. Prove that any algorithm to solve this problem requires (n log n) comparisons if only comparisons are used. Hint: Look to
 
 Chapter 7.
 
-\*g. Prove that if we allow operations besides comparisons, and the keys are real numbers, then we can solve the problem without using comparisons between elements.
+*g. Prove that if we allow operations besides comparisons, and the keys are real numbers, then we can solve the problem without using comparisons between elements.
 
 3.17 An alternative to the deletion strategy we have given is to use lazy deletion. To delete an element, we merely mark it deleted (using an extra bit field). The number of deleted and nondeleted elements in the list is kept as part of the data structure. If there are as many deleted elements as nondeleted elements, we traverse the entire list, performing the standard deletion algorithm on all marked nodes.
 
@@ -1673,15 +1673,15 @@ b. Write routines to implement the standard linked list operations using lazy de
 
 3.18 Write a program to check for balancing symbols in the following languages:
 
-a. Pascal (begin/end, ( ), \[ \], { }).
+a. Pascal (begin/end, ( ), [ ], { }).
 
-b. C (/\* \*/, ( ), \[ \], { }).
+b. C (/* */, ( ), [ ], { }).
 
-\*c. Explain how to print out an error message that is likely to reflect the probable cause.
+*c. Explain how to print out an error message that is likely to reflect the probable cause.
 
 3.19 Write a program to evaluate a postfix expression.
 
-3.20 a. Write a program to convert an infix expression which includes '(', ')', '+', '-', '\*' and '/' to postfix.
+3.20 a. Write a program to convert an infix expression which includes '(', ')', '+', '-', '*' and '/' to postfix.
 
 b. Add the exponentiation operator to your repertoire.
 
@@ -1689,15 +1689,15 @@ c. Write a program to convert a postfix expression to infix.
 
 3.21 Write routines to implement two stacks using only one array. Your stack routines should not declare an overflow unless every slot in the array is used.
 
-3.22 \*a. Propose a data structure that supports the stack push and pop operations and a third operation find_min, which returns the smallest element in the data structure, all in O(1) worst case time.
+3.22 *a. Propose a data structure that supports the stack push and pop operations and a third operation find_min, which returns the smallest element in the data structure, all in O(1) worst case time.
 
-\*b. Prove that if we add the fourth operation delete_min which finds and removes the smallest
+*b. Prove that if we add the fourth operation delete_min which finds and removes the smallest
 
 element, then at least one of the operations must take (logn) time. (This requires reading
 
 Chapter 7.)
 
-3.23 \*Show how to implement three stacks in one array.
+3.23 *Show how to implement three stacks in one array.
 
 3.24 If the recursive routine in Section 2.4 used to compute Fibonacci numbers is run for n = 50, is stack space likely to run out? Why or why not?
 
