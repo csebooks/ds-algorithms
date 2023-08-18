@@ -57,16 +57,13 @@ Recall that a pointer variable is just a variable that contains the address wher
 
 field_name, where field_name is the name of the field we wish to examine. **Figure** 3.2 shows the actual representation of the list in **Figure 3.1.** The list contains five structures, which happen to reside in memory locations 1000, 800, 712, 992, and 692 respectively. The next pointer in the first structure has the value 800, which provides the indication of where the second structure is. The other structures each have a pointer that serves a similar purpose. Of course, in order to access this list, we need to know where the first cell can be found. A pointer variable can be used for this purpose. It is important to remember that a pointer is just a number. For the rest of this chapter, we will draw pointers with arrows, because they are more illustrative.
 
-![Alt text](Image/A linked list.png)
-![Alt text](<Image/A linked list.png>)
+![Alt text](Image/Linkedlist.png)
 
-**Figure 3.1 A linked list**
+![Alt text](Image/Linkedlist2.png)
 
-**Figure 3.2 Linked list with actual pointer values**
+![Alt text](Image/Linkedlist3.png)
 
-**Figure 3.3 Deletion from a linked list**
-
-**Figure 3.4 Insertion into a linked list**
+![Alt text](Image/Linkedlist4.png)
 
 To execute print_list(L) or find(L,key), we merely pass a pointer to the first element in the list and then traverse the list by following the next pointers. This operation is clearly linear-time, although the constant is likely to be larger than if an array implementation were used. The find_kth operation is no longer quite as efficient as an array implementation; find_kth(L,i) takes O(i) time and works by traversing down the list in the obvious manner. In practice, this bound is pessimistic, because frequently the calls to find_kth are in sorted order (by i). As an example, find_kth(L,2), find_kth(L,3), find_kth(L,4), find_kth(L,6) can all be executed in one scan down the list.
 
@@ -78,7 +75,7 @@ The insert command requires obtaining a new cell from the system by using an mal
 
 The description above is actually enough to get everything working, but there are several places where you are likely to go wrong. First of all, there is no really obvious way to insert at the front of the list from the definitions given. Second, deleting from the front of the list is a special case, because it changes the start of the list; careless coding will lose the list. A third problem concerns deletion in general. Although the pointer moves above are simple, the deletion algorithm requires us to keep track of the cell before the one that we want to delete.
 
-**Figure 3.5 Linked list with a header**
+![Alt text](Image/Linkedlist5.png)
 
 It turns out that one simple change solves all three problems. We will keep a sentinel node, which is sometimes referred to as a header or dummy node. This is a common practice, which we will see several times in the future. Our convention will be that the header is in position 0. Figure 3.5 shows a linked list with a header representing the list a~1~, a~2~, . . . , a~5~.
 
@@ -110,7 +107,7 @@ typedef node_ptr position;
 
 **Figure 3.6 Type declarations for linked lists**
 
-**Figure 3.7 Empty list with header**
+![Alt text](Image/Linkedlilst7.png)
 
 ```js
 int
@@ -350,7 +347,7 @@ position p, tmp;
 
 **Figure 3.15 Correct way to delete a list**
 
-**Figure 3.16 A doubly linked list**
+![Alt text](Image/Linkedlist16.png)
 
 ### 3.2.5. Doubly Linked Lists
 
@@ -376,7 +373,7 @@ present, but if p~1~(x) = 10x^1000^ + 5x^14^ + 1 and p~2~(x) = 3x^1990^ - 2x^149
 
 then the running time is likely to be unacceptable. One can see that most of the time is spent multiplying zeros and stepping through what amounts to nonexistent parts of the input polynomials. This is always undesirable.
 
-**Figure 3.17 A double circularly linked list**
+![Alt text](Image/Linkedlist17.png)
 
 ```js
 typedef struct
@@ -480,7 +477,7 @@ poly1->coeff_array\[i\] \* poly2->coeff_array\[j\];
 
 **Figure 3.21 Procedure to multiply two polynomials**
 
-**Figure 3.22 Linked list representations of two polynomials**
+![Alt text](Image/Linkedlist22.png)
 
 ```js
 typedef struct node \*node_ptr;
@@ -573,7 +570,7 @@ What is needed is a list for each class, which contains the students in the clas
 
 As the figure shows, we have combined two lists into one. All lists use a header and are circular. To list all of the students in class C3, we start at C3 and traverse its list (by going right). The first cell belongs to student S1. Although there is no explicit information to this effect, this can be determined by following the student's linked list until the header is reached. Once this is done, we return to C3's list (we stored the position we were at in the course list before we traversed the student's list) and find another cell, which can be determined to belong to S3. We can continue and find that S4 and S5 are also in this class. In a similar manner, we can determine, for any student, all of the classes in which the student is registered.
 
-**Figure 3.27 Multilist implementation for registration problem**
+![Alt text](Image/LInkedlist27.png)
 
 Using a circular list saves space but does so at the expense of time. In the worst case, if the first student was registered for every course, then every entry would need to be examined in order to determine all the course names for that student. Because in this application there are relatively few courses per student and few students per course, this is not likely to happen. If it were suspected that this could cause a problem, then each of the (nonheader) cells could have pointers directly back to the student and class header. This would double the space requirement, but simplify and speed up the implementation.
 
@@ -840,9 +837,8 @@ Stacks are sometimes known as LIFO (last in, first out) lists. The model depicte
 
 **Figure 3.38** shows an abstract stack after several operations. The general model is that there is some element that is at the top of the stack, and it is the only element that is visible.
 
-**Figure 3.37 Stack model: input to a stack is by push, output is by pop**
-
-**Figure 3.38 Stack model: only the top element is accessible**
+![Alt text](Image/Linkedlist37.png)
+![Alt text](Image/Linkedlist38.png)
 
 ### 3.3.2. Implementation of Stacks
 
@@ -870,10 +866,6 @@ typedef struct node \*node_ptr;
 struct node
 
 {
-
-页码，24/47Structures, Algorithm Analysis: CHAPTER 3: LISTS, STACKS, AND QUEUES
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
 
 element_type element;
 
@@ -1272,20 +1264,21 @@ When a number is seen, it is pushed onto the stack; when an operator is seen, th
 
 is evaluated as follows: The first four symbols are placed on the stack. The resulting stack is
 
+![Alt text](Image/image.png)
 Next a '+' is read, so 3 and 2 are popped from the stack and their sum, 5, is pushed.
-
+![Alt text](Image/image1.png)
 Next 8 is pushed.
-
+![Alt text](Image/image2.png)
 Now a '\*' is seen, so 8 and 5 are popped as 8 \* 5 = 40 is pushed.
-
+![Alt text](Image/image3.png)
 Next a '+' is seen, so 40 and 5 are popped and 40 + 5 = 45 is pushed.
-
+![Alt text](Image/image4.png)
 Now, 3 is pushed.
-
+![Alt text](Image/image5.png)
 Next '+' pops 3 and 45 and pushes 45 + 3 = 48.
-
+![Alt text](Image/image6.png)
 Finally, a '\*' is seen and 48 and 6 are popped, the result 6 \* 48 = 288 is pushed.
-
+![Alt text](Image/image7.png)
 The time to evaluate a postfix expression is O(n), because processing each element in the input consists of stack operations and thus takes constant time. The algorithm to do so is very simple. Notice that when an expression is given in postfix notation, there is no need to know any precedence rules; this is an obvious advantage.
 
 **Infix to Postfix Conversion**
@@ -1309,31 +1302,24 @@ entry of lower priority. One exception is that we never remove a '(' from the st
 Finally, if we read the end of input, we pop the stack until it is empty, writing symbols onto the output.
 
 To see how this algorithm performs, we will convert the infix expression above into its postfix form. First, the symbol a is read, so it is passed through to the output. Then '+' is read and pushed onto the stack. Next b is read and passed through to the output. The state of affairs at this juncture is as follows:
-
-Next a '\*' is read. The top entry on the operator stack has lower precedence than '\*', so nothing
-
-is output and '\*' is put on the stack. Next, c is read and output. Thus far, we have
-
+![Alt text](Image/image8.png)
+Next a '\*' is read. The top entry on the operator stack has lower precedence than '\*', so nothing is output and '\*' is put on the stack. Next, c is read and output. Thus far, we have
+![Alt text](Image/image9.png)
 The next symbol is a '+'. Checking the stack, we find that we will pop a '\*' and place it on the
-
 output, pop the other '+', which is not of lower but equal priority, on the stack, and then push the '+'.
-
+![Alt text](Image/image10.png)
 The next symbol read is an '(', which, being of highest precedence, is placed on the stack. Then d is read and output.
-
-We continue by reading a '\*'. Since open parentheses do not get removed except when a closed
-
-parenthesis is being processed, there is no output. Next, e is read and output.
-
-The next symbol read is a '+'. We pop and output '\*' and then push '+'. Then we read and output
-
-.
-
+![Alt text](Image/image11.png)
+We continue by reading a '\*'. Since open parentheses do not get removed except when a closed parenthesis is being processed, there is no output. Next, e is read and output.
+![Alt text](Image/image12.png)
+The next symbol read is a '+'. We pop and output '\*' and then push '+'. Then we read and output.
+![Alt text](Image/image13.png)
 Now we read a ')', so the stack is emptied back to the '('. We output a '+'.
-
+![Alt text](Image/image14.png)
 We read a '\*' next; it is pushed onto the stack. Then g is read and output.
-
+![Alt text](Image/image15.png)
 The input is now empty, so we pop and output symbols from the stack until it is empty.
-
+![Alt text](Image/image16.png)
 As before, this conversion requires only O(n) time and works in one pass through the input. We can add subtraction and division to this repertoire by assigning subtraction and addition equal priority and multiplication and division equal priority. A subtle point is that the expression a - b - c will be converted to ab - c- and not abc - -. Our algorithm does the right thing, because these operators associate from left to right. This is not necessarily the case in general, since
 
 exponentiation associates right to left: 2^23^ = 2^8^ = 256 not 4^3^ = 64. We leave as an exercise the problem of adding exponentiation to the repertoire of assignments.
@@ -1411,7 +1397,7 @@ Like stacks, queues are lists. With a queue, however, insertion is done at one e
 ### 3.4.1. Queue Model
 
 The basic operations on a queue are enqueue, which inserts an element at the end of the list (called the rear), and dequeue, which deletes (and returns) the element at the start of the list (known as the front). Figure 3.56 shows the abstract model of a queue.
-
+![Alt text](Image/linkedlist56.png)
 **Figure 3.56 Model of a queue**
 
 ### 3.4.2. Array Implementation of Queues
@@ -1419,13 +1405,14 @@ The basic operations on a queue are enqueue, which inserts an element at the end
 As with stacks, any list implementation is legal for queues. Like stacks, both the linked list and array implementations give fast O(1) running times for every operation. The linked list implementation is straightforward and left as an exercise. We will now discuss an array implementation of queues.
 
 For each queue data structure, we keep an array, QUEUE\[\], and the positions q_front and q_rear, which represent the ends of the queue. We also keep track of the number of elements that are actually in the queue, q_size. All this information is part of one structure, and as usual, except for the queue routines themselves, no routine should ever access these directly. The following figure shows a queue in some intermediate state. By the way, the cells that are blanks have undefined values in them. In particular, the first two cells have elements that used to be in the queue.
-
+![Alt text](Image/image17.png)
 The operations should be clear. To enqueue an element x, we increment q_size and q_rear, then set QUEUE\[q_rear\] = x. To dequeue an element, we set the return value to QUEUE\[q_front\], decrement q_size, and then increment q_front. Other strategies are possible (this is discussed later). We will comment on checking for errors presently.
 
 There is one potential problem with this implementation. After 10 enqueues, the queue appears to be full, since q_front is now 10, and the next enqueue would be in a nonexistent position. However, there might only be a few elements in the queue, because several elements may have already been dequeued. Queues, like stacks, frequently stay small even in the presence of a lot of operations.
 
 The simple solution is that whenever q_front or q_rear gets to the end of the array, it is wrapped around to the beginning. The following figure shows the queue during some operations. This is known as a circular array implementation.
-
+![Alt text](Image/image18.png)
+![Alt text](Image/image19.png)
 The extra code required to implement the wraparound is minimal (although it probably doubles the running time). If incrementing either q_rear or q_front causes it to go past the array, the value is reset to the first position in the array.
 
 There are two warnings about the circular array implementation of queues. First, it is important to check the queue for emptiness, because a dequeue when the queue is empty will return an undefined value, silently.
