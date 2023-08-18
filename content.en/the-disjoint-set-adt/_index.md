@@ -564,13 +564,13 @@ compression, we obtain a worst-case running time of O(m (m, n)), since there are
 
 We will see a much better application in the next chapter.
 
-Summary
+**Summary**
 
 We have seen a very simple data structure to maintain disjoint sets. When the union operation is performed, it does not matter, as far as correctness is concerned, which set retains its name. A valuable lesson that should be learned here is that it can be very important to consider the alternatives when a particular step is not totally specified. The union step is flexible; by taking advantage of this, we are able to get a much more efficient algorithm.
 
 Path compression is one of the earliest forms of self-adjustment, which we have seen elsewhere (splay trees, skew heaps). Its use is extremely interesting, especially from a theoretical point of view, because it was one of the first examples of a simple algorithm with a not-so-simple worst-case analysis.
 
-Exercises
+**Exercises**
 
 8.1 Show the result of the following sequence of instructions: union(1, 2), union(3, 4), union(3,
 
@@ -664,82 +664,40 @@ Exercise 8.8 is solved in [18].
 
 1. A. V. Aho, J. E. Hopcroft, J. D. Ullman, "On Finding Lowest Common Ancestors in Trees," SIAM Journal on Computing 5 (1976), 115-132.
 
-2. L. Banachowski, "A Complement to Tarjan's Result about the Lower Bound on the Complexity of
+2. L. Banachowski, "A Complement to Tarjan's Result about the Lower Bound on the Complexity of the Set Union Problem," Information Processing Letters 11 (1980), 59-65.
 
-the Set Union Problem," Information Processing Letters 11 (1980), 59-65.
+3. N. Blum, "On the Single-operation Worst-case Time Complexity of the Disjoint Set UnionProblem," SIAM Journal on Computing 15 (1986), 1021-1024.
 
-3. N. Blum, "On the Single-operation Worst-case Time Complexity of the Disjoint Set Union
+4. J. Doyle and R. L. Rivest, "Linear Expected Time of a Simple Union Find Algorithm,"Information Processing Letters 5 (1976), 146-148.
 
-Problem," SIAM Journal on Computing 15 (1986), 1021-1024.
+5. M. J. Fischer, "Efficiency of Equivalence Algorithms," Complexity of Computer Computation (eds. R. E. Miller and J. W. Thatcher), Plenum Press, 1972, 153-168.
 
+6. M. L. Fredman and M. E. Saks, "The Cell Probe Complexity of Dynamic Data Structures,"Proceedings of the Twenty-first Annual Symposium on Theory of Computing (1989), 345-354.
 
-4. J. Doyle and R. L. Rivest, "Linear Expected Time of a Simple Union Find Algorithm,"
+7. H. N. Gabow and R. E. Tarjan, "A Linear-time Algorithm for a Special Case of Disjoint Set Union,"Journal of Computer and System Sciences 30 (1985), 209-221.
 
-Information Processing Letters 5 (1976), 146-148.
+8. B. A. Galler and M. J. Fischer, "An Improved Equivalence Algorithm," Communications of the ACM 7 (1964), 301-303.
 
-5. M. J. Fischer, "Efficiency of Equivalence Algorithms," Complexity of Computer Computation
+9. J. E. Hopcroft and R. M. Karp, "An Algorithm for Testing the Equivalence of Finite Automata,"Technical Report TR-71-114, Department of Computer Science, Cornell University, Ithaca, NY, 1971.
 
-(eds. R. E. Miller and J. W. Thatcher), Plenum Press, 1972, 153-168.
+10. J. E. Hopcroft and J. D. Ullman, "Set Merging Algorithms," SIAM Journal on Computing 2 (1973), 294-303.
 
-6. M. L. Fredman and M. E. Saks, "The Cell Probe Complexity of Dynamic Data Structures,"
+11. D. E. Knuth and A. Schonhage, "The Expected Linearity of a Simple Equivalence Algorithm," Theoretical Computer Science 6 (1978), 281-315.
 
-Proceedings of the Twenty-first Annual Symposium on Theory of Computing (1989), 345-354.
+12. J. A. LaPoutre, "New Techniques for the Union-Find Problem," Proceedings of the First Annual ACM-SIAM Symposium on Discrete Algorithms (1990), 54-63.
 
-7. H. N. Gabow and R. E. Tarjan, "A Linear-time Algorithm for a Special Case of Disjoint Set
+13. J. A. LaPoutre, "Lower Bounds for the Union-Find and the Split-Find Problem on Pointer Machines," Proceedings of the Twenty Second Annual ACM Symposium on Theory of Computing (1990), 34-44.
 
-Union,"Journal of Computer and System Sciences 30 (1985), 209-221.
+14. R. E. Tarjan, "Efficiency of a Good but Not Linear Set Union Algorithm," Journal of the ACM 22 (1975), 215-225.
 
-8. B. A. Galler and M. J. Fischer, "An Improved Equivalence Algorithm," Communications of the ACM
+15. R. E. Tarjan, "A Class of Algorithms Which Require Nonlinear Time to Maintain Disjoint Sets,"Journal of Computer and System Sciences 18 (1979), 110-127.
 
-7 (1964), 301-303.
+16. R. E. Tarjan, "Applications of Path Compression on Balanced Trees," Journal of the ACM 26 (1979), 690-715.
 
-9. J. E. Hopcroft and R. M. Karp, "An Algorithm for Testing the Equivalence of Finite Automata,"
+17. R. E. Tarjan and J. van Leeuwen, "Worst Case Analysis of Set Union Algorithms," Journal of the ACM 31 (1984), 245-281.
 
-Technical Report TR-71-114, Department of Computer Science, Cornell University, Ithaca, NY, 1971.
+18. J. Westbrook and R. E. Tarjan, "Amortized Analysis of Algorithms for Set Union with Backtracking," SIAM Journal on Computing 18 (1989), 1-11.
 
-10. J. E. Hopcroft and J. D. Ullman, "Set Merging Algorithms," SIAM Journal on Computing 2
+19. A. C. Yao, "On the Average Behavior of Set Merging Algorithms," Proceedings of Eighth Annual ACM Symposium on the Theory of Computation (1976), 192-195.
 
-(1973), 294-303.
-
-11. D. E. Knuth and A. Schonhage, "The Expected Linearity of a Simple Equivalence Algorithm,"
-
-Theoretical Computer Science 6 (1978), 281-315.
-
-12. J. A. LaPoutre, "New Techniques for the Union-Find Problem," Proceedings of the First Annual
-
-ACM-SIAM Symposium on Discrete Algorithms (1990), 54-63.
-
-13. J. A. LaPoutre, "Lower Bounds for the Union-Find and the Split-Find Problem on Pointer
-
-Machines," Proceedings of the Twenty Second Annual ACM Symposium on Theory of Computing (1990), 34-44.
-
-14. R. E. Tarjan, "Efficiency of a Good but Not Linear Set Union Algorithm," Journal of the ACM
-
-22 (1975), 215-225.
-
-15. R. E. Tarjan, "A Class of Algorithms Which Require Nonlinear Time to Maintain Disjoint Sets,"
-
-页码，22/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Journal of Computer and System Sciences 18 (1979), 110-127.
-
-16. R. E. Tarjan, "Applications of Path Compression on Balanced Trees," Journal of the ACM 26
-
-(1979), 690-715.
-
-17. R. E. Tarjan and J. van Leeuwen, "Worst Case Analysis of Set Union Algorithms," Journal of
-
-the ACM 31 (1984), 245-281.
-
-18. J. Westbrook and R. E. Tarjan, "Amortized Analysis of Algorithms for Set Union with
-
-Backtracking," SIAM Journal on Computing 18 (1989), 1-11.
-
-19. A. C. Yao, "On the Average Behavior of Set Merging Algorithms," Proceedings of Eighth Annual
-
-ACM Symposium on the Theory of Computation (1976), 192-195.
-
-Go to [chapter 9]() Return to [Table of Contents]() 
 
