@@ -5,7 +5,7 @@ weight: 8
 
   
 
-CHAPTER 8: THE DISJOINT SET ADT
+# CHAPTER 8: THE DISJOINT SET ADT
 
 In this chapter, we describe an efficient data structure to solve the equivalence problem. The data structure is simple to implement. Each routine requires only a few lines of code, and a simple array can be used. The implementation is also extremely fast, requiring constant average time per operation. This data structure is also very interesting from a theoretical point of view, because its analysis is extremely difficult; the functional form of the worst case is unlike any we have yet seen. For the disjoint set ADT, we will
 
@@ -17,7 +17,7 @@ Analyze the running time of a fast implementation.
 
 See a simple application.
 
-8.1. Equivalence Relations
+# 8.1. Equivalence Relations
 
 A relation R is defined on a set S if for every pair of elements (a, b), a, b
 
@@ -25,11 +25,11 @@ S, a R b is either true or false. If a R b is true, then we say that a is relate
 
 An equivalence relation is a relation R that satisfies three properties:
 
-1\. (Reflexive) a R a, for all a S.
+1. (Reflexive) a R a, for all a S.
 
-2\. (Symmetric) a R b if and only if b R a.
+2. (Symmetric) a R b if and only if b R a.
 
-3\. (Transitive) a R b and b R c implies that a R c.
+3. (Transitive) a R b and b R c implies that a R c.
 
 We'll consider several examples.
 
@@ -41,25 +41,20 @@ c, it is not symmetric, since a b does not imply b a.
 
 Electrical connectivity, where all connections are by metal wires, is an equivalence relation. The relation is clearly reflexive, as any component is
 
-Next ChapterReturn to Table of ContentsPrevious Chapter
-
-页码，1/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 connected to itself. If a is electrically connected to b, then b must be electrically connected to a, so the relation is symmetric. Finally, if a is connected to b and b is connected to c, then a is connected to c. Thus electrical connectivity is an equivalence relation.
 
 Two cities are related if they are in the same country. It is easily verified that this is an equivalence relation. Suppose town a is related to b if it is possible to travel from a to b by taking roads. This relation is an equivalence relation if all the roads are two-way.
 
-8.2. The Dynamic Equivalence Problem
+# 8.2. The Dynamic Equivalence Problem
 
-Given an equivalence relation ~, the natural problem is to decide, for any a and b, if a ~ b. If the relation is stored as a two-dimensional array of booleans, then, of course, this can be done in constant time. The problem is that the relation is usually not explicitly, but rather implicitly, defined.
+Given an equivalence relation ^~^, the natural problem is to decide, for any a and b, if a ^~^ b. If the relation is stored as a two-dimensional array of booleans, then, of course, this can be done in constant time. The problem is that the relation is usually not explicitly, but rather implicitly, defined.
 
 As an example, suppose the equivalence relation is defined over the five-element set {a1, a2, a3, a4, a5}. Then there are 25 pairs of elements, each of which is
 
-either related or not. However, the information a1 ~ a2, a3 ~ a4, a5 ~ a1, a4 ~ a2 implies that all pairs are related. We would like to be able to infer this quickly.
+either related or not. However, the information a1^^~^^a2, a3 ^~^ a4, a5 ^~^ a1, a4 ^~^ a2 implies that all pairs are related. We would like to be able to infer this quickly.
 
-The equivalence class of an element a S is the subset of S that contains all the elements that are related to a. Notice that the equivalence classes form a partition of S: Every member of S appears in exactly one equivalence class. To decide if a ~ b, we need only to check whether a and b are in the same equivalence class. This provides our strategy to solve the equivalence problem.
+The equivalence class of an element a S is the subset of S that contains all the elements that are related to a. Notice that the equivalence classes form a partition of S: Every member of S appears in exactly one equivalence class. To decide if a ^~^ b, we need only to check whether a and b are in the same equivalence class. This provides our strategy to solve the equivalence problem.
 
 The input is initially a collection of n sets, each with one element. This initial representation is that all relations (except reflexive relations) are
 
@@ -67,17 +62,14 @@ false. Each set has a different element, so that Si Sj = ; this makes the
 
 sets disjoint.
 
-There are two permissible operations. The first is find, which returns the name of the set (that is, the equivalence class) containing a given element. The second operation adds relations. If we want to add the relation a ~ b, then we first see if a and b are already related. This is done by performing finds on both a and b and checking whether they are in the same equivalence class. If they are not, then we apply union. This operation merges the two equivalence classes containing a and b into a new equivalence class. From a set point of view, the
+There are two permissible operations. The first is find, which returns the name of the set (that is, the equivalence class) containing a given element. The second operation adds relations. If we want to add the relation a ^~^ b, then we first see if a and b are already related. This is done by performing finds on both a and b and checking whether they are in the same equivalence class. If they are not, then we apply union. This operation merges the two equivalence classes containing a and b into a new equivalence class. From a set point of view, the
 
 result of is to create a new set Sk = Si Sj, destroying the originals
 
 and preserving the disjointness of all the sets. The algorithm to do this is frequently known as the disjoint set union/find algorithm for this reason.
 
 This algorithm is dynamic because, during the course of the algorithm, the sets can change via the union operation. The algorithm must also operate on-line: When a find is performed, it must give an answer before continuing. Another
-
-页码，2/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+ 
 
 possibility would be an off-line algorithm. Such an algorithm would be allowed to see the entire sequence of unions and finds. The answer it provides for each find must still be consistent with all the unions that were performed up until the find, but the algorithm can give all its answers after it has seen all the questions. The difference is similar to taking a written exam (which is generally off-line--you only have to give the answers before time expires), and an oral exam (which is on-line, because you must answer the current question before proceeding to the next question).
 
@@ -105,19 +97,15 @@ time, because it is still possible to perform (n2) equivalence class updates ove
 
 If we also keep track of the size of each equivalence class, and when performing unions we change the name of the smaller equivalence class to the larger, then
 
-页码，3/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 the total time spent for n - 1 merges isO (n log n). The reason for this is that each element can have its equivalence class changed at most log n times, since every time its class is changed, its new equivalence class is at least twice as large as its old. Using this strategy, any sequence of m finds and up to n - 1 unions takes at most O(m + n log n) time.
 
 In the remainder of this chapter, we will examine a solution to the union/find problem that makes unions easy but finds hard. Even so, the running time for any sequences of at most m finds and up to n - 1 unions will be only a little more than O(m + n).
 
-8.3. Basic Data Structure
+# 8.3. Basic Data Structure
 
-Recall that the problem does not require that a find operation return any specific name, just that finds on two elements return the same answer if and only if they are in the same set. One idea might be to use a tree to represent each set, since each element in a tree has the same root. Thus, the root can be used to name the set. We will represent each set by a tree. (Recall that a collection of trees is known as a forest.) Initially, each set contains one element. The trees we will use are not necessarily binary trees, but their representation is easy, because the only information we will need is a parent pointer. The name of a set is given by the node at the root. Since only the name of the parent is required, we can assume that this tree is stored implicitly in an array: each entry p\[i\] in the array represents the parent of element i. If i is a root, then
+Recall that the problem does not require that a find operation return any specific name, just that finds on two elements return the same answer if and only if they are in the same set. One idea might be to use a tree to represent each set, since each element in a tree has the same root. Thus, the root can be used to name the set. We will represent each set by a tree. (Recall that a collection of trees is known as a forest.) Initially, each set contains one element. The trees we will use are not necessarily binary trees, but their representation is easy, because the only information we will need is a parent pointer. The name of a set is given by the node at the root. Since only the name of the parent is required, we can assume that this tree is stored implicitly in an array: each entry p[i] in the array represents the parent of element i. If i is a root, then
 
-p\[i\] = 0. In the forest in Figure 8.1, p\[i\] = 0 for 1 i 8. As with heaps, we will draw the trees explicitly, with the understanding that an array is being used. Figure 8.1 shows the explicit representation. We will draw the root's parent pointer vertically for convenience.
+p[i] = 0. In the forest in Figure 8.1, p[i] = 0 for 1 i 8. As with heaps, we will draw the trees explicitly, with the understanding that an array is being used. Figure 8.1 shows the explicit representation. We will draw the root's parent pointer vertically for convenience.
 
 To perform a union of two sets, we merge the two trees by making the root of one tree point to the root of the other. It should be clear that this operation takes constant time. Figures 8.2, 8.3, and 8.4 represent the forest after each of union (5,6) union(7,8), union(5,7), where we have adopted the convention that the new root after the union(x,y) is x. The implicit representation of the last forest is shown in Figure 8.5.
 
@@ -127,9 +115,6 @@ The code in Figures 8.6 through 8.9 represents an implementation of the basic al
 
 The average-case analysis is quite hard to do. The least of the problems is that
 
-页码，4/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 the answer depends on how to define average (with respect to the union operation). For instance, in the forest in Figure 8.4, we could say that since
 
@@ -140,98 +125,97 @@ this model is that there is only a chance that the next union will involve the l
 chance that the large tree is involved in the next union, since (ignoring symmetries) there are 6 ways in which to merge two elements in {1, 2, 3, 4}, and 16 ways to merge an element in {5, 6, 7, 8} with an element in {1, 2, 3, 4}. There are still more models and no general agreement on which is the best. The
 
 average running time depends on the model; (m), (m log n), and (mn) bounds have actually been shown for three different models, although the latter bound is thought to be more realistic.
+![alt Eight elements, initially in different sets](eight.PNG)
 
-Figure 8.1 Eight elements, initially in different sets
+**Figure 8.1 Eight elements, initially in different sets**
 
-Figure 8.2 After union (5, 6)
+![alt After union (5, 6)](after.PNG)
+**Figure 8.2 After union (5, 6)**
+![alt After union (7, 8)](union.PNG)
 
-Figure 8.3 After union (7, 8)
+**Figure 8.3 After union (7, 8)**
 
-页码，5/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
+![alt After union (5, 7)](uni.PNG)  
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**Figure 8.4 After union (5, 7)**
+![alt Implicit representation of previous tree](tree.PNG)
 
-Figure 8.4 After union (5, 7)
+**Figure 8.5 Implicit representation of previous tree**
 
-Figure 8.5 Implicit representation of previous tree
+typedef int DISJ_SET[ NUM_SETS+1 ];
 
-typedef int DISJ\_SET\[ NUM\_SETS+1 \];
+typedef unsigned int set_type;
 
-typedef unsigned int set\_type;
+typedef unsigned int element_type;
 
-typedef unsigned int element\_type;
 
-Figure 8.6 Disjoint set type declaration
+**Figure 8.6 Disjoint set type declaration**
 
 void
 
-initialize( DISJ\_SET S )
+initialize( DISJ_SET S )
 
 {
 
 int i;
 
-for( i = NUN\_SETS; i > 0; i-- )
+for( i = NUN_SETS; i > 0; i-- )
 
-S\[i\] = 0;
+S[i] = 0;
 
 }
 
-Figure 8.7 Disjoint set initialization routine
+**Figure 8.7 Disjoint set initialization routine**
 
-/\* Assumes root1 and root2 are roots. \*/
+/* Assumes root1 and root2 are roots. */
 
-/\* union is a C keyword, so this routine is named set\_union. \*/
+/* union is a C keyword, so this routine is named set_union. */
 
 void
 
-set\_union( DISJ\_SET S, set\_type root1, set\_type root2 )
+set_union( DISJ_SET S, set_type root1, set_type root2 )
 
 {
 
-S\[root2\] = root1;
+S[root2] = root1;
 
-页码，6/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 }
 
-Figure 8.8 Union (not the best way)
+**Figure 8.8 Union (not the best way)**
 
-set\_type
+set_type
 
-find( element\_type x, DISJ\_SET S )
+find( element_type x, DISJ_SET S )
 
 {
 
-if( S\[x\] <= 0 )
+if( S[x] <= 0 )
 
 return x;
 
 else
 
-return( find( S\[x\], S ) );
+return( find( S[x], S ) );
 
 }
 
-Figure 8.9 A simple disjoint set find algorithm
+**Figure 8.9 A simple disjoint set find algorithm**
 
 Quadratic running time for a sequence of operations is generally unacceptable. Fortunately, there are several ways of easily ensuring that this running time does not occur.
 
-8.4. Smart Union Algorithms
+# 8.4. Smart Union Algorithms
 
 The unions above were performed rather arbitrarily, by making the second tree a subtree of the first. A simple improvement is always to make the smaller tree a subtree of the larger, breaking ties by any method; we call this approach union- by-size. The three unions in the preceding example were all ties, and so we can consider that they were performed by size. If the next operation were union (4, 5), then the forest in Figure 8.10 would form. Had the size heuristic not been used, a deeper forest would have been formed (Fig. 8.11).
+![alt  Result of union-by-size](size.PNG)
 
-Figure 8.10 Result of union-by-size
+**Figure 8.10 Result of union-by-size**
+![alt Result of an arbitrary union](arg.PNG)
 
-页码，7/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
+**Figure 8.11 Result of an arbitrary union**
+![alt Worst-case tree for n = 16](worst.PNG)
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 8.11 Result of an arbitrary union
-
-Figure 8.12 Worst-case tree for n = 16
+**Figure 8.12 Worst-case tree for n = 16**
 
 We can prove that if unions are done by size, the depth of any node is never more than log n. To see this, note that a node is initially at depth 0. When its depth increases as a result of a union, it is placed in a tree that is at least twice as large as before. Thus, its depth can be increased at most log n times. (We used this argument in the quick-find algorithm at the end of Section 8.2.) This implies that the running time for a find operation is O(log n), and a sequence of m operations takes O(m log n). The tree in Figure 8.12 shows the worst tree possible after 16 unions and is obtained if all unions are between equal-sized trees (the worst-case trees are binomial trees, discussed in Chapter 6).
 
@@ -239,51 +223,46 @@ To implement this strategy, we need to keep track of the size of each tree. Sinc
 
 An alternative implementation, which also guarantees that all the trees will have depth at most O(log n), is union-by-height. We keep track of the height, instead of the size, of each tree and perform unions by making the shallow tree a subtree
 
-页码，8/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 of the deeper tree. This is an easy algorithm, since the height of a tree increases only when two equally deep trees are joined (and then the height goes up by one). Thus, union-by-height is a trivial modification of union-by-size.
 
 The following figures show a tree and its implicit representation for both union- by-size and union-by-height. The code in Figure 8.13 implements union-by-height.
+![alt ](tbl.PNG)
 
-8.5. Path Compression
+# 8.5. Path Compression
 
 The union/find algorithm, as described so far, is quite acceptable for most cases. It is very simple and linear on average for a sequence of m instructions (under all models). However, the worst case of O(m log n ) can occur fairly easily and naturally.
 
-/\* assume root1 and root2 are roots \*/
+/* assume root1 and root2 are roots */
 
-/\* union is a C keyword, so this routine is named set\_union \*/
+/* union is a C keyword, so this routine is named set_union */
 
 void
 
-set\_union (DISJ\_SET S, set\_type root1, set\_type root2 )
+set_union (DISJ_SET S, set_type root1, set_type root2 )
 
 {
 
-if( S\[root2\] < S\[root1\] ) /\* root2 is deeper set \*/
+if( S[root2] < S[root1] ) /* root2 is deeper set */
 
-S\[root1\] = root2; /\* make root2 new root \*/
+S[root1] = root2; /* make root2 new root */
 
 else
 
 {
 
-if( S\[root2\] == S\[root1\] ) /\* same height, so update \*/
+if( S[root2] == S[root1] ) /* same height, so update */
 
-页码，9/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+S[root1]--;
 
-S\[root1\]--;
-
-S\[root2\] = root1; /\* make root1 new root \*/
+S[root2] = root1; /* make root1 new root */
 
 }
 
 }
 
-Figure 8.13 Code for union-by-height (rank)
+**Figure 8.13 Code for union-by-height (rank)**
 
 For instance, if we put all the sets on a queue and repeatedly dequeue the first two sets and enqueue the union, the worst case occurs. If there are many more finds than unions, this running time is worse than that of the quick-find algorithm. Moreover, it should be clear that there are probably no more improvements possible for the union algorithm. This is based on the observation that any method to perform the unions will yield the same worst-case trees, since it must break ties arbitrarily. Therefore, the only way to speed the algorithm up, without reworking the data structure entirely, is to do something clever on the find operation.
 
@@ -291,31 +270,28 @@ The clever operation is known as path compression. Path compression is performed
 
 The effect of path compression is that with an extra two pointer moves, nodes 13 and 14 are now one position closer to the root and nodes 15 and 16 are now two positions closer. Thus, the fast future accesses on these nodes will pay (we hope) for the extra work to do the path compression.
 
-As the code in Figure 8.15 shows, path compression is a trivial change to the basic find algorithm. The only change to the find routine is that S\[x\] is made equal to the value returned by find; thus after the root of the set is found recursively, x is made to point directly to it. This occurs recursively to every node on the path to the root, so this implements path compression. As we stated when we implemented stacks and queues, modifying a parameter to a function called is not necessarily in line with current software engineering rules. Some languages will not allow this, so this code may well need changes.
+As the code in Figure 8.15 shows, path compression is a trivial change to the basic find algorithm. The only change to the find routine is that S[x] is made equal to the value returned by find; thus after the root of the set is found recursively, x is made to point directly to it. This occurs recursively to every node on the path to the root, so this implements path compression. As we stated when we implemented stacks and queues, modifying a parameter to a function called is not necessarily in line with current software engineering rules. Some languages will not allow this, so this code may well need changes.
+![alt ](gap.PNG)
 
-页码，10/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
+**Figure 8.14 An example of path compression**
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+set_type
 
-Figure 8.14 An example of path compression
-
-set\_type
-
-find( element\_type x, DISJ\_SET S )
+find( element_type x, DISJ_SET S )
 
 {
 
-if( S\[x\] <= 0 )
+if( S[x] <= 0 )
 
 return x;
 
 else
 
-return( S\[x\] = find( S\[x\], S ) );
+return( S[x] = find( S[x], S ) );
 
 }
 
-Figure 8.15 Code for disjoint set find with path compression
+**Figure 8.15 Code for disjoint set find with path compression**
 
 When unions are done arbitrarily, path compression is a good idea, because there is an abundance of deep nodes and these are brought near the root by path compression. It has been proven that when path compression is done in this case, a sequence of m operations requires at most O(m log n) time. It is still an open problem to determine what the average-case behavior is in this situation.
 
@@ -323,7 +299,7 @@ Path compression is perfectly compatible with union-by-size, and thus both routi
 
 Path compression is not entirely compatible with union-by-height, because path compression can change the heights of the trees. It is not at all clear how to re-compute them efficiently. The answer is do not!! Then the heights stored for each tree become estimated heights (sometimes known as ranks), but it turns out that union-by-rank (which is what this has now become) is just as efficient in theory as union-by-size. Furthermore, heights are updated less often than sizes. As with union-by-size, it is not clear whether path compression is worthwhile on average. What we will show in the next section is that with either union heuristic, path compression significantly reduces the worst-case running time.
 
-8.6. Worst Case for Union-by-Rank and Path Compression
+# 8.6. Worst Case for Union-by-Rank and Path Compression
 
 When both heuristics are used, the algorithm is almost linear in the worst case.
 
@@ -331,11 +307,8 @@ Specifically, the time required in the worst case is (m (m, n)) (provided m
 
 n), where (m, n) is a functional inverse of Ackerman's function, which is
 
-页码，11/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-defined below:\*
+defined below:*
 
 A(1, j) = 2j for j 1
 
@@ -343,7 +316,7 @@ A(i, 1) = A(i - 1, 2) for i 2
 
 A(i, j) = A(i - 1,A(i, j - 1)) for i, j 2
 
-\*Ackerman's function is frequently defined with _A_(1, _j_) = _j_ + 1 for _j_ 1. the form in this text grows faster; thus, the inverse grows more slowly.
+**Ackerman's function is frequently defined with A(1, j) = j + 1 for j 1. the form in this text grows faster; thus, the inverse grows more slowly.**
 
 From this, we define
 
@@ -351,23 +324,23 @@ From this, we define
 
 You may want to compute some values, but for all practical purposes, (m, n)
 
-4, which is all that is really important here. The single-variable inverse Ackerman function, sometimes written as log\*n, is the number of times the
+4, which is all that is really important here. The single-variable inverse Ackerman function, sometimes written as log*n, is the number of times the
 
-logarithm of n needs to be applied until n 1. Thus, log\* 65536 = 4, because
+logarithm of n needs to be applied until n 1. Thus, log* 65536 = 4, because
 
-log log log log 65536 = 1. log\* 265536 = 5, but keep in mind that 265536 is a
+log log log log 65536 = 1. log* 265536 = 5, but keep in mind that 265536 is a
 
-20,000-digit number. (m, n) actually grows even slower then log\* n. However,
+20,000-digit number. (m, n) actually grows even slower then log* n. However,
 
 (m, n) is not a constant, so the running time is not linear.
 
 In the remainder of this section, we will prove a slightly weaker result. We will
 
-show that any sequence of m = (n) union/find operations takes a total of O(m log\* n) running time. The same bound holds if union-by-rank is replaced with union-by-size. This analysis is probably the most complex in the book and one of the first truly complex worst-case analyses ever performed for an algorithm that is essentially trivial to implement.
+show that any sequence of m = (n) union/find operations takes a total of O(m log* n) running time. The same bound holds if union-by-rank is replaced with union-by-size. This analysis is probably the most complex in the book and one of the first truly complex worst-case analyses ever performed for an algorithm that is essentially trivial to implement.
 
 8.6.1 Analysis of the Union/Find Algorithm
 
-8.6.1 Analysis of the Union/Find Algorithm
+## 8.6.1 Analysis of the Union/Find Algorithm
 
 In this section we establish a fairly tight bound on the running time of a
 
@@ -375,9 +348,6 @@ sequence of m = (n) union/find operations. The unions and finds may occur in any
 
 We begin by establishing some lemmas concerning the number of nodes of rank r. Intuitively, because of the union-by-rank rule, there are many more nodes of small rank than large rank. In particular, there can be at most one node of rank
 
-页码，12/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 log n. What we would like to do is to produce as precise a bound as possible on the number of nodes of any particular rank r. Since ranks only change when unions are performed (and then only when the two trees have the same rank), we can prove this bound by ignoring the path compression.
 
@@ -423,10 +393,6 @@ LEMMA 8.3.
 
 At any point in the union/find algorithm, the ranks of the nodes on a path from the left to a root increase monotonically.
 
-页码，13/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 PROOF:
 
 The lemma is obvious if there is no path compression (see the example). If, after path compression, some node v is a descendant of w, then clearly v must have been a descendant of w when only unions were considered. Hence the rank of v is less than the rank of w.
@@ -449,10 +415,7 @@ later. The largest rank in any rank group g is F(g), where F = G-1 is the invers
 
 Figure 8.7. In this case, . The largest rank in group g is F(g) = g2, and observe that group g > 0 contains ranks F(g - 1) + 1 through F(g) inclusive. This formula does not apply for rank group 0, so for convenience we will ensure that rank group 0 contains only elements of rank 0. Notice that the groups are made of consecutive ranks.
 
-页码，14/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+![alt  A large disjoint set tree (numbers below nodes are ranks)](set.PNG)
 Figure 8.16 A large disjoint set tree (numbers below nodes are ranks)
 
 As mentioned before, each union instruction takes constant time, as long as each root keeps track of how big its subtrees are. Thus, unions are essentially free, as far as this proof goes.
@@ -461,9 +424,9 @@ Each find(i) takes time proportional to the number of vertices on the path from 
 
 For each vertex, v, on the path from the vertex representing i to the root, we deposit one penny under one of two accounts:
 
-1\. If v is the root, or if the parent of v is the root, or if the parent of v is in a different rank group from v, then charge one unit under this rule. This deposits an American penny into the kitty.
+1. If v is the root, or if the parent of v is the root, or if the parent of v is in a different rank group from v, then charge one unit under this rule. This deposits an American penny into the kitty.
 
-2\. Otherwise deposit a Canadian penny into the vertex.
+2. Otherwise deposit a Canadian penny into the vertex.
 
 LEMMA 8.4.
 
@@ -483,11 +446,8 @@ Over the entire algorithm, the total deposits of American pennies under rule 1 a
 
 Group Rank
 
-\------------------------------
+------------------------------
 
-页码，15/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 0 0
 
@@ -501,7 +461,7 @@ Group Rank
 
 i (i-1)2 + 1 through i2
 
-Figure 8.17 Possible partitioning of ranks into groups
+**Figure 8.17 Possible partitioning of ranks into groups**
 
 PROOF:
 
@@ -511,9 +471,9 @@ since there are at most G(n) rank groups, only G(n) other vertices on the path c
 
 To get a good estimate for all the Canadian deposits under rule 2, we will add up the deposits by vertices instead of by find instructions. If a coin is deposited into vertex v under rule 2, v will be moved by path compression and get a new parent of higher rank than its old parent. (This is where we are using the fact that path compression is being done.) Thus, a vertex v in rank group g > 0 can be moved at most F(g) - F(g - 1) times before its parent gets pushed out of rank
 
-group g, since that is the size of the rank group.\* After this happens, all future charges to v will go under rule 1.
+group g, since that is the size of the rank group.* After this happens, all future charges to v will go under rule 1.
 
-\*This can be reduced by 1. We do not for the sake of clarity; the bound is not improved by being more careful here.
+*This can be reduced by 1. We do not for the sake of clarity; the bound is not improved by being more careful here.
 
 LEMMA 8.6.
 
@@ -524,16 +484,13 @@ PROOF:
 By Lemma 8.2, there are at most n/2r vertices of rank r. Summing over the ranks in group g, we
 
 obtain
-
-页码，16/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+![alt ](simm.PNG)
 
 LEMMA 8.7.
 
 The number of Canadian pennies deposited into all vertices in rank group g is at most nF(g)/2F(g
 
-\- 1).
+- 1).
 
 PROOF:
 
@@ -553,23 +510,20 @@ Thus we have the deposits under rules 1 and 2. The total is
 
 (8.1)
 
-页码，17/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 We still have not specified G(n) or its inverse F(n). Obviously, we are free to choose virtually
 
 anything we want, but it makes sense to choose G(n) to minimize the bound above. However, if G(n) is too small, then F(n) will be large, hurting the bound. An apparently good choice is to choose
 
-F(i) to be the function recursively defined by F(0) = 0 and F(i) = 2F(i - 1). This gives G(n) = 1 +\[log\* n\]. Figure 8.18 shows how this partitions the ranks. Notice that group 0 contains only rank 0, which we required in the previous lemma. F is very similar to the single-variable Ackerman function, which differs only in the definition of the base case (F(0) = 1).
+F(i) to be the function recursively defined by F(0) = 0 and F(i) = 2F(i - 1). This gives G(n) = 1 +[log* n]. Figure 8.18 shows how this partitions the ranks. Notice that group 0 contains only rank 0, which we required in the previous lemma. F is very similar to the single-variable Ackerman function, which differs only in the definition of the base case (F(0) = 1).
 
 THEOREM 8.1.
 
-The running time of m unions and finds is O(m log\* n).
+The running time of m unions and finds is O(m log* n).
 
 Group Rank
 
-\---------------------------
+---------------------------
 
 0 0
 
@@ -587,25 +541,22 @@ Group Rank
 
 7 truly huge ranks
 
-Figure 8.18 Actual partitioning of ranks into groups used in the proof
+**Figure 8.18 Actual partitioning of ranks into groups used in the proof**
 
 PROOF:
 
 Plug in the definitions of F and G into Equation (8.1). The total number of American pennies is O
 
-(mG(n)) = O(m log\* n). The total number of Canadian pennies is
+(mG(n)) = O(m log* n). The total number of Canadian pennies is
 
 . Since m = (n), the bound follows.
 
 What the analysis shows is that there are few nodes that could be moved frequently by path compression, and thus the total time spent is relatively small.
 
-8.7. An Application
+# 8.7. An Application
 
 As an example of how this data structure might be used, consider the following problem. We have a network of computers and a list of bidirectional connections; each of these connections allows a file transfer from one computer to another. Is it possible to send a file from any computer on the network to any other? An extra restriction is that the problem must be solved on-line. Thus, the list of connections is presented one at a time, and the algorithm must be prepared to give an answer at any point.
 
-页码，18/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 An algorithm to solve this problem can initially put every computer in its own set. Our invariant is that two computers can transfer files if and only if they are in the same set. We can see that the ability to transfer files forms an equivalence relation. We then read connections one at a time. When we read some connection, say (u, v), we test to see whether u and v are in the same set and do nothing if they are. If they are in different sets, we merge their sets. At the end of the algorithm, the graph is connected if and only if there is exactly one set. If there are m connections and n computers, the space requirement is O(n). Using union-by-size and path
 
@@ -613,13 +564,13 @@ compression, we obtain a worst-case running time of O(m (m, n)), since there are
 
 We will see a much better application in the next chapter.
 
-Summary
+**Summary**
 
 We have seen a very simple data structure to maintain disjoint sets. When the union operation is performed, it does not matter, as far as correctness is concerned, which set retains its name. A valuable lesson that should be learned here is that it can be very important to consider the alternatives when a particular step is not totally specified. The union step is flexible; by taking advantage of this, we are able to get a much more efficient algorithm.
 
 Path compression is one of the earliest forms of self-adjustment, which we have seen elsewhere (splay trees, skew heaps). Its use is extremely interesting, especially from a theoretical point of view, because it was one of the first examples of a simple algorithm with a not-so-simple worst-case analysis.
 
-Exercises
+**Exercises**
 
 8.1 Show the result of the following sequence of instructions: union(1, 2), union(3, 4), union(3,
 
@@ -641,17 +592,14 @@ strategies. Your program should process a long sequence of equivalence operation
 
 8.4 Show that if unions are performed by height, then the depth of any tree is O(log n) .
 
-页码，19/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 8.5 a. Show that if m = n2, then the running time of m union/find operations is O(m).
 
 b. Show that if m = n log n, then the running time of m union/find operations is O(m) .
 
-\*c. Suppose m = (n log log n). What is the running time of m union/find operations?
+*c. Suppose m = (n log log n). What is the running time of m union/find operations?
 
-\*d. Suppose m = (n log\* n). What is the running time of m union/find operations?
+*d. Suppose m = (n log* n). What is the running time of m union/find operations?
 
 8.6 Show the operation of the program in Section 8.7 on the following graph: (1,2), (3,4), (3,6),
 
@@ -659,7 +607,7 @@ b. Show that if m = n log n, then the running time of m union/find operations is
 
 8.7 Write a program to implement the algorithm in Section 8.7.
 
-\*8.8 Suppose we want to add an extra operation, deunion, which undoes the last union operation
+*8.8 Suppose we want to add an extra operation, deunion, which undoes the last union operation
 
 that has not been already undone.
 
@@ -667,31 +615,28 @@ a. Show that if we do union-by-height and finds without path compression, then d
 
 b. Why does path compression make deunion hard?
 
-\*\*c. Show how to implement all three operations so that the sequence of m operations takes O(m log n/log log n) time.
+**c. Show how to implement all three operations so that the sequence of m operations takes O(m log n/log log n) time.
 
-\* 8.9 Suppose we want to add an extra operation, remove(x), which removes x from its current set and places it in its own. Show how to modify the union/find algorithm so that the running time of
+* 8.9 Suppose we want to add an extra operation, remove(x), which removes x from its current set and places it in its own. Show how to modify the union/find algorithm so that the running time of
 
 a sequence of m union, find, and remove operations is O(m (m, n)).
 
-\*\*8.10 Give an algorithm that takes as input an n-vertex tree and a list of n pairs of vertices
+**8.10 Give an algorithm that takes as input an n-vertex tree and a list of n pairs of vertices
 
-and determines for each pair (v, w) the closest common ancestor of v and w. Your algorithm should run in O(n log\* n).
+and determines for each pair (v, w) the closest common ancestor of v and w. Your algorithm should run in O(n log* n).
 
-\*8.11 Show that if all of the unions precede the finds, then the disjoint set algorithm with path
+*8.11 Show that if all of the unions precede the finds, then the disjoint set algorithm with path
 
 compression requires linear time, even if the unions are done arbitrarily.
 
-\*\*8.12 Prove that if unions are done arbitrarily, but path compression is performed on the finds,
+**8.12 Prove that if unions are done arbitrarily, but path compression is performed on the finds,
 
 then the worst-case running time is (m log n).
 
-页码，20/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 8.13 Prove that if unions are done by size and path compression is performed, the worst-case
 
-running time is O(m log\* n).
+running time is O(m log* n).
 
 8.14 Suppose we implement partial path compression on find(i) by making every other node on the
 
@@ -699,108 +644,60 @@ path from i to the root point to its grandparent (where this makes sense). This 
 
 a. Write a procedure to do this.
 
-b. Prove that if path halving is performed on the finds and either union-by-height or union-by- size is used, the worst-case running time is O(m log\* n).
+b. Prove that if path halving is performed on the finds and either union-by-height or union-by- size is used, the worst-case running time is O(m log* n).
 
-References
+# References
 
-Various solutions to the union/find problem can be found in \[5\], \[8\], and \[10\]. Hopcroft and
+Various solutions to the union/find problem can be found in [5], [8], and [10]. Hopcroft and
 
-Ullman showed the O(m log\* n) bound of Section 8.6. Tarjan \[14\] obtained the bound O(m (m,n)). A more precise (but asymptotically identical) bound for m < n appears in \[2\] and \[17\]. Various other strategies for path compression and unions also achieve the same bound; see \[17\] for details.
+Ullman showed the O(m log* n) bound of Section 8.6. Tarjan [14] obtained the bound O(m (m,n)). A more precise (but asymptotically identical) bound for m < n appears in [2] and [17]. Various other strategies for path compression and unions also achieve the same bound; see [17] for details.
 
-A lower bound showing that under certain restrictions (m (m,n)) time is required to process m union/find operations was given by Tarjan \[15\]. Identical bounds under less restrictive conditions have been recently shown in \[6\] and \[13\].
+A lower bound showing that under certain restrictions (m (m,n)) time is required to process m union/find operations was given by Tarjan [15]. Identical bounds under less restrictive conditions have been recently shown in [6] and [13].
 
-Applications of the union/find data structure appear in \[1\] and \[9\]. Certain special cases of the union/find problem can be solved in O(m) time \[7\]. This reduces the running time of several algorithms, such as \[1\], graph dominance, and reducibility (see references in Chapter 9) by a
+Applications of the union/find data structure appear in [1] and [9]. Certain special cases of the union/find problem can be solved in O(m) time [7]. This reduces the running time of several algorithms, such as [1], graph dominance, and reducibility (see references in Chapter 9) by a
 
-factor of (m,n). Others, such as \[9\] and the graph connectivity problem in this chapter, are unaffected. The paper lists 10 examples. Tarjan has used path compression to obtain efficient algorithms for several graph problems \[16\].
+factor of (m,n). Others, such as [9] and the graph connectivity problem in this chapter, are unaffected. The paper lists 10 examples. Tarjan has used path compression to obtain efficient algorithms for several graph problems [16].
 
-Average-case results for the union/find problem appear in \[4\], \[11\], and \[19\]. Results bounding the running time of any single operation (as opposed to the entire sequence) appear in \[3\] and \[12\].
+Average-case results for the union/find problem appear in [4], [11], and [19]. Results bounding the running time of any single operation (as opposed to the entire sequence) appear in [3] and [12].
 
-Exercise 8.8 is solved in \[18\].
+Exercise 8.8 is solved in [18].
 
-1\. A. V. Aho, J. E. Hopcroft, J. D. Ullman, "On Finding Lowest Common Ancestors in Trees," SIAM Journal on Computing 5 (1976), 115-132.
+1. A. V. Aho, J. E. Hopcroft, J. D. Ullman, "On Finding Lowest Common Ancestors in Trees," SIAM Journal on Computing 5 (1976), 115-132.
 
-2\. L. Banachowski, "A Complement to Tarjan's Result about the Lower Bound on the Complexity of
+2. L. Banachowski, "A Complement to Tarjan's Result about the Lower Bound on the Complexity of the Set Union Problem," Information Processing Letters 11 (1980), 59-65.
 
-the Set Union Problem," Information Processing Letters 11 (1980), 59-65.
+3. N. Blum, "On the Single-operation Worst-case Time Complexity of the Disjoint Set UnionProblem," SIAM Journal on Computing 15 (1986), 1021-1024.
 
-3\. N. Blum, "On the Single-operation Worst-case Time Complexity of the Disjoint Set Union
+4. J. Doyle and R. L. Rivest, "Linear Expected Time of a Simple Union Find Algorithm,"Information Processing Letters 5 (1976), 146-148.
 
-Problem," SIAM Journal on Computing 15 (1986), 1021-1024.
+5. M. J. Fischer, "Efficiency of Equivalence Algorithms," Complexity of Computer Computation (eds. R. E. Miller and J. W. Thatcher), Plenum Press, 1972, 153-168.
 
-页码，21/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
+6. M. L. Fredman and M. E. Saks, "The Cell Probe Complexity of Dynamic Data Structures,"Proceedings of the Twenty-first Annual Symposium on Theory of Computing (1989), 345-354.
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+7. H. N. Gabow and R. E. Tarjan, "A Linear-time Algorithm for a Special Case of Disjoint Set Union,"Journal of Computer and System Sciences 30 (1985), 209-221.
 
-4\. J. Doyle and R. L. Rivest, "Linear Expected Time of a Simple Union Find Algorithm,"
+8. B. A. Galler and M. J. Fischer, "An Improved Equivalence Algorithm," Communications of the ACM 7 (1964), 301-303.
 
-Information Processing Letters 5 (1976), 146-148.
+9. J. E. Hopcroft and R. M. Karp, "An Algorithm for Testing the Equivalence of Finite Automata,"Technical Report TR-71-114, Department of Computer Science, Cornell University, Ithaca, NY, 1971.
 
-5\. M. J. Fischer, "Efficiency of Equivalence Algorithms," Complexity of Computer Computation
+10. J. E. Hopcroft and J. D. Ullman, "Set Merging Algorithms," SIAM Journal on Computing 2 (1973), 294-303.
 
-(eds. R. E. Miller and J. W. Thatcher), Plenum Press, 1972, 153-168.
+11. D. E. Knuth and A. Schonhage, "The Expected Linearity of a Simple Equivalence Algorithm," Theoretical Computer Science 6 (1978), 281-315.
 
-6\. M. L. Fredman and M. E. Saks, "The Cell Probe Complexity of Dynamic Data Structures,"
+12. J. A. LaPoutre, "New Techniques for the Union-Find Problem," Proceedings of the First Annual ACM-SIAM Symposium on Discrete Algorithms (1990), 54-63.
 
-Proceedings of the Twenty-first Annual Symposium on Theory of Computing (1989), 345-354.
+13. J. A. LaPoutre, "Lower Bounds for the Union-Find and the Split-Find Problem on Pointer Machines," Proceedings of the Twenty Second Annual ACM Symposium on Theory of Computing (1990), 34-44.
 
-7\. H. N. Gabow and R. E. Tarjan, "A Linear-time Algorithm for a Special Case of Disjoint Set
+14. R. E. Tarjan, "Efficiency of a Good but Not Linear Set Union Algorithm," Journal of the ACM 22 (1975), 215-225.
 
-Union,"Journal of Computer and System Sciences 30 (1985), 209-221.
+15. R. E. Tarjan, "A Class of Algorithms Which Require Nonlinear Time to Maintain Disjoint Sets,"Journal of Computer and System Sciences 18 (1979), 110-127.
 
-8\. B. A. Galler and M. J. Fischer, "An Improved Equivalence Algorithm," Communications of the ACM
+16. R. E. Tarjan, "Applications of Path Compression on Balanced Trees," Journal of the ACM 26 (1979), 690-715.
 
-7 (1964), 301-303.
+17. R. E. Tarjan and J. van Leeuwen, "Worst Case Analysis of Set Union Algorithms," Journal of the ACM 31 (1984), 245-281.
 
-9\. J. E. Hopcroft and R. M. Karp, "An Algorithm for Testing the Equivalence of Finite Automata,"
+18. J. Westbrook and R. E. Tarjan, "Amortized Analysis of Algorithms for Set Union with Backtracking," SIAM Journal on Computing 18 (1989), 1-11.
 
-Technical Report TR-71-114, Department of Computer Science, Cornell University, Ithaca, NY, 1971.
+19. A. C. Yao, "On the Average Behavior of Set Merging Algorithms," Proceedings of Eighth Annual ACM Symposium on the Theory of Computation (1976), 192-195.
 
-10\. J. E. Hopcroft and J. D. Ullman, "Set Merging Algorithms," SIAM Journal on Computing 2
 
-(1973), 294-303.
-
-11\. D. E. Knuth and A. Schonhage, "The Expected Linearity of a Simple Equivalence Algorithm,"
-
-Theoretical Computer Science 6 (1978), 281-315.
-
-12\. J. A. LaPoutre, "New Techniques for the Union-Find Problem," Proceedings of the First Annual
-
-ACM-SIAM Symposium on Discrete Algorithms (1990), 54-63.
-
-13\. J. A. LaPoutre, "Lower Bounds for the Union-Find and the Split-Find Problem on Pointer
-
-Machines," Proceedings of the Twenty Second Annual ACM Symposium on Theory of Computing (1990), 34-44.
-
-14\. R. E. Tarjan, "Efficiency of a Good but Not Linear Set Union Algorithm," Journal of the ACM
-
-22 (1975), 215-225.
-
-15\. R. E. Tarjan, "A Class of Algorithms Which Require Nonlinear Time to Maintain Disjoint Sets,"
-
-页码，22/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Journal of Computer and System Sciences 18 (1979), 110-127.
-
-16\. R. E. Tarjan, "Applications of Path Compression on Balanced Trees," Journal of the ACM 26
-
-(1979), 690-715.
-
-17\. R. E. Tarjan and J. van Leeuwen, "Worst Case Analysis of Set Union Algorithms," Journal of
-
-the ACM 31 (1984), 245-281.
-
-18\. J. Westbrook and R. E. Tarjan, "Amortized Analysis of Algorithms for Set Union with
-
-Backtracking," SIAM Journal on Computing 18 (1989), 1-11.
-
-19\. A. C. Yao, "On the Average Behavior of Set Merging Algorithms," Proceedings of Eighth Annual
-
-ACM Symposium on the Theory of Computation (1976), 192-195.
-
-Go to Chapter 9 Return to Table of Contents
-
-页码，23/23Structures, Algorithm Analysis: CHAPTER 8: THE DISJOINT SET ADT
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
