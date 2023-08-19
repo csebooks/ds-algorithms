@@ -1379,15 +1379,13 @@ relative to its root, and the right subtree has a cost of Ci+l,Right relative to
 
 Figure 10.50 shows, each node in these subtrees is one level deeper from wi than from their
 
-respective roots, so we must add . This gives the formula
+respective roots, so we must add ![alt](uu.png). This gives the formula
+![alt](yy.png)
 
 From this equation, it is straightforward to write a program to compute the cost of the optimal binary search tree. As usual, the actual search tree can be maintained by saving the value of i that minimizes CLeft,Right. The standard recursive routine can be used to print the actual tree.
 
 Word Probability
-
-页码，41/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+ 
 
 -----------------
 
@@ -1405,19 +1403,20 @@ the 0.02
 
 two 0.08
 
-Figure 10.47 Sample input for optimal binary search tree problem
+**Figure 10.47 Sample input for optimal binary search tree problem**
+![alt  Three possible binary search trees for data in previous table](10.48.png)
 
-Figure 10.48 Three possible binary search trees for data in previous table
+**Figure 10.48 Three possible binary search trees for data in previous table**
 
 Input Tree #1 Tree #2 Tree #3
 
------------------------------------------------------------------
+------------------------------------------
 
 Word Probability Access Cost Access Cost Access Cost
 
 wi pi Once Sequence Once Sequence Once Sequence
 
------------------------------------------------------------------
+------------------------------------------
 
 a 0.22 2 0.44 3 0.66 2 0.44
 
@@ -1433,17 +1432,14 @@ the 0.02 3 0.06 2 0.04 4 0.08
 
 two 0.08 2 0.16 3 0.24 3 0.24
 
------------------------------------------------------------------
+------------------------------------------
 
 Totals 1.00 2.43 2.70 2.15
 
-Figure 10.49 Comparison of the three binary search trees
+**Figure 10.49 Comparison of the three binary search trees**
+![alt  Structure of an optimal binary search tree](10.50.png)
 
-页码，42/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.50 Structure of an optimal binary search tree
+**Figure 10.50 Structure of an optimal binary search tree**
 
 Figure 10.51 shows the table that will be produced by the algorithm. For each subrange of words,
 
@@ -1451,21 +1447,19 @@ the cost and root of the optimal binary search tree are maintained. The bottommo
 
 The precise computation for the optimal binary search tree for a particular subrange, namely am..if, is shown in Figure 10.52. It is obtained by computing the minimum-cost tree obtained by placing am, and, egg, and if at the root. For instance, when and is placed at the root, the left subtree contains am..am (of cost 0.18, via previous calculation), the right subtree contains
 
-egg..if (of cost 0.35), and , for a total cost of 1.21.
+egg..if (of cost 0.35), and ![alt](ll.png), for a total cost of 1.21.
+![alt Computation of the optimal binary search tree for sample input](10.51.png)
 
-Figure 10.51 Computation of the optimal binary search tree for sample input
+**Figure 10.51 Computation of the optimal binary search tree for sample input**
+![alt Computation of table entry (1.21, and) for am..if](10.52.png)
 
-页码，43/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.52 Computation of table entry (1.21, and) for am..if
+**Figure 10.52 Computation of table entry (1.21, and) for am..if**
 
 The running time of this algorithm is O(n3), because when it is implemented, we obtain a triple
 
 loop. An O(n2) algorithm for the problem is sketched in the exercises.
 
-10.3.4. All-Pairs Shortest Path
+## 10.3.4. All-Pairs Shortest Path
 
 Our third and final dynamic programming application is an algorithm to compute shortest weighted
 
@@ -1485,11 +1479,7 @@ for each w V, we set dw = min(dw, dv + cv,w). This formula says that the best di
 
 Dijkstra's algorithm provides the idea for the dynamic programming algorithm: we select the vertices in sequential order. We will define Dk,i,j to be the weight of the shortest path from vi to vj that uses only v1, v2, . . . ,vk as intermediates. By this definition, D0,i,j = ci,j, where
 
-ci,j is if (vi, vj) is not an edge in the graph. Also, by definition, D|V|,i,j is the
-
-页码，44/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+ci,j is if (vi, vj) is not an edge in the graph. Also, by definition, D|V|,i,j is the 
 
 shortest path from v_i_ to v_j_ in the graph.
 
@@ -1553,11 +1543,7 @@ int i, j, k;
 
 }
 
-Figure 10.53 All-pairs shortest path
-
-页码，45/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**Figure 10.53 All-pairs shortest path** 
 
 As Figure 10.53 shows, when k > 0 we can write a simple formula for Dk,i,j. The shortest path
 
@@ -1583,7 +1569,7 @@ Dynamic programming is a powerful algorithm design technique, which provides a s
 
 In some sense, if you have seen one dynamic programming problem, you have seen them all. More examples of dynamic programming can be found in the exercises and references.
 
-10.4. Randomized Algorithms
+# 10.4. Randomized Algorithms
 
 Suppose you are a professor who is giving weekly programming assignments. You want to make sure
 
@@ -1592,10 +1578,6 @@ that the students are doing their own programs or, at the very least, understand
 Of course, if the quizzes are announced in advance, that could be interpreted as an implicit license to cheat for the 50 percent of the programs that will not get a quiz. One could adopt the unannounced strategy of giving quizzes on alternate programs, but students would figure out the strategy before too long. Another possibility is to give quizzes on what seems like the important programs, but this would likely lead to similar quiz patterns from semester to semester. Student grapevines being what they are, this strategy would probably be worthless after a semester.
 
 One method that seems to eliminate these problems is to use a coin. A quiz is made for every program (making quizzes is not nearly as time-consuming as grading them), and at the start of class, the professor will flip a coin to decide whether the quiz is to be given. This way, it is impossible to know before class whether or not the quiz will occur, and these patterns do not repeat from semester to semester. Thus, the students will have to expect that a quiz will occur
-
-页码，46/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 with 50 percent probability, regardless of previous quiz patterns. The disadvantage is that it is possible that there is no quiz for an entire semester. This is not a likely occurrence, unless the coin is suspect. Each semester, the expected number of quizzes is half the number of programs, and with high probability, the number of quizzes will not deviate much from this.
 
@@ -1615,15 +1597,11 @@ In this section we will examine two uses of randomization. First, we will see a 
 
 Our second application is a randomized algorithm to test the primality of large numbers. No efficient polynomial-time nonrandomized algorithms are known for this problem. The algorithm we present runs quickly but occasionally makes an error. The probability of error can, however, be made negligibly small.
 
-10.4.1. Random Number Generators
+## 10.4.1. Random Number Generators
 
 Since our algorithms require random numbers, we must have a method to generate them. Actually,
 
-true randomness is virtually impossible to do on a computer, since these numbers will depend on the algorithm, and thus cannot possibly be random. Generally, it suffices to produce pseudorandom numbers, which are numbers that appear to be random. Random numbers have many known statistical properties; pseudorandom numbers satisfy most of these properties. Surprisingly, this too is much easier said than done.
-
-页码，47/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+true randomness is virtually impossible to do on a computer, since these numbers will depend on the algorithm, and thus cannot possibly be random. Generally, it suffices to produce pseudorandom numbers, which are numbers that appear to be random. Random numbers have many known statistical properties; pseudorandom numbers satisfy most of these properties. Surprisingly, this too is much easier said than done. 
 
 Suppose we only need to flip a coin; thus, we must generate a 0 or 1 randomly. One way to do this is to examine the system clock. The clock might record time as an integer that counts the number
 
@@ -1671,19 +1649,16 @@ It is also common to return a random real number in the open interval (0, 1) (0 
 
 which, unfortunately, works on few machines.
 
-The problem with this routine is that the multiplication could overflow; although this is not an
+The problem with this routine is that the multiplication could overflow; although this is not an  
 
-页码，48/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-error, it affects the result and thus the pseudo-randomness. Schrage gave a procedure in which all of the calculations can be done on a 32-bit machine without overflow. We compute the quotient and remainder of m/a and define these as q and r, respectively. In our case, q = 127,773, r = 2,836, and r < q. We have
+error, it affects the result and thus the pseudo-randomness. Schrage gave a procedure in which all of the calculations can be done on a 32-bit machine without overflow. We compute the quotient and remainder of m/a and define these as q and r, respectively. In our case, ~q~= 127,773, r = 2,836, and r < q. We have
+![alt](er.png)
 
 unsigned int seed; /* global variable */
 
-#define a 16807 /* 7^5 */
+define a 16807 /* 7^5 */
 
-#define m 2147483647 /* 2^31 - 1 */
+define m 2147483647 /* 2^31 - 1 */
 
 double
 
@@ -1697,17 +1672,16 @@ return( ( (double) seed ) / m );
 
 }
 
-Figure 10.54 Random number generator that does not work
+**Figure 10.54 Random number generator that does not work**
 
-Since , we can replace the leading axi and obtain
+Since ![alt](eq.png), we can replace the leading axi and obtain
+![alt](89.png)
 
 Since m = aq + r, it follows that aq - m = -r. Thus, we obtain
+![alt](llo.png)
 
-The term is either 0 or 1, because both terms are integers and their difference lies between 0 and 1. Thus, we have
-
-页码，49/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+The term  ![alt](ool.png)is either 0 or 1, because both terms are integers and their difference lies between 0 and 1. Thus, we have
+![alt](pull.png)
 
 A quick check shows that because r < q, all the remaining terms can be calculated without
 
@@ -1737,13 +1711,13 @@ so if the seed is 1,319,592,028, the generator gets stuck in a cycle of period 1
 
 unsigned int seed; /* global variable */
 
-#define a 16807 /* 7^5 */
+define a 16807 /* 7^5 */
 
-#define m 2147483647 /* 2^31 - 1*/
+define m 2147483647 /* 2^31 - 1*/
 
-#define q 127773 /* m/a */
+define q 127773 /* m/a */
 
-#define r 2836 /* m%a */
+define r 2836 /* m%a */
 
 double
 
@@ -1757,11 +1731,7 @@ tmp_seed = a * ( seed % q ) - r * (seed / q );
 
 if( tmp_seed >= 0)
 
-seed = tmp_seed;
-
-页码，50/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+seed = tmp_seed; 
 
 else
 
@@ -1771,9 +1741,9 @@ return( ( (double) seed ) / m );
 
 }
 
-Figure 10.55 Random number generator that works on 32 bit machines
+**Figure 10.55 Random number generator that works on 32 bit machines**
 
-10.4.2. Skip Lists
+## 10.4.2. Skip Lists
 
 Our first use of randomization is a data structure that supports both searching and insertion in
 
@@ -1796,20 +1766,21 @@ The limiting case of this argument is shown in Figure 10.59. Every 2ith node has
 node 2i ahead of it. The total number of pointers has only doubled, but now at most log n
 
 nodes are examined during a search. It is not hard to see that the total time spent for a search is O(log n), because the search consists of either advancing to a new node or dropping to a lower pointer in the same node. Each of these steps consumes at most O(log n) total time during a search. Notice that the search in this data structure is essentially a binary search.
+![alt Simple linked list](10.56.png)
 
-Figure 10.56 Simple linked list
+**Figure 10.56 Simple linked list**
+![alt Linked list with pointers to two cells ahead](10.57.png)
 
-Figure 10.57 Linked list with pointers to two cells ahead
+**Figure 10.57 Linked list with pointers to two cells ahead**
+![alt  Linked list with pointers to four cells ahead](10.58.png)
+  
+**Figure 10.58 Linked list with pointers to four cells ahead**
+![alt Linked list with pointers to 2i cells ahead](10.59.png)
 
-页码，51/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+**Figure 10.59 Linked list with pointers to 2i cells ahead**
+![alt A skip list](10.60.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.58 Linked list with pointers to four cells ahead
-
-Figure 10.59 Linked list with pointers to 2i **cells ahead**
-
-Figure 10.60 A skip list
+**Figure 10.60 A skip list**
 
 The problem with this data structure is that it is much too rigid to allow efficient insertion. The key to making this data structure usable is to relax the structure conditions slightly. We define a level k node to be a node that has k pointers. As Figure 10.59 shows, the ith pointer in
 
@@ -1825,15 +1796,11 @@ Given this, the skip list algorithms are simple to describe. To perform a find, 
 
 A cursory analysis shows that since the expected number of nodes at each level is unchanged from the original (nonrandomized) algorithm, the total amount of work that is expected to be performed traversing to nodes on the same level is unchanged. This tells us that these operations have O (log n) expected costs. Of course, a more formal proof is required, but it is not much different
 
-页码，52/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 from this.
 
 Skip lists are similar to hash tables, in that they require an estimate of the number of elements that will be in the list (so that the number of levels can be determined). If an estimate is not available, we can assume a large number or use a technique similar to rehashing. Experiments have shown that skip lists are as efficient as many balanced search tree implementations and are certainly much simpler to implement in many languages.
 
-10.4.3. Primality Testing
+## 10.4.3. Primality Testing
 
 In this section we examine the problem of determining whether or not a large number is prime. As
 
@@ -1842,8 +1809,9 @@ was mentioned at the end of Chapter 2, some cryptography schemes depend on the d
 For instance, the obvious method of testing for the divisibility by odd numbers from 3 to
 
 requires roughly divisions, which is about 2d/2. On the other hand, this problem is not thought to be NP-complete; thus, it is one of the few problems on the fringe--its complexity is unknown at the time of this writing.
+![alt Before and after an insertion](10.61.png)
 
-Figure 10.61 Before and after an insertion
+**Figure 10.61 Before and after an insertion**
 
 In this chapter, we will give a polynomial-time algorithm that can test for primality. If the
 
@@ -1857,11 +1825,7 @@ Fermat's Lesser Theorem: If p is prime, and 0 < a < p, then ap-1 1(mod p).
 
 PROOF:
 
-A proof of this theorem can be found in any textbook on number theory.
-
-页码，53/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+A proof of this theorem can be found in any textbook on number theory. 
 
 For instance, since 67 is prime, 266 1(mod 67). This suggests an algorithm to test whether a
 
@@ -1901,13 +1865,9 @@ see that there will be several opportunities to apply this test. We modify this 
 
 Recall that if test_prime returns DEFINITELY_COMPOSITE, it has proven that n cannot be prime. The proof is nonconstructive, because it gives no method of actually finding the factors. It has been shown that for any (sufficiently large) n, at most (n - 9)/4 values of a fool this algorithm. Thus, if a is chosen at random, and the algorithm answers PROBABLY_PRIME, then the algorithm is correct at least 75 percent of the time. Suppose test_prime is run 50 times. The probability that the algorithm is fooled once is at most 1/4. Thus, the probability that 50 independent random
 
-trials fool the algorithm is never more than 1/450 = 2-100. This is actually a very conservative estimate, which holds for only a few choices of n. Even so, one is more likely to see a hardware error than an incorrect claim of primality.
+trials fool the algorithm is never more than 1/450 = 2-100. This is actually a very conservative estimate, which holds for only a few choices of n. Even so, one is more likely to see a hardware error than an incorrect claim of primality.  
 
-页码，54/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-10.5. Backtracking Algorithms
+# 10.5. Backtracking Algorithms
 
 The last algorithm design technique we will examine is backtracking. In many cases, a
 
@@ -1923,7 +1883,7 @@ We will see two examples of backtracking algorithms. The first is a problem in c
 
 geometry. Our second example shows how computers select moves in games, such as chess and checkers.
 
-10.5.1. The Turnpike Reconstruction Problem
+## 10.5.1. The Turnpike Reconstruction Problem
 
 Suppose we are given n points, p1, p2, . . . , pn, located on the x-axis. xi is the x coordinate
 
@@ -1946,10 +1906,7 @@ typedef enum test_result test_result;
 /* Compute result = ap mod n. */
 
 /* If at any point x2 1(mod n) is detected with x 1, x n - 1, */
-
-页码，55/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+  
 
 /* then set what_n_is to DEFINITELY_COMPOSITE */
 
@@ -2013,9 +1970,6 @@ test_result what_n_is;
 
 /*10*/ what_n_is = PROBABLY_PRIME;
 
-页码，56/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 /* Compute an-1 mod n */
 
@@ -2031,7 +1985,7 @@ else
 
 }
 
-Figure 10.62 A probabilistic primality testing algorithm
+**Figure 10.62 A probabilistic primality testing algorithm**
 
 Of course, given one solution to the problem, an infinite number of others can be constructed by adding an offset to all the points. This is why we insist that the first point is anchored at 0 and that the point set that constitutes a solution is output in nondecreasing order.
 
@@ -2040,6 +1994,7 @@ Let D be the set of distances, and assume that | D | = m = n(n - 1)/2. As an exa
 D = {1, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 6, 7, 8, 10}
 
 Since | D | = 15, we know that n = 6. We start the algorithm by setting x1 = 0. Clearly, x6 = 10,
+![alt](1.1.png)
 
 since 10 is the largest element in D. We remove 10 from D. The points that we have placed and the remaining distances are as shown in the following figure.
 
@@ -2048,6 +2003,7 @@ The largest remaining distance is 8, which means that either x2 = 2 or x5 = 8. B
 can conclude that the choice is unimportant, since either both choices lead to a solution (which are mirror images of each other), or neither do, so we can set x5 = 8 without affecting the
 
 solution. We then remove the distances x6 - x5 = 2 and x5 - x1 = 8 from D, obtaining
+![alt](1.2.png)
 
 The next step is not obvious. Since 7 is the largest value in D, either x4 = 7 or x2 = 3. If x4 =
 
@@ -2056,10 +2012,7 @@ The next step is not obvious. Since 7 is the largest value in D, either x4 = 7 o
 that indeed they are. On the other hand, if we set x2 = 3, then 3 - x1 = 3 and x5 - 3 = 5 must be
 
 present in D. These distances are also in D, so we have no guidance on which choice to make. Thus, we try one and see if it leads to a solution. If it turns out that it does not, we can come back and try the other. Trying the first choice, we set x4 = 7, which leaves
-
-页码，57/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+![alt](1.3.png)
 
 At this point, we have x1 = 0, x4 = 7, x5 = 8, and x6 = 10. Now the largest distance is 6, so
 
@@ -2072,24 +2025,24 @@ impossible, since 4 only appears once in D. Thus, this line of reasoning leaves 
 Since x4 = 7 failed to produce a solution, we try x2 = 3. If this also fails, we give up and
 
 report no solution. We now have
+![alt](1.4.png)
 
 Once again, we have to choose between x4 = 6 and x3 = 4. x3 = 4 is impossible, because D only has
 
 one occurrence of 4, and two would be implied by this choice. x4 = 6 is possible, so we obtaining
+![alt](1.5.png)
 
 The only remaining choice is to assign x3 = 5; this works because it leaves D empty, and so we
 
 have a solution.
+![alt](1.6.png)
 
 Figure 10.63 shows a decision tree representing the actions taken to arrive at the solution.
 
-Instead of labeling the branches, we have placed the labels in the branches' destination nodes. A node with an asterisk indicates that the points chosen are inconsistent with the given distances; nodes with two asterisks have only impossible nodes as children, and thus represent an incorrect path.
+Instead of labeling the branches, we have placed the labels in the branches' destination nodes. A node with an asterisk indicates that the points chosen are inconsistent with the given distances; nodes with two asterisks have only impossible nodes as children, and thus represent an incorrect path. 
+![alt  Decision tree for the worked turnpike reconstruction example](1.7.png)
 
-页码，58/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.63 Decision tree for the worked turnpike reconstruction example
+**Figure 10.63 Decision tree for the worked turnpike reconstruction example**
 
 int
 
@@ -2117,7 +2070,7 @@ else
 
 }
 
-Figure 10.64 Turnpike reconstruction algorithm: driver routine (pseudocode)
+**Figure 10.64 Turnpike reconstruction algorithm: driver routine (pseudocode)**
 
 The pseudocode to implement this algorithm is mostly straightforward. The driving routine, turnpike, is shown in Figure 10.64. It receives the point array x (which need not be
 
@@ -2125,11 +2078,7 @@ initialized), the distance array D, and n.* If a solution is discovered, then TR
 
 xn, as described above, alters D, and calls the backtracking algorithm place to place the other
 
-points. We presume that a check has already been made to ensure that | D | = n(n -1)/2.
-
-页码，59/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+points. We presume that a check has already been made to ensure that | D | = n(n -1)/2.  
 
 *We have used one-letter variable names, which is generally poor style, for consistency with the worked example. We also, for simplicity, do not give the type of variables.
 
@@ -2159,7 +2108,7 @@ Dmax], where Dmax = (n2), then, almost certainly, at most one backtrack is perfo
 
 the entire algorithm.
 
-10.5.2. Games
+## 10.5.2. Games
 
 As our last application, we will consider the strategy that a computer might use to play a
 
@@ -2177,9 +2126,6 @@ Tic-tac-toe is, of course, a draw if both sides play optimally. By performing a 
 
 /* If place returns true,
 
-页码，60/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 /* then x[left]...x[right] will have value. */
 
@@ -2233,10 +2179,6 @@ int d_max, found = FALSE;
 
 /*15*/ for( 1 j < Left, Right < j n )
 
-页码，61/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 /*16*/ delete( |x[n]-d_max -x [j ] |, D );
 
 /*17*/ found = place( x, D, n, Left + 1, Right );
@@ -2253,9 +2195,9 @@ int d_max, found = FALSE;
 
 }
 
-Figure 10.65 Turnpike reconstruction algorithm: backtracking steps (pseudocode)
+**Figure 10.65 Turnpike reconstruction algorithm: backtracking steps (pseudocode)**
 
-Minimax Strategy
+**Minimax Strategy**
 
 The general strategy is to use an evaluation function to quantify the "goodness" of a position. A
 
@@ -2273,11 +2215,7 @@ The code in Figure 10.66 makes the computer's strategy more clear. Lines 1 throu
 
 immediate wins or draws. If neither of these cases apply, then the position is nonterminal. Recalling that value should contain the maximum of all possible successor positions, line 5 initializes it to the smallest possible value, and the loop in lines 6 through 13 searches for improvements. Each successor position is recursively evaluated in turn by lines 8 through 10. This is recursive, because, as we will see, the procedure find_human_move calls find_comp_move. If the human's response to a move leaves the computer with a more favorable position than that obtained with the previously best computer move, then the value and best_move are updated. Figure 10.67 shows the procedure for the human's move selection. The logic is virtually identical, except that the human player chooses the move that leads to the lowest-valued position. Indeed, it is not difficult to combine these two procedures into one by passing an extra variable, which indicates whose turn it is to move. This does make the code somewhat less readable, so we have stayed with separate routines.
 
-Since these routines must pass back both the value of the position and the best move, we pass the address of two variables that will get this information, by using pointers. The last two parameters now answer the question "WHERE?" instead of "WHAT? "
-
-页码，62/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+Since these routines must pass back both the value of the position and the best move, we pass the address of two variables that will get this information, by using pointers. The last two parameters now answer the question "WHERE?" instead of "WHAT? "  
 
 /* Recursive procedure to find best move for computer */
 
@@ -2338,10 +2276,7 @@ else
 }
 
 }
-
-页码，63/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+  
 
 }
 
@@ -2349,7 +2284,7 @@ else
 
 }
 
-Figure 10.66 Minimax tic-tac-toe algorithm: computer selection
+**Figure 10.66 Minimax tic-tac-toe algorithm: computer selection**
 
 void
 
@@ -2402,16 +2337,13 @@ else
 }
 
 }
-
-页码，64/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+  
 
 }
 
 }
 
-Figure 10.67 Min-max tic-tac-toe algorithm: human selection
+**Figure 10.67 Min-max tic-tac-toe algorithm: human selection**
 
 As an example, in Figure 10.66, best_move contains the address where the best move can be placed.
 
@@ -2431,15 +2363,12 @@ Nevertheless, for computer chess, the single most important factor seems to be n
 
 The basic method to increase the look-ahead factor in game programs is to come up with methods that evaluate fewer nodes without losing any information. One method which we have already seen is to use a table to keep track of all positions that have been evaluated. For instance, in the course of searching for the first move, the program will examine the positions in Figure 10.68. If the values of the positions are saved, the second occurrence of a position need not be recomputed; it essentially becomes a terminal position. The data structure that records this is known as a transposition table; it is almost always implemented by hashing. In many cases, this can save considerable computation. For instance, in a chess endgame, where there are relatively few pieces, the time savings can allow a search to go several levels deeper.
 
-- Pruning
-
-页码，65/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**- Pruning** 
 
 Probably the most significant improvement one can obtain in general is known as - pruning. Figure 10.69 shows the trace of the recursive calls used to evaluate some hypothetical position in a hypothetical game. This is commonly referred to as a game tree. (We have avoided the use of this term until now, because it is somewhat misleading: no tree is actually constructed by the algorithm. The game tree is just an abstract concept.) The value of the game tree is 44.
+![alt Two searches that arrive at identical position](10.68.png)
 
-Figure 10.68 Two searches that arrive at identical position
+**Figure 10.68 Two searches that arrive at identical position**
 
 Figure 10.70 shows the evaluation of the same game tree, with several unevaluated nodes. Almost
 
@@ -2456,22 +2385,18 @@ A similar thing happens at nodes A and C. This time, we are in the middle of a f
 type of pruning is known as pruning; it is the symmetric version of pruning. When both
 
 techniques are combined, we have - pruning.
+![alt A hypothetical game tree](10.69.png)  
 
-页码，66/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+**Figure 10.69 A hypothetical game tree**
+![alt A pruned game tree](10.70.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**Figure 10.70 A pruned game tree**
+![alt The node marked ? is unimportant](10.71.png)
 
-Figure 10.69 A hypothetical game tree
+**Figure 10.71 The node marked ? is unimportant**
+![alt Figure 10.72 The node marked ? is unimportant](10.72.png) 
 
-Figure 10.70 A pruned game tree
-
-Figure 10.71 The node marked ? is unimportant
-
-页码，67/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.72 The node marked ? is unimportant
+**Figure 10.72 The node marked ? is unimportant**
 
 Implementing - pruning requires surprisingly little code. It is not as difficult as one might think, although many programmers have a very hard time doing it without looking at a reference book.
 
@@ -2521,10 +2446,6 @@ else
 
 /*8*/ place( board, i, COMP );
 
-页码，68/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 /*9*/ find_human_move( board, &dc, &response, *value, );
 
 /*10*/ unplace( board, i ); /* Restore board */
@@ -2547,7 +2468,7 @@ else
 
 }
 
-Figure 10.73 Min-max tic-tac-toe algorithm with - pruning: Computer selection.
+**Figure 10.73 Min-max tic-tac-toe algorithm with - pruning: Computer selection.**
 
 To take full advantage of - pruning, game programs usually try to apply the evaluation function to nonterminal nodes in an attempt to place the best moves early in the search. The result is even more pruning than one would expect from a random ordering of the nodes. Other techniques, such as searching deeper in more active lines of play, are also employed.
 
@@ -2557,19 +2478,15 @@ of the full game tree. This a huge saving and means that searches using - prunin
 
 In many games, computers are among the best players in the world. The techniques used are very interesting, and can be applied to more serious problems. More details can be found in the references.
 
-Summary
+**Summary**
 
 This chapter illustrates five of the most common techniques found in algorithm design. When confronted with a problem, it is worthwhile to see if any of these methods apply. A proper choice of algorithm, combined with judicious use of data structures, can often lead quickly to efficient solutions.
 
-Exercises
+**Exercises**
 
 10.1 Show that the greedy algorithm to minimize the mean completion time for multiprocessor job
 
-scheduling works.
-
-页码，69/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+scheduling works. 
 
 10.2 The input is a set of jobs j1, j2, . . . , jn, each of which takes one time unit to
 
@@ -2618,11 +2535,7 @@ various bin packing heuristics.
 10.13 Prove Theorem 10.8.
 
 *10.14 n points are placed in a unit square. Show that the distance between the closest pair is O
-
-页码，70/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+ 
 (n-1/2).
 
 *10.15 Argue that for the closest-points algorithm, the average number of points in the strip is
@@ -2676,11 +2589,7 @@ of the original size.
 10.26 Why is it important that Strassen's algorithm does not use commutativity in the
 
 multiplication of 2 X 2 matrices?
-
-页码，71/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+ 
 10.27 Two 70 X 70 matrices can be multiplied using 143,640 multiplications. Show how this can be
 
 used to improve the bound given by Strassen's algorithm.
@@ -2715,9 +2624,10 @@ this case, qj, for 1 j < n, is the probability that a search is performed for an
 
 satisfying w_j_ < _W_ < wj+1. q0 is the probability of performing a search for W < w1, and qn is the
 
-probability of performing a search for W > wn. Notice that .
+probability of performing a search for W > wn. Notice that  ![alt](kj.png).
 
 *10.33 Suppose Ci,i = 0 and that otherwise
+![alt](lr.png)
 
 Suppose that W satisfies the quadrangle inequality, namely, for all i i' j j',
 
@@ -2730,10 +2640,6 @@ Suppose further, that W is monotone: If i i' and j' j', then W_i,j_ Wi'_,,j_'.
 (b) Let Ri, j be the largest k that achieves the minimum Ci,k-1 + Ck,j. (That is, in case of
 
 ties, choose the largest k). Prove that
-
-页码，72/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Ri, j Ri, j+1 Ri+1,j+1
 
@@ -2787,13 +2693,10 @@ return tails;
 
 }
 
-页码，73/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+**Figure 10.74 Questionable coin flipper**
+![alt Game tree, which can be pruned](10.75.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.74 Questionable coin flipper
-
-Figure 10.75 Game tree, which can be pruned
+**Figure 10.75 Game tree, which can be pruned**
 
 10.42 Extend the reconstruction algorithm to find all homometric point sets given a distance set.
 
@@ -2824,12 +2727,9 @@ Hint: Construct a minimum spanning tree.
 *10.48 You are a tournament director and need to arrange a round robin tournament among n = 2k
 
 players. In this tournament, everyone plays exactly one game each day; after n - 1 days, a match has occurred between every pair of players. Give an algorithm to do this.
+![alt Sample for circle packing problem](10.76.png)
 
-页码，74/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.76 Sample for circle packing problem
+**Figure 10.76 Sample for circle packing problem**
 
 10.49 (a) Prove that in a round robin tournament it is always possible to arrange the players in
 
@@ -2846,14 +2746,12 @@ other point in P. Figure 10.77 shows a sample Voronoi diagram for seven (nicely 
 *10.51 A convex polygon is a polygon with the property that any line segment whose endpoints are on the polygon lies entirely within the polygon. The convex hull problem consists of finding the smallest (area) convex polygon which encloses a set of points in the plane. Figure 10.78 shows
 
 the convex hull for a set of 40 points. Give an O(n log n) algorithm to find the convex hull.
+![alt Voronoi diagram](10.7777.png)
 
-Figure 10.77 Voronoi diagram
+**Figure 10.77 Voronoi diagram**
+![alt Example of a convex hull](10.78.png)
 
-页码，75/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.78 Example of a convex hull
+**Figure 10.78 Example of a convex hull**
 
 *10.52 Consider the problem of right-justifying a paragraph. The paragraph contains a sequence of
 
@@ -2864,8 +2762,7 @@ L. Words are separated by blanks whose ideal length is b (millimeters), but blan
 However, for each blank b' we charge |b' - b ugliness points. The exception to this is the last line, for which we charge only if b' < b (in other words, we charge only for shrinking), since the last line does not need to be justified. Thus, if bi is the length of the blank between ai
 
 and ai+1, then the ugliness of setting any line (but the last) wiwi+1 . . . wj for j > i is
-
-, where b' is the average size of a blank on this line. This is true of the last line only if b' < b, otherwise the last line is not ugly at all.
+![alt](mmm.png) , where b' is the average size of a blank on this line. This is true of the last line only if b' < b, otherwise the last line is not ugly at all.
 
 (a) Give a dynamic programming algorithm to find the least ugly setting of w1, w2, . . ., wn into
 
@@ -2891,11 +2788,7 @@ subsequence has length four ( 1, 4, 5, 9 among others ). Give an O(n2) algorithm
 
 , ck such that C is a subsequence of both A and B. As an example, if
 
-A = d, y, n, a, m, i, c
-
-页码，76/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+A = d, y, n, a, m, i, c 
 
 and
 
@@ -2947,10 +2840,6 @@ shortest( s, t, G )
 
 distance dt,tmp;
 
-页码，77/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 if( s == t )
 
 return 0;
@@ -2973,7 +2862,7 @@ return dt
 
 }
 
-Figure 10.79 Recursive shortest path algorithm
+**Figure 10.79 Recursive shortest path algorithm**
 
 *10.59 In the game of chess, a knight in row r and column c may move to row 1 r' B and
 
@@ -3001,13 +2890,9 @@ an acyclic graph, from s to t.
 
 (c) What is the worst-case running time of the algorithm?
 
-References
+**References**
 
 The original paper on Huffman codes is [21]. Variations on the algorithm are discussed in [29],
-
-页码，78/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 [31], and [32]. Another popular compression scheme is Ziv-Lempel encoding [52], [53]. Here the codes have a fixed length but represent strings instead of characters. [3] and [34] are good surveys of the common compression schemes.
 
@@ -3042,10 +2927,6 @@ gives a solution to Exercise 10.47, and also an algorithm which generates a tour
 2. A. Aggarwal and J. Wein, Computational Geometry: Lecture Notes for 18.409, MIT Laboratory for
 
 Computer Science, 1988.
-
-页码，79/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 3. T. Bell, I. H. Witten, and J. G. Cleary, "Modeling for Text Compression," ACM Computing
 
@@ -3105,11 +2986,7 @@ Computing 5 (1976), 83-89.
 
 Computers 9 (1973), 864-866.
 
-页码，80/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-20. T. C. Hu and M. R. Shing, "Computations of Matrix Chain Products, Part I," SIAM Journal on
+20. T. C. Hu and M. R. Shing "Computations of Matrix Chain Products, Part I," SIAM Journal on
 
 Computing 11 (1982), 362-373.
 
@@ -3166,10 +3043,6 @@ Intelligence 43 (1990), 21-36.
 35. F. M. Liang, "A Lower Bound for On-line Bin Packing," Information Processing Letters 10
 
 (1980), 76-79.
-
-页码，81/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 36. G. L. Miller, "Riemann's Hypothesis and Tests for Primality," Journal of Computer and System
 
@@ -3229,11 +3102,7 @@ Proceedings of the Sixth Annual ACM Symposium on Computational Geometry (1990), 
 
 51. F. F. Yao, "Efficient Dynamic Programming Using Quadrangle Inequalities," Proceedings of the
 
-Twelfth Annual ACM Symposium on the Theory of Computing (1980), 429-435.
-
-页码，82/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+Twelfth Annual ACM Symposium on the Theory of Computing (1980), 429-435. 
 
 52. J. Ziv and A. Lempel, "A Universal Algorithm for Sequential Data Compression," IEEE
 
@@ -3243,8 +3112,4 @@ Transactions on Information Theory IT23 (1977), 337-343.
 
 Transactions on Information Theory IT24 (1978), 530-536.
 
-Go to Chapter 11 Return to Table of Contents
-
-页码，83/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
+Go to [Chapter 11]() Return to [Table of Contents]()
