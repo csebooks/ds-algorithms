@@ -48,7 +48,8 @@ descendant of n1. If n1 n2, then n1 is a proper ancestor of n2 and n2 is aproper
 ### 4.1.1. Implementation of Trees
 
 One way to implement a tree would be to have in each node, besides its data, a pointer to each child of the node. However, since the number of children per node can vary so greatly and is not known in advance, it might be infeasible to make the children direct links in the data structure, because there would be too much wasted space. The solution is simple: Keep the children of each node in a linked list of tree nodes. The declaration in Figure 4.3 is typical.
-  ```
+
+```
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
@@ -63,6 +64,7 @@ tree_ptr next_sibling;
 
 };
 ```
+
 **Figure 4.3 Node declarations for trees**
 ![alt text](t3.png)
 
@@ -79,6 +81,7 @@ There are many applications for trees. One of the popular uses is the directory 
 The root of this directory is /usr. (The asterisk next to the name indicates that /usr is itself a directory.) /usr has three children, mark, alex, and bill, which are themselves directories. Thus, /usr contains three directories and no regular files. The filename /usr/mark/book/ch1.r is obtained by following the leftmost child three times. Each / after the first indicates an edge; the result is the full pathname. This hierarchical file system is very popular, because it allows users to organize their data logically. Furthermore, two files in different directories can share the same name, because they must have different paths from the root and thus have different pathnames. A directory in the **UNIX** file system is just a file with a list of all its children, so the directoriesare structured almost exactly in accordance with the type declaration above.* Indeed, if the normal command to print a file is applied to a directory, then the names of the files in the directory can be seen in the output (along with other non **-ASCII** information).
 
 *Each directory in the UNIX file system also has one entry that points to itself and another entry that points to the parent of the directory. Thus, technically, the UNIX file system is not a tree, but is treelike.
+
 ![alt text](t4.png)
 
 **Figure 4.5 UNIX directory**
@@ -124,62 +127,6 @@ The heart of the algorithm is the recursive procedure list_dir. This routine nee
 The logic of the algorithm is simple to follow. The argument to list_dir is some sort of pointer into the tree. As long as the pointer is valid, the name implied by the pointer is printed out with the appropriate number of tabs. If the entry is a directory, then we process all children recursively, one by one. These children are one level deeper, and thus need to be indented an extra space. The output is in Figure 4.7.
 
 This traversal strategy is known as a preorder traversal. In a preorder traversal, work at a node is performed before (pre) its children are processed. When this program is run, it is clear that line 2 is executed exactly once per node, since each name is output once. Since line 2 is executed at most once per node, line 3 must also be executed once per node. Furthermore, line 5 can be executed at most once for each child of each node. But the number of children is exactly one less than the number of nodes. Finally, the for loop iterates once per execution of line 5, plus once each time the loop ends. Each for loop terminates on a NULL pointer, but there is at most one of those per node. Thus, the total amount of work is constant per node. If there are n file names to be output, then the running time is O(n).
-
-/usr
-
-mark
-
-book
-
-chr1.c
-
-chr2.c
-
-chr3.c
-
-course
-
-cop3530
-
-fall88
-
-syl.r
-
-spr89syl.r
-
-sum89
-
-syl.r
-
-junk.c
-
-alex
-
-junk.c
-
-bill
-
-work
-
-course
-
-cop3212
-
-fall88
-
-grades
-
-prog1.r
-
-prog2.r
-
-fall89
-
-prog1.r
-
-prog2.r
-
-grades
 
 **Figure 4.7 The (preorder) directory listing**
 
@@ -296,7 +243,7 @@ A property of a binary tree that is sometimes important is that the depth of an 
 ![alt text](t7.png)
 **Figure 4.12 Worst-case binary tree**
 
-## 4.2.1. Implementation
+### 4.2.1. Implementation
 
 Because a binary tree has at most two children, we can keep direct pointers to them. The declaration of tree nodes is similar in structure to that for doubly linked lists, in that a node is a structure consisting of the key information plus two pointers (left and right) to other nodes (see
 ```js
