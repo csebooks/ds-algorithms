@@ -189,11 +189,11 @@ n = 100,000 NA NA 8.0113 0.29832
 
 Figure 2.3 shows the growth rates of the running times of the four algorithms. Even though this graph encompasses only values of n ranging from 10 to 100, the relative growth rates are still evident. Although the graph for Algorithm 3 seems linear, it is easy to verify that it is not, by using a straightedge (or piece of paper). Figure 2.4 shows the performance for larger values. It dramatically illustrates how useless inefficient algorithms are for even moderately large amounts of input.
 
-![Alt text](figure 2.3.png)
-Figure 2.3 Plot (n vs. milliseconds) of various maximum subsequence sum algorithms
+![Alt text](fig2.3.png)
+*Figure 2.3 Plot (n vs. milliseconds) of various maximum subsequence sum algorithms*
 
-![Alt text](figure 2.4.png)
-Figure 2.4 Plot (n vs. seconds) of various maximum subsequence sum algorithms
+![Alt text](fig2.4.png)
+*Figure 2.4 Plot (n vs. seconds) of various maximum subsequence sum algorithms*
 
 ## 2.4. Running Time Calculations
 
@@ -386,10 +386,12 @@ int this_sum, max_sum, best_i, best_j, i, j, k;
 The second loop has size n - i + 1, which could be small, but could also be of size n. We must assume the worst, with the knowledge that this could make the final bound a bit high. The third loop has size j - i + 1, which, again, we must assume is of size n. The total is O(1 n n n) = O(n ). Statement 1 takes only O(1) total, and statements 7 to 10 take only O(n ) total, since they are easy statements inside only two loops.
 
 It turns out that a more precise analysis, taking into account the actual size of these loops, shows that the answer is (n ), and that our estimate above was a factor of 6 too high (which is all right, because constants do not matter). This is generally true in these kinds of problems. The precise analysis is obtained from the sum 1, which tells how many times line 6 is executed. The sum can be evaluated inside out, using formulas from Section 1.2.3. In particular, we will use the formulas for the sum of the first n integers and first n squares. First we have
-
+![Alt text](fm1.png)
 Next we evaluate
-
-This sum is computed by observing that it is just the sum of the first n - i + 1 integers. To complete the calculation, we evaluate We can avoid the cubic running time by removing a for loop. Obviously, this is not always possible, but in this case there are an awful lot of unnecessary computations present in the algorithm. The inefficiency that the improved algorithm corrects can be seen by noticing that so the computation at lines 5 and 6 in Algorithm 1 is unduly expensive. Figure 2.6 shows an improved algorithm. Algorithm 2 is clearly O(n ); the analysis is even simpler than before.
+![Alt text](fm2.png)
+This sum is computed by observing that it is just the sum of the first n - i + 1 integers. To complete the calculation, we evaluate 
+![Alt text](fm3.png)
+We can avoid the cubic running time by removing a for loop. Obviously, this is not always possible, but in this case there are an awful lot of unnecessary computations present in the algorithm. The inefficiency that the improved algorithm corrects can be seen by noticing that so the computation at lines 5 and 6 in Algorithm 1 is unduly expensive. Figure 2.6 shows an improved algorithm. Algorithm 2 is clearly O(n ); the analysis is even simpler than before.
 
 There is a recursive and relatively complicated O(n log n) solution to this problem, which we now describe. If there didn't happen to be an O(n) (linear) solution, this would be an excellent example of the power of recursion. The algorithm uses a "divide-and-conquer" strategy. The idea is to split the problem into two roughly equal subproblems, each of which is half the size of the original. The subproblems are then solved recursively. This is the "divide" part. The "conquer" stage consists of patching together the two solutions of the subproblems, and possibly doing a small amount of additional work, to arrive at a solution for the whole problem.
 ```
