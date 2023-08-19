@@ -5,7 +5,8 @@ weight: 10
 
   
 
-CHAPTER 10: ALGORITHM DESIGN TECHNIQUES
+#CHAPTER 10: 
+#ALGORITHM DESIGN TECHNIQUES
 
 So far, we have been concerned with the efficient implementation of algorithms. We have seen that when an algorithm is given, the actual data structures need not be specified. It is up to the programmer to choose the approriate data structure in order to make the running time as small as possible.
 
@@ -17,17 +18,12 @@ Look at several examples (the exercises at the end of the chapter provide many m
 
 Discuss, in general terms, the time and space complexity, where appropriate.
 
-10.1. Greedy Algorithms
+# 10.1. Greedy Algorithms
 
 The first type of algorithm we will examine is the greedy algorithm. We have already seen three greedy algorithms in Chapter 9: Dijkstra's, Prim's, and Kruskal's algorithms. Greedy algorithms work in phases. In each phase, a decision is made that appears to be good, without regard for future consequences. Generally, this means that some local optimum is chosen. This "take what you can get now" strategy is the source of the name for this class of algorithms. When the algorithm terminates, we hope that the local optimum is equal to the global optimum. If this is the case, then the algorithm is correct; otherwise, the algorithm has produced a suboptimal solution. If the absolute best answer is not required, then simple greedy algorithms are sometimes used to generate approximate answers, rather than using the more complicated algorithms generally required to generate an exact answer.
 
 There are several real-life examples of greedy algorithms. The most obvious is the coin-changing problem. To make change in U.S. currency, we repeatedly dispense the largest denomination. Thus, to give out seventeen dollars and sixty- one cents in change, we give out a ten-dollar bill, a five-dollar bill, two one- dollar bills, two quarters, one dime, and one penny. By doing this, we are guaranteed to minimize the number of bills and coins. This algorithm does not work in all monetary systems, but fortunately, we can prove that it does work in the American monetary system. Indeed, it works even if two-dollar bills and
-
-Next ChapterReturn to Table of ContentsPrevious Chapter
-
-页码，1/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+ 
 
 fifty-cent pieces are allowed.
 
@@ -35,7 +31,7 @@ Traffic problems provide an example where making locally optimal choices does no
 
 In the remainder of this section, we will look at several applications that use greedy algorithms. The first application is a simple scheduling problem. Virtually all scheduling problems are either NP-complete (or of similar difficult complexity) or are solvable by a greedy algorithm. The second application deals with file compression and is one of the earliest results in computer science. Finally, we will look at an example of a greedy approximation algorithm.
 
-10.1.1. A Simple Scheduling Problem
+## 10.1.1. A Simple Scheduling Problem
 
 We are given jobs j1, j2, . . . , jn, all with known running times t1, t2, . . .
 
@@ -49,23 +45,19 @@ finishes in 15 (time units), j2 in 23, j3 in 26, and j4 in 36, the average
 
 completion time is 25. A better schedule, which yields a mean completion time of 17.75, is shown in Figure 10.3.
 
-The schedule given in Figure 10.3 is arranged by shortest job first. We can show that this will always yield an optimal schedule. Let the jobs in the schedule be ji1, ji2, . . . , jin. The first job finishes in time ti1. The second job finishes
+The schedule given in Figure 10.3 is arranged by shortest job first. We can show that this will always yield an optimal schedule. Let the jobs in the schedule be ji1, ji2, . . . , jin. The first job finishes in time ti1. The second job finishes after ti1 + ti2, and the third job finishes after ti1 + ti2 + ti3. From this, we see that the total cost, C, of the schedule is
+![alt 10.0](10.1.png)
 
-after ti1 + ti2, and the third job finishes after ti1 + ti2 + ti3. From this, we
+**(10.1)**
 
-see that the total cost, C, of the schedule is
-
-(10.1)
-
-(10.2)
+![alt 10.0](10.2.png)
+**(10.2)**
 
 Job Time
 
-页码，2/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-\---------
+---------
 
 j1 15
 
@@ -75,11 +67,13 @@ j3 3
 
 j4 10
 
-Figure 10.1 Jobs and times
+**Figure 10.1 Jobs and times**
+![alt Schedule #1](tbl10.1.png)
 
-Figure 10.2 Schedule #1
+**Figure 10.2 Schedule #1**
+![alt Schedule #2 (optimal)](tbl10.2.png)
 
-Figure 10.3 Schedule #2 (optimal)
+**Figure 10.3 Schedule #2 (optimal)**
 
 Notice that in Equation (10.2), the first sum is independent of the job ordering, so only the second sum affects the total cost. Suppose that in an ordering there exists some x > y such that tix < tiy. Then a calculation shows that by swapping
 
@@ -89,7 +83,7 @@ schedule of jobs in which the times are not monotonically nonincreasing must be 
 
 This result indicates the reason the operating system scheduler generally gives precedence to shorter jobs.
 
-The Multiprocessor Case
+**The Multiprocessor Case**
 
 We can extend this problem to the case of several processors. Again we have jobs j1, j2, . . . , jn, with associated running times t1, t2, . . . , tn, and a number
 
@@ -99,11 +93,7 @@ Figure 10.5 shows an optimal arrangement to minimize mean completion time. Jobs 
 
 Processor 3 runs the remaining jobs. The total time to completion is 165, for an
 
-页码，3/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-average of .
+average of . ![alt ](s.png)
 
 The algorithm to solve the multiprocessor case is to start jobs in order, cycling through processors. It is not hard to show that no other ordering can do better, although if the number of processors P evenly divides the number of jobs n, there
 
@@ -113,7 +103,7 @@ Figure 10.6 shows a second optimal solution.
 
 Job Time
 
-\---------
+---------
 
 j1 3
 
@@ -133,37 +123,32 @@ j8 18
 
 j9 20
 
-Figure 10.4 Jobs and times
+**Figure 10.4 Jobs and times**
+![alt An optimal solution for the multiprocessor case](10.5.png)
 
-Figure 10.5 An optimal solution for the multiprocessor case
+**Figure 10.5 An optimal solution for the multiprocessor case**
 
 Even if P does not divide n exactly, there can still be many optimal solutions, even if all the job times are distinct. We leave further investigation of this as an exercise.
-
-页码，4/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Minimizing the Final Completion Time
+  
+**Minimizing the Final Completion Time**
 
 We close this section by considering a very similar problem. Suppose we are only concerned with when the last job finishes. In our two examples above, these completion times are 40 and 38, respectively. Figure 10.7 shows that the minimum final completion time is 34, and this clearly cannot be improved, because every processor is always busy.
 
 Although this schedule does not have minimum mean completion time, it has merit in that the completion time of the entire sequence is earlier. If the same user owns all these jobs, then this is the preferable method of scheduling. Although these problems are very similar, this new problem turns out to be NP-complete; it is just another way of phrasing the knapsack or bin-packing problems, which we will encounter later in this section. Thus, minimizing the final completion time is apparently much harder than minimizing the mean completion time.
+![alt  A second optimal solution for the multiprocessor case](10.6.png)
 
-Figure 10.6 A second optimal solution for the multiprocessor case
+**Figure 10.6 A second optimal solution for the multiprocessor case**
+![alt  Minimizing the final completion time](10.7.png)
 
-Figure 10.7 Minimizing the final completion time
+**Figure 10.7 Minimizing the final completion time**
 
-10.1.2. Huffman Codes
+## 10.1.2. Huffman Codes
 
 In this section, we consider a second application of greedy algorithms, known as file compression.
 
 The normal ASCII character set consists of roughly 100 "printable" characters.
 
 In order to distinguish these characters, log 100 = 7 bits are required.
-
-页码，5/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Seven bits allow the representation of 128 characters, so the ASCII character set adds some other "nonprintable" characters. An eighth bit is added as a parity check. The important point, however, is that if the size of the character set is
 
@@ -173,7 +158,7 @@ Suppose we have a file that contains only the characters a, e, i, s, t, plus bla
 
 Character Code Frequency Total Bits
 
-\--------------------------------------
+--------------------------------------
 
 a 000 10 30
 
@@ -189,11 +174,11 @@ space 101 3 39
 
 newline 110 1 3
 
-\--------------------------------------
+--------------------------------------
 
 Total 174
 
-Figure 10.8 Using a standard coding scheme
+**Figure 10.8 Using a standard coding scheme**
 
 In real life, files can be quite large. Many of the very large files are output of some program and there is usually a big disparity between the most frequent and least frequent characters. For instance, many large data files have an inordinately large amount of digits, blanks, and newlines, but few q's and x's. We might be interested in reducing the file size in the case where we are transmitting it over a slow phone line. Also, since on virtually every machine disk space is precious, one might wonder if it would be possible to provide a better code and reduce the total number of bits required.
 
@@ -201,17 +186,16 @@ The answer is that this is possible, and a simple strategy achieves 25 percent s
 
 The binary code that represents the alphabet can be represented by the binary tree shown in Figure 10.9.
 
-页码，6/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+The tree in Figure 10.9 has data only at the leaves. The representation of each character can be found by starting at the root and recording the path, using a 0 to indicate the left branch and a 1 to indicate the right branch. For instance, s is reached by going left, then right, and finally right. This is encoded as 011. This data structure is sometimes referred to as a trie. If character c~i~ is at
 
-The tree in Figure 10.9 has data only at the leaves. The representation of each character can be found by starting at the root and recording the path, using a 0 to indicate the left branch and a 1 to indicate the right branch. For instance, s is reached by going left, then right, and finally right. This is encoded as 011. This data structure is sometimes referred to as a trie. If character ci is at
+depth di and occurs fi times, then the cost of the code is equal to d~i~ f~i~.
+![alt Representation of the original code in a tree](10.9.png)
 
-depth di and occurs fi times, then the cost of the code is equal to di fi.
+**Figure 10.9 Representation of the original code in a tree**
+![alt  A slightly better tree](10.10.png)
 
-Figure 10.9 Representation of the original code in a tree
-
-Figure 10.10 A slightly better tree
+**Figure 10.10 A slightly better tree**
 
 A better code than the one given in Figure 10.9 can be obtained by noticing that the newline is an only child. By placing the newline symbol one level higher at its parent, we obtain the new tree in Figure 10.9. This new tree has cost of 173, but is still far from optimal.
 
@@ -220,18 +204,15 @@ Notice that the tree in Figure 10.10 is a full tree: All nodes either are leaves
 If the characters are placed only at the leaves, any sequence of bits can always be decoded unambiguously. For instance, suppose the encoded string is 0100111100010110001000111. 0 is not a character code, 01 is not a character code, but 010 represents i, so the first character is i. Then 011 follows, giving a t. Then 11 follows, which is a newline. The remainder of the code is a, space, t, i, e, and newline. Thus, it does not matter if the character codes are different lengths, as long as no character code is a prefix of another character code. Such an encoding is known as a prefix code. Conversely, if a character is contained in a nonleaf node, it is no longer possible to guarantee that the decoding will be unambiguous.
 
 Putting these facts together, we see that our basic problem is to find the full
-
-页码，7/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+  
 binary tree of minimum total cost (as defined above), where all characters are contained in the leaves. The tree in Figure 10.11 shows the optimal tree for our sample alphabet. As can be seen in Figure 10.12, this code uses only 146 bits.
+![alt  Optimal prefix code](10.11.png)
 
-Figure 10.11 Optimal prefix code
+**Figure 10.11 Optimal prefix code**
 
 Character Code Frequency Total Bits
 
-\------------------------=--------------
+------------------------=--------------
 
 a 001 10 30
 
@@ -247,23 +228,19 @@ space 11 13 26
 
 newline 00001 1 5
 
-\---------------------------------------
+---------------------------------------
 
 Total 146
 
-Figure 10.12 Optimal prefix code
+**Figure 10.12 Optimal prefix code**
 
 Notice that there are many optimal codes. These can be obtained by swapping children in the encoding tree. The main unresolved question, then, is how the coding tree is constructed. The algorithm to do this was given by Huffman in 1952. Thus, this coding system is commonly referred to as a Huffman code.
 
 Huffman's Algorithm
 
-Huffman's Algorithm
+**Huffman's Algorithm**
 
 Throughout this section we will assume that the number of characters is C. Huffman's algorithm can be described as follows: We maintain a forest of trees.
-
-页码，8/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 The weight of a tree is equal to the sum of the frequencies of its leaves. C - 1 times, select the two trees, T1 and T2, of smallest weight, breaking ties
 
@@ -272,36 +249,35 @@ arbitrarily, and form a new tree with subtrees Tl and T2. At the beginning of th
 algorithm, there are C single-node trees-one for each character. At the end of the algorithm there is one tree, and this is the optimal Huffman coding tree.
 
 A worked example will make the operation of the algorithm clear. Figure 10.13 shows the initial forest; the weight of each tree is shown in small type at the root. The two trees of lowest weight are merged together, creating the forest shown in Figure 10.14. We will name the new root T1, so that future merges can be stated unambiguously. We have made s the left child arbitrarily; any tiebreaking procedure can be used. The total weight of the new tree is just the sum of the weights of the old trees, and can thus be easily computed. It is also a simple matter to create the new tree, since we merely need to get a new node, set the left and right pointers, and record the weight.
+![alt Initial stage of Huffman's algorithm](10.13.png)
 
-Figure 10.13 Initial stage of Huffman's algorithm
+**Figure 10.13 Initial stage of Huffman's algorithm**
+![alt Huffman's algorithm after the first merge](10.14.png)
 
-Figure 10.14 Huffman's algorithm after the first merge
+**Figure 10.14 Huffman's algorithm after the first merge**
+![alt Huffman's algorithm after the second merge](10.15.png)
 
-Figure 10.15 Huffman's algorithm after the second merge
+**Figure 10.15 Huffman's algorithm after the second merge**
+![alt  Huffman's algorithm after the third merge](10.16.png)
 
-Figure 10.16 Huffman's algorithm after the third merge
+**Figure 10.16 Huffman's algorithm after the third merge**
 
 Now there are six trees, and we again select the two trees of smallest weight.
-
-页码，9/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECHNIQUE
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+ 
 These happen to be T1 and t, which are then merged into a new tree with root T2 and weight 8. This is shown in Figure 10.15. The third step merges T2 and a, creating T3, with weight 10 + 8 = 18. Figure 10.16 shows the result of this operation.
 
 After the third merge is completed, the two trees of lowest weight are the single-node trees representing i and the blank space. Figure 10.17 shows how these trees are merged into the new tree with root T4. The fifth step is to merge the trees with roots e and T3, since these trees have the two smallest weights. The result of this step is shown in Figure 10.18.
 
 Finally, the optimal tree, which was shown in Figure 10.11, is obtained by merging the two remaining trees. Figure 10.19 shows this optimal tree, with root T6.
+![alt  Huffman's algorithm after the fourth merge](10.17.png)
 
-Figure 10.17 Huffman's algorithm after the fourth merge
+**Figure 10.17 Huffman's algorithm after the fourth merge**
+![alt Huffman's algorithm after the fifth merge](10.18.png)
 
-Figure 10.18 Huffman's algorithm after the fifth merge
+**Figure 10.18 Huffman's algorithm after the fifth merge**
+![alt Huffman's algorithm after the final merge](10.19.png)
 
-页码，10/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.19 Huffman's algorithm after the final merge
+**Figure 10.19 Huffman's algorithm after the final merge**
 
 We will sketch the ideas involved in proving that Huffman's algorithm yields an optimal code; we will leave the details as an exercise. First, it is not hard to show by contradiction that the tree must be full, since we have already seen how a tree that is not full is improved.
 
@@ -319,7 +295,7 @@ The proof can be completed by using an induction argument. As trees are merged, 
 
 The reason that this is a greedy algorithm is that at each stage we perform a merge without regard to global considerations. We merely select the two smallest trees.
 
-If we maintain the trees in a priority queue, ordered by weight, then the running time is O(C log C), since there will be one build\_heap, 2C - 2 delete\_mins, and C - 2 inserts, on a priority queue that never has more than C elements. A simple
+If we maintain the trees in a priority queue, ordered by weight, then the running time is O(C log C), since there will be one build_heap, 2C - 2 delete_mins, and C - 2 inserts, on a priority queue that never has more than C elements. A simple
 
 implementation of the priority queue, using a linked list, would give an O (C2) algorithm. The choice of priority queue implementation depends on how large C is. In the typical case of an ASCII character set, C is small enough that the quadratic running time is acceptable. In such an application, virtually all the running time will be spent on the disk I/O required to read the input file and write out the compressed version.
 
@@ -329,7 +305,7 @@ The second problem is that as described, this is a two-pass algorithm. The first
 
 页码，11/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 alternatives are described in the references.
 
@@ -357,9 +333,9 @@ A on the sequence I2, consisting of only m small items of weight . I2 can be
 
 页码，12/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-packed in \[m/2\] bins. However, A will place each item in a separate bin, since A must yield the same results on I2 as it does for the first half of I1, since the
+packed in [m/2] bins. However, A will place each item in a separate bin, since A must yield the same results on I2 as it does for the first half of I1, since the
 
 first half of I1 is exactly the same input as I2. This means that A will use
 
@@ -391,7 +367,7 @@ The first inequality implies that , and the second inequality implies
 
 页码，13/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 that , which is a contradiction. Thus, no on-line algorithm can
 
@@ -427,7 +403,7 @@ packing, shown in Figure 10.22, consists of n/4 bins, each containing 2 elements
 
 页码，14/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.22 Optimal packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .
 
@@ -449,7 +425,7 @@ A moment's thought will convince you that at any point, at most one bin can be m
 
 页码，15/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.24 First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
 
@@ -477,7 +453,7 @@ When first fit is run on a large number of items with sizes uniformly distribute
 
 页码，16/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.25 A case where first fit uses 10m bins instead of 6m
 
@@ -503,7 +479,7 @@ On the other hand, the bad case that we used in the proof of next fit's performa
 
 页码，17/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 better bound can be proven. The answer is yes, but the proof is complicated.
 
@@ -533,7 +509,7 @@ Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
 
 页码，18/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 10.2. Divide and Conquer
 
@@ -561,7 +537,7 @@ can be multiplied in o(n3) operations. Unfortunately, even though these algorith
 
 页码，19/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 10.2.1. Running Time of Divide and Conquer Algorithms
 
@@ -595,7 +571,7 @@ We can apply this equation for other values of m, obtaining
 
 页码，20/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 (10.5)
 
@@ -629,11 +605,11 @@ b a logb n) = O(n
 
 k logb n)
 
-\= O (nk log n)
+= O (nk log n)
 
 页码，21/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 (10.11)
 
@@ -665,9 +641,9 @@ THEOREM 10.8.
 
 The input to our first problem is a list P of points in a plane. If pl = (x1, y1) and p2 = (x2,
 
-y2), then the Euclidean distance between pl and p2 is \[(x1 - x2) 2 + (yl - y2)
+y2), then the Euclidean distance between pl and p2 is [(x1 - x2) 2 + (yl - y2)
 
-2\]l/2. We are
+2]l/2. We are
 
 required to find the closest pair of points. It is possible that two points have the same position; in that case that pair is the closest, with distance zero.
 
@@ -679,7 +655,7 @@ Let us assume that the points have been sorted by x coordinate. At worst, this a
 
 页码，22/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.29 shows a small sample point set P. Since the points are sorted by x coordinate, we
 
@@ -715,43 +691,43 @@ Figure 10.29 A small point set
 
 页码，23/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.30 P partitioned into P1 **and P2; shortest distances are shown**
 
 Figure 10.31 Two-lane strip, containing all points considered for dc **strip**
 
-/\* Points are all in the strip \*/
+/* Points are all in the strip */
 
-for( i=0; i<NUM\_POINTS\_IN\_STRIP; i++ )
+for( i=0; i<NUM_POINTS_IN_STRIP; i++ )
 
-for( j=i+1; j<NUM\_POINTS\_IN\_STRIP; j++ )
+for( j=i+1; j<NUM_POINTS_IN_STRIP; j++ )
 
 if( dist( pi,pj ) < )
 
-\= dist( pi,pj );
+= dist( pi,pj );
 
 Figure 10.32 Brute force calculation of min( , dc**)**
 
-/\* Points are all in the strip and sorted by y coordinate \*/
+/* Points are all in the strip and sorted by y coordinate */
 
-for( i=0; i<NUM\_POINTS\_IN\_STRIP; i++ )
+for( i=0; i<NUM_POINTS_IN_STRIP; i++ )
 
 页码，24/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-for( j=i+1; j<NUM\_POINTS\_IN\_STRIP; j++ )
+for( j=i+1; j<NUM_POINTS_IN_STRIP; j++ )
 
 if ( pi and pj 's coordinates differ by more than )
 
-break; /\* goto next pi \*/
+break; /* goto next pi */
 
 else
 
 if( dist( pi, pj) < )
 
-\= dist( pi, pj);
+= dist( pi, pj);
 
 Figure 10.33 Refined calculation of min( , dc**)**
 
@@ -777,7 +753,7 @@ Figure 10.34 Only p4 **and p5 are considered in the second for loop**
 
 页码，25/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.35 At most eight points fit in the rectangle; there are two coordinates shared by two
 
@@ -815,7 +791,7 @@ coordinate. When the recursive calls return, we scan through the Q list and disc
 
 页码，26/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 This strategy ensures that the entire algorithm is O (n log n), because only O (n) extra work is performed.
 
@@ -845,21 +821,21 @@ between this algorithm and quicksort is that there is only one subproblem to sol
 
 In order to obtain a linear algorithm, we must ensure that the subproblem is only a fraction of the original and not merely only a few elements smaller than the original. Of course, we can always find such an element if we are willing to spend some time to do so. The difficult problem is that we cannot spend too much time finding the pivot.
 
-For quicksort, we saw that a good choice for pivot was to pick three elements and use their median. This gives some expectation that the pivot is not too bad, but does not provide a guarantee. We could choose 21 elements at random, sort them in constant time, use the 11th largest as pivot, and get a pivot that is even more likely to be good. However, if these 21 elements were the 21 largest, then the pivot would still be poor. Extending this, we could use up to O (n / log n) elements, sort them using heapsort in O(n) total time, and be almost certain, from a statistical point of view, of obtaining a good pivot. In the worst case, however, this does not work because we might select the O (n / log n) largest elements, and then the pivot would be the \[n - O(n / log n)\]th largest element, which is not a constant fraction of n.
+For quicksort, we saw that a good choice for pivot was to pick three elements and use their median. This gives some expectation that the pivot is not too bad, but does not provide a guarantee. We could choose 21 elements at random, sort them in constant time, use the 11th largest as pivot, and get a pivot that is even more likely to be good. However, if these 21 elements were the 21 largest, then the pivot would still be poor. Extending this, we could use up to O (n / log n) elements, sort them using heapsort in O(n) total time, and be almost certain, from a statistical point of view, of obtaining a good pivot. In the worst case, however, this does not work because we might select the O (n / log n) largest elements, and then the pivot would be the [n - O(n / log n)]th largest element, which is not a constant fraction of n.
 
 The basic idea is still useful. Indeed, we will see that we can use it to improve the expected number of comparisons that quickselect makes. To get a good worst case, however, the key idea is to use one more level of indirection. Instead of finding the median from a sample of random elements, we will find the median from a sample of medians.
 
 The basic pivot selection algorithm is as follows:
 
-1\. Arrange the n elements into _n_/5 groups of 5 elements, ignoring the (at most four) extra elements.
+1. Arrange the n elements into _n_/5 groups of 5 elements, ignoring the (at most four) extra elements.
 
 页码，27/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-2\. Find the median of each group. This gives a list M of _n_/5 medians.
+2. Find the median of each group. This gives a list M of _n_/5 medians.
 
-3\. Find the median of M. Return this as the pivot, v.
+3. Find the median of M. Return this as the pivot, v.
 
 We will use the term median-of-median-of-five partitioning to describe the quickselect algorithm that uses the pivot selection rule given above. We will now show that median-of-median-of-five partitioning guarantees that each recursive subproblem is at most roughly 70 percent as large as the original. We will also show that the pivot can be computed quickly enough to guarantee an O (n) running time for the entire selection algorithm.
 
@@ -877,7 +853,7 @@ Let us extend this analysis to general n of the form 10k + 5. In this case, ther
 
 页码，28/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 made without affecting the basic result.
 
@@ -923,7 +899,7 @@ a selection problem on 2 elements. With low probability, the kth smallest elemen
 
 页码，29/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 If an analysis is performed, we find that if s = n2/3 log1/3 n and = n1/3 log2/3 n, then the
 
@@ -975,7 +951,7 @@ each half the size of the original problem (n/2 digits). The multiplications by 
 
 页码，30/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 If we perform these four multiplications recursively using this algorithm, stopping at an appropriate base case, then we obtain the recurrence
 
@@ -1003,7 +979,7 @@ Although this algorithm has better asymptotic performance than the standard quad
 
 页码，31/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Matrix Multiplication
 
@@ -1025,21 +1001,21 @@ C2,1 = A2,1B1,1 + A2,2B2,1
 
 C2,2 = A2,1B1,2 + A2,2B2,2
 
-/\* Standard matrix multiplication. Arrays start at 0 \*/
+/* Standard matrix multiplication. Arrays start at 0 */
 
 void
 
-matrix\_multiply( matrix A, matrix B, matrix C, unsigned int n )
+matrix_multiply( matrix A, matrix B, matrix C, unsigned int n )
 
 {
 
 int i, j, k;
 
-for( i=0; i<n; i++ ) /\* Initialization \*/
+for( i=0; i<n; i++ ) /* Initialization */
 
 for( j=O; j<n; j++ )
 
-C\[i\]\[j\] = 0.0;
+C[i][j] = 0.0;
 
 for( i=0; i<n; i++ )
 
@@ -1047,7 +1023,7 @@ for( j=0; j<n; j++ )
 
 for( k=0; k<n; k++ )
 
-C\[i\]\[j\] += A\[i\]\[k\] \* B\[k\]\[j\];
+C[i][j] += A[i][k] * B[k][j];
 
 }
 
@@ -1059,7 +1035,7 @@ As an example, to perform the multiplication AB
 
 页码，32/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 we define the following eight n/2 by n/2 matrices:
 
@@ -1103,7 +1079,7 @@ T(n) = 7T(n/2) + O(n2).
 
 页码，33/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 The solution of this recurrence is T(n) = O(nlog27) = O(n2.81).
 
@@ -1139,7 +1115,7 @@ computed five times, Fn-5 is computed eight times, and so on. As Figure 10.42 sh
 
 of redundant calculations is explosive. If the compiler's recursion simulation algorithm were able to keep a list of all precomputed values and not make a recursive call for an already solved subproblem, then this exponential explosion would be avoided. This is why the program in Figure 10.41 is so much more efficient. calculations is explosive. If the compiler's recursion simulation algorithm were able to keep a list of all precomputed values and not make a recursive call for an already solved subproblem, then this exponential explosion would be avoided. This is why the program in Figure 10.41 is so much more efficient.
 
-/\* Compute Fibonacci numbers as described in Chapter 1 \*/
+/* Compute Fibonacci numbers as described in Chapter 1 */
 
 unsigned int
 
@@ -1149,7 +1125,7 @@ fib( unsigned int n )
 
 页码，34/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 if( n <= 1 )
 
@@ -1169,21 +1145,21 @@ fibonacci( unsigned int n )
 
 {
 
-unsigned int i, last, next\_to\_last, answer;
+unsigned int i, last, next_to_last, answer;
 
 if( n <= 1 )
 
 return 1;
 
-last = next\_to\_last = 1;
+last = next_to_last = 1;
 
 for( i = 2; i <= n; i++ )
 
 {
 
-answer = last + next\_to\_last;
+answer = last + next_to_last;
 
-next\_to\_last = last;
+next_to_last = last;
 
 last = answer;
 
@@ -1205,7 +1181,7 @@ eval( unsigned int n )
 
 页码，35/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 int i;
 
@@ -1225,7 +1201,7 @@ for( i=0; i<n; i++ )
 
 sum += eval(i);
 
-return( 2.0 \* sum / n + n );
+return( 2.0 * sum / n + n );
 
 }
 
@@ -1251,7 +1227,7 @@ eval( unsigned int n )
 
 页码，36/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 {
 
@@ -1259,35 +1235,35 @@ int i,j;
 
 double sum, answer;
 
-double \*c;
+double *c;
 
-c = (double\*) malloc( sizeof (double)\*(n+1) );
+c = (double*) malloc( sizeof (double)*(n+1) );
 
 if( c == NULL )
 
-fatal\_error("Out of space!!!");
+fatal_error("Out of space!!!");
 
-c\[0\] = 1.0;
+c[0] = 1.0;
 
-for( i=1; i<=n; i++ ) /\* Evaluate Ci, 1 i n \*/
+for( i=1; i<=n; i++ ) /* Evaluate Ci, 1 i n */
 
 {
 
 sum = 0.0;
 
-/\* i-1 \*/
+/* i-1 */
 
-for( j=0; j<i; j++ ) /\* Evaluate Cj \*/
+for( j=0; j<i; j++ ) /* Evaluate Cj */
 
-/\* j=0 \*/
+/* j=0 */
 
-sum += c\[j\];
+sum += c[j];
 
-c\[i\] = 2.0 \* sum/i + i;
+c[i] = 2.0 * sum/i + i;
 
 }
 
-answer = c\[n\];
+answer = c[n];
 
 free( c );
 
@@ -1307,7 +1283,7 @@ In the case of four matrices, it is simple to solve the problem by exhaustive se
 
 页码，37/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 (A((BC)D)): Evaluating BC requires 10 X 40 X 30 = 12,000 multiplications. Evaluating (BC)D requires the 12,000 multiplications to compute BC, plus an additional 10 X 30 X 5 = 1,500 multiplications, for a total of 13,500. Evaluating (A((BC)D) requires 13,500 multiplications for (BC)D, plus an additional 50 X 10 X 5 = 2,500 multiplications, for a grand total of 16,000 multiplications.
 
@@ -1327,7 +1303,7 @@ performed is (A1A2. . . Ai)(Ai+1Ai+2 . . . An). Then there are T(i) ways to comp
 
 Ai) and T(n - i) ways to compute (Ai+1Ai+2 An). Thus, there are T(i)T(n
 
-\- i) ways to compute (A1A2 Ai) (Ai+1Ai+2 An) for each possible i.
+- i) ways to compute (A1A2 Ai) (Ai+1Ai+2 An) for each possible i.
 
 The solution of this recurrence is the well-known Catalan numbers, which grow exponentially.
 
@@ -1337,7 +1313,7 @@ exponential. Let ci be the number of columns in matrix Ai for 1 i n. Then Ai has
 
 页码，38/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 rows, since otherwise the multiplications are not valid. We will define c0 to be the number of
 
@@ -1385,63 +1361,63 @@ Returning to the algorithmic issues, this program contains a triply nested loop 
 
 seen to run in O(n3) time. The references describe a faster algorithm, but since the time to perform the actual matrix multiplication is still likely to be much larger than the time to compute the optimal ordering, this algorithm is still quite practical.
 
-/\* Compute optimal ordering of matrix multiplication \*/
+/* Compute optimal ordering of matrix multiplication */
 
 页码，39/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\* c contains number of columns for each of the n matrices \*/
+/* c contains number of columns for each of the n matrices */
 
-/\* c\[0\] is the number of rows in matrix 1 \*/
+/* c[0] is the number of rows in matrix 1 */
 
-/\* Minimum number of multiplications is left in M\[1\]\[n\] \*/
+/* Minimum number of multiplications is left in M[1][n] */
 
-/\* Actual ordering can be computed via \*/
+/* Actual ordering can be computed via */
 
-/\* another procedure using last\_change \*/
+/* another procedure using last_change */
 
-/\* M and last\_change are indexed starting at 1, instead of zero \*/
+/* M and last_change are indexed starting at 1, instead of zero */
 
 void
 
-opt\_matrix( int c\[\], unsigned int n, two\_d\_array M,
+opt_matrix( int c[], unsigned int n, two_d_array M,
 
-two\_d\_array last\_change)
+two_d_array last_change)
 
 {
 
-int i, k, Left, Right, this\_M;
+int i, k, Left, Right, this_M;
 
 for( Left = 1; Left <= n; Left++ )
 
-M\[Left\]\[Left\] = 0;
+M[Left][Left] = 0;
 
-for( k = 1; k < n; k++) /\* k is Right-Left \*/
+for( k = 1; k < n; k++) /* k is Right-Left */
 
 for( Left = 1; Left <= n-k; Left++ )
 
-{ /\* for each position \*/
+{ /* for each position */
 
 Right = Left + k;
 
-M\[Left\]\[Right\] = INT\_MAX;
+M[Left][Right] = INT_MAX;
 
 for( i = Left; i < Right; i++ )
 
 {
 
-this\_M = M\[Left\]\[i\] + M\[i+1\]\[Right\]
+this_M = M[Left][i] + M[i+1][Right]
 
-\+ c\[Left-1\] \* c\[i\] \* c\[Right\];
++ c[Left-1] * c[i] * c[Right];
 
-if( this\_M < M\[Left\]\[Right\] ) /\* Update min \*/
+if( this_M < M[Left][Right] ) /* Update min */
 
 {
 
-M\[Left\]\[Right\] = this\_M;
+M[Left][Right] = this_M;
 
-last\_change\[Left\]\[Right\] = i;
+last_change[Left][Right] = i;
 
 }
 
@@ -1457,7 +1433,7 @@ Figure 10.46 Program to find optimal ordering of Matrix Multiplications
 
 页码，40/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Our second dynamic programming example considers the following input: We are given a list of
 
@@ -1501,9 +1477,9 @@ Word Probability
 
 页码，41/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-\-----------------
+-----------------
 
 a 0.22
 
@@ -1525,13 +1501,13 @@ Figure 10.48 Three possible binary search trees for data in previous table
 
 Input Tree #1 Tree #2 Tree #3
 
-\-----------------------------------------------------------------
+-----------------------------------------------------------------
 
 Word Probability Access Cost Access Cost Access Cost
 
 wi pi Once Sequence Once Sequence Once Sequence
 
-\-----------------------------------------------------------------
+-----------------------------------------------------------------
 
 a 0.22 2 0.44 3 0.66 2 0.44
 
@@ -1547,7 +1523,7 @@ the 0.02 3 0.06 2 0.04 4 0.08
 
 two 0.08 2 0.16 3 0.24 3 0.24
 
-\-----------------------------------------------------------------
+-----------------------------------------------------------------
 
 Totals 1.00 2.43 2.70 2.15
 
@@ -1555,7 +1531,7 @@ Figure 10.49 Comparison of the three binary search trees
 
 页码，42/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.50 Structure of an optimal binary search tree
 
@@ -1571,7 +1547,7 @@ Figure 10.51 Computation of the optimal binary search tree for sample input
 
 页码，43/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.52 Computation of table entry (1.21, and) for am..if
 
@@ -1603,65 +1579,65 @@ ci,j is if (vi, vj) is not an edge in the graph. Also, by definition, D|V|,i,j i
 
 页码，44/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 shortest path from v_i_ to v_j_ in the graph.
 
-/\* Compute All-Shortest Paths \*/
+/* Compute All-Shortest Paths */
 
-/\* A\[\] contains the adjacency matrix \*/
+/* A[] contains the adjacency matrix */
 
-/\* with A\[i\]\[i\] presumed to be zero \*/
+/* with A[i][i] presumed to be zero */
 
-/\* D\[\] contains the values of shortest path \*/
+/* D[] contains the values of shortest path */
 
-/\* |V | is the number of vertices \*/
+/* |V | is the number of vertices */
 
-/\* A negative cycle exists iff \*/
+/* A negative cycle exists iff */
 
-/\* d\[i\]\[j\] is set to a negative value at line 9 \*/
+/* d[i][j] is set to a negative value at line 9 */
 
-/\* Actual Path can be computed via another procedure using path \*/
+/* Actual Path can be computed via another procedure using path */
 
-/\* All arrays are indexed starting at 0 \*/
+/* All arrays are indexed starting at 0 */
 
 void
 
-all\_pairs( two\_d\_array A, two\_d\_array D, two\_d\_array path )
+all_pairs( two_d_array A, two_d_array D, two_d_array path )
 
 {
 
 int i, j, k;
 
-/\*1\*/ for( i = 0; i < |V |; i++ ) /\* Initialize D and path \*/
+/*1*/ for( i = 0; i < |V |; i++ ) /* Initialize D and path */
 
-/\*2\*/ for( j = 0; j < |V |; j++ )
+/*2*/ for( j = 0; j < |V |; j++ )
 
 {
 
-/\*3\*/ D\[i\]\[j\] = A\[i\]\[j\];
+/*3*/ D[i][j] = A[i][j];
 
-/\*4\*/ path\[i\]\[j\] = NOT\_A\_VERTEX;
+/*4*/ path[i][j] = NOT_A_VERTEX;
 
 }
 
-/\*5\*/ for( k = 0; k < |v |; k++ )
+/*5*/ for( k = 0; k < |v |; k++ )
 
-/\* Consider each vertex as an intermediate \*/
+/* Consider each vertex as an intermediate */
 
-/\*6\*/ for( i = 0; i < |V |; i++ )
+/*6*/ for( i = 0; i < |V |; i++ )
 
-/\*7\*/ for( j = 0; j < |V |; j++ )
+/*7*/ for( j = 0; j < |V |; j++ )
 
-/\*8\*/ if( d\[i\]\[k\] + d\[k\]\[j\] < d\[i\]\[j\] )
+/*8*/ if( d[i][k] + d[k][j] < d[i][j] )
 
-/\*update min \*/
+/*update min */
 
 {
 
-/\*9\*/ d\[i\]\[j\] = d\[i\]\[k\] + d\[k\]\[j\];
+/*9*/ d[i][j] = d[i][k] + d[k][j];
 
-/\*10\*/ path\[i\]\[j\] = k;
+/*10*/ path[i][j] = k;
 
 }
 
@@ -1671,7 +1647,7 @@ Figure 10.53 All-pairs shortest path
 
 页码，45/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 As Figure 10.53 shows, when k > 0 we can write a simple formula for Dk,i,j. The shortest path
 
@@ -1709,7 +1685,7 @@ One method that seems to eliminate these problems is to use a coin. A quiz is ma
 
 页码，46/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 with 50 percent probability, regardless of previous quiz patterns. The disadvantage is that it is possible that there is no quiz for an entire semester. This is not a likely occurrence, unless the coin is suspect. Each semester, the expected number of quizzes is half the number of programs, and with high probability, the number of quizzes will not deviate much from this.
 
@@ -1737,15 +1713,15 @@ true randomness is virtually impossible to do on a computer, since these numbers
 
 页码，47/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Suppose we only need to flip a coin; thus, we must generate a 0 or 1 randomly. One way to do this is to examine the system clock. The clock might record time as an integer that counts the number
 
-of seconds since January 1, 1970.\* We could then use the lowest bit. The problem is that this does not work well if a sequence of random numbers is needed. One second is a long time, and the clock might not change at all while the program is running. Even if the time were recorded in units of microseconds, if the program were running by itself the sequence of numbers that would be generated would be far from random, since the time between calls to the generator would be essentially identical on every program invocation. We see, then, that what is really needed is a
+of seconds since January 1, 1970.* We could then use the lowest bit. The problem is that this does not work well if a sequence of random numbers is needed. One second is a long time, and the clock might not change at all while the program is running. Even if the time were recorded in units of microseconds, if the program were running by itself the sequence of numbers that would be generated would be far from random, since the time between calls to the generator would be essentially identical on every program invocation. We see, then, that what is really needed is a
 
 sequence of random numbers.ç These numbers should appear independent. If a coin is flipped and heads appears, the next coin flip should still be equally likely to come up heads or tails.
 
-\*UNIX does this.
+*UNIX does this.
 
 çWe will use random in place of pseudorandom in the rest of this section.
 
@@ -1781,7 +1757,7 @@ This seems like a simple routine to implement. Generally, a global variable is u
 
 When the program seems to work, either the system clock can be used or the user can be asked to input a value for the seed.
 
-It is also common to return a random real number in the open interval (0, 1) (0 and 1 are not possible values); this can be done by dividing by m. From this, a random number in any closed interval \[a, b\] can be computed by normalizing. This yields the "obvious" routine in Figure 10.54
+It is also common to return a random real number in the open interval (0, 1) (0 and 1 are not possible values); this can be done by dividing by m. From this, a random number in any closed interval [a, b] can be computed by normalizing. This yields the "obvious" routine in Figure 10.54
 
 which, unfortunately, works on few machines.
 
@@ -1789,15 +1765,15 @@ The problem with this routine is that the multiplication could overflow; althoug
 
 页码，48/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 error, it affects the result and thus the pseudo-randomness. Schrage gave a procedure in which all of the calculations can be done on a 32-bit machine without overflow. We compute the quotient and remainder of m/a and define these as q and r, respectively. In our case, q = 127,773, r = 2,836, and r < q. We have
 
-unsigned int seed; /\* global variable \*/
+unsigned int seed; /* global variable */
 
-#define a 16807 /\* 7^5 \*/
+#define a 16807 /* 7^5 */
 
-#define m 2147483647 /\* 2^31 - 1 \*/
+#define m 2147483647 /* 2^31 - 1 */
 
 double
 
@@ -1805,7 +1781,7 @@ random( void )
 
 {
 
-seed = ( a \* seed ) % m;
+seed = ( a * seed ) % m;
 
 return( ( (double) seed ) / m );
 
@@ -1821,7 +1797,7 @@ The term is either 0 or 1, because both terms are integers and their difference 
 
 页码，49/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 A quick check shows that because r < q, all the remaining terms can be calculated without
 
@@ -1831,7 +1807,7 @@ remaining terms evaluate to less than zero. Thus (xi) does not need to be explic
 
 but can be determined by a simple test. This leads to the program in Figure 10.55.
 
-This program works as long as INT\_MAX 231 - 1. One might be tempted to assume that all machines have a random number generator at least as good as the one in Figure 10.55 in their standard library. Sadly, this is not true. Many libraries have generators based on the function
+This program works as long as INT_MAX 231 - 1. One might be tempted to assume that all machines have a random number generator at least as good as the one in Figure 10.55 in their standard library. Sadly, this is not true. Many libraries have generators based on the function
 
 xi+1 = (axi + c) mod 2 b
 
@@ -1845,19 +1821,19 @@ xi+1 = (16807xi + 1) mod (2 31 - 1)
 
 would somehow be even more random. This illustrates how fragile these generators are.
 
-\[16807(1319592028) + 1\] mod (231-1) = 1319592028,
+[16807(1319592028) + 1] mod (231-1) = 1319592028,
 
 so if the seed is 1,319,592,028, the generator gets stuck in a cycle of period 1.
 
-unsigned int seed; /\* global variable \*/
+unsigned int seed; /* global variable */
 
-#define a 16807 /\* 7^5 \*/
+#define a 16807 /* 7^5 */
 
-#define m 2147483647 /\* 2^31 - 1\*/
+#define m 2147483647 /* 2^31 - 1*/
 
-#define q 127773 /\* m/a \*/
+#define q 127773 /* m/a */
 
-#define r 2836 /\* m%a \*/
+#define r 2836 /* m%a */
 
 double
 
@@ -1865,21 +1841,21 @@ random( void )
 
 {
 
-int tmp\_seed;
+int tmp_seed;
 
-tmp\_seed = a \* ( seed % q ) - r \* (seed / q );
+tmp_seed = a * ( seed % q ) - r * (seed / q );
 
-if( tmp\_seed >= 0)
+if( tmp_seed >= 0)
 
-seed = tmp\_seed;
+seed = tmp_seed;
 
 页码，50/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 else
 
-seed = tmp\_seed + m;
+seed = tmp_seed + m;
 
 return( ( (double) seed ) / m );
 
@@ -1917,7 +1893,7 @@ Figure 10.57 Linked list with pointers to two cells ahead
 
 页码，51/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.58 Linked list with pointers to four cells ahead
 
@@ -1941,7 +1917,7 @@ A cursory analysis shows that since the expected number of nodes at each level i
 
 页码，52/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 from this.
 
@@ -1975,7 +1951,7 @@ A proof of this theorem can be found in any textbook on number theory.
 
 页码，53/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 For instance, since 67 is prime, 266 1(mod 67). This suggests an algorithm to test whether a
 
@@ -2011,15 +1987,15 @@ Since p is prime, 0 x < p, and p must divide either (x - 1) or (x + 1), the theo
 
 Therefore, if at any point in the computation of an-1mod n we discover a violation of this theorem, we can conclude that n is definitely not prime. If we use power, from Section 2.4.4, we
 
-see that there will be several opportunities to apply this test. We modify this routine to perform operations mod n, and apply the test of Theorem 10.11. This strategy is implemented in Figure 10.62. Because power needs to return two pieces of information, we pass the address of these items ( result and what\_n\_is ) by pointers.
+see that there will be several opportunities to apply this test. We modify this routine to perform operations mod n, and apply the test of Theorem 10.11. This strategy is implemented in Figure 10.62. Because power needs to return two pieces of information, we pass the address of these items ( result and what_n_is ) by pointers.
 
-Recall that if test\_prime returns DEFINITELY\_COMPOSITE, it has proven that n cannot be prime. The proof is nonconstructive, because it gives no method of actually finding the factors. It has been shown that for any (sufficiently large) n, at most (n - 9)/4 values of a fool this algorithm. Thus, if a is chosen at random, and the algorithm answers PROBABLY\_PRIME, then the algorithm is correct at least 75 percent of the time. Suppose test\_prime is run 50 times. The probability that the algorithm is fooled once is at most 1/4. Thus, the probability that 50 independent random
+Recall that if test_prime returns DEFINITELY_COMPOSITE, it has proven that n cannot be prime. The proof is nonconstructive, because it gives no method of actually finding the factors. It has been shown that for any (sufficiently large) n, at most (n - 9)/4 values of a fool this algorithm. Thus, if a is chosen at random, and the algorithm answers PROBABLY_PRIME, then the algorithm is correct at least 75 percent of the time. Suppose test_prime is run 50 times. The probability that the algorithm is fooled once is at most 1/4. Thus, the probability that 50 independent random
 
 trials fool the algorithm is never more than 1/450 = 2-100. This is actually a very conservative estimate, which holds for only a few choices of n. Even so, one is more likely to see a hardware error than an incorrect claim of primality.
 
 页码，54/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 10.5. Backtracking Algorithms
 
@@ -2053,95 +2029,95 @@ but if we are willing to settle for an O(n2 log n) time bound, the distances can
 
 guaranteed to work in polynomial time. The algorithm that we will present seems to run in O(n2log n); no counterexample to this conjecture is known, but it is still just that - a conjecture.
 
-enum test\_result { PROBABLY\_PRIME, DEFINITELY\_COMPOSITE };
+enum test_result { PROBABLY_PRIME, DEFINITELY_COMPOSITE };
 
-typedef enum test\_result test\_result;
+typedef enum test_result test_result;
 
-/\* Compute result = ap mod n. \*/
+/* Compute result = ap mod n. */
 
-/\* If at any point x2 1(mod n) is detected with x 1, x n - 1, \*/
+/* If at any point x2 1(mod n) is detected with x 1, x n - 1, */
 
 页码，55/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\* then set what\_n\_is to DEFINITELY\_COMPOSITE \*/
+/* then set what_n_is to DEFINITELY_COMPOSITE */
 
-/\* We are assuming very large integers, so this is pseudocode. \*/
+/* We are assuming very large integers, so this is pseudocode. */
 
 void
 
 power( unsigned int a, unsigned int p, unsigned int n,
 
-unsigned int \*result, test\_result \*what\_n\_is )
+unsigned int *result, test_result *what_n_is )
 
 {
 
 unsigned int x;
 
-/\*1\*/ if( p = 0 ) /\* Base case \*/
+/*1*/ if( p = 0 ) /* Base case */
 
-/\*2\*/ \*result = 1;
+/*2*/ *result = 1;
 
 else
 
 {
 
-/\*3\*/ power( a, p/2, n, &x, what\_n\_is );
+/*3*/ power( a, p/2, n, &x, what_n_is );
 
-/\*4\*/ \*result = (x \* x) % n;
+/*4*/ *result = (x * x) % n;
 
-/\* Check whether x2 1(mod n), x 1, x n - 1 \*/
+/* Check whether x2 1(mod n), x 1, x n - 1 */
 
-/\*5\*/ if( (\*result = 1) && (x != 1) && (x != n-1) )
+/*5*/ if( (*result = 1) && (x != 1) && (x != n-1) )
 
-/\*6\*/ \*what\_n\_is = DEFINITELY\_COMPOSITE;
+/*6*/ *what_n_is = DEFINITELY_COMPOSITE;
 
-/\* If p is odd, we need one more a \*/
+/* If p is odd, we need one more a */
 
-/\*7\*/ if( (p % 2) = 1 )
+/*7*/ if( (p % 2) = 1 )
 
-/\*8\*/ \*result = (\*result \* a) % n;
-
-}
+/*8*/ *result = (*result * a) % n;
 
 }
 
-/\* test\_prime: Test whether n 3 is prime using one value of a \*/
+}
 
-/\* repeat this procedure as many times as needed \*/
+/* test_prime: Test whether n 3 is prime using one value of a */
 
-/\* for desired error rate \*/
+/* repeat this procedure as many times as needed */
 
-test\_result
+/* for desired error rate */
 
-test\_prime( unsigned int n )
+test_result
+
+test_prime( unsigned int n )
 
 {
 
 unsigned int a, result;
 
-test\_result what\_n\_is;
+test_result what_n_is;
 
-/\*9\*/ a = rand\_int( 2, n-2 ); /\* choose a randomly from 2..n-2 \*/
+/*9*/ a = rand_int( 2, n-2 ); /* choose a randomly from 2..n-2 */
 
-/\*10\*/ what\_n\_is = PROBABLY\_PRIME;
+/*10*/ what_n_is = PROBABLY_PRIME;
 
 页码，56/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\* Compute an-1 mod n \*/
+/* Compute an-1 mod n */
 
-/\*11\*/ power( a, n-1, n, &result, &what\_n\_is );
+/*11*/ power( a, n-1, n, &result, &what_n_is );
 
-/\*12\*/ if( ( result != 1) | | (what\_n\_is = DEFINITELY\_COMPOSITE) )
+/*12*/ if( ( result != 1) | | (what_n_is = DEFINITELY_COMPOSITE) )
 
-/\*13\*/ return DEFINITELY\_COMPOSITE;
+/*13*/ return DEFINITELY_COMPOSITE;
 
 else
 
-/\*14\*/ return PROBABLY\_PRIME;
+/*14*/ return PROBABLY_PRIME;
 
 }
 
@@ -2173,7 +2149,7 @@ present in D. These distances are also in D, so we have no guidance on which cho
 
 页码，57/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 At this point, we have x1 = 0, x4 = 7, x5 = 8, and x6 = 10. Now the largest distance is 6, so
 
@@ -2201,33 +2177,33 @@ Instead of labeling the branches, we have placed the labels in the branches' des
 
 页码，58/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.63 Decision tree for the worked turnpike reconstruction example
 
 int
 
-turnpike(int x \[\], dist\_set D , unsigned int n)
+turnpike(int x [], dist_set D , unsigned int n)
 
 {
 
-/\*1\*/ x\[1\] = 0;
+/*1*/ x[1] = 0;
 
-/\*2\*/ x\[n \] = delete\_max(D );
+/*2*/ x[n ] = delete_max(D );
 
-/\*3\*/ x\[n - 1\] = delete\_max(D );
+/*3*/ x[n - 1] = delete_max(D );
 
-/\*4\*/ if(x\[n \]-x\[n - 1\] D )
+/*4*/ if(x[n ]-x[n - 1] D )
 
 {
 
-/\*5\*/ delete( x\[n \]-x\[n - 1\],D );
+/*5*/ delete( x[n ]-x[n - 1],D );
 
-/\*6\*/ return place( x, D, n, 2,n - 2); }
+/*6*/ return place( x, D, n, 2,n - 2); }
 
 else
 
-/\*7\*/ return FALSE;
+/*7*/ return FALSE;
 
 }
 
@@ -2235,7 +2211,7 @@ Figure 10.64 Turnpike reconstruction algorithm: driver routine (pseudocode)
 
 The pseudocode to implement this algorithm is mostly straightforward. The driving routine, turnpike, is shown in Figure 10.64. It receives the point array x (which need not be
 
-initialized), the distance array D, and n.\* If a solution is discovered, then TRUE will be returned, the answer will be placed in x, and D will be empty. Otherwise, FALSE will be returned, x will be undefined, and the distance array D will be untouched. The routine sets x1, xn-1, and
+initialized), the distance array D, and n.* If a solution is discovered, then TRUE will be returned, the answer will be placed in x, and D will be empty. Otherwise, FALSE will be returned, x will be undefined, and the distance array D will be untouched. The routine sets x1, xn-1, and
 
 xn, as described above, alters D, and calls the backtracking algorithm place to place the other
 
@@ -2243,9 +2219,9 @@ points. We presume that a check has already been made to ensure that | D | = n(n
 
 页码，59/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-\*We have used one-letter variable names, which is generally poor style, for consistency with the worked example. We also, for simplicity, do not give the type of variables.
+*We have used one-letter variable names, which is generally poor style, for consistency with the worked example. We also, for simplicity, do not give the type of variables.
 
 The more difficult part is the backtracking algorithm, which is shown in Figure 10.65. Like most backtracking algorithms, the most convenient implementation is recursive. We pass the same arguments plus the boundaries Left and Right; xLeft, . . . , xRight are the x coordinates of
 
@@ -2267,9 +2243,9 @@ n).
 
 Of course, backtracking happens, and if it happens repeatedly, then the performance of the algorithm is affected. No polynomial bound on the amount of backtracking is known, but on the other hand, there are no pathological examples that show that backtracking must occur more than O
 
-(1) times. Thus, it is entirely possible that this algorithm is O(n2 log n). Experiments have shown that if the points have integer coordinates distributed uniformly and randomly from \[0,
+(1) times. Thus, it is entirely possible that this algorithm is O(n2 log n). Experiments have shown that if the points have integer coordinates distributed uniformly and randomly from [0,
 
-Dmax\], where Dmax = (n2), then, almost certainly, at most one backtrack is performed during
+Dmax], where Dmax = (n2), then, almost certainly, at most one backtrack is performed during
 
 the entire algorithm.
 
@@ -2281,89 +2257,89 @@ strategic game, such as checkers or chess. We will use, as an example, the much 
 
 Tic-tac-toe is, of course, a draw if both sides play optimally. By performing a careful case-by- case analysis, it is not a difficult matter to construct an algorithm that never loses and always wins when presented the opportunity. This can be done, because certain positions are known traps and can be handled by a lookup table. Other strategies, such as taking the center square when it is available, make the analysis simpler. If this is done, then by using a table we can always choose a move based only on the current position. Of course, this strategy requires the programmer, and not the computer, to do most of the thinking.
 
-/\* Backtracking algorithm to place the points \*/
+/* Backtracking algorithm to place the points */
 
-/\* x\[left\]...x\[right\]. \*/
+/* x[left]...x[right]. */
 
-/\* x\[1\]...\[left-1\] and x\[right+1\]...x\[n\]
+/* x[1]...[left-1] and x[right+1]...x[n]
 
-/\* are already tentatively placed \* /
+/* are already tentatively placed * /
 
-/\* If place returns true,
+/* If place returns true,
 
 页码，60/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\* then x\[left\]...x\[right\] will have value. \*/
+/* then x[left]...x[right] will have value. */
 
 int
 
-place( int x\[ \], dist\_set D , unsigned int n, int Left, int Right )
+place( int x[ ], dist_set D , unsigned int n, int Left, int Right )
 
 {
 
-int d\_max, found = FALSE;
+int d_max, found = FALSE;
 
-/\*1\*/ if D is empty then
+/*1*/ if D is empty then
 
-/\*2\*/ return TRUE;
+/*2*/ return TRUE;
 
-/\*3\*/ d\_max = find\_max( D );
+/*3*/ d_max = find_max( D );
 
-/\* Check if setting x\[Right\] = d\_max is feasible. \*/
+/* Check if setting x[Right] = d_max is feasible. */
 
-/\*4\*/ if( |x\[ j \]-d\_max| D for all 1 j < Left and Right < j n )
+/*4*/ if( |x[ j ]-d_max| D for all 1 j < Left and Right < j n )
 
 {
 
-/\*5\*/ x\[Right\] = d\_max; /\* Try x\[Right\] = d\_max \*/
+/*5*/ x[Right] = d_max; /* Try x[Right] = d_max */
 
-/\*6\*/ for( 1 j < Left, Right < j n )
+/*6*/ for( 1 j < Left, Right < j n )
 
-/\*7\*/ delete( |x\[j \]-d\_max|, D );
+/*7*/ delete( |x[j ]-d_max|, D );
 
-/\*8\*/ found = place( x, D, n, Left, Right-1 );
+/*8*/ found = place( x, D, n, Left, Right-1 );
 
-/\*9\*/ if( !found ) /\* Backtrack \*/
+/*9*/ if( !found ) /* Backtrack */
 
-/\*10\*/ for( 1 j < Left, Right < j n) / Undo the deletion \*/
+/*10*/ for( 1 j < Left, Right < j n) / Undo the deletion */
 
-/\*11\*/ insert( |x\[j \]-d\_max:| D );
+/*11*/ insert( |x[j ]-d_max:| D );
 
 }
 
-/\* If first attempt failed, try to see if setting \*/
+/* If first attempt failed, try to see if setting */
 
-/\* x\[Left\]=x\[n\]-d\_max is feasible \*/
+/* x[Left]=x[n]-d_max is feasible */
 
-/\*12\*/ if( !found && (|x\[n\]-d\_max-x\[j \]| D
+/*12*/ if( !found && (|x[n]-d_max-x[j ]| D
 
-/\*13\*/ for all 1 j < Left and Right < j n) )
+/*13*/ for all 1 j < Left and Right < j n) )
 
 {
 
-/\*14\*/ x\[Left\] = x \[n\] -d\_max; / \* Same logic as before \*/
+/*14*/ x[Left] = x [n] -d_max; / * Same logic as before */
 
-/\*15\*/ for( 1 j < Left, Right < j n )
+/*15*/ for( 1 j < Left, Right < j n )
 
 页码，61/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\*16\*/ delete( |x\[n\]-d\_max -x \[j \] |, D );
+/*16*/ delete( |x[n]-d_max -x [j ] |, D );
 
-/\*17\*/ found = place( x, D, n, Left + 1, Right );
+/*17*/ found = place( x, D, n, Left + 1, Right );
 
-/\*18\*/ if( !found ) /\* Backtrack; undo the deletion \*/
+/*18*/ if( !found ) /* Backtrack; undo the deletion */
 
-/\*19\*/ for( 1 j < Left, Right < j n )
+/*19*/ for( 1 j < Left, Right < j n )
 
-/\*20\*/ insert( |x\[n\]-d\_max-x\[j \]|, D );
+/*20*/ insert( |x[n]-d_max-x[j ]|, D );
 
 }
 
-/\*21\*/ return found;
+/*21*/ return found;
 
 }
 
@@ -2385,69 +2361,69 @@ the smallest value is chosen. This smallest value represents the most favorable 
 
 The code in Figure 10.66 makes the computer's strategy more clear. Lines 1 through 4 evaluate
 
-immediate wins or draws. If neither of these cases apply, then the position is nonterminal. Recalling that value should contain the maximum of all possible successor positions, line 5 initializes it to the smallest possible value, and the loop in lines 6 through 13 searches for improvements. Each successor position is recursively evaluated in turn by lines 8 through 10. This is recursive, because, as we will see, the procedure find\_human\_move calls find\_comp\_move. If the human's response to a move leaves the computer with a more favorable position than that obtained with the previously best computer move, then the value and best\_move are updated. Figure 10.67 shows the procedure for the human's move selection. The logic is virtually identical, except that the human player chooses the move that leads to the lowest-valued position. Indeed, it is not difficult to combine these two procedures into one by passing an extra variable, which indicates whose turn it is to move. This does make the code somewhat less readable, so we have stayed with separate routines.
+immediate wins or draws. If neither of these cases apply, then the position is nonterminal. Recalling that value should contain the maximum of all possible successor positions, line 5 initializes it to the smallest possible value, and the loop in lines 6 through 13 searches for improvements. Each successor position is recursively evaluated in turn by lines 8 through 10. This is recursive, because, as we will see, the procedure find_human_move calls find_comp_move. If the human's response to a move leaves the computer with a more favorable position than that obtained with the previously best computer move, then the value and best_move are updated. Figure 10.67 shows the procedure for the human's move selection. The logic is virtually identical, except that the human player chooses the move that leads to the lowest-valued position. Indeed, it is not difficult to combine these two procedures into one by passing an extra variable, which indicates whose turn it is to move. This does make the code somewhat less readable, so we have stayed with separate routines.
 
 Since these routines must pass back both the value of the position and the best move, we pass the address of two variables that will get this information, by using pointers. The last two parameters now answer the question "WHERE?" instead of "WHAT? "
 
 页码，62/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\* Recursive procedure to find best move for computer \*/
+/* Recursive procedure to find best move for computer */
 
-/\* best\_move points to a number from 1-9 indicating square. \*/
+/* best_move points to a number from 1-9 indicating square. */
 
-/\* Possible evaluations satisfy COMP\_LOSS < DRAW < COMP\_WIN \*/
+/* Possible evaluations satisfy COMP_LOSS < DRAW < COMP_WIN */
 
-/\* Complementary procedure find\_human\_move is below \*/
+/* Complementary procedure find_human_move is below */
 
-/\* board\_type is an array; thus board can be changed by place ( ) \*/
+/* board_type is an array; thus board can be changed by place ( ) */
 
 void
 
-find\_comp\_move( board\_type board, int \*best\_move, int \*value )
+find_comp_move( board_type board, int *best_move, int *value )
 
 {
 
-int dc, i, response; /\* dc means don't care \*/
+int dc, i, response; /* dc means don't care */
 
-/\*1\*/ if( full\_board( board ) )
+/*1*/ if( full_board( board ) )
 
-/\*2\*/ \*value = DRAW;
+/*2*/ *value = DRAW;
 
 else
 
-/\*3\*/ if( immediate\_comp\_win( board, best\_move ) )
+/*3*/ if( immediate_comp_win( board, best_move ) )
 
-/\*4\*/ \*value = COMP\_WIN;
+/*4*/ *value = COMP_WIN;
 
 else
 
 {
 
-/\*5\*/ \*value = COMP\_LOSS;
+/*5*/ *value = COMP_LOSS;
 
-/\*6\*/ for( i=1; i<=9; i++ ) /\* try each square \*/
-
-{
-
-/\*7\*/ if( is\_empty( board, i ) )
+/*6*/ for( i=1; i<=9; i++ ) /* try each square */
 
 {
 
-/\*8\*/ place( board, i, COMP );
-
-/\*9\*/ find\_human\_move( board, &dc, &response );
-
-/\*10\*/ unplace( board, i ); /\* Restore board \*/
-
-/\*11\*/ if( response >\* value ) /\* Update best move \*/
+/*7*/ if( is_empty( board, i ) )
 
 {
 
-/\*12\*/ \*value = response;
+/*8*/ place( board, i, COMP );
 
-/\*13\*/ \*best\_move = i;
+/*9*/ find_human_move( board, &dc, &response );
+
+/*10*/ unplace( board, i ); /* Restore board */
+
+/*11*/ if( response >* value ) /* Update best move */
+
+{
+
+/*12*/ *value = response;
+
+/*13*/ *best_move = i;
 
 }
 
@@ -2455,7 +2431,7 @@ else
 
 页码，63/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 }
 
@@ -2467,49 +2443,49 @@ Figure 10.66 Minimax tic-tac-toe algorithm: computer selection
 
 void
 
-find\_human\_move( board\_type board, int \*best\_move, int \*value )
+find_human_move( board_type board, int *best_move, int *value )
 
 {
 
-int dc, i, response; /\* dc means don't care \*/
+int dc, i, response; /* dc means don't care */
 
-/\*1\*/ if( full\_board( board ) )
+/*1*/ if( full_board( board ) )
 
-/\*2\*/ \*value = DRAW;
+/*2*/ *value = DRAW;
 
 else
 
-/\*3\*/ if( immediate\_human\_win( board, best\_move ) )
+/*3*/ if( immediate_human_win( board, best_move ) )
 
-/\*4\*/ \*value = COMP\_LOSS;
+/*4*/ *value = COMP_LOSS;
 
 else
 
 {
 
-/\*5\*/ \*value = COMP\_WIN;
+/*5*/ *value = COMP_WIN;
 
-/\*6\*/ for( i=1; i<=9; i++ ) /\* try each square \*/
-
-{
-
-/\*7\*/ if( is\_empty( board, i ) )
+/*6*/ for( i=1; i<=9; i++ ) /* try each square */
 
 {
 
-/\*8\*/ place( board, i, HUMAN );
-
-/\*9\*/ find\_comp\_move( board, &dc, &response );
-
-/\*10\*/ unplace( board, i ); /\* Restore board \*/
-
-/\*11\*/ if( response < \* value ) /\* Update best move \*/
+/*7*/ if( is_empty( board, i ) )
 
 {
 
-/\*12\*/ \*value = response;
+/*8*/ place( board, i, HUMAN );
 
-/\*13\*/ \*best\_move = i;
+/*9*/ find_comp_move( board, &dc, &response );
+
+/*10*/ unplace( board, i ); /* Restore board */
+
+/*11*/ if( response < * value ) /* Update best move */
+
+{
+
+/*12*/ *value = response;
+
+/*13*/ *best_move = i;
 
 }
 
@@ -2519,7 +2495,7 @@ else
 
 页码，64/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 }
 
@@ -2527,15 +2503,15 @@ else
 
 Figure 10.67 Min-max tic-tac-toe algorithm: human selection
 
-As an example, in Figure 10.66, best\_move contains the address where the best move can be placed.
+As an example, in Figure 10.66, best_move contains the address where the best move can be placed.
 
-find\_comp\_move can examine or alter the data at that address by accessing \*best\_move. Line 9 shows how the calling routine should behave. Since the caller has two integers prepared to store the data, and find\_human\_move only wants the addresses of these two integers, the address operator (&) is used.
+find_comp_move can examine or alter the data at that address by accessing *best_move. Line 9 shows how the calling routine should behave. Since the caller has two integers prepared to store the data, and find_human_move only wants the addresses of these two integers, the address operator (&) is used.
 
-If the & operator is not used at line 9, and both dc and response are zero (which would be typical of uninitialized data), the find\_human\_move will try to place its best move and position value in memory location zero. Of course, this is not what was intended, and will almost certainly result in a program crash (try it!). This is the most common error when using the scanf family of library routines.
+If the & operator is not used at line 9, and both dc and response are zero (which would be typical of uninitialized data), the find_human_move will try to place its best move and position value in memory location zero. Of course, this is not what was intended, and will almost certainly result in a program crash (try it!). This is the most common error when using the scanf family of library routines.
 
-We leave supporting routines as an exercise. The most costly computation is the case where the computer is asked to pick the opening move. Since at this stage the game is a forced draw, the computer selects square 1.\* A total of 97,162 positions were examined, and the calculation took 2.5 seconds on a VAX 8800. No attempt was made to optimize the code. When the computer moves second, the number of positions examined is 5,185 if the human selects the center square, 9,761 when a corner square is selected, and 13,233 when a noncorner edge square is selected.
+We leave supporting routines as an exercise. The most costly computation is the case where the computer is asked to pick the opening move. Since at this stage the game is a forced draw, the computer selects square 1.* A total of 97,162 positions were examined, and the calculation took 2.5 seconds on a VAX 8800. No attempt was made to optimize the code. When the computer moves second, the number of positions examined is 5,185 if the human selects the center square, 9,761 when a corner square is selected, and 13,233 when a noncorner edge square is selected.
 
-\*We numbered the squares starting from the top left and moving right. However, this is only important for the supporting routines.
+*We numbered the squares starting from the top left and moving right. However, this is only important for the supporting routines.
 
 For more complex games, such as checkers and chess, it is obviously infeasible to search all the way to the terminal nodes.ç In this case, we have to stop the search after a certain depth of recursion is reached. The nodes where the recursion is stopped become terminal nodes. These terminal nodes are evaluated with a function that estimates the value of the position. For instance, in a chess program, the evaluation function measures such variables as the relative amount and strength of pieces and positional factors. The evaluation function is crucial for success, because the computer's move selection is based on maximizing this function. The best computer chess programs have surprisingly sophisticated evaluation functions.
 
@@ -2545,11 +2521,11 @@ Nevertheless, for computer chess, the single most important factor seems to be n
 
 The basic method to increase the look-ahead factor in game programs is to come up with methods that evaluate fewer nodes without losing any information. One method which we have already seen is to use a table to keep track of all positions that have been evaluated. For instance, in the course of searching for the first move, the program will examine the positions in Figure 10.68. If the values of the positions are saved, the second occurrence of a position need not be recomputed; it essentially becomes a terminal position. The data structure that records this is known as a transposition table; it is almost always implemented by hashing. In many cases, this can save considerable computation. For instance, in a chess endgame, where there are relatively few pieces, the time savings can allow a search to go several levels deeper.
 
-\- Pruning
+- Pruning
 
 页码，65/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Probably the most significant improvement one can obtain in general is known as - pruning. Figure 10.69 shows the trace of the recursive calls used to evaluate some hypothetical position in a hypothetical game. This is commonly referred to as a game tree. (We have avoided the use of this term until now, because it is somewhat misleading: no tree is actually constructed by the algorithm. The game tree is just an abstract concept.) The value of the game tree is 44.
 
@@ -2559,13 +2535,13 @@ Figure 10.70 shows the evaluation of the same game tree, with several unevaluate
 
 half of the terminal nodes have not been checked. We show that evaluating them would not change the value at the root.
 
-First, consider node D. Figure 10.71 shows the information that has been gathered when it is time to evaluate D. At this point, we are still in find\_human\_move and are contemplating a call to find\_comp\_move on D. However, we already know that find\_human\_move will return at most 40, since it is a min node. On the other hand, its max node parent has already found a sequence that guarantees 44. Nothing that D does can possibly increase this value. Therefore, D does not need
+First, consider node D. Figure 10.71 shows the information that has been gathered when it is time to evaluate D. At this point, we are still in find_human_move and are contemplating a call to find_comp_move on D. However, we already know that find_human_move will return at most 40, since it is a min node. On the other hand, its max node parent has already found a sequence that guarantees 44. Nothing that D does can possibly increase this value. Therefore, D does not need
 
 to be evaluated. This pruning of the tree is known as pruning. An identical situation occurs
 
-at node B. To implement pruning, get\_comp\_move passes its tentative maximum ( ) to get\_human\_move. If the tentative minimum of get\_human\_move falls below this value, then get\_human\_move returns immediately.
+at node B. To implement pruning, get_comp_move passes its tentative maximum ( ) to get_human_move. If the tentative minimum of get_human_move falls below this value, then get_human_move returns immediately.
 
-A similar thing happens at nodes A and C. This time, we are in the middle of a find\_comp\_move and are about to make a call to find\_human\_move to evaluate C. Figure 10.72 shows the situation that is encountered at node C. However, the sfind\_human\_move, at the min level, which has called find\_comp\_move, has already determined that it can force a value of at most 44 (recall that low values are good for the human side). Since find\_comp\_move has a tentative maximum of 68, nothing that C does will affect the result at the min level. Therefore, C should not be evaluated. This
+A similar thing happens at nodes A and C. This time, we are in the middle of a find_comp_move and are about to make a call to find_human_move to evaluate C. Figure 10.72 shows the situation that is encountered at node C. However, the sfind_human_move, at the min level, which has called find_comp_move, has already determined that it can force a value of at most 44 (recall that low values are good for the human side). Since find_comp_move has a tentative maximum of 68, nothing that C does will affect the result at the min level. Therefore, C should not be evaluated. This
 
 type of pruning is known as pruning; it is the symmetric version of pruning. When both
 
@@ -2573,7 +2549,7 @@ techniques are combined, we have - pruning.
 
 页码，66/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.69 A hypothetical game tree
 
@@ -2583,7 +2559,7 @@ Figure 10.71 The node marked ? is unimportant
 
 页码，67/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.72 The node marked ? is unimportant
 
@@ -2593,63 +2569,63 @@ Figure 10.73 shows half of the - pruning scheme (minus type
 
 declarations); you should have no trouble coding the other half.
 
-/\* Same as before, but perform - pruning. \*/
+/* Same as before, but perform - pruning. */
 
-/\* The main routine should make the call with = COMP\_LOSS,
+/* The main routine should make the call with = COMP_LOSS,
 
-\= COMP\_WIN. \*/
+= COMP_WIN. */
 
 void
 
-find\_comp\_move( board\_type board, int \*best\_move, int \*value,
+find_comp_move( board_type board, int *best_move, int *value,
 
 int , int )
 
 {
 
-int dc, i, response; /\* dc means don't care \*/
+int dc, i, response; /* dc means don't care */
 
-/\*1\*/ if( full\_board( board ) )
+/*1*/ if( full_board( board ) )
 
-/\*2\*/ \*value = DRAW;
-
-else
-
-/\*3\*/ if( immediate-comp\_win( board, best\_move ) )
-
-/\*4\*/ \*value = COMP\_WIN;
+/*2*/ *value = DRAW;
 
 else
 
-{
+/*3*/ if( immediate-comp_win( board, best_move ) )
 
-/\*5\*/ \*value = ;
+/*4*/ *value = COMP_WIN;
 
-/\*6\*/ for( i=1; (i<=9) && (\*value< ); i++) /\* try each square \*/
-
-{
-
-/\*7\*/ if( is\_empty( board, i ) )
+else
 
 {
 
-/\*8\*/ place( board, i, COMP );
+/*5*/ *value = ;
+
+/*6*/ for( i=1; (i<=9) && (*value< ); i++) /* try each square */
+
+{
+
+/*7*/ if( is_empty( board, i ) )
+
+{
+
+/*8*/ place( board, i, COMP );
 
 页码，68/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-/\*9\*/ find\_human\_move( board, &dc, &response, \*value, );
+/*9*/ find_human_move( board, &dc, &response, *value, );
 
-/\*10\*/ unplace( board, i ); /\* Restore board \*/
+/*10*/ unplace( board, i ); /* Restore board */
 
-/\*11\*/ if( response >\* value ) /\* Update best move \*/
+/*11*/ if( response >* value ) /* Update best move */
 
 {
 
-/\*12\*/ \*value = response;
+/*12*/ *value = response;
 
-/\*13\*/ \*best\_move = i;
+/*13*/ *best_move = i;
 
 }
 
@@ -2683,7 +2659,7 @@ scheduling works.
 
 页码，69/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 10.2 The input is a set of jobs j1, j2, . . . , jn, each of which takes one time unit to
 
@@ -2693,7 +2669,7 @@ completed after the time limit.
 
 (a) Give an O(n2) greedy algorithm to solve the problem.
 
-\*\*(b) Modify your algorithm to obtain an O(n log n) time bound. Hint: The time bound is due entirely to sorting the jobs by money. The rest of the algorithm can be implemented, using the disjoint set data structure, in o(n log n).
+**(b) Modify your algorithm to obtain an O(n log n) time bound. Hint: The time bound is due entirely to sorting the jobs by money. The rest of the algorithm can be implemented, using the disjoint set data structure, in o(n log n).
 
 10.3 A file contains only colons, spaces, newline, commas, and digits in the following frequency:
 
@@ -2711,7 +2687,7 @@ linear time.
 
 10.7 Write a program to implement file compression (and uncompression) using Huffman's algorithm.
 
-\*10.8 Show that any on-line bin-packing algorithm can be forced to use at least the optimal
+*10.8 Show that any on-line bin-packing algorithm can be forced to use at least the optimal
 
 number of bins, by considering the following sequence of items: n items of size , n items
 
@@ -2731,15 +2707,15 @@ various bin packing heuristics.
 
 10.13 Prove Theorem 10.8.
 
-\*10.14 n points are placed in a unit square. Show that the distance between the closest pair is O
+*10.14 n points are placed in a unit square. Show that the distance between the closest pair is O
 
 页码，70/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 (n-1/2).
 
-\*10.15 Argue that for the closest-points algorithm, the average number of points in the strip is
+*10.15 Argue that for the closest-points algorithm, the average number of points in the strip is
 
 ( . Hint: Use the result of the previous exercise.
 
@@ -2761,7 +2737,7 @@ five patitioning, and the sampling algorithm at the end of Section 10.2.3. Compa
 
 how the number of comparisons can be reduced by more careful use of the information.
 
-\*10.21 Complete the analysis of the sampling algorithm described at the end of Section 10.2.3,
+*10.21 Complete the analysis of the sampling algorithm described at the end of Section 10.2.3,
 
 and explain how the values of and s are chosen.
 
@@ -2779,11 +2755,11 @@ xlyr + xryl = (xl + xr)(yl + yr) - xlyl - xryr
 
 (b) This gives an O(n1.59) algorithm to multiply n-bit numbers. Compare this method to the solution in the text.
 
-10.25 \* (a) Show how to multiply two numbers by solving five problems that are roughly one-third
+10.25 * (a) Show how to multiply two numbers by solving five problems that are roughly one-third
 
 of the original size.
 
-\*\*(b) Generalize this problem to obtain an O(n1+ ) algorithm for any constant > 0.
+**(b) Generalize this problem to obtain an O(n1+ ) algorithm for any constant > 0.
 
 (c) Is the algorithm in part (b) better than O(n log n)?
 
@@ -2793,7 +2769,7 @@ multiplication of 2 X 2 matrices?
 
 页码，71/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 10.27 Two 70 X 70 matrices can be multiplied using 143,640 multiplications. Show how this can be
 
@@ -2823,7 +2799,7 @@ to print out the actual ordering.
 
 occurrence is in parentheses: a (0.18), and (0.19), I (0.23), it (0.21) , or (0.19).
 
-\*10.32 Extend the optimal binary search tree algorithm to allow for unsuccessful searches. In
+*10.32 Extend the optimal binary search tree algorithm to allow for unsuccessful searches. In
 
 this case, qj, for 1 j < n, is the probability that a search is performed for any word W
 
@@ -2831,7 +2807,7 @@ satisfying w_j_ < _W_ < wj+1. q0 is the probability of performing a search for W
 
 probability of performing a search for W > wn. Notice that .
 
-\*10.33 Suppose Ci,i = 0 and that otherwise
+*10.33 Suppose Ci,i = 0 and that otherwise
 
 Suppose that W satisfies the quadrangle inequality, namely, for all i i' j j',
 
@@ -2847,7 +2823,7 @@ ties, choose the largest k). Prove that
 
 页码，72/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Ri, j Ri, j+1 Ri+1,j+1
 
@@ -2881,11 +2857,11 @@ the random number generator uses a modulus of the form m = 2b (which is unfortun
 
 each other. The following distance set gives two distinct point sets: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17 . Find the two point sets.
 
-enum coin\_side { heads, tails };
+enum coin_side { heads, tails };
 
-typedef enum coin\_side coin\_side;
+typedef enum coin_side coin_side;
 
-coin\_side
+coin_side
 
 flip( void )
 
@@ -2903,7 +2879,7 @@ return tails;
 
 页码，73/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.74 Questionable coin flipper
 
@@ -2929,19 +2905,19 @@ Figure 10.76 shows an example with circles of radii 2, 1, 2 respectively. The mi
 
 has width
 
-\*10.47 Suppose that the edges in an undirected graph G satisfy the triangle inequality: cu,v +
+*10.47 Suppose that the edges in an undirected graph G satisfy the triangle inequality: cu,v +
 
 cv,w cu,w. Show how to compute a traveling salesman tour of cost at most twice optimal.
 
 Hint: Construct a minimum spanning tree.
 
-\*10.48 You are a tournament director and need to arrange a round robin tournament among n = 2k
+*10.48 You are a tournament director and need to arrange a round robin tournament among n = 2k
 
 players. In this tournament, everyone plays exactly one game each day; after n - 1 days, a match has occurred between every pair of players. Give an algorithm to do this.
 
 页码，74/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.76 Sample for circle packing problem
 
@@ -2951,13 +2927,13 @@ an order pi1, p2, pin such that for all 1 j < n, pij has won the match against p
 
 (b) Gve an O(n log n) algorithm to find one such arrangement. Your algorithm may serve as a proof for part (a).
 
-\*10.50 We are given a set P = p1, p2, . . . , pn of n points in a plane. A Voronoi diagram is a
+*10.50 We are given a set P = p1, p2, . . . , pn of n points in a plane. A Voronoi diagram is a
 
 partition of the plane into n regions Ri such that all points in Ri are closer to pi than any
 
 other point in P. Figure 10.77 shows a sample Voronoi diagram for seven (nicely arranged) points. Give an O(n log n) algorithm to construct the Voronoi diagram.
 
-\*10.51 A convex polygon is a polygon with the property that any line segment whose endpoints are on the polygon lies entirely within the polygon. The convex hull problem consists of finding the smallest (area) convex polygon which encloses a set of points in the plane. Figure 10.78 shows
+*10.51 A convex polygon is a polygon with the property that any line segment whose endpoints are on the polygon lies entirely within the polygon. The convex hull problem consists of finding the smallest (area) convex polygon which encloses a set of points in the plane. Figure 10.78 shows
 
 the convex hull for a set of 40 points. Give an O(n log n) algorithm to find the convex hull.
 
@@ -2965,11 +2941,11 @@ Figure 10.77 Voronoi diagram
 
 页码，75/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 Figure 10.78 Example of a convex hull
 
-\*10.52 Consider the problem of right-justifying a paragraph. The paragraph contains a sequence of
+*10.52 Consider the problem of right-justifying a paragraph. The paragraph contains a sequence of
 
 words w1, w2, . . . ,wn of length a1, a2, . . . , an, which we wish to break into lines of length
 
@@ -2991,7 +2967,7 @@ lines of length L. Hint: For i = n, n - 1, . . . , 1, compute the best way to se
 
 (c) Consider the special case where we are using a line printer instead of a laser printer, and assume the optimal value of b is 1 (space). In this case, no shrinking of blanks is allowed, since the next smallest blank space would be 0. Give a linear-time algorithm to generate the least ugly setting on a line printer.
 
-\*10.53 The longest increasing subsequence problem is as follows: Given numbers a1, a2, . . ., an,
+*10.53 The longest increasing subsequence problem is as follows: Given numbers a1, a2, . . ., an,
 
 find the maximum value of k such that ai1 < ai2 < < aik, and i1 < i2 <
 
@@ -2999,7 +2975,7 @@ find the maximum value of k such that ai1 < ai2 < < aik, and i1 < i2 <
 
 subsequence has length four ( 1, 4, 5, 9 among others ). Give an O(n2) algorithm to solve the longest increasing subsequence problem.
 
-\*10.54 The longest common subsequence problem is as follows: Given two sequences A = a1, a2, . .
+*10.54 The longest common subsequence problem is as follows: Given two sequences A = a1, a2, . .
 
 . , am, and B = b1, b2, . . . , bn, find the length, k, of the longest sequence C = c1, c2, . . .
 
@@ -3009,7 +2985,7 @@ A = d, y, n, a, m, i, c
 
 页码，76/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 and
 
@@ -3017,19 +2993,19 @@ B = p, r, o, g, r, a, m, m, i, n, g,
 
 then the longest common subsequence is a,m and has length 2. Give an algorithm to solve the longest common subsequence problem. Your algorithm should run in O(mn) time.
 
-\*10.55 The pattern matching problem is as follows: Given a string S of text, and a pattern P,
+*10.55 The pattern matching problem is as follows: Given a string S of text, and a pattern P,
 
 find the first occurrence of P in S. Approximate pattern matching allows k mismatches of three types:
 
-1\. A character can be in S that is not in P.
+1. A character can be in S that is not in P.
 
-2\. A character can be in P that is not in S.
+2. A character can be in P that is not in S.
 
-3\. P and S can differ in a position.
+3. P and S can differ in a position.
 
 As an example, if we are searching for the pattern "textbook" with at most three mismatches in the string "data structures txtborkk", we find a match (insert an e, change an r to an o, delete a k). Give an O(mn) algorithm to solve the approximate string matching problem, where m = |P| and n = |S|.
 
-\*10.56 One form of the knapsack problem is as follows: We are given a set of integers A = a1, a2,
+*10.56 One form of the knapsack problem is as follows: We are given a set of integers A = a1, a2,
 
 . . . , an and an integer K. Is there a subset of A whose sum is exactly K?
 
@@ -3037,13 +3013,13 @@ As an example, if we are searching for the pattern "textbook" with at most three
 
 (b) Why does this not show that P = NP?
 
-\*10.57 You are given a currency system with coins of (decreasing) value c1, c2, . . . , cn cents.
+*10.57 You are given a currency system with coins of (decreasing) value c1, c2, . . . , cn cents.
 
 (a) Give an algorithm that computes the minimum number of coins required to give K cents in change.
 
 (b) Give an algorithm that computes the number of different ways to give K cents in change.
 
-\*10.58 Consider the problem of placing eight queens on an (eight by eight) chess board. Two
+*10.58 Consider the problem of placing eight queens on an (eight by eight) chess board. Two
 
 queens are said to attack each other if they are on the same row, column, or (not necessarily main) diagonal.
 
@@ -3063,7 +3039,7 @@ distance dt,tmp;
 
 页码，77/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 if( s == t )
 
@@ -3089,7 +3065,7 @@ return dt
 
 Figure 10.79 Recursive shortest path algorithm
 
-\*10.59 In the game of chess, a knight in row r and column c may move to row 1 r' B and
+*10.59 In the game of chess, a knight in row r and column c may move to row 1 r' B and
 
 column 1 c' B (where B is the size of the board) provided that either
 
@@ -3117,243 +3093,243 @@ an acyclic graph, from s to t.
 
 References
 
-The original paper on Huffman codes is \[21\]. Variations on the algorithm are discussed in \[29\],
+The original paper on Huffman codes is [21]. Variations on the algorithm are discussed in [29],
 
 页码，78/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-\[31\], and \[32\]. Another popular compression scheme is Ziv-Lempel encoding \[52\], \[53\]. Here the codes have a fixed length but represent strings instead of characters. \[3\] and \[34\] are good surveys of the common compression schemes.
+[31], and [32]. Another popular compression scheme is Ziv-Lempel encoding [52], [53]. Here the codes have a fixed length but represent strings instead of characters. [3] and [34] are good surveys of the common compression schemes.
 
-The analysis of bin-packing heuristics first appeared in Johnson's Ph.D. thesis and was published in \[22\]. The improved lower bound for on-line bin packing given in Exercise 10.8 is from \[50\]; this result has been improved further in \[35\]. \[44\] describes another approach to on-line bin packing.
+The analysis of bin-packing heuristics first appeared in Johnson's Ph.D. thesis and was published in [22]. The improved lower bound for on-line bin packing given in Exercise 10.8 is from [50]; this result has been improved further in [35]. [44] describes another approach to on-line bin packing.
 
-Theorem 10.7 is from \[6\]. The closest points algorithm appeared in \[45\]. \[47\] describes the turnpike reconstruction problem and its applications. Two books on the relatively new field of computational geometry are \[14\] and \[40\]. \[2\] contains the lecture notes for a computational geometry course taught at MIT; it includes an extensive bibliography.
+Theorem 10.7 is from [6]. The closest points algorithm appeared in [45]. [47] describes the turnpike reconstruction problem and its applications. Two books on the relatively new field of computational geometry are [14] and [40]. [2] contains the lecture notes for a computational geometry course taught at MIT; it includes an extensive bibliography.
 
-The linear-time selection algorithm appeared in \[8\]. \[17\] discusses the sampling approach that
+The linear-time selection algorithm appeared in [8]. [17] discusses the sampling approach that
 
-finds the median in 1.5n expected comparisons. The O(n1.59) multiplication is from \[23\]. Generalizations are discussed in \[9\] and \[24\]. Strassen's algorithm appears in the short paper \[48\]. The paper states the results and not much else. Pan \[38\] gives several divide and conquer
+finds the median in 1.5n expected comparisons. The O(n1.59) multiplication is from [23]. Generalizations are discussed in [9] and [24]. Strassen's algorithm appears in the short paper [48]. The paper states the results and not much else. Pan [38] gives several divide and conquer
 
-algorithms, including the one in Exercise 10.27. The best known bound is O(n2.376), which is due to Coppersmith and Winograd \[13\].
+algorithms, including the one in Exercise 10.27. The best known bound is O(n2.376), which is due to Coppersmith and Winograd [13].
 
-The classic references on dynamic programming are the books \[4\] and \[5\]. The matrix ordering problem was first studied in \[19\]. It was shown in \[20\] that the problem can be solved in O(n log n) time.
+The classic references on dynamic programming are the books [4] and [5]. The matrix ordering problem was first studied in [19]. It was shown in [20] that the problem can be solved in O(n log n) time.
 
 An O(n2) algorithm was provided for the construction of optimal binary search trees by Knuth
 
-\[25\]. The all-pairs shortest-path algorithm is from Floyd \[16\]. A theoretically better O(n3(log
+[25]. The all-pairs shortest-path algorithm is from Floyd [16]. A theoretically better O(n3(log
 
-logn/logn)l/3) algorithm is given by Fredman \[18\], but not surprisingly, it is not practical. Under certain conditions, the running time of dynamic programs can automatically be improved by a factor of n or more. This is discussed in Exercise 10.33, \[15\], and \[51\].
+logn/logn)l/3) algorithm is given by Fredman [18], but not surprisingly, it is not practical. Under certain conditions, the running time of dynamic programs can automatically be improved by a factor of n or more. This is discussed in Exercise 10.33, [15], and [51].
 
-The discussion of random number generators is based on \[39\]. Park and Miller attribute the portable implementation to Schrage \[46\]. Skip lists are discussed by Pugh in \[41\]. The randomized primality-testing algorithm is due to Miller \[36\] and Rabin \[43\]. The theorem that at most (n - 9)/4 values of a fool the algorithm is from Monier \[37\]. Other randomized algorithms are discussed in \[42\].
+The discussion of random number generators is based on [39]. Park and Miller attribute the portable implementation to Schrage [46]. Skip lists are discussed by Pugh in [41]. The randomized primality-testing algorithm is due to Miller [36] and Rabin [43]. The theorem that at most (n - 9)/4 values of a fool the algorithm is from Monier [37]. Other randomized algorithms are discussed in [42].
 
-More information on - pruning can be found in \[1\], \[26\], and \[27\]. The top programs that play chess, checkers, Othello, and backgammon have all achieved world class status. \[33\] describes an Othello program. The paper appears in a special issue on computer games (mostly chess); this issue is a gold mine of ideas. One of the papers describes the use of dynamic programming to solve chess endgames completely when only a few pieces are left on the board. Related research has resulted in the change of the 50-move rule in certain cases.
+More information on - pruning can be found in [1], [26], and [27]. The top programs that play chess, checkers, Othello, and backgammon have all achieved world class status. [33] describes an Othello program. The paper appears in a special issue on computer games (mostly chess); this issue is a gold mine of ideas. One of the papers describes the use of dynamic programming to solve chess endgames completely when only a few pieces are left on the board. Related research has resulted in the change of the 50-move rule in certain cases.
 
-Exercise 10.41 is solved in \[7\]. It is the only known case of a homometric point set with no duplicate distances. Determining whether any others exist for n > 6 is open. Christofides \[12\]
+Exercise 10.41 is solved in [7]. It is the only known case of a homometric point set with no duplicate distances. Determining whether any others exist for n > 6 is open. Christofides [12]
 
-gives a solution to Exercise 10.47, and also an algorithm which generates a tour at most optimal. Exercise 10.52 is discussed in \[28\]. Exercise 10.55 is solved in \[49\]. An O(kn) algorithm is given in \[30\]. Exercise 10.57 is discussed in \[10\], but do not be misled by the title of the paper.
+gives a solution to Exercise 10.47, and also an algorithm which generates a tour at most optimal. Exercise 10.52 is discussed in [28]. Exercise 10.55 is solved in [49]. An O(kn) algorithm is given in [30]. Exercise 10.57 is discussed in [10], but do not be misled by the title of the paper.
 
-1\. B. Abramson, "Control Strategies for Two-Player Games," ACM Computing Surveys, 21 (1989), 137- 161.
+1. B. Abramson, "Control Strategies for Two-Player Games," ACM Computing Surveys, 21 (1989), 137- 161.
 
-2\. A. Aggarwal and J. Wein, Computational Geometry: Lecture Notes for 18.409, MIT Laboratory for
+2. A. Aggarwal and J. Wein, Computational Geometry: Lecture Notes for 18.409, MIT Laboratory for
 
 Computer Science, 1988.
 
 页码，79/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-3\. T. Bell, I. H. Witten, and J. G. Cleary, "Modeling for Text Compression," ACM Computing
+3. T. Bell, I. H. Witten, and J. G. Cleary, "Modeling for Text Compression," ACM Computing
 
 Surveys, 21 (1989), 557-591.
 
-4\. R. E. Bellman, Dynamic Programming, Princeton University Press, Princeton, NJ, 1957.
+4. R. E. Bellman, Dynamic Programming, Princeton University Press, Princeton, NJ, 1957.
 
-5\. R. E. Bellman and S. E. Dreyfus, Applied Dynamic Programming, Princeton University Press,
+5. R. E. Bellman and S. E. Dreyfus, Applied Dynamic Programming, Princeton University Press,
 
 Princeton, NJ, 1962.
 
-6\. J. L. Bentley, D. Haken, and J. B. Saxe, "A General Method for Solving Divide-and-Conquer
+6. J. L. Bentley, D. Haken, and J. B. Saxe, "A General Method for Solving Divide-and-Conquer
 
 Recurrences," SIGACT News, 12 (1980), 36-44.
 
-7\. G. S. Bloom, "A Counterexample to the Theorem of Piccard," Journal of Combinatorial Theory A
+7. G. S. Bloom, "A Counterexample to the Theorem of Piccard," Journal of Combinatorial Theory A
 
 (1977), 378-379.
 
-8\. M. Blum, R. W. Floyd, V. R. Pratt, R. L. Rivest, and R. E. Tarjan, "Time Bounds for
+8. M. Blum, R. W. Floyd, V. R. Pratt, R. L. Rivest, and R. E. Tarjan, "Time Bounds for
 
 Selection," Journal of Computer and System Sciences 7 (1973), 448-461.
 
-9\. A. Borodin and J. I. Munro, The Computational Complexity of Algebraic and Numerical Problems,
+9. A. Borodin and J. I. Munro, The Computational Complexity of Algebraic and Numerical Problems,
 
 American Elsevier, New York, 1975.
 
-10\. L. Chang and J. Korsh, "Canonical Coin Changing and Greedy Solutions," Journal of the ACM 23
+10. L. Chang and J. Korsh, "Canonical Coin Changing and Greedy Solutions," Journal of the ACM 23
 
 (1976), 418-422.
 
-12\. N. Christofides, "Worst-case Analysis of a New Heuristic for the Traveling Salesman Problem,"
+12. N. Christofides, "Worst-case Analysis of a New Heuristic for the Traveling Salesman Problem,"
 
 Management Science Research Report #388, Carnegie-Mellon University, Pittsburgh, PA, 1976.
 
-13\. D. Coppersmith and S. Winograd, "Matrix Multiplication via Arithmetic Progressions,"
+13. D. Coppersmith and S. Winograd, "Matrix Multiplication via Arithmetic Progressions,"
 
 Proceedings of the Nineteenth Annual ACM Symposium of the Theory of Computing (1987), 1-6.
 
-14\. H. Edelsbrunner, Algorithms in Combinatorial Geometry, Springer-Verlag, Berlin, 1987.
+14. H. Edelsbrunner, Algorithms in Combinatorial Geometry, Springer-Verlag, Berlin, 1987.
 
-15\. D. Eppstein, Z. Galil, R. Giancarlo, "Speeding up Dynamic Programming," Proceedings of the
+15. D. Eppstein, Z. Galil, R. Giancarlo, "Speeding up Dynamic Programming," Proceedings of the
 
 Twenty-ninth Annual IEEE Symposium on the Foundations of Computer Science, (1988), 488-495.
 
-16\. R. W. Floyd, "Algorithm 97: Shortest Path," Communications of the ACM 5 (1962), 345.
+16. R. W. Floyd, "Algorithm 97: Shortest Path," Communications of the ACM 5 (1962), 345.
 
-17\. R. W. Floyd and R. L. Rivest, "Expected Time Bounds for Selection," Communications of the ACM
+17. R. W. Floyd and R. L. Rivest, "Expected Time Bounds for Selection," Communications of the ACM
 
 18 (1975), 165-172.
 
-18\. M. L. Fredman, "New Bounds on the Complexity of the Shortest Path Problem," SIAM Journal on
+18. M. L. Fredman, "New Bounds on the Complexity of the Shortest Path Problem," SIAM Journal on
 
 Computing 5 (1976), 83-89.
 
-19\. S. Godbole, "On Efficient Computation of Matrix Chain Products," IEEE Transactions on
+19. S. Godbole, "On Efficient Computation of Matrix Chain Products," IEEE Transactions on
 
 Computers 9 (1973), 864-866.
 
 页码，80/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-20\. T. C. Hu and M. R. Shing, "Computations of Matrix Chain Products, Part I," SIAM Journal on
+20. T. C. Hu and M. R. Shing, "Computations of Matrix Chain Products, Part I," SIAM Journal on
 
 Computing 11 (1982), 362-373.
 
-21\. D. A. Huffman, "A Method for the Construction of Minimum Redundancy Codes," Proceedings of
+21. D. A. Huffman, "A Method for the Construction of Minimum Redundancy Codes," Proceedings of
 
 the IRE 40 (1952), 1098-1101.
 
-22\. D. S. Johnson, A. Demers, J. D. Ullman, M. R. Garey, and R. L. Graham, "Worst-case
+22. D. S. Johnson, A. Demers, J. D. Ullman, M. R. Garey, and R. L. Graham, "Worst-case
 
 Performance Bounds for Simple One-Dimensional Packing Algorithms," SIAM Journal on Computing, 3 (1974), 299-325.
 
-23\. A. Karatsuba and Y. Ofman, "Multiplication of Multi-digit Numbers on Automata," Doklady
+23. A. Karatsuba and Y. Ofman, "Multiplication of Multi-digit Numbers on Automata," Doklady
 
 Akademii Nauk SSSR 145 (1962), 293-294.
 
-24\. D. E. Knuth, The Art of Computer Programming, Vol 2: Seminumerical Algorithms, second
+24. D. E. Knuth, The Art of Computer Programming, Vol 2: Seminumerical Algorithms, second
 
 edition, Addison-Wesley, Reading, MA, 1981.
 
-25\. D. E. Knuth, "Optimum Binary Search Trees," Acta Informatica 1 (1971), 14-25.
+25. D. E. Knuth, "Optimum Binary Search Trees," Acta Informatica 1 (1971), 14-25.
 
-26\. D. E. Knuth and R. W. Moore, "Estimating the Efficiency of Backtrack Programs," Mathematics
+26. D. E. Knuth and R. W. Moore, "Estimating the Efficiency of Backtrack Programs," Mathematics
 
 of Computation 29, (1975) 121-136.
 
-27\. D. E. Knuth, "An Analysis of Alpha-Beta Cutoffs," Artificial Intelligence 6 (1975), 293-326.
+27. D. E. Knuth, "An Analysis of Alpha-Beta Cutoffs," Artificial Intelligence 6 (1975), 293-326.
 
-28\. D. E. Knuth, TEX and Metafont, New Directions in Typesetting, Digital Press, Bedford, MA,
+28. D. E. Knuth, TEX and Metafont, New Directions in Typesetting, Digital Press, Bedford, MA,
 
 1981.
 
-29\. D. E. Knuth, "Dynamic Huffman Coding,"Journal of Algorithms 6 (1985), 163-180.
+29. D. E. Knuth, "Dynamic Huffman Coding,"Journal of Algorithms 6 (1985), 163-180.
 
-30\. G. M. Landau and U. Vishkin, "Introducing Efficient Parallelism into Approximate String
+30. G. M. Landau and U. Vishkin, "Introducing Efficient Parallelism into Approximate String
 
 Matching and a New Serial Algorithm," Proceedings of the Eighteenth Annual ACM Symposium on Theory of Computing (1986), 220-230.
 
-31\. L. L. Larmore, "Height-Restricted Optimal Binary Trees," SlAM Journal on Computing 16 (1987),
+31. L. L. Larmore, "Height-Restricted Optimal Binary Trees," SlAM Journal on Computing 16 (1987),
 
 1115-1123.
 
-32\. L. L. Larmore and D. S. Hirschberg, "A Fast Algorithm for Optimal Length-Limited Huffman
+32. L. L. Larmore and D. S. Hirschberg, "A Fast Algorithm for Optimal Length-Limited Huffman
 
 Codes," Journal of the ACM 37 (1990), 464-473.
 
-33\. K. Lee and S. Mahajan, "The Development of a World Class Othello Program," Artificial
+33. K. Lee and S. Mahajan, "The Development of a World Class Othello Program," Artificial
 
 Intelligence 43 (1990), 21-36.
 
-34\. D. A. Lelewer and D. S. Hirschberg, "Data Compression," ACM Computing Surveys 19 (1987), 261-
+34. D. A. Lelewer and D. S. Hirschberg, "Data Compression," ACM Computing Surveys 19 (1987), 261-
 
 296.
 
-35\. F. M. Liang, "A Lower Bound for On-line Bin Packing," Information Processing Letters 10
+35. F. M. Liang, "A Lower Bound for On-line Bin Packing," Information Processing Letters 10
 
 (1980), 76-79.
 
 页码，81/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-36\. G. L. Miller, "Riemann's Hypothesis and Tests for Primality," Journal of Computer and System
+36. G. L. Miller, "Riemann's Hypothesis and Tests for Primality," Journal of Computer and System
 
 Sciences 13 (1976), 300-317.
 
-37\. L. Monier, "Evaluation and Comparison of Two Efficient Probabilistic Primality Testing
+37. L. Monier, "Evaluation and Comparison of Two Efficient Probabilistic Primality Testing
 
 Algorithms," Theoretical Computer Science 12 (1980), 97-108.
 
-38\. V. Pan, "Strassen's Algorithm is Not Optimal," Proceedings of the Nineteenth Annual IEEE
+38. V. Pan, "Strassen's Algorithm is Not Optimal," Proceedings of the Nineteenth Annual IEEE
 
 Symposium on the Foundations of Computer Science (1978), 166-176.
 
-39\. S. K. Park and K. W. Miller, "Random Number Generators: Good Ones are Hard To Find,"
+39. S. K. Park and K. W. Miller, "Random Number Generators: Good Ones are Hard To Find,"
 
 Communications of the ACM 31 (1988), 1192-1201.
 
-40\. F. P. Preparata and M. I. Shamos, Computational Geometry: An Introduction, Springer-Verlag,
+40. F. P. Preparata and M. I. Shamos, Computational Geometry: An Introduction, Springer-Verlag,
 
 New York, NY, 1985.
 
-41\. W. Pugh, "Skip Lists: A Probabilistic Alternative to Balanced Trees," Communications of the
+41. W. Pugh, "Skip Lists: A Probabilistic Alternative to Balanced Trees," Communications of the
 
 ACM 33 (1990), 668-676.
 
-42\. M. O. Rabin, "Probabilistic Algorithms," in Algorithms and Complexity, Recent Results and New
+42. M. O. Rabin, "Probabilistic Algorithms," in Algorithms and Complexity, Recent Results and New
 
 Directions (J. F. Traub, ed.), Academic Press, New York, 1976, 21-39.
 
-43\. M. O. Rabin, "Probabilistic Algorithms for Testing Primality," Journal of Number Theory, 12
+43. M. O. Rabin, "Probabilistic Algorithms for Testing Primality," Journal of Number Theory, 12
 
 (1980), 128-138.
 
-44\. P. Ramanan, D. J. Brown, C. C. Lee, and D. T. Lee, "On-line Bin Packing in Linear Time,"
+44. P. Ramanan, D. J. Brown, C. C. Lee, and D. T. Lee, "On-line Bin Packing in Linear Time,"
 
 Journal of Algorithms 10 (1989), 305-326.
 
-45\. M. I. Shamos and D. Hoey, "Closest-Point Problems," Proceedings of the Sixteenth Annual IEEE
+45. M. I. Shamos and D. Hoey, "Closest-Point Problems," Proceedings of the Sixteenth Annual IEEE
 
 Symposium on the Foundations of Computer Science (1975), 151-162.
 
-46\. L. Schrage, "A More Portable FORTRAN Random Number Generator," ACM Transactions on
+46. L. Schrage, "A More Portable FORTRAN Random Number Generator," ACM Transactions on
 
 Mathematics Software 5 (1979), 132-138.
 
-47\. S. S. Skiena, W. D. Smith, and P. Lemke, "Reconstructing Sets From Interpoint Distances,"
+47. S. S. Skiena, W. D. Smith, and P. Lemke, "Reconstructing Sets From Interpoint Distances,"
 
 Proceedings of the Sixth Annual ACM Symposium on Computational Geometry (1990), 332-339.
 
-48\. V. Strassen, "Gaussian Elimination is Not Optimal," Numerische Mathematik 13 (1969), 354-356.
+48. V. Strassen, "Gaussian Elimination is Not Optimal," Numerische Mathematik 13 (1969), 354-356.
 
-49\. R. A. Wagner and M. J. Fischer, "The String-to-String Correction Problem," Journal of the ACM
+49. R. A. Wagner and M. J. Fischer, "The String-to-String Correction Problem," Journal of the ACM
 
 21 (1974), 168-173.
 
-50\. A. C. Yao, "New Algorithms for Bin Packing," Journal of the ACM 27 (1980), 207-227.
+50. A. C. Yao, "New Algorithms for Bin Packing," Journal of the ACM 27 (1980), 207-227.
 
-51\. F. F. Yao, "Efficient Dynamic Programming Using Quadrangle Inequalities," Proceedings of the
+51. F. F. Yao, "Efficient Dynamic Programming Using Quadrangle Inequalities," Proceedings of the
 
 Twelfth Annual ACM Symposium on the Theory of Computing (1980), 429-435.
 
 页码，82/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
-52\. J. Ziv and A. Lempel, "A Universal Algorithm for Sequential Data Compression," IEEE
+52. J. Ziv and A. Lempel, "A Universal Algorithm for Sequential Data Compression," IEEE
 
 Transactions on Information Theory IT23 (1977), 337-343.
 
-53\. J. Ziv and A. Lempel, "Compression of Individual Sequences via Variable-rate Coding," IEEE
+53. J. Ziv and A. Lempel, "Compression of Individual Sequences via Variable-rate Coding," IEEE
 
 Transactions on Information Theory IT24 (1978), 530-536.
 
@@ -3361,4 +3337,4 @@ Go to Chapter 11 Return to Table of Contents
 
 页码，83/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
+2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...
