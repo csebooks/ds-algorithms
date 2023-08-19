@@ -4,7 +4,6 @@ weight: 6
 ---
 
   
-
 # CHAPTER 6: 
 # PRIORITY QUEUES (HEAPS)
 
@@ -24,9 +23,9 @@ The data structures we will see are among the most elegant in computer science.
 
 ## 6.1. Model
 
-A priority queue is a data structure that allows at least the following two operations: insert, which does the obvious thing, and delete\_min, which finds, returns and removes the minimum element in the heap. The insert operation is the equivalent of enqueue, and delete\_min is the priority queue equivalent of the queue's dequeue operation. The delete\_min function also alters its input. Current thinking in the software engineering community suggests that this is no longer a good idea. However, we will continue to use this function because of historical reasons--many programmers expect delete\_min to operate this way.
+A priority queue is a data structure that allows at least the following two operations: insert, which does the obvious thing, and delete_min, which finds, returns and removes the minimum element in the heap. The insert operation is the equivalent of enqueue, and delete_min is the priority queue equivalent of the queue's dequeue operation. The delete_min function also alters its input. Current thinking in the software engineering community suggests that this is no longer a good idea. However, we will continue to use this function because of historical reasons--many programmers expect delete_min to operate this way.
 
-![\[Title\](_index.md)](D1.png)
+![Title](D1.png)
 
 **Figure 6.1 Basic model of a priority queue**
 
@@ -36,9 +35,9 @@ Priority queues have many applications besides operating systems. In Chapter 7, 
 
 ## 6.2. Simple Implementations
 
-There are several obvious ways to implement a priority queue. We could use a simple linked list, performing insertions at the front in O(1) and traversing the list, which requires O(n) time, to delete the minimum. Alternatively, we could insist that the list be always kept sorted; this makes insertions expensive (O (n)) and delete\_mins cheap (O(1)). The former is probably the better idea of the two, based on the fact that there are never more delete\_mins than insertions.
+There are several obvious ways to implement a priority queue. We could use a simple linked list, performing insertions at the front in O(1) and traversing the list, which requires O(n) time, to delete the minimum. Alternatively, we could insist that the list be always kept sorted; this makes insertions expensive (O (n)) and delete_mins cheap (O(1)). The former is probably the better idea of the two, based on the fact that there are never more delete_mins than insertions.
 
-Another way of implementing priority queues would be to use a binary search tree. This gives an O(log n) average running time for both operations. This is true in spite of the fact that although the insertions are random, the deletions are not. Recall that the only element we ever delete is the minimum. Repeatedly removing a node that is in the left subtree would seem to hurt the balance of the tree by making the right subtree heavy. However, the right subtree is random. In the worst case, where the delete\_mins have depleted the left subtree, the right subtree would have at most twice as many elements as it should. This adds only a small constant to its expected depth. Notice that the bound can be made into a worst-case bound by using a balanced tree; this protects one against bad insertion sequences.
+Another way of implementing priority queues would be to use a binary search tree. This gives an O(log n) average running time for both operations. This is true in spite of the fact that although the insertions are random, the deletions are not. Recall that the only element we ever delete is the minimum. Repeatedly removing a node that is in the left subtree would seem to hurt the balance of the tree by making the right subtree heavy. However, the right subtree is random. In the worst case, where the delete_mins have depleted the left subtree, the right subtree would have at most twice as many elements as it should. This adds only a small constant to its expected depth. Notice that the bound can be made into a worst-case bound by using a balanced tree; this protects one against bad insertion sequences.
 
 Using a search tree could be overkill because it supports a host of operations that are not required. The basic data structure we will use will not require pointers and will support both operations in O(log n) worst-case time. Insertion will actually take constant time on average, and our implementation will allow building a heap of n items in linear time, if no deletions intervene. We will then discuss how to implement heaps to support efficient merging. This additional operation seems to complicate matters a bit and apparently requires the use of pointers.
 
@@ -58,11 +57,7 @@ The implementation we will use is known as a binary heap. Its use is so common f
 
 A heap is a binary tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right. Such a tree is known as a complete binary tree. Figure 6.2 shows an example.
 
-It is easy to show that a complete binary tree of height h has between 2^h^ and
-
-2^h+1^ - 1 nodes. This implies that the height of a complete binary tree is log
-
-n , which is clearly 0(log n).
+It is easy to show that a complete binary tree of height h has between 2^h^ and 2^h+1^ - 1 nodes. This implies that the height of a complete binary tree is log~n~ , which is clearly 0(log n).
 
 An important observation is that because a complete binary tree is so regular, it can be represented in an array and no pointers are necessary. The array in Figure 6.3 corresponds to the heap in Figure 6.2.
 
@@ -84,11 +79,9 @@ The property that allows operations to be performed quickly is the heap order pr
 
 Applying this logic, we arrive at the heap order property. In a heap, for every node X, the key in the parent of X is smaller than (or equal to) the key in X, with the obvious exception of the root (which has no parent). In Figure 6.5 the tree on the left is a heap, but the tree on the right is not (the dashed line shows the violation of heap order). As usual, we will assume that the keys are integers, although they could be arbitrarily complex.
 
-Analogously, we can declare a (max) heap, which enables us to efficiently find and remove the maximum element, by changing the heap order property. Thus, a priority queue can be used to find either a minimum or a maximum, but this needs to be decided ahead of time.
+Analogously, we can declare a (max) heap, which enables us to efficiently find and remove the maximum element, by changing the heap order property. Thus, a priority queue can be used to find either a minimum or a maximum, but this needs to be decided ahead of time. By the heap order property, the minimum element can always be found at the root. Thus, we get the extra operation, find_min, in constant time.
 
-By the heap order property, the minimum element can always be found at the root. Thus, we get the extra operation, find\_min, in constant time.
-
-~~~js
+```js
 struct heap_struct
  
 {
@@ -106,11 +99,11 @@ element_type *elements;
 };
 
 typedef struct heap_struct *PRIORITY_QUEUE;
-~~~
+```
 
 **Figure 6.4 Declaration for priority queue**
 
-~~~js
+```js
 PRIORITY_QUEUE
 
 create_pq( unsigned int max_elements )
@@ -148,7 +141,7 @@ H->elements[0] = MIN_DATA;
 return H;
 
 }
-~~~
+```
 
 
 ## Figure 6.4a
@@ -165,7 +158,7 @@ Insert
 
 Delete_min
 
-##Insert
+## Insert
 
 To insert an element x into the heap, we create a hole in the next available location, since otherwise the tree will not be complete. If x can be placed in the hole without violating heap order, then we do so and are done. Otherwise we slide the element that is in the hole's parent node into the hole, thus bubbling the hole up toward the root. We continue this process until x can be placed in the hole. Figure 6.6 shows that to insert 14, we create a hole in the next available heap location. Inserting 14 in the hole would violate the heap order property, so 31 is slid down into the hole. This strategy is continued in Figure 6.7 until the correct location for 14 is found.
 
@@ -181,7 +174,7 @@ We could have implemented the percolation in the insert routine by performing re
 
 **Figure 6.7 The remaining two steps to insert 14 in previous heap**
 
-~~~js
+```js
 /* H->element[0] is a sentinel */
 
 void
@@ -217,9 +210,7 @@ H->elements[i] = x;
 }
 
 }
-~~~
-
-
+```
 
 **Figure 6.8 Procedure to insert into a binary heap**
 
@@ -229,9 +220,9 @@ The time to do the insertion could be as much as O (log n), if the element to be
 
 ## Delete_min
 
-Delete\_mins are handled in a similar manner as insertions. Finding the minimum is easy; the hard part is removing it. When the minimum is removed, a hole is created at the root. Since the heap now becomes one smaller, it follows that the last element x in the heap must move somewhere in the heap. If x can be placed in the hole, then we are done. This is unlikely, so we slide the smaller of the hole's children into the hole, thus pushing the hole down one level. We repeat this step until x can be placed in the hole. Thus, our action is to place x in its correct spot along a path from the root containing minimum children.
+Delete_mins are handled in a similar manner as insertions. Finding the minimum is easy; the hard part is removing it. When the minimum is removed, a hole is created at the root. Since the heap now becomes one smaller, it follows that the last element x in the heap must move somewhere in the heap. If x can be placed in the hole, then we are done. This is unlikely, so we slide the smaller of the hole's children into the hole, thus pushing the hole down one level. We repeat this step until x can be placed in the hole. Thus, our action is to place x in its correct spot along a path from the root containing minimum children.
 
-In Figure 6.9 the left figure shows a heap prior to the delete\_min. After 13 is removed, we must now try to place 31 in the heap. 31 cannot be placed in the hole, because this would violate heap order. Thus, we place the smaller child (14) in the hole, sliding the hole down one level (see Fig. 6.10). We repeat this again, placing 19 into the hole and creating a new hole one level deeper. We then place 26 in the hole and create a new hole on the bottom level. Finally, we are able to place 31 in the hole (Fig. 6.11). This general strategy is known as a percolate down. We use the same technique as in the insert routine to avoid the use of swaps in this routine.
+In Figure 6.9 the left figure shows a heap prior to the delete_min. After 13 is removed, we must now try to place 31 in the heap. 31 cannot be placed in the hole, because this would violate heap order. Thus, we place the smaller child (14) in the hole, sliding the hole down one level (see Fig. 6.10). We repeat this again, placing 19 into the hole and creating a new hole one level deeper. We then place 26 in the hole and create a new hole on the bottom level. Finally, we are able to place 31 in the hole (Fig. 6.11). This general strategy is known as a percolate down. We use the same technique as in the insert routine to avoid the use of swaps in this routine.
 
 ![Alt text](D7.png)
 **Figure 6.9 Creation of the hole at the root**
@@ -244,7 +235,7 @@ In Figure 6.9 the left figure shows a heap prior to the delete\_min. After 13 is
 
 A frequent implementation error in heaps occurs when there are an even number of elements in the heap, and the one node that has only one child is encountered. You must make sure not to assume that there are always two children, so this usually involves an extra test. In the code, depicted in Figure 6.12, we've done this test at line 8. One extremely tricky solution is always to ensure that your algorithm thinks every node has two children. Do this by placing a sentinel, of value higher than any in the heap, at the spot after the heap ends, at the start of each percolate down when the heap size is even. You should think very carefully before attempting this, and you must put in a prominent comment if you do use this technique.
 
-~~~js
+```js
 element_type
 
 delete_min( PRIORITY_QUEUE H )
@@ -300,8 +291,8 @@ H->elements[i] = last_element;
 return min_element;
 
 }
-~~~
-**Figure 6.12 Function to perform delete\_min in a binary heap**
+```
+**Figure 6.12 Function to perform delete_min in a binary heap**
 
 Although this eliminates the need to test for the presence of a right child, you cannot eliminate the requirement that you test when you reach the bottom because this would require a sentinel for every leaf.
 
@@ -313,17 +304,17 @@ Notice that although finding the minimum can be performed in constant time, a he
 
 If we assume that the position of every element is known by some other method, then several other operations become cheap. The three operations below all run in logarithmic worst-case time.
 
-Decrease\_key
+Decrease_key
 
-Increase\_key
+Increase_key
 
 Delete
 
-Build\_heap
+Build_heap
 
-## Decrease\_key
+## Decrease_key
 
-The decrease\_key(x, , H) operation lowers the value of the key at position x
+The decrease_key(x, , H) operation lowers the value of the key at position x
 
 by a positive amount . Since this might violate the heap order, it must be fixed by a percolate up. This operation could be useful to system administrators: they can make their programs run with highest priority
 
@@ -331,9 +322,9 @@ by a positive amount . Since this might violate the heap order, it must be fixed
 
 **Figure 6.13 A very large complete binary tree**
 
-## Increase\_key
+## Increase_key
 
-The increase\_key(x, , H) operation increases the value of the key at position
+The increase_key(x, , H) operation increases the value of the key at position
 
 x by a positive amount . This is done with a percolate down. Many schedulers automatically drop the priority of a process that is consuming excessive CPU time.
 
@@ -341,38 +332,38 @@ x by a positive amount . This is done with a percolate down. Many schedulers aut
 
 The delete(x, H) operation removes the node at position x from the heap. This is
 
-done by first performing decrease\_key(x, , H) and then performing delete\_min (H). When a process is terminated by a user (instead of finishing normally), it must be removed from the priority queue.
+done by first performing decrease_key(x, , H) and then performing delete_min (H). When a process is terminated by a user (instead of finishing normally), it must be removed from the priority queue.
 
-## Build\_heap
+## Build_heap
 
-The build\_heap(H) operation takes as input n keys and places them into an empty heap. Obviously, this can be done with n successive inserts. Since each insert will take O(1) average and O(log n) worst-case time, the total running time of this algorithm would be O(n) average but O(n log n) worst-case. Since this is a special instruction and there are no other operations intervening, and we already know that the instruction can be performed in linear average time, it is reasonable to expect that with reasonable care a linear time bound can be guaranteed.
+The build_heap(H) operation takes as input n keys and places them into an empty heap. Obviously, this can be done with n successive inserts. Since each insert will take O(1) average and O(log n) worst-case time, the total running time of this algorithm would be O(n) average but O(n log n) worst-case. Since this is a special instruction and there are no other operations intervening, and we already know that the instruction can be performed in linear average time, it is reasonable to expect that with reasonable care a linear time bound can be guaranteed.
 
-The general algorithm is to place the n keys into the tree in any order, maintaining the structure property. Then, if percolate\_down(i) percolates down from node i, perform the algorithm in Figure 6.14 to create a heap-ordered tree.
+The general algorithm is to place the n keys into the tree in any order, maintaining the structure property. Then, if percolate_down(i) percolates down from node i, perform the algorithm in Figure 6.14 to create a heap-ordered tree.
 
 The first tree in Figure 6.15 is the unordered tree. The seven remaining trees in Figures 6.15 through 6.18 show the result of each of the seven percolate downs. Each dashed line corresponds to two comparisons: one to find the smaller child and one to compare the smaller child with the node. Notice that there are only 10 dashed lines in the entire algorithm (there could have been an 11th -- where?) corresponding to 20 comparisons.
 
-~~~js
+```js
 for(i=n/2; i>0; i-- )
 
 percolate_down( i );
-~~~
+```
 
-**Figure 6.14 Sketch of build\_heap**
+**Figure 6.14 Sketch of build_heap**
 ![Alt text](D11.png)
 
 
-**Figure 6.15 Left: initial heap; right: after percolate\_down(7)**
+**Figure 6.15 Left: initial heap; right: after percolate_down(7)**
 ![Alt text](D12.png)
 
-**Figure 6.16 Left: after percolate\_down(6); right: after percolate\_down(5)**
+**Figure 6.16 Left: after percolate_down(6); right: after percolate_down(5)**
 ![Alt text](D13.png)
 
-**Figure 6.17 Left: after percolate\_down(4); right: after percolate\_down(3)**
+**Figure 6.17 Left: after percolate_down(4); right: after percolate_down(3)**
 ![Alt text](D14.png)
 
-**Figure 6.18 Left: after percolate\_down(2); right: after percolate\_down(1)**
+**Figure 6.18 Left: after percolate_down(2); right: after percolate_down(1)**
 
-To bound the running time of build\_heap, we must bound the number of dashed lines. This can be done by computing the sum of the heights of all the nodes in the heap, which is the maximum number of dashed lines. What we would like to show is that this sum is O(n).
+To bound the running time of build_heap, we must bound the number of dashed lines. This can be done by computing the sum of the heights of all the nodes in the heap, which is the maximum number of dashed lines. What we would like to show is that this sum is O(n).
 
 ## THEOREM 6.1.
 
@@ -388,7 +379,7 @@ height h - 1, 22 nodes at height h - 2, and in general 2i nodes at height h - i.
 
 ![Alt text](image.png)
 
-\= h +2(h - 1) + 4(h - 2) + 8(h - 3) + 16(h - 4) +. . .+ 2h-1(1)
+= h +2(h - 1) + 4(h - 2) + 8(h - 3) + 16(h - 4) +. . .+ 2h-1(1)
 
 **(6.1)**
 
@@ -400,7 +391,7 @@ Multiplying by 2 gives the equation
 
 We subtract these two equations and obtain Equation (6.3). We find that certain terms almost cancel. For instance, we have 2h - 2(h - 1) = 2, 4(h - 1) - 4(h - 2)
 
-\= 4, and so on. The last term in Equation (6.2), 2h, does not appear in Equation (6.1); thus, it appears in Equation (6.3). The first term in Equation (6.1), h, does not appear in equation (6.2); thus, -h appears in Equation (6.3).
+= 4, and so on. The last term in Equation (6.2), 2h, does not appear in Equation (6.1); thus, it appears in Equation (6.3). The first term in Equation (6.1), h, does not appear in equation (6.2); thus, -h appears in Equation (6.3).
 
 We obtain
 
@@ -414,7 +405,7 @@ A complete tree is not a perfect binary tree, but the result we have obtained is
 
 Since a complete tree has between 2h and 2h+1 nodes, this theorem implies that this sum is O(n), where n is the number of nodes.
 
-Although the result we have obtained is sufficient to show that build\_heap is linear, the bound on the sum of the heights is not as strong as possible. For a
+Although the result we have obtained is sufficient to show that build_heap is linear, the bound on the sum of the heights is not as strong as possible. For a
 
 complete tree with n = 2h nodes, the bound we have obtained is roughly 2n. The sum of the heights can be shown by induction to be n - b(n), where b(n) is the number of 1s in the binary representation of n.
 
@@ -445,9 +436,9 @@ Algorithm 6B
 
 ## Algorithm 6A
 
-For simplicity, we assume that we are interested in finding the kth smallest element. The algorithm is simple. We read the n elements into an array. We then apply the build\_heap algorithm to this array. Finally, we'll perform k delete\_min operations. The last element extracted from the heap is our answer. It should be clear that by changing the heap order property, we could solve the original problem of finding the kth largest element.
+For simplicity, we assume that we are interested in finding the kth smallest element. The algorithm is simple. We read the n elements into an array. We then apply the build_heap algorithm to this array. Finally, we'll perform k delete_min operations. The last element extracted from the heap is our answer. It should be clear that by changing the heap order property, we could solve the original problem of finding the kth largest element.
 
-The correctness of the algorithm should be clear. The worst-case timing is O(n) to construct the heap, if build\_heap is used, and O(log n) for each delete\_min. Since there are k delete\_mins, we obtain a total running time of O(n + k log n). If k = O(n/log n), then the running time is dominated by the build\_heap operation and is O(n). For larger values of k, the running time is O(k log n). If k =
+The correctness of the algorithm should be clear. The worst-case timing is O(n) to construct the heap, if build_heap is used, and O(log n) for each delete_min. Since there are k delete_mins, we obtain a total running time of O(n + k log n). If k = O(n/log n), then the running time is dominated by the build_heap operation and is O(n). For larger values of k, the running time is O(k log n). If k =
 
 _n_/2 , then the running time is (n log n).
 
@@ -457,7 +448,7 @@ Notice that if we run this program for k = n and record the values as they leave
 
 For the second algorithm, we return to the original problem and find the kth largest element. We use the idea from Algorithm 1B. At any point in time we will maintain a set S of the k largest elements. After the first k elements are read, when a new element is read, it is compared with the kth largest element, which we denote by Sk. Notice that Sk is the smallest element in S. If the new element is larger, then it replaces Sk in S. S will then have a new smallest element, which may or may not be the newly added element. At the end of the input, we find the smallest element in S and return it as the answer.
 
-This is essentially the same algorithm described in Chapter 1. Here, however, we will use a heap to implement S. The first k elements are placed into the heap in total time O(k) with a call to build\_heap. The time to process each of the remaining elements is O(1), to test if the element goes into S, plus O(log k), to delete Sk and insert the new element if this is necessary. Thus, the total time is O(k + (n - k ) log k ) = O (n log k ) . This algorithm also gives a bound of (n log n) for finding the median.
+This is essentially the same algorithm described in Chapter 1. Here, however, we will use a heap to implement S. The first k elements are placed into the heap in total time O(k) with a call to build_heap. The time to process each of the remaining elements is O(1), to test if the element goes into S, plus O(log k), to delete Sk and insert the new element if this is necessary. Thus, the total time is O(k + (n - k ) log k ) = O (n log k ) . This algorithm also gives a bound of (n log n) for finding the median.
 
 In Chapter 7, we will see how to solve this problem in O(n) average time. In Chapter 10, we will see an elegant, albeit impractical, algorithm to solve this problem in O(n) worst-case time.
 
@@ -491,7 +482,7 @@ It is then straightforward, although possibly time-consuming, to write the simul
 
 Binary heaps are so simple that they are almost always used when priority queues are needed. A simple generalization is a d-heap, which is exactly like a binary heap except that all nodes have d children (thus, a binary heap is a 2-heap). Figure 6.19 shows a 3-heap.
 
-Notice that a d-heap is much more shallow than a binary heap, improving the running time of inserts to O(logdn). However, the delete\_min operation is more expensive, because even though the tree is shallower, the minimum of d children must be found, which takes d - 1 comparisons using a standard algorithm. This raises the time for this operation to O(d logdn). If d is a constant, both running times are, of course, O(log n). Furthermore, although an array can still be used, the multiplications and divisions to find children and parents are now by d, which seriously increases the running time, because we can no longer implement division by a bit shift. d-heaps are interesting in theory, because there are many algorithms where the number of insertions is much greater than the number of delete\_mins (and thus a theoretical speedup is possible). They are also of interest when the priority queue is too large to fit entirely in main memory. In this case, a d-heap can be advantageous in much the same way as B-trees.
+Notice that a d-heap is much more shallow than a binary heap, improving the running time of inserts to O(logdn). However, the delete_min operation is more expensive, because even though the tree is shallower, the minimum of d children must be found, which takes d - 1 comparisons using a standard algorithm. This raises the time for this operation to O(d logdn). If d is a constant, both running times are, of course, O(log n). Furthermore, although an array can still be used, the multiplications and divisions to find children and parents are now by d, which seriously increases the running time, because we can no longer implement division by a bit shift. d-heaps are interesting in theory, because there are many algorithms where the number of insertions is much greater than the number of delete_mins (and thus a theoretical speedup is possible). They are also of interest when the priority queue is too large to fit entirely in main memory. In this case, a d-heap can be advantageous in much the same way as B-trees.
 
 The most glaring weakness of the heap implementation, aside from the inability to perform finds is that combining two heaps into one is a hard operation. This extra operation is known as a merge. There are quite a few ways of implementing heaps so that the running time of a merge is O(log n). We will now discuss three data structures, of various complexity, that support the merge operation efficiently. We will defer any complicated analysis until Chapter 11.
 
@@ -557,8 +548,6 @@ Since this tree is formed recursively, and we have not yet finished the descript
 
 ![Alt text](D18.png)
 
-
-
 **Figure 6.22 Result of merging H2 with H1's right subheap**
 
 ![Alt text](D19.png)
@@ -567,17 +556,15 @@ Since this tree is formed recursively, and we have not yet finished the descript
 
 Although the resulting heap satisfies the heap order property, it is not leftist because the left subtree of the root has a null path length of 1 while the right subtree has null path length of 2. Thus, the leftist property is violated at the root. However, it is easy to see that the remainder of the tree must be leftist. The right subtree of the root is leftist, because of the recursive step. The left subtree of the root has not been changed, so it too must still be leftist. Thus, we only need to fix the root. We can make the entire tree leftist by merely swapping the root's left and right children (Fig. 6.24) and updating the null path length -- the new null path length is 1 plus the null path length of the new right child -- completing the merge. Notice that if the null path length is not updated, then all null path lengths will be 0, and the heap will not be leftist but merely random. In this case, the algorithm will work, but the time bound we will claim will no longer be valid.
 
-The description of the algorithm translates directly into code. The type definition (Fig. 6.25) is the same as the binary tree, except that it is augmented with the npl (null path length) field. We have seen in Chapter 4 that when an element is inserted into an empty binary tree, the pointer to the root will need to change. The easiest way to implement this is to have the insertion routine return a pointer to the new tree. Unfortunately, this will make the leftist heap insert incompatible with the binary heap insert (which does not return anything). The last line in Figure 6.25 represents one way out of this quandary. The leftist heap insertion routine which returns the new tree will be called insert1; the insert macro will make an insertion compatible with binary heaps. Using macros this way may not be the best or safest course, but the alternative, declaring a PRIORITY QUEUE as a pointer to a tree\_ptr will flood the code with extra asterisks.
+The description of the algorithm translates directly into code. The type definition (Fig. 6.25) is the same as the binary tree, except that it is augmented with the npl (null path length) field. We have seen in Chapter 4 that when an element is inserted into an empty binary tree, the pointer to the root will need to change. The easiest way to implement this is to have the insertion routine return a pointer to the new tree. Unfortunately, this will make the leftist heap insert incompatible with the binary heap insert (which does not return anything). The last line in Figure 6.25 represents one way out of this quandary. The leftist heap insertion routine which returns the new tree will be called insert1; the insert macro will make an insertion compatible with binary heaps. Using macros this way may not be the best or safest course, but the alternative, declaring a PRIORITY QUEUE as a pointer to a tree_ptr will flood the code with extra asterisks.
 
-Because insert is a macro and is textually substituted by the preprocessor, any routine that calls insert must be able to see the macro definition. Figure 6.25 would typically be a header file, so placing the macro declaration there is the only reasonable course. As we will see later. delete\_min also needs to be written as a macro.
+Because insert is a macro and is textually substituted by the preprocessor, any routine that calls insert must be able to see the macro definition. Figure 6.25 would typically be a header file, so placing the macro declaration there is the only reasonable course. As we will see later. delete_min also needs to be written as a macro.
 
 ![Alt text](D19.png)
 
-
-
 **Figure 6.24 Result of swapping children of H1's root**
 
-~~~js
+```js
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
@@ -597,7 +584,7 @@ unsigned int npl;
 typedef tree_ptr PRIORITY_QUEUE;
 
 define insert( x, H ) ( H = insert1( (x), H ) )
-~~~
+```
 
 **Figure 6.25 Leftist heap type declarations**
 
@@ -606,7 +593,7 @@ The routine to merge ( Fig. 6.26) is a driver designed to remove special cases a
 The time to perform the merge is proportional to the sum of the length of the right paths, because constant work is performed at each node visited during the recursive calls. Thus we obtain an O(log n) time bound to merge two leftist heaps. We can also perform this operation nonrecursively by essentially performing two passes. In the first pass, we create a new tree by merging the right paths of both heaps. To do this, we arrange the nodes on the right paths of H1
 and H2 in sorted order, keeping their respective left children. In our example, the new rightm path is 3, 6, 7, 8, 18 and the resulting tree is shown in Figure 6.28. A second pass is made up the heap, and child swaps are performed at nodes that violate the leftist heap property. In Figure 6.28, there is a swap at nodes 7 and 3, and the same tree as before is obtained. The nonrecursive version is simpler to visualize but harder to code. We leave it to the reader to show that the recursive and nonrecursive procedures do the same thing.
 
-~~~js
+```js
 
 PRIORITY_QUEUE
 
@@ -631,10 +618,10 @@ else
 return merge1( H2, H1 );
 
 }
-~~~
+```
 **Figure 6.26 Driving routine for merging leftist heaps**
 
-~~~js
+```js
 /* For merge1, H1 has smaller root, H1 and H2 are not NULL */
 
 PRIORITY_QUEUE
@@ -666,25 +653,23 @@ H1->npl = H1->right->npl + 1;
 return H1;
 
 }
-~~~
+```
 
 **Figure 6.27 Actual routine to merge leftist heaps**
 
 ![Alt text](D21.png)
 
-
-
 **Figure 6.28 Result of merging right paths of H1 and H2**
 
-As mentioned above, we can carry out insertions by making the item to be inserted a one-node heap and performing a merge. To perform a delete_min, we merely destroy the root, creating two heaps, which can then be merged. Thus, the time to perform a delete\_min is O(logn). These two routines are coded in Figure 6.29 and Figure 6.30. Delete\_min can be written as a macro that calls delete\_min1 and find\_min. This is left as an exercise to the reader.
+As mentioned above, we can carry out insertions by making the item to be inserted a one-node heap and performing a merge. To perform a delete_min, we merely destroy the root, creating two heaps, which can then be merged. Thus, the time to perform a delete_min is O(logn). These two routines are coded in Figure 6.29 and Figure 6.30. Delete_min can be written as a macro that calls delete_min1 and find_min. This is left as an exercise to the reader.
 
 The call to free on line 4 of Figure 6.30 might look chancy, but it is actually correct. The call does not destroy the variable H; rather, it indicates that the cell to which it points can be used. That cell is placed on the freelist. H, which is a pointer, is then set to point somewhere else by line 5. Also, notice how the headings for these routines can be made identical to those for the binary heap implementation. Either priority queue package could be used, and the implementation would be completely transparent to the calling routines.
 
-Finally, we can build a leftist heap in O(n) time by building a binary heap (obviously using a pointer implementation). Although a binary heap is clearly leftist, this is not necessarily the best solution, because the heap we obtain is the worst possible leftist heap. Furthermore, traversing the tree in reverse-level order is not as easy with pointers. The build\_heap effect can be obtained by recursively building the left and right subtrees and then percolating the root down. The exercises contain an alternative solution.
+Finally, we can build a leftist heap in O(n) time by building a binary heap (obviously using a pointer implementation). Although a binary heap is clearly leftist, this is not necessarily the best solution, because the heap we obtain is the worst possible leftist heap. Furthermore, traversing the tree in reverse-level order is not as easy with pointers. The build_heap effect can be obtained by recursively building the left and right subtrees and then percolating the root down. The exercises contain an alternative solution.
 
-~~~js
+```js
 
-PRIORITY\_QUEUE
+PRIORITY_QUEUE
 
 insert1( element_type x, PRIORITY_QUEUE H )
 
@@ -714,7 +699,7 @@ return H;
 
 }
 
-~~~
+```
 
 **Figure 6.29 Insertion routine for leftist heaps**
 
@@ -724,8 +709,8 @@ return H;
 
 /* This is for convenience. */
 
-~~~js
-PRIORITY\_QUEUE
+```js
+PRIORITY_QUEUE
 
 delete_min1( PRIORITY_QUEUE H )
 
@@ -742,9 +727,9 @@ free( H );
 return merge( left_heap, right_heap );
 
 }
-~~~
+```
 
-**Figure 6.30 Delete\_min routine for leftist heaps**
+**Figure 6.30 Delete_min routine for leftist heaps**
 
 ## 6.7. Skew Heaps
 
@@ -775,10 +760,10 @@ The implementation of skew heaps is left as a (trivial) exercise. Skew heaps hav
 
 ## 6.8. Binomial Queues
 
-Although both leftist and skew heaps support merging, insertion, and delete\_min all effectively in O(log n) time per operation, there is room for improvement because we know that binary heaps support insertion in constant average time per operation. Binomial queues support all three operations in O(log n) worst-case time per operation, but insertions take constant time on average.
-
+Although both leftist and skew heaps support merging, insertion, and delete_min all effectively in O(log n) time per operation, there is room for improvement because we know that binary heaps support insertion in constant average time per operation. Binomial queues support all three operations in O(log n) worst-case time per operation, but insertions take constant time on average.
+```
 < P>
-
+```
 ### 6.8.1. Binomial Queue Structure
 
 Binomial queues differ from all the priority queue implementations that we have seen in that a binomial queue is not a heap-ordered tree but rather a collection of heap-ordered trees, known as a forest. Each of the heap-ordered trees are of a constrained form known as a binomial tree (the name will be obvious later). There is at most one binomial tree of every height. A binomial tree of height 0 is a one-node tree; a binomial tree, Bk, of height k is formed by attaching a binomial tree, Bk-1, to the root of another binomial tree, Bk-1. Figure 6.34 shows binomial trees
@@ -823,17 +808,17 @@ Insertion is just a special case of merging, since we merely create a one-node t
 
 As an example, we show in Figures 6.39 through 6.45 the binomial queues that are formed by inserting 1 through 7 in order. Inserting 4 shows off a bad case. We merge 4 with B0, obtaining a new tree of height 1. We then merge this tree with B1, obtaining a tree of height 2, which is the new priority queue. We count this as three steps (two tree merges plus the stopping case). The next insertion after 7 is inserted is another bad case and would require three tree merges.
 
-A delete\_min can be performed by first finding the binomial tree with the smallest root. Let this tree be Bk, and let the original priority queue be H. We remove the binomial tree Bk from the forest of trees in H, forming the new binomial queue H'. We also remove the root of Bk, creating binomial trees B0, B1, . . . , Bk - l, which collectively form priority queue H''. We finish the operation by merging H' and H''.
+A delete_min can be performed by first finding the binomial tree with the smallest root. Let this tree be Bk, and let the original priority queue be H. We remove the binomial tree Bk from the forest of trees in H, forming the new binomial queue H'. We also remove the root of Bk, creating binomial trees B0, B1, . . . , Bk - l, which collectively form priority queue H''. We finish the operation by merging H' and H''.
 
-As an example, suppose we perform a delete\_min on H3, which is shown again in
+As an example, suppose we perform a delete_min on H3, which is shown again in
 
 Figure 6.46. The minimum root is 12, so we obtain the two priority queues H' and H'' in Figure 6.47 and Figure 6.48. The binomial queue that results from merging H' and H'' is the final answer and is shown in Figure 6.49.
 
-For the analysis, note first that the delete\_min operation breaks the original binomial queue into two. It takes O (log n) time to find the tree containing the minimum element and to create the queues H' and H''. Merging these two queues takes O (log n) time, so the entire delete\_min operation takes O (log n) time.
+For the analysis, note first that the delete_min operation breaks the original binomial queue into two. It takes O (log n) time to find the tree containing the minimum element and to create the queues H' and H''. Merging these two queues takes O (log n) time, so the entire delete_min operation takes O (log n) time.
 
 ### 6.8.3. Implementation of Binomial Queues
 
-The delete\_min operation requires the ability to find all the subtrees of the root quickly, so the standard representation of general trees is required: The children of each node are kept in a linked list, and each node has a pointer to its first child (if any). This operation also requires that the children be ordered by the size of their subtrees, in essentially the same way as we have been drawing them. The reason for this is that when a delete\_min is performed, the children will form the binomial queue H''.
+The delete_min operation requires the ability to find all the subtrees of the root quickly, so the standard representation of general trees is required: The children of each node are kept in a linked list, and each node has a pointer to its first child (if any). This operation also requires that the children be ordered by the size of their subtrees, in essentially the same way as we have been drawing them. The reason for this is that when a delete_min is performed, the children will form the binomial queue H''.
 
 We also need to make sure that it is easy to merge two trees. Two binomial trees can be merged only if they have the same size, so if this is to be done efficiently, the size of the tree must be stored in the root. Also, when two trees are merged, one of the trees is added as a child to the other. Since this new tree will be the last child (as it will be the largest subtree), we must be able to keep track of the last child of each node efficiently. Only then will we be able to merge two binomial trees, and thus two binomial queues, efficiently. One way to do this is to use a circular doubly linked list. In this list, the left sibling of the first child will be the last child. The right sibling of the last child could be defined as the first child, but it might be easier just to define it as . This makes it easy to test whether the child we are pointing to is the last.
 
@@ -875,14 +860,14 @@ In order to merge two binomial queues, we need a routine to merge two binomial t
 **Figure 6.48 Binomial queue H'': B3 with 12 removed**
 ![Alt text](image-11.png)
 
-**Figure 6.49 Result of delete\_min(H3)**
+**Figure 6.49 Result of delete_min(H3)**
 ![Alt text](image-12.png)
 
 **Figure 6.50 Binomial queue H3 drawn as a forest**
 ![Alt text](image-13.png)
 
 **Figure 6.51 Representation of binomial queue H3**
-~~~js
+```js
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
@@ -902,13 +887,12 @@ unsigned int rank;
 };
 
 typedef tree_ptr PRIORITY_QUEUE;
-~~~
+```
 
 **Figure 6.52 Binomial queue type declarations**
 ![Alt text](image-14.png)
 
 **Figure 6.53 Merging two binomial trees**
-
 
 The routine to merge two binomial queues is relatively simple. We use recursion to keep the code size small; a nonrecursive procedure will give better performance, and is left as Exercise 6.32. We assume the macro extract(T, H), which removes the first tree from the priority queue H, placing the tree in T. Suppose the smallest binomial tree is contained in H1, but not in H2.
 
@@ -919,7 +903,7 @@ H1 with H2. If the smallest tree is contained in both Hl and H2, then we remove 
 merge them, obtaining a one-tree binomial queue H'. We then merge the remainder of Hl and H2,
 
 and merge this result with H'. This strategy is implemented in Figure 6.55. The other routines are straightforward implementations, which we leave as exercises.
-~~~js
+```js
 /* Merge two equal-sized binomial trees */
 
 tree_ptr
@@ -951,11 +935,11 @@ T1->f_child->l_sib = T2;
 return T1;
 
 }
-~~~
+```
 
 **Figure 6.54 Routine to merge two equal-sized binomial trees**
 
-We can extend binomial queues to support some of the nonstandard operations that binary heaps allow, such as decrease\_key and delete, when the position of the affected element is known. A decrease\_key is a percolate up, which can be performed in O(log n) time if we add a field to each node pointing to its parent. An arbitrary delete can be performed by a combination of decrease\_key and delete\_min in O(log n) time.
+We can extend binomial queues to support some of the nonstandard operations that binary heaps allow, such as decrease_key and delete, when the position of the affected element is known. A decrease_key is a percolate up, which can be performed in O(log n) time if we add a field to each node pointing to its parent. An arbitrary delete can be performed by a combination of decrease_key and delete_min in O(log n) time.
 
 ### Summary
 
@@ -967,7 +951,7 @@ Chapter 11, is interesting in its own right. The binomial queue shows how a simp
 
 We have also seen several uses of priority queues, ranging from operating systems scheduling to simulation. We will see their use again in Chapters 7, 9, 10.
 
-~~~js
+```js
 PRIORITY_QUEUE
 
 merge( PRIORITY_QUEUE H1, PRIORITY_QUEUE H2 )
@@ -1023,32 +1007,32 @@ T3 = merge_tree( T1, T2 );
 return merge( T3, H3 );
 
 }
-~~~
+```
 
 **Figure 6.55 Routine to merge two priority queues**
 
 ### Exercises
 
-6.1 Suppose that we replace the delete\_min function with find\_min. Can both insert and find\_min be implemented in constant time?
+6.1 Suppose that we replace the delete_min function with find_min. Can both insert and find_min be implemented in constant time?
 
 6.2 a. Show the result of inserting 10, 12, 1, 14, 6, 5, 8, 15, 3, 9, 7, 4, 11, 13, and 2, one at a time, into an initially empty binary heap.
 b. Show the result of using the linear-time algorithm to build a binary heap using the same input.
 
-6.3 Show the result of performing three delete\_min operations in the heap of the previous exercise.
+6.3 Show the result of performing three delete_min operations in the heap of the previous exercise.
 
 6.4 Write the routines to do a percolate up and a percolate down in a binary heap.
 
-6.5 Write and test a program that performs the operations insert, delete\_min, build\_heap, find\_min, decrease\_key, delete, and increase\_key in a binary heap.
+6.5 Write and test a program that performs the operations insert, delete_min, build_heap, find_min, decrease_key, delete, and increase_key in a binary heap.
 
 6.6 How many nodes are in the large heap in Figure 6.13?
 
-6.7 a. Prove that for binary heaps, build\_heap does at most 2n - 2 comparisons between elements.
+6.7 a. Prove that for binary heaps, build_heap does at most 2n - 2 comparisons between elements.
 
 b. Show that a heap of 8 elements can be constructed in 8 comparisons between heap elements.
 
 c. Give an algorithm to build a binary heap in 13/8n + O(log n) element comparisons.
 
- 6.8 Show that the expected depth of the kth smallest element in a large complete heap (you may assume n = 2k - 1) is bounded by log k.
+6.8 Show that the expected depth of the kth smallest element in a large complete heap (you may assume n = 2k - 1) is bounded by log k.
 
 6.9  a. Give an algorithm to find all nodes less than some value, x, in a binary heap. Your algorithm should run in O(K), where K is the number of nodes output.
 
@@ -1060,13 +1044,11 @@ b. Does your algorithm extend to any of the other heap structures discussed in t
 
 a. Insert them into a heap one by one,
 
-b. Build a heap in linear time.
+b. Build a heap in linear time. Compare the running time of both algorithms for sorted, reverse-ordered, and random inputs.
 
-Compare the running time of both algorithms for sorted, reverse-ordered, and random inputs.
+6.12 Each delete_min operation uses 2 log n comparisons in the worst case.
 
-6.12 Each delete\_min operation uses 2 log n comparisons in the worst case.
-
-a. Propose a scheme so that the delete\_min operation uses only log n + log log n + O(1) comparisons between elements. This need not imply less data movement.
+a. Propose a scheme so that the delete_min operation uses only log n + log log n + O(1) comparisons between elements. This need not imply less data movement.
 
 b. Extend your scheme in part (a) so that only log n + log log log n + O(1) comparisons are performed.
 
@@ -1076,7 +1058,7 @@ d. Do the savings in comparisons compensate for the increased complexity of your
 
 6.13 If a d-heap is stored as an array, for an entry located in position i, where are the parents and children?
 
-6.14 Suppose we need to perform m percolate\_ups and n delete\_mins on a d-heap that initially has n elements.
+6.14 Suppose we need to perform m percolate_ups and n delete_mins on a d-heap that initially has n elements.
 
 a. What is the total running time of all operations in terms of m, n, and d?
 
@@ -1086,17 +1068,17 @@ c. If d = (n), what is the total running time?
 
 d. What choice of d minimizes the total running time?
 
-6.15 A min-max heap is a data structure that supports both delete\_min and delete\_max in O(log n) per operation. The structure is identical to a binary heap, but the heap order property is that for any node, X, at even depth, the key stored at X is smaller than the parent but larger than the grandparent (where this makes sense), and for any node X at odd depth, the key stored at X is larger than the parent but smaller than the grandparent. See Figure 6.56.
+6.15 A min-max heap is a data structure that supports both delete_min and delete_max in O(log n) per operation. The structure is identical to a binary heap, but the heap order property is that for any node, X, at even depth, the key stored at X is smaller than the parent but larger than the grandparent (where this makes sense), and for any node X at odd depth, the key stored at X is larger than the parent but smaller than the grandparent. See Figure 6.56.
 
 a. How do we find the minimum and maximum elements?
 
 b. Give an algorithm to insert a new node into the min-max heap.
 
-c. Give an algorithm to perform delete\_min and delete\_max.
+c. Give an algorithm to perform delete_min and delete_max.
 
 d. Can you build a min-max heap in linear time?
 
-e. Suppose we would like to support delete\_min, delete\_max, and merge. Propose a data structure to support all operations in O(log n) time.
+e. Suppose we would like to support delete_min, delete_max, and merge. Propose a data structure to support all operations in O(log n) time.
 
 6.16 Merge the two leftist heaps in Figure 6.57.
 
@@ -1114,19 +1096,17 @@ Figure 6.56 Min-max heap
 
 Figure 6.57
 
-
-
-6.20 a. Can leftist heaps efficiently support decrease\_key?
+6.20 a. Can leftist heaps efficiently support decrease_key?
 
 b. What changes, if any (if possible), are required to do this?
 
-6.21 One way to delete nodes from a known position in a leftist heap is to use a lazy strategy. To delete a node, merely mark it deleted. When a find\_min or delete\_min is performed, there is a potential problem if the root is marked deleted, since then the node has to be actually deleted and the real minimum needs to be found, which may involve deleting other marked nodes. In this strategy, deletes cost one unit, but the cost of a delete\_min or find\_min depends on the number of nodes that are marked deleted. Suppose that after a delete\_min or find\_min there are k fewer marked nodes than before the operation.
+6.21 One way to delete nodes from a known position in a leftist heap is to use a lazy strategy. To delete a node, merely mark it deleted. When a find_min or delete_min is performed, there is a potential problem if the root is marked deleted, since then the node has to be actually deleted and the real minimum needs to be found, which may involve deleting other marked nodes. In this strategy, deletes cost one unit, but the cost of a delete_min or find_min depends on the number of nodes that are marked deleted. Suppose that after a delete_min or find_min there are k fewer marked nodes than before the operation.
 
-a. Show how to perform the delete\_min in O(k log n) time.
+a. Show how to perform the delete_min in O(k log n) time.
 
-b. Propose an implementation, with an analysis to show that the time to perform the delete\_min is O(k log(2n/k)).
+b. Propose an implementation, with an analysis to show that the time to perform the delete_min is O(k log(2n/k)).
 
-6.22 We can perform build\_heap in linear time for leftist heaps by considering each element as a one-node leftist heap, placing all these heaps on a queue, and performing the following step: Until only one heap is on the queue, dequeue two heaps, merge them, and enqueue the result.
+6.22 We can perform build_heap in linear time for leftist heaps by considering each element as a one-node leftist heap, placing all these heaps on a queue, and performing the following step: Until only one heap is on the queue, dequeue two heaps, merge them, and enqueue the result.
 
 a. Prove that this algorithm is O(n) in the worst case.
 
@@ -1152,7 +1132,7 @@ b. Give an algorithm to build a binomial queue of n elements, using at most n - 
 
 6.31 Propose an algorithm to insert m nodes into a binomial queue of n elements in O(m + log n) worst-case time. Prove your bound.
 
-6.32 Write nonrecursive routines to perform merge, insert, and delete\_min using binomial queues.
+6.32 Write nonrecursive routines to perform merge, insert, and delete_min using binomial queues.
 
 6.33 Suppose we extend binomial queues to allow at most two trees of the same height per structure. Can we obtain O(1) worst-case time for insertion while retaining O(log n) for the other operations?
 
@@ -1160,13 +1140,7 @@ b. Give an algorithm to build a binomial queue of n elements, using at most n - 
 
 Figure 6.58
 
-
-
-6.34 Suppose you have a number of boxes, each of which can hold total weight C and items i1, i2,
-
-i3, . . . , in, which weigh w1, w2, w3, . . . , wn. The object is to pack all the items without
-
-placing more weight in any box than its capacity and using as few boxes as possible. For instance, if C = 5, and the items have weights 2, 2, 3, 3, then we can solve the problem with two boxes. In general, this problem is very hard and no efficient solution is known. Write programs to implement efficiently the following approximation strategies:
+6.34 Suppose you have a number of boxes, each of which can hold total weight C and items i1, i2, i3, . . . , in, which weigh w1, w2, w3, . . . , wn. The object is to pack all the items without placing more weight in any box than its capacity and using as few boxes as possible. For instance, if C = 5, and the items have weights 2, 2, 3, 3, then we can solve the problem with two boxes. In general, this problem is very hard and no efficient solution is known. Write programs to implement efficiently the following approximation strategies:
 
 a. Place the weight in the first box for which it fits (creating a new box if there is no box with enough room). (This strategy and all that follow would give three boxes, which is suboptimal.)
 
@@ -1176,9 +1150,7 @@ c. Place the weight in the most filled box that can accept it without overflowin
 
 d. Are any of these strategies enhanced by presorting the items by weight?
 
-6.35 Suppose we want to add the decrease\_all\_keys( ) operation to the heap repertoire. The result of this operation is that all keys in the heap have their value decreased by an amount
-
-. For the heap implementation of your choice, explain the necessary modifications so that all other operations retain their running times and decrease\_all\_keys runs in O(1).
+6.35 Suppose we want to add the decrease_all_keys( ) operation to the heap repertoire. The result of this operation is that all keys in the heap have their value decreased by an amount. For the heap implementation of your choice, explain the necessary modifications so that all other operations retain their running times and decrease_all_keys runs in O(1).
 
 6.36 Which of the two selection algorithms has the better time bound?
 
@@ -1238,6 +1210,3 @@ bounds in the worst case. Another interesting mplementation is the pairing heap 
 
 21. J. W. J. Williams, "Algorithm 232: Heapsort," Communications of the ACM 7 (1964), 347-348.
 
-Go to
-
-Chapter 7 Return to Table of Contents
