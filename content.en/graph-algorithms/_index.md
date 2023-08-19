@@ -10,6 +10,7 @@ weight: 9
 
 In this chapter we discuss several common problems in graph theory. Not only are these algorithms useful in practice, they are interesting because in many real- life applications they are too slow unless careful attention is paid to the choice of data structures. We will 
 - Show several real-life problems, which can be converted to problems on graphs. 
+
 - Give algorithms to solve several common graph problems.
 
 - Show how the proper choice of data structures can drastically reduce the running time of these algorithms.
@@ -36,9 +37,7 @@ In the remainder of this chapter, we will see several more applications of graph
 
 We will consider directed graphs (undirected graphs are similarly represented).
 
-Suppose, for now, that we can number the vertices, starting at 1. The graph shown in Figure 9.1 represents 7 vertices and 12 edges.
-
-One simple way to represent a graph is to use a two-dimensional array. This is known as an adjacency matrix representation. For each edge (u, v), we set a[u\][v\] = 1; otherwise the entry in the array is 0. If the edge has a weight associated with it, then we can set a[u\][v\] equal to the weight and use either a very large or a very small weight as a sentinel to indicate nonexistent edges. For instance, if we were looking for the cheapest airplane route, we could represent nonexistent flights with a cost of . If we were looking, for some strange reason, for the most expensive airplane route, we could use (or perhaps 0) to represent nonexistent edges.
+Suppose, for now, that we can number the vertices, starting at 1. The graph shown in Figure 9.1 represents 7 vertices and 12 edges. One simple way to represent a graph is to use a two-dimensional array. This is known as an adjacency matrix representation. For each edge (u, v), we set a[u][v] = 1; otherwise the entry in the array is 0. If the edge has a weight associated with it, then we can set a[u][v] equal to the weight and use either a very large or a very small weight as a sentinel to indicate nonexistent edges. For instance, if we were looking for the cheapest airplane route, we could represent nonexistent flights with a cost of . If we were looking, for some strange reason, for the most expensive airplane route, we could use (or perhaps 0) to represent nonexistent edges.
 
 Although this has the merit of extreme simplicity, the space requirement is (|V|2), which can be prohibitive if the graph does not have very many edges. An adjacency matrix is an appropriate representation if the graph is dense: |E| = (|V|2). In most of the applications that we shall see, this is not true. For instance, suppose the graph represents a street map. Assume a Manhattan-like orientation, where almost all the streets run either north-south or east-west. Therefore, any intersection is attached to roughly four streets, so if the graph is directed and all streets are two-way, then |E| 4|V|. If there are 3,000 intersections, then we have a 3,000-vertex graph with 12,000 edge entries, which would require an array of size nine million. Most of these entries would contain zero. This is intuitively bad, because we want our data structures to represent the data that is actually there and not the data that is not present.
 
@@ -72,7 +71,7 @@ A simple algorithm to find a topological ordering is first to find any vertex wi
 
 To formalize this, we define the indegree of a vertex v as the number of edges (u,v). We compute the indegrees of all vertices in the graph. Assuming that the indegree array is initialized and that the graph is read into an adjacency list, we can then apply the algorithm in Figure 9.5 to generate a topological ordering.
 
-The function find\_new\_vertex\_of\_indegree\_zero scans the indegree array looking for a vertex with indegree 0 that has not already been assigned a topological number. It returns NOT\_A\_VERTEX if no such vertex exists; this indicates that the graph has a cycle.
+The function find_new_vertex_of_indegree_zero scans the indegree array looking for a vertex with indegree 0 that has not already been assigned a topological number. It returns NOT_A_VERTEX if no such vertex exists; this indicates that the graph has a cycle.
 
 ```js
 void
@@ -96,21 +95,21 @@ indegree[w]--;
 ```
 Figure 9.5 Simple topological sort pseudocode
 
-Because find\_new\_vertex\_of\_indegree\_zero is a simple sequential scan of the indegree array, each call to it takes O(|V|) time. Since there are |V| such calls, the running time of the algorithm is O(|V|^2^).
+Because find_new_vertex_of_indegree_zero is a simple sequential scan of the indegree array, each call to it takes O(|V|) time. Since there are |V| such calls, the running time of the algorithm is O(|V|^2^).
 
 By paying more careful attention to the data structures, it is possible to do better. The cause of the poor running time is the sequential scan through the indegree array. If the graph is sparse, we would expect that only a few vertices have their indegrees updated during each iteration. However, in the search for a vertex of indegree 0, we look at (potentially) all the vertices, even though only a few have changed.
 
-We can remove this inefficiency by keeping all the (unassigned) vertices of indegree 0 in a special box. The find\_new\_vertex\_of\_indegree\_zero function then returns (and removes) any vertex in the box. When we decrement the indegrees of the adjacent vertices, we check each vertex and place it in the box if its indegree falls to 0.
+We can remove this inefficiency by keeping all the (unassigned) vertices of indegree 0 in a special box. The find_new_vertex_of_indegree_zero function then returns (and removes) any vertex in the box. When we decrement the indegrees of the adjacent vertices, we check each vertex and place it in the box if its indegree falls to 0.
 
 To implement the box, we can use either a stack or a queue. First, the indegree is computed for every vertex. Then all vertices of indegree 0 are placed on an initially empty queue. While the queue is not empty, a vertex v is removed, and all edges adjacent to v have their indegrees decremented. A vertex is put on the queue as soon as its indegree falls to 0. The topological ordering then is the order in which the vertices dequeue. Figure 9.6 shows the status after each phase.
 
-A pseudocode implementation of this algorithm is given in Figure 9.7. As before, we will assume that the graph is already read into an adjacency list and that the indegrees are computed and placed in an array. A convenient way of doing this in practice would be to place the indegree of each vertex in the header cell. We also assume an array top\_num, in which to place the topological numbering.
+A pseudocode implementation of this algorithm is given in Figure 9.7. As before, we will assume that the graph is already read into an adjacency list and that the indegrees are computed and placed in an array. A convenient way of doing this in practice would be to place the indegree of each vertex in the header cell. We also assume an array top_num, in which to place the topological numbering.
 
 Indegree Before Dequeue #
 
 Vertex 1 2 3 4 5 6 7
 
-\--------------------------------------
+--------------------------------------
 
 v1 0 0 0 0 0 0 0
 
@@ -126,11 +125,11 @@ v6 3 3 3 3 2 1 0
 
 v7 2 2 2 1 0 0 0
 
-\--------------------------------------
+--------------------------------------
 
 enqueue v1 v2 v5 v4 v3 v7 v6
 
-\--------------------------------------
+--------------------------------------
 
 dequeue v1 v2 v5 v4 v3 v7 v6
 
@@ -148,7 +147,7 @@ unsigned int counter;
 
 vertex v, w;
  
-Q = create\_queue( NUM\_VERTEX ); make\_null( Q ); counter = 0;
+Q = create_queue( NUM_VERTEX ); make_null( Q ); counter = 0;
 
 for each vertex v
 
@@ -162,7 +161,7 @@ while( !is_empty( Q ) )
 
 v = dequeue( Q );
 
-top_num[v] = ++counter; \* assign next number \*
+top_num[v] = ++counter; * assign next number *
 
 for each w adjacent to v
 
@@ -172,11 +171,11 @@ enqueue( w, Q );
 
 }
 
-if( counter != NUM\_VERTEX )
+if( counter != NUM_VERTEX )
 
 error("Graph has a cycle");
 
-dispose_queue( Q ); \* free the memory \*
+dispose_queue( Q ); * free the memory *
 
 }
 ```
@@ -253,7 +252,7 @@ For each vertex, we will keep track of three pieces of information. First, we wi
 
 v Known d~v~ p~v~
 
-\------------------
+------------------
 
 v~1~ 0 0
 
@@ -277,11 +276,11 @@ The basic algorithm can be described in Figure 9.16. The algorithm in Figure 9.1
 
 By tracing back through the pv variable, the actual path can be printed. We will see how when we discuss the weighted case.
  
-The running time of the algorithm is O(|V|2), because of the doubly nested for loops. An obvious inefficiency is that the outside loop continues until NUM\_VERTEX -1, even if all the vertices become known much earlier. Although an extra test could be made to avoid this, it does not affect the worst-case running time, as can be seen by generalizing what happens when the input is the graph in Figure 9.17 with start vertex v9.
+The running time of the algorithm is O(|V|2), because of the doubly nested for loops. An obvious inefficiency is that the outside loop continues until NUM_VERTEX -1, even if all the vertices become known much earlier. Although an extra test could be made to avoid this, it does not affect the worst-case running time, as can be seen by generalizing what happens when the input is the graph in Figure 9.17 with start vertex v9.
 ```js
 void
 
-unweighted( TABLE T ) \* assume T is initialized \*
+unweighted( TABLE T ) * assume T is initialized *
 
 {
 
@@ -319,15 +318,15 @@ Figure 9.16 Pseudocode for unweighted shortest-path algorithm
 
 ![Alt text](figure-9.17.png)
 
- We can remove the inefficiency in much the same way as was done for topological sort. At any point in time, there are only two types of unknown vertices that have d~v~ . Some have d~v~ = curr\_dist, and the rest have d~v~ = curr\_dist + 1. Because of this extra structure, it is very wasteful to search through the entire table to find a proper vertex at lines 2 and 3.
+ We can remove the inefficiency in much the same way as was done for topological sort. At any point in time, there are only two types of unknown vertices that have d~v~ . Some have d~v~ = curr_dist, and the rest have d~v~ = curr_dist + 1. Because of this extra structure, it is very wasteful to search through the entire table to find a proper vertex at lines 2 and 3.
 
-A very simple but abstract solution is to keep two boxes. Box #1 will have the unknown vertices with dv = curr\_dist, and box #2 will have dv = curr\_dist + 1. The test at lines 2 and 3 can be replaced by finding any vertex in box #1. After line 8 (inside the if block), we can add w to box #2. After the outside for loop terminates, box #1 is empty, and box #2 can be transferred to box #1 for the next pass of the for loop.
+A very simple but abstract solution is to keep two boxes. Box #1 will have the unknown vertices with dv = curr_dist, and box #2 will have dv = curr_dist + 1. The test at lines 2 and 3 can be replaced by finding any vertex in box #1. After line 8 (inside the if block), we can add w to box #2. After the outside for loop terminates, box #1 is empty, and box #2 can be transferred to box #1 for the next pass of the for loop.
 
-We can refine this idea even further by using just one queue. At the start of the pass, the queue contains only vertices of distance curr\_dist. When we add adjacent vertices of distance curr\_dist + 1, since they enqueue at the rear, we are guaranteed that they will not be processed until after all the vertices of distance curr\_dist have been processed. After the last vertex at distance curr\_dist dequeues and is processed, the queue only contains vertices of distance curr\_dist + 1, so this process perpetuates. We merely need to begin the process by placing the start node on the queue by itself.
+We can refine this idea even further by using just one queue. At the start of the pass, the queue contains only vertices of distance curr_dist. When we add adjacent vertices of distance curr_dist + 1, since they enqueue at the rear, we are guaranteed that they will not be processed until after all the vertices of distance curr_dist have been processed. After the last vertex at distance curr_dist dequeues and is processed, the queue only contains vertices of distance curr_dist + 1, so this process perpetuates. We merely need to begin the process by placing the start node on the queue by itself.
 
 The refined algorithm is shown in
 
-Figure 9.18. In the pseudocode, we have assumed that the start vertex, s, is known somehow and T\[s\].dist is 0. A C routine might pass s as an argument. Also, it is possible that the queue might empty prematurely, if some vertices are unreachable from the start node. In this case, a distance of INT\_MAX will be reported for these nodes, which is perfectly reasonable. Finally, the known field is not used; once a vertex is processed it can never enter the queue again, so the fact that it need not be reprocessed is implicitly marked. Thus, the known field can be discarded. Figure 9.19 shows how the values on the graph we have been using are changed during the algorithm. We keep the known field to make the table easier to follow, and for consistency with the rest of this section.
+Figure 9.18. In the pseudocode, we have assumed that the start vertex, s, is known somehow and T[s].dist is 0. A C routine might pass s as an argument. Also, it is possible that the queue might empty prematurely, if some vertices are unreachable from the start node. In this case, a distance of INT_MAX will be reported for these nodes, which is perfectly reasonable. Finally, the known field is not used; once a vertex is processed it can never enter the queue again, so the fact that it need not be reprocessed is implicitly marked. Thus, the known field can be discarded. Figure 9.19 shows how the values on the graph we have been using are changed during the algorithm. We keep the known field to make the table easier to follow, and for consistency with the rest of this section.
 
 Using the same analysis as was performed for topological sort, we see that the running time is O (|E| + |V|), as long as adjacency lists are used.
 
@@ -339,7 +338,7 @@ We keep all of the same information as before. Thus, each vertex is marked as ei
 ```js
 void
 
-unweighted( TABLE T ) \* assume T is initialized (Fig 9.30) \*
+unweighted( TABLE T ) * assume T is initialized (Fig 9.30) *
 
 {
 
@@ -349,7 +348,7 @@ vertex v, w;
 
 Q = create_queue( NUM_VERTEX ); make_null( Q );
 
-\* enqueue the start vertex s, determined elsewhere \*
+* enqueue the start vertex s, determined elsewhere *
 
 enqueue( s, Q );
 
@@ -359,7 +358,7 @@ while( !is empty( Q ) )
 
 v = dequeue( Q );
 
-T[v].known = TRUE; \* not really needed anymore \*
+T[v].known = TRUE; * not really needed anymore *
 
 for each w adjacent to v
 
@@ -367,9 +366,9 @@ if( T[w].dist = INT_MAX )
 
 {
 
-T\[w\].dist = T\[v\].dist + 1;
+T[w].dist = T[v].dist + 1;
 
-T\[w\].path = v;
+T[w].path = v;
 
 enqueue( w, Q );
 
@@ -377,7 +376,7 @@ enqueue( w, Q );
 
 }
 
-dispose_queue( Q ); \* free the memory \*
+dispose_queue( Q ); * free the memory *
 
 }
 ```
@@ -391,11 +390,11 @@ unknown vertices, and declares that the shortest path from s to v is known. The 
 
 Initial State v~3~ Dequeued v~1~ Dequeued v~6~ Dequeued
 
-\------------- -------------- ------------- -------------
+------------- -------------- ------------- -------------
 
 v Known d~v~ p~v~ Known d~v~ p~v~ Known d~v~ p~v~ Known d~v~ p~v~
 
-\----------------------------------------------------------------
+----------------------------------------------------------------
 
 v~1~ 0 0 0 1 v~3~ 1 1 v~3~ 1 1 v~3~
 
@@ -411,17 +410,17 @@ v~6~ 0 0 0 1 v~3~ 0 1 v~3~ 1 1 v~3~
 
 v~7~ 0 0 0 0 0 0 0 0
 
-\----------------------------------------------------------------
+----------------------------------------------------------------
 
 Q: v~3~ v~1~,v~6~ v~6~,v~2~,v4 v~2~,v4
 
 v~2~ Dequeued v~4~ Dequeued v~5~ Dequeued v~7~ Dequeued
 
-\------------- -------------- ------------- -------------
+------------- -------------- ------------- -------------
 
 v Known d~v~ p~v~ Known d~v~ p~v~ Known d~v~ p~v~ Known d~v~ p~v~
 
-\----------------------------------------------------------------
+----------------------------------------------------------------
 
 v~1~ 1 1 v~3~ 1 1 v~3~ 1 1 v~3~ 1 1 v~3~
 
@@ -437,7 +436,7 @@ v~6~ 1 1 v~3~ 1 1 v~3~ 1 1 v~3~ 1 1 v~3~
 
 v~7~ 0 0 0 3 v~4~ 0 3 v~4~ 1 3 v~4~
 
-\----------------------------------------------------------------
+----------------------------------------------------------------
 
 Q: v~4~,v~5~ v~5~,v~7~ v~7~ empty
 
@@ -458,7 +457,7 @@ Next, v~2~ is selected. v~4~ is adjacent but already known, so no work is perfor
 
 v Known d~v~ p~v~
 
-\-------------------
+-------------------
 
 v~1~ 0 0 0
 
@@ -480,7 +479,7 @@ Figure 9.21 Initial configuration of table used in Dijkstra's algorithm
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -500,7 +499,7 @@ Figure 9.22 After v~1~ **is declared known**
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -520,7 +519,7 @@ Figure 9.23 After v~4~ **is declared known**
 
 v Known d~v~ p~v~ 
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -540,7 +539,7 @@ Figure 9.24 After v~2~ **is declared known**
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -560,7 +559,7 @@ Figure 9.25 After v~5~ **and then v~3~ are declared known**
 
 v Known d~v~ p~v~
 
-\-------------------
+-------------------
 
 v~1~ 1 0 0
 
@@ -590,7 +589,7 @@ how edges are marked known and vertices updated during Dijkstra's algorithm.
 
 v Known d~v~ p~v~
 
-\-------------------
+-------------------
 
 v~1~ 1 0 0
 
@@ -613,7 +612,7 @@ Figure 9.27 After v~6~ **is declared known and algorithm terminates**
 
 To print out the actual path from a start vertex to some vertex v, we can write a recursive routine to follow the trail left in the p array.
 
-We now give pseudocode to implement Dijkstra's algorithm. We will assume that the vertices are numbered from 0 to NUM\_VERTEX for convenience (see Fig. 9.29), and that the graph can be read into an adjacency list by the routine read\_graph.
+We now give pseudocode to implement Dijkstra's algorithm. We will assume that the vertices are numbered from 0 to NUM_VERTEX for convenience (see Fig. 9.29), and that the graph can be read into an adjacency list by the routine read_graph.
 
 In the routine in Figure 9.30, the start vertex is passed to the initialization routine. This is the only place in the code where the start vertex needs to be known.
 
@@ -704,13 +703,13 @@ A proof by contradiction will show that this algorithm always works as long as n
 
 If the graph is sparse, with |E| = (|V|), this algorithm is too slow. In this case, the distances would need to be kept in a priority queue. There are actually two ways to do this; both are similar.
 
-Lines 2 and 5 combine to form a delete\_min operation, since once the unknown minimum vertex is found, it is no longer unknown and must be removed from future consideration. The update at line 9 can be implemented two ways.
+Lines 2 and 5 combine to form a delete_min operation, since once the unknown minimum vertex is found, it is no longer unknown and must be removed from future consideration. The update at line 9 can be implemented two ways.
 
-One way treats the update as a decrease\_key operation. The time to find the minimum is then O(log |V|), as is the time to perform updates, which amount to decrease\_key operations. This gives a running time of O(|E| log |V| + |V| log |V|) = O(|E| log |V|), an improvement over the previous bound for sparse graphs. Since priority queues do not efficiently support the find operation, the location in the priority queue of each value of di will need to be maintained and updated
+One way treats the update as a decrease_key operation. The time to find the minimum is then O(log |V|), as is the time to perform updates, which amount to decrease_key operations. This gives a running time of O(|E| log |V| + |V| log |V|) = O(|E| log |V|), an improvement over the previous bound for sparse graphs. Since priority queues do not efficiently support the find operation, the location in the priority queue of each value of di will need to be maintained and updated
 
 whenever di changes in the priority queue. This is not typical of the priority queue ADT and thus is considered ugly.
 
-The alternate method is to insert w and the new value dw into the priority queue every time line 9 is executed. Thus, there may be more than one representative for each vertex in the priority queue. When the delete\_min operation removes the smallest vertex from the priority queue, it must be checked to make sure that it is not already known. Thus, line 2 becomes a loop performing delete\_mins until an unknown vertex emerges. Although this method is superior from a software point of view, and is certainly much easier to code, the size of the priority queue could get to be as big as |E|. This does not affect the asymptotic time bounds, since |E| |V|2 implies that log|E| 2 log |V|. Thus, we still get an O(|E| log |V|) algorithm. However, the space requirement does increase, and this could be important in some applications. Moreover, because this method requires |E| delete\_mins instead of only |V|, it is likely to be slower in practice.
+The alternate method is to insert w and the new value dw into the priority queue every time line 9 is executed. Thus, there may be more than one representative for each vertex in the priority queue. When the delete_min operation removes the smallest vertex from the priority queue, it must be checked to make sure that it is not already known. Thus, line 2 becomes a loop performing delete_mins until an unknown vertex emerges. Although this method is superior from a software point of view, and is certainly much easier to code, the size of the priority queue could get to be as big as |E|. This does not affect the asymptotic time bounds, since |E| |V|2 implies that log|E| 2 log |V|. Thus, we still get an O(|E| log |V|) algorithm. However, the space requirement does increase, and this could be important in some applications. Moreover, because this method requires |E| delete_mins instead of only |V|, it is likely to be slower in practice.
 ```js
 void
 
@@ -828,7 +827,6 @@ A more important use of acyclic graphs is critical path analysis. The graph in F
 
 ![Alt text](figure-9.34.png)
 
-
 This type of a graph could be (and frequently is) used to model construction projects. In this case, there are several important questions which would be of interest to answer. First, what is the earliest completion time for the project? We can see from the graph that 10 time units are required along the path A, C, F, H. Another important question is to determine which activities can be delayed, and by how long, without affecting the minimum completion time. For instance, delaying any of A, C, F, or H would push the completion time past 10 units. On the other hand, activity B is less critical and can be delayed up to two time units without affecting the final completion time.
 
 To perform these calculations, we convert the activity-node graph to an event-node graph. Each event corresponds to the completion of an activity and all its dependent activities. Events reachable from a node v in the event-node graph may not commence until after the event v is completed. This graph can be constructed automatically or by hand. Dummy edges and nodes may need to be inserted in the case where an activity depends on several others. This is necessary in order to avoid introducing false dependencies (or false lack of dependencies). The event node graph corresponding to the graph in
@@ -859,7 +857,6 @@ The slack time for each edge in the event-node graph represents the amount of ti
 
 ![Alt text](figure-9.36.png)
 
-
 Figure 9.38 shows the slack (as the third entry) for each activity in the event-node graph. For each node, the top number is the earliest completion time and the bottom entry is the latest completion time.
 
 ![Alt text](figure-9.37.png)
@@ -872,9 +869,7 @@ Some activities have zero slack. These are critical activities, which must finis
 
 Sometimes it is important to find the shortest paths between all pairs of vertices in the graph. Although we could just run the appropriate single-source algorithm |V| times, we might expect a somewhat faster solution, especially on a dense graph, if we compute all the information at once.
 
-In
-
-Chapter 10, we will see an O(|V|~3~) algorithm to solve this problem for weighted graphs. Although, for dense graphs, this is the same bound as running a simple (non-priority queue) Dijkstra's algorithm |V| times, the loops are so tight that the specialized all-pairs algorithm is likely to be faster in practice. On sparse graphs, of course, it is faster to run |V| Dijkstra's algorithms coded with priority queues.
+In Chapter 10, we will see an O(|V|~3~) algorithm to solve this problem for weighted graphs. Although, for dense graphs, this is the same bound as running a simple (non-priority queue) Dijkstra's algorithm |V| times, the loops are so tight that the specialized all-pairs algorithm is likely to be faster in practice. On sparse graphs, of course, it is faster to run |V| Dijkstra's algorithms coded with priority queues.
 
 ## 9.4. Network Flow Problems
 
@@ -884,7 +879,6 @@ Suppose we are given a directed graph G = (V, E) with edge capacities c~v,w~. Th
 
 As required by the problem statement, no edge carries more flow than its capacity. Vertex a has three units of flow coming in, which it distributes to c and d. Vertex d takes three units of flow from a and b and combines this, sending the result to t. A vertex can combine and distribute flow in any manner that it likes, as long as edge capacities are not violated and as long as flow conservation is maintained (what goes in must come out).
 
-
 ### 9.4.1. A Simple Maximum-Flow Algorithm
 
 A first attempt to solve the problem proceeds in stages. We start with our graph, G, and construct a flow graph Gf. Gf tells the flow that has been attained at any stage in the algorithm. Initially all edges in Gf have no flow, and we hope that when the algorithm terminates, Gf contains a maximum flow. We also construct a graph, Gr, called the residual graph. Gr tells, for each edge, how much more flow can be added. We can calculate this by subtracting the current flow from the capacity for each edge. An edge in Gr is known as a residual edge.
@@ -892,7 +886,6 @@ A first attempt to solve the problem proceeds in stages. We start with our graph
 At each stage, we find a path in Gr from s to t. This path is known as an augmenting path. The minimum edge on this path is the amount of flow that can be added to every edge on the path. We do this by adjusting Gf and recomputing Gr. When we find no path from s to t in Gr, we terminate.
 
 This algorithm is nondeterministic, in that we are free to choose any path from s to t; obviously some choices are better than others, and we will address this issue later. We will run this algorithm on our example. The graphs below are G, Gf, Gr respectively. Keep in mind that there is a slight flaw in this algorithm. The initial configuration is in
-
 
 Figure 9.40.
 
@@ -951,9 +944,7 @@ The analyses required to produce these bounds are rather intricate, and it is no
 
 The next problem we will consider is that of finding a minimum spanning tree in an undirected graph. The problem makes sense for directed graphs but appears to be more difficult. Informally, a minimum spanning tree of an undirected graph G is a tree formed from graph edges that connects all the vertices of G at lowest total cost. A minimum spanning tree exists if and only if G is connected. Although a robust algorithm should report the case that G is unconnected, we will assume that G is connected, and leave the issue of robustness as an exercise for the reader.
 
-In
-
-Figure 9.48 the second graph is a minimum spanning tree of the first (it happens to be unique, but this is unusual). Notice that the number of edges in the minimum spanning tree is |V| - 1. The minimum spanning tree is a tree because it is acyclic, it is spanning because it covers every edge, and it is minimum for the obvious reason. If we need to wire a house with a minimum of cable, then a minimum spanning tree problem needs to be solved. There are two basic algorithms to solve this problem; both are greedy. We now describe them.
+In Figure 9.48 the second graph is a minimum spanning tree of the first (it happens to be unique, but this is unusual). Notice that the number of edges in the minimum spanning tree is |V| - 1. The minimum spanning tree is a tree because it is acyclic, it is spanning because it covers every edge, and it is minimum for the obvious reason. If we need to wire a house with a minimum of cable, then a minimum spanning tree problem needs to be solved. There are two basic algorithms to solve this problem; both are greedy. We now describe them.
 
 ![Alt text](figure-9.48.png)
 
@@ -969,9 +960,7 @@ At any point in the algorithm, we can see that we have a set of vertices that ha
 
 Figure 9.49 shows how this algorithm would build the minimum spanning tree, starting from v~1~. Initially, v~1~ is in the tree as a root with no edges. Each step adds one edge and one vertex to the tree.
 
-We can see that Prim's algorithm is essentially identical to Dijkstra's algorithm for shortest paths. As before, for each vertex we keep values dv and pv and an indication of whether it is
-
-known or unknown. d~v~ is the weight of the shortest arc connecting v to a known vertex, and p~v~, as before, is the last vertex to cause a change in d~v~. The rest of the algorithm is exactly the same, with the exception that since the definition of dv is different, so is the update rule. For this problem, the update rule is even simpler than before: After a vertex v is selected, for each unknown w adjacent to v, d~v~ = min(d~w~, c~w~,v).
+We can see that Prim's algorithm is essentially identical to Dijkstra's algorithm for shortest paths. As before, for each vertex we keep values dv and pv and an indication of whether it is known or unknown. d~v~ is the weight of the shortest arc connecting v to a known vertex, and p~v~, as before, is the last vertex to cause a change in d~v~. The rest of the algorithm is exactly the same, with the exception that since the definition of dv is different, so is the update rule. For this problem, the update rule is even simpler than before: After a vertex v is selected, for each unknown w adjacent to v, d~v~ = min(d~w~, c~w~,v).
 
 ![Alt text](figure-9.49.png)
 
@@ -987,7 +976,7 @@ A second greedy strategy is continually to select the edges in order of smallest
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 0 0 0
 
@@ -1007,7 +996,7 @@ Figure 9.50 Initial configuration of table used in Prim's algorithm
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -1027,7 +1016,7 @@ Figure 9.51 The table after v~1~ **is declared known**
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -1053,7 +1042,7 @@ The invariant we will use is that at any point in the process, two vertices belo
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -1073,7 +1062,7 @@ Figure 9.53 The table after v~2~ **and then v~3~ are declared known**
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -1093,7 +1082,7 @@ Figure 9.54 The table after v~7~ **is declared known**
 
 v Known d~v~ p~v~
 
-\--------------------
+--------------------
 
 v~1~ 1 0 0
 
@@ -1109,16 +1098,15 @@ v~6~ 1 1 v~7~
 
 v~7~ 1 4 v~4~
 
-
 Figure 9.55 The table after v~6~ **and v~5~ are selected (Prim's algorithm terminates)**
 
-The edges could be sorted to facilitate the selection, but building a heap in linear time is a much better idea. Then delete\_mins give the edges to be tested in order. Typically, only a small fraction of the edges needs to be tested before the algorithm can terminate, although it is always possible that all the edges must be tried. For instance, if there was an extra vertex v~8~ and edge (v~5~, v~8~) of cost 100, all the edges would have to be examined. Procedure kruskal in
+The edges could be sorted to facilitate the selection, but building a heap in linear time is a much better idea. Then delete_mins give the edges to be tested in order. Typically, only a small fraction of the edges needs to be tested before the algorithm can terminate, although it is always possible that all the edges must be tried. For instance, if there was an extra vertex v~8~ and edge (v~5~, v~8~) of cost 100, all the edges would have to be examined. Procedure kruskal in
 
 Figure 9.58 finds a minimum spanning tree. Because an edge consists of three pieces of data, on some machines it is more efficient to implement the priority queue as an array of pointers to edges, rather than as an array of edges. The effect of this implementation is that, to rearrange the heap, only pointers, not large records, need to be moved.
 
 Edge Weight Action
 
-\----------------------------
+----------------------------
 
 (v~1~,v~4~) 1 Accepted
 
@@ -1221,9 +1209,9 @@ dfs( w );
 Figure 9.59 Template for depth-first search
  
 
-The (global) boolean array visited\[ \] is initialized to FALSE. By recursively calling the procedures only on nodes that have not been visited, we guarantee that we do not loop indefinitely. If the graph is undirected and not connected, or directed and not strongly connected, this strategy might fail to visit some nodes. We then search for an unmarked node, apply a depth-first traversal there, and continue this process until there are no unmarked nodes.\* Because this strategy guarantees that each edge is encountered only once, the total time to perform the traversal is O(|E| + |V|), as long as adjacency lists are used.
+The (global) boolean array visited[ ] is initialized to FALSE. By recursively calling the procedures only on nodes that have not been visited, we guarantee that we do not loop indefinitely. If the graph is undirected and not connected, or directed and not strongly connected, this strategy might fail to visit some nodes. We then search for an unmarked node, apply a depth-first traversal there, and continue this process until there are no unmarked nodes.* Because this strategy guarantees that each edge is encountered only once, the total time to perform the traversal is O(|E| + |V|), as long as adjacency lists are used.
 
-\* An efficient way of implementing this is to begin the depth-first search at v1. If we need to restart the depth-first search, we examine the sequence v~k~, v~k + 1~, . . . for an unmarked vertex,
+* An efficient way of implementing this is to begin the depth-first search at v1. If we need to restart the depth-first search, we examine the sequence v~k~, v~k + 1~, . . . for an unmarked vertex,
 
 where v~k - 1~ is the vertex where the last depth-first search was started. This guarantees that throughout the algorithm, only O(|V|) is spent looking for vertices where new depth-first search trees can be started.
 
@@ -1253,11 +1241,11 @@ Depth-first search provides a linear-time algorithm to find all articulation poi
 
 The lowest-numbered vertex reachable by A, B, and C is vertex 1 (A), because they can all take tree edges to D and then one back edge back to A. We can efficiently compute low by performing a postorder traversal of the depth-first spanning tree. By the definition of low, low(v) is the minimum of
 
-1\. num(v)
+1. num(v)
 
-2\. the lowest num(w) among all back edges (v, w)
+2. the lowest num(w) among all back edges (v, w)
 
-3\. the lowest low(w) among all tree edges (v, w)
+3. the lowest low(w) among all tree edges (v, w)
 
 The first condition is the option of taking no edges, the second way is to choose no tree edges and a back edge, and the third way is to choose some tree edges and possibly a back edge. This third method is succinctly described with a recursive call. Since we need to evaluate low for all the children of v before we can evaluate low(v), this is a postorder traversal. For any edge (v, w), we can tell whether it is a tree edge or a back edge merely by checking num(v) and num(w). Thus, it is easy to compute low(v): we merely scan down v's adjacency list, apply the proper rule, and keep track of the minimum. Doing all the computation takes O(|E| +|V|) time.
 
@@ -1271,15 +1259,13 @@ Similarly, C is an articulation point, because low (G) num (C). To prove that th
 
 ![Alt text](figure-9.63.png)
 
-We close by giving pseudocode to implement this algorithm. We will assume that the arrays visited \[\] (initialized to FALSE), num\[\], low\[\], and parent\[\] are global to keep the code simple. We will also keep a global variable called counter, which is initialized to 1 to assign the preorder traversal numbers, num\[\]. This is not normally good programming practice, but including all the declarations and passing the extra parameters would cloud the logic. We also leave out the easily implemented test for the root.
+We close by giving pseudocode to implement this algorithm. We will assume that the arrays visited [] (initialized to FALSE), num[], low[], and parent[] are global to keep the code simple. We will also keep a global variable called counter, which is initialized to 1 to assign the preorder traversal numbers, num[]. This is not normally good programming practice, but including all the declarations and passing the extra parameters would cloud the logic. We also leave out the easily implemented test for the root.
 
-As we have already stated, this algorithm can be implemented by performi to compute num and then a postorder traversal to compute low. A third traversal can be used to check which vertices satisfy the articulation point criteria. Performing three traversals, however, would be a waste. The first pass is shown in
+As we have already stated, this algorithm can be implemented by performi to compute num and then a postorder traversal to compute low. A third traversal can be used to check which vertices satisfy the articulation point criteria. Performing three traversals, however, would be a waste. The first pass is shown in Figure 9.65.
 
-Figure 9.65.
+The second and third passes, which are postorder traversals, can be implemented by the code in Figure 9.66. Line 8 handles a special case. If w is adjacent to v, then the recursive call to w will find v adjacent to w. This is not a back edge, only an edge that has already been considered and needs to be ignored. Otherwise, the procedure computes the minimum of the various low[] and num[] entries, as specified by the algorithm.
 
-The second and third passes, which are postorder traversals, can be implemented by the code in Figure 9.66. Line 8 handles a special case. If w is adjacent to v, then the recursive call to w will find v adjacent to w. This is not a back edge, only an edge that has already been considered and needs to be ignored. Otherwise, the procedure computes the minimum of the various low\[\] and num\[\] entries, as specified by the algorithm.
-
-There is no rule that a traversal must be either preorder or postorder. It is possible to do processing both before and after the recursive calls. The procedure in Figure 9.67 combines the two routines assign\_num and assign\_low in a straightforward manner to produce the procedure find\_art.
+There is no rule that a traversal must be either preorder or postorder. It is possible to do processing both before and after the recursive calls. The procedure in Figure 9.67 combines the two routines assign_num and assign_low in a straightforward manner to produce the procedure find_art.
 
 ### 9.6.3. Euler Circuits
 
@@ -1287,8 +1273,8 @@ Consider the three figures in Figure 9.68. A popular puzzle is to reconstruct th
 
 ![Alt text](figure-9.64.png)
 
-/\* assign num and compute parents \*/
 ```js
+/* assign num and compute parents */
 void
 
 assign_num( vertex v )
@@ -1394,7 +1380,7 @@ else
 
 if( parent[v] != w ) /* back edge */
 
-low[v] = min( low[v], num[w\] ); /\* Rule 2 \*/
+low[v] = min( low[v], num[w] ); /* Rule 2 */
 
 }
 
@@ -1406,9 +1392,7 @@ Figure 9.67 Testing for articulation points in one depth-first search (test for 
 
 The first figure can be drawn only if the starting point is the lower left- or right-hand corner, and it is not possible to finish at the starting point. The second figure is easily drawn with the finishing point the same as the starting point, but the third figure cannot be drawn at all within the parameters of the puzzle.
 
-We can convert this problem to a graph theory problem by assigning a vertex to each intersection. Then the edges can be assigned in the natural manner, as in
-
-Figure 9.69.
+We can convert this problem to a graph theory problem by assigning a vertex to each intersection. Then the edges can be assigned in the natural manner, as in Figure 9.69.
 
 After this conversion is performed, we must find a path in the graph that visits every edge exactly once. If we are to solve the "extra challenge," then we must find a cycle that visits every edge exactly once. This graph problem was solved in 1736 by Euler and marked the beginning of graph theory. The problem is thus commonly referred to as an Euler path (sometimes Euler tour) or Euler circuit problem, depending on the specific problem statement. The Euler tour and Euler circuit problems, though slightly different, have the same basic solution. Thus, we will consider the Euler circuit problem in this section.
 
@@ -1472,9 +1456,7 @@ Each of the trees (this is easier to see if you completely ignore all nontree ed
 
 To see why this algorithm works, first note that if two vertices v and w are in the same strongly connected component, then there are paths from v to w and from w to v in the original graph G, and hence also in G~r~. Now, if two vertices v and w are not in the same depth-first spanning tree of Gr, clearly they cannot be in the same strongly connected component.
 
-To prove that this algorithm works, we must show that if two vertices v and w are in the same depth-first spanning tree of Gr, there must be paths from v to w and from w to v. Equivalently,
-
-we can show that if x is the root of the depth-first spanning tree of Gr containing v, then there is a path from x to v and from v to x. Applying the same logic to w would then give a path from x to w and from w to x. These paths would imply paths from v to w and w to v (going through x).
+To prove that this algorithm works, we must show that if two vertices v and w are in the same depth-first spanning tree of Gr, there must be paths from v to w and from w to v. Equivalently, we can show that if x is the root of the depth-first spanning tree of Gr containing v, then there is a path from x to v and from v to x. Applying the same logic to w would then give a path from x to w and from w to x. These paths would imply paths from v to w and w to v (going through x).
 
 Since v is a descendant of x in Gr's depth-first spanning tree, there is a path from x to v in Gr and thus a path from v to x in G. Furthermore, since x is the root, x has the higher postorder number from the first depth-first search. Therefore, during the first depth-first search, all the work processing v was completed before the work at x was completed. Since there is a path from v to x, it follows that v must be a descendant of x in the spanning tree for G -- otherwise v would finish after x. This implies a path from x to v in G and completes the proof.
 
@@ -1528,7 +1510,7 @@ The class NP includes all problems that have polynomial-time solutions, since ob
 
 Notice also that not all decidable problems are in NP. Consider the problem of determining whether a graph does not have a Hamiltonian cycle. To prove that a graph has a Hamiltonian cycle is a relatively simple matter-we just need to exhibit one. Nobody knows how to show, in polynomial time, that a graph does not have a Hamiltonian cycle. It seems that one must enumerate all the cycles and check them one by one. Thus the Non-Hamiltonian cycle problem is not known to be in NP.
 
-###9.7.3. NP-Complete Problems
+### 9.7.3. NP-Complete Problems
 
 Among all the problems known to be in NP, there is a subset, known as the NP-complete problems, which contains the hardest. An NP-complete problem has the property that any problem in NP can be polynomially reduced to it.
 
@@ -1546,11 +1528,7 @@ Given a complete graph G = (V, E), with edge costs, and an integer K, is there a
 
 The problem is different from the Hamiltonian cycle problem, because all |V|(|V| - 1)/2 edges are present and the graph is weighted. This problem has many important applications. For instance, printed circuit boards need to have holes punched so that chips, resistors, and other electronic components can be placed. This is done mechanically. Punching the hole is a quick operation; the time-consuming step is positioning the hole puncher. The time required for positioning depends on the distance traveled from hole to hole. Since we would like to punch every hole (and then return to the start for the next board), and minimize the total amount of time spent traveling, what we have is a traveling salesman problem.
 
-The traveling salesman problem is NP-complete. It is easy to see that a solution can be checked in polynomial time, so it is certainly in NP. To show that it is NP-complete, we polynomially reduce the Hamiltonian cycle problem to it. To do this we construct a new graph G'. G' has the same vertices as G. For G', each edge (v, w) has a weight of 1 if (v, w) G, and 2 otherwise. We choose K = |V|. See
-
-Figure 9.78.
-
-It is easy to verify that G has a Hamiltonian cycle problem if and only if G' has a Traveling Salesman tour of total weight |V|.
+The traveling salesman problem is NP-complete. It is easy to see that a solution can be checked in polynomial time, so it is certainly in NP. To show that it is NP-complete, we polynomially reduce the Hamiltonian cycle problem to it. To do this we construct a new graph G'. G' has the same vertices as G. For G', each edge (v, w) has a weight of 1 if (v, w) G, and 2 otherwise. We choose K = |V|. See Figure 9.78. It is easy to verify that G has a Hamiltonian cycle problem if and only if G' has a Traveling Salesman tour of total weight |V|.
 
 There is now a long list of problems known to be NP-complete. To prove that some new problem is NP-complete, it must be shown to be in NP, and then an appropriate NP-complete problem must be transformed into it. Although the transformation to a traveling salesman problem was rather straightforward, most transformations are actually quite involved and require some tricky constructions. Generally, several different NP-complete problems are considered before the problem that actually provides the reduction. As we are only interested in the general ideas, we will not show any more transformations; the interested reader can consult the references.
 
@@ -1592,13 +1570,14 @@ Figure 9.80.
 **9.6** What is the worst-case running time of Dijkstra's algorithm when implemented with d-heaps (Section 6.5)?
  
 **9.7** 
+
 a. Give an example where Dijkstra's algorithm gives the wrong answer in the presence of a negative edge but no negative-cost cycle.
 
-\*\*b. Show that the weighted shortest-path algorithm suggested in
+**b. Show that the weighted shortest-path algorithm suggested in
 
 Section 9.3.3 works if there are negative-weight edges, but no negative-cost cycles, and that the running time of this algorithm is O(|E| |V|).
 
-**\*9.8** Suppose all the edge weights in a graph are integers between 1 and E . How fast can Dijkstra's algorithm be implemented?
+***9.8** Suppose all the edge weights in a graph are integers between 1 and E . How fast can Dijkstra's algorithm be implemented?
 
 **9.9** Write a program to solve the single-source shortest-path problem.
 
@@ -1617,9 +1596,7 @@ b. Explain how to modify Dijkstra's algorithm so that if there is more than one 
 
 a. Give a linear algorithm to determine whether a graph is bipartite.
 
-b. The bipartite matching problem is to find the largest subset E' of E such that no vertex is included in more than one edge. A matching of four edges (indicated by dashed edges) is shown in Figure 9.81. There is a matching of five edges, which is maximum.
-
-Show how the bipartite matching problem can be used to solve the following problem: We have a set of instructors, a set of courses, and a list of courses that each instructor is qualified to teach. If no instructor is required to teach more than one course, and only one instructor may teach a given course, what is the maximum number of courses that can be offered?
+b. The bipartite matching problem is to find the largest subset E' of E such that no vertex is included in more than one edge. A matching of four edges (indicated by dashed edges) is shown in Figure 9.81. There is a matching of five edges, which is maximum. Show how the bipartite matching problem can be used to solve the following problem: We have a set of instructors, a set of courses, and a list of courses that each instructor is qualified to teach. If no instructor is required to teach more than one course, and only one instructor may teach a given course, what is the maximum number of courses that can be offered?
 
 c. Show that the network flow problem can be used to solve the bipartite matching problem.
 
@@ -1634,7 +1611,7 @@ b. Is this minimum spanning tree unique? Why?
 
 **9.16** Does either Prim's or Kruskal's algorithm work if there are negative edge weights?
 
-**9.17** Show that a graph of V vertices can have VV\_2 minimum spanning trees.
+**9.17** Show that a graph of V vertices can have VV_2 minimum spanning trees.
 
 **9.18** Write a program to implement Kruskal's algorithm. 
 
@@ -1643,7 +1620,6 @@ b. Is this minimum spanning tree unique? Why?
 ![Alt text](figure-9.81.png)
 
 ![Alt text](figure-9.82.png)
-
 
 **9.20** Give an algorithm to find a maximum spanning tree. Is this harder than finding a minimum spanning tree?
 
@@ -1654,7 +1630,7 @@ b. Is this minimum spanning tree unique? Why?
 **9.23** 
 a. Give an algorithm to find the minimum number of edges that need to be removed from an undirected graph so that the resulting graph is acyclic.
 
-\*b. Show that this problem is NP-complete for directed graphs.
+*b. Show that this problem is NP-complete for directed graphs.
 
 **9.24** Prove that in a depth-first spanning forest of a directed graph, all cross edges go from right to left.
 
@@ -1668,8 +1644,7 @@ a. Give an algorithm to find the minimum number of edges that need to be removed
 
 ![Alt text](figure-9.84.png)
 
-
-**\*9.28** Give an algorithm that finds the strongly connected components in only one depth-first search. Use an algorithm similar to the biconnectivity algorithm.
+***9.28** Give an algorithm that finds the strongly connected components in only one depth-first search. Use an algorithm similar to the biconnectivity algorithm.
 
 **9.29** The biconnected components of a graph G is a partition of the edges into sets such that the graph formed by each set of edges is biconnected. Modify the algorithm in Figure 9.67 to find the biconnected components instead of the articulation points.
 
@@ -1684,9 +1659,9 @@ b. Write a program to find an Euler tour in a graph if one exists.
 
 **9.33** An Euler circuit in a directed graph is a cycle in which every edge is visited exactly once.
 
-\*a. Prove that a directed graph has an Euler circuit if and only if it is strongly connected and every vertex has equal indegree and outdegree.
+*a. Prove that a directed graph has an Euler circuit if and only if it is strongly connected and every vertex has equal indegree and outdegree.
 
-\*b. Give a linear-time algorithm to find an Euler circuit in a directed graph where one exists.
+*b. Give a linear-time algorithm to find an Euler circuit in a directed graph where one exists.
 
 **9.34** 
 a. Consider the following solution to the Euler circuit problem: Assume that the graph is biconnected. Perform a depth-first search, taking back edges only as a last resort. If the graph is not biconnected, apply the algorithm recursively on the biconnected components. Does this algorithm work?
@@ -1695,19 +1670,17 @@ b. Suppose that when taking back edges, we take the back edge to the nearest anc
 
 **9.35** A planar graph is a graph that can be drawn in a plane without any two edges intersecting.
 
-\*a. Show that neither of the graphs in
-
-![Alt text](figure-9.85.png)
+*a. Show that neither of the graphs in Figure 9.85 is planar. 
 
 b. Show that in a planar graph, there must exist some vertex which is connected to no more than five nodes.
 
-\*\*c. Show that in a planar graph, E 3 V - 6.
+**c. Show that in a planar graph,
 
-Figure 9.85
+![Alt text](figure-9.85.png)
 
 **9.36** A multigraph is a graph in which multiple edges are allowed between pairs of vertices. Which of the algorithms in this chapter work without modification for multigraphs? What modifications need to be done for the others?
 
-**\*9.37** Let G = (V, E) be an undirected graph. Use depth-first search to design a linear algorithm to convert each edge in G to a directed edge such that the resulting graph is strongly connected, or determine that this is not possible.
+***9.37** Let G = (V, E) be an undirected graph. Use depth-first search to design a linear algorithm to convert each edge in G to a directed edge such that the resulting graph is strongly connected, or determine that this is not possible.
 
 **9.38** You are given a set of n sticks, which are laying on top of each other in some configuration. Each stick is specified by its two endpoints; each endpoint is an ordered triple giving its x, y, and z coordinates; no stick is vertical. A stick may be picked up only if there is no stick on top of it.
 
@@ -1735,7 +1708,7 @@ all the baseball cards by choosing K packets? Show that the baseball card collec
 
 **References**
 
-Good graph theory textbooks include [7\], [12], [21], and [34]. More advanced topics, including the more careful attention to running times, are covered in [36], [38], and [45].
+Good graph theory textbooks include [7], [12], [21], and [34]. More advanced topics, including the more careful attention to running times, are covered in [36], [38], and [45].
 
 Use of adjacency lists was advocated in [23]. The topological sort algorithm is from [28], as described in [31]. Dijkstra's algorithm appeared in [8]. The improvements using d-heaps and Fibonacci heaps are described in [27] and [14], respectively. The shortest-path algorithm with negative edge weights is due to Bellman [3]; Tarjan [45] describes a more efficient way to guarantee termination.
 
@@ -1751,99 +1724,95 @@ A solution to Exercise 9.8 can be found in [2]. Solutions to the bipartite match
 
 Exercise 9.35 deals with planar graphs, which commonly arise in practice. Planar graphs are very sparse, and many difficult problems are easier on planar graphs. An example is the graph isomorphism problem, which is solvable in linear time for planar graphs [26]. No polynomial time algorithm is known for general graphs.
 
-1\. A. V. Aho, J. E. Hopcroft, and J. D. Ullman, The Design and Analysis of Computer Algorithms, Addison-Wesley, Reading, MA, 1974.
+1. A. V. Aho, J. E. Hopcroft, and J. D. Ullman, The Design and Analysis of Computer Algorithms, Addison-Wesley, Reading, MA, 1974.
 
-2\. R. K. Ahuja, K. Melhorn, J. B. Orlin, and R. E. Tarjan, "Faster Algorithms for the Shortest Path Problem," Journal of the ACM 37 (1990), 213-223.
+2. R. K. Ahuja, K. Melhorn, J. B. Orlin, and R. E. Tarjan, "Faster Algorithms for the Shortest Path Problem," Journal of the ACM 37 (1990), 213-223.
 
-3\. R. E. Bellman, "On a Routing Problem," Quarterly of Applied Mathematics 16 (1958), 87-90.
+3. R. E. Bellman, "On a Routing Problem," Quarterly of Applied Mathematics 16 (1958), 87-90.
 
-4\. O. Boruvka, "Ojistém problému minimálním (On a Minimal Problem)," Pr_á_ca Moravsk_é_ 3 (1926), 37-58.
+4. O. Boruvka, "Ojistém problému minimálním (On a Minimal Problem)," Pr_á_ca Moravsk_é_ 3 (1926), 37-58.
 
-5\. D. Cheriton and R. E. Tarjan, "Finding Minimum Spanning Trees," SIAM Journal on Computing 5 (1976), 724-742.  
+5. D. Cheriton and R. E. Tarjan, "Finding Minimum Spanning Trees," SIAM Journal on Computing 5 (1976), 724-742.  
 
-6\. S. Cook, "The Complexity of Theorem Proving Procedures," Proceedings of the Third Annual ACM Symposium on Theory of Computing (1971), 151-158.
+6. S. Cook, "The Complexity of Theorem Proving Procedures," Proceedings of the Third Annual ACM Symposium on Theory of Computing (1971), 151-158.
 
-7\. N. Deo, Graph Theory wtth Applications to Engineering and Computer Science, Prentice Hall, Englewood Cliffs, NJ, 1974.
+7. N. Deo, Graph Theory wtth Applications to Engineering and Computer Science, Prentice Hall, Englewood Cliffs, NJ, 1974.
 
-8\. E. W. Dijkstra, "A Note on Two Problems in Connexion with Graphs," Numerische Mathematik 1 (1959), 269-271.
+8. E. W. Dijkstra, "A Note on Two Problems in Connexion with Graphs," Numerische Mathematik 1 (1959), 269-271.
 
-9\. E. A. Dinic, "Algorithm for Solution of a Problem of Maximum Flow in Networks with Power Estimation," Soviet Mathematics Doklady 11 (1970), 1277-1280.
+9. E. A. Dinic, "Algorithm for Solution of a Problem of Maximum Flow in Networks with Power Estimation," Soviet Mathematics Doklady 11 (1970), 1277-1280.
 
-10\. J. Edmonds, "Paths, Trees, and Flowers," Canadian Journal of Mathematics 17 (1965) 449-467.
+10. J. Edmonds, "Paths, Trees, and Flowers," Canadian Journal of Mathematics 17 (1965) 449-467.
 
-11\. J. Edmonds and R. M. Karp, "Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems," Journal of the ACM 19 (1972), 248-264.
+11. J. Edmonds and R. M. Karp, "Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems," Journal of the ACM 19 (1972), 248-264.
 
-12\. S. Even, Graph Algorithms, Computer Science Press, Potomac, MD, 1979.
+12. S. Even, Graph Algorithms, Computer Science Press, Potomac, MD, 1979.
 
-13\. L. R. Ford, Jr. and D. R. Fulkerson, Flows in Networks, Princeton University Press, Princeton, NJ, 1962.
+13. L. R. Ford, Jr. and D. R. Fulkerson, Flows in Networks, Princeton University Press, Princeton, NJ, 1962.
 
-14\. M. L. Fredman and R. E. Tarjan, "Fibonacci Heaps and Their Uses in Improved Network Optimization Algorithms," Journal of the ACM 34 (1987), 596-615.
+14. M. L. Fredman and R. E. Tarjan, "Fibonacci Heaps and Their Uses in Improved Network Optimization Algorithms," Journal of the ACM 34 (1987), 596-615.
 
-15\. H. N. Gabow, "Data Structures for Weighted Matching and Nearest Common Ancestors with Linking," Proceedings of First Annual ACM-SIAM Symposium on Discrete Algorithms (1990), 434-443. 
+15. H. N. Gabow, "Data Structures for Weighted Matching and Nearest Common Ancestors with Linking," Proceedings of First Annual ACM-SIAM Symposium on Discrete Algorithms (1990), 434-443. 
 
-16\. H. N. Gabow, Z. Galil, T. H. Spencer, and R. E. Tarjan, "Efficient Algorithms for Finding Minimum Spanning Trees on Directed and Undirected Graphs," Combinatorica 6 (1986), 109-122.
+16. H. N. Gabow, Z. Galil, T. H. Spencer, and R. E. Tarjan, "Efficient Algorithms for Finding Minimum Spanning Trees on Directed and Undirected Graphs," Combinatorica 6 (1986), 109-122.
 
-17\. Z. Galil, "Efficient Algorithms for Finding Maximum Matchings in Graphs," ACM Computing Surveys 18 (1986), 23-38.
+17. Z. Galil, "Efficient Algorithms for Finding Maximum Matchings in Graphs," ACM Computing Surveys 18 (1986), 23-38.
 
-18\. Z. Galil and E. Tardos,"An O(n2(m + n log n)log n) Min-Cost Flow Algorithm," Journal of the ACM 35 (1988), 374-386.
+18. Z. Galil and E. Tardos,"An O(n2(m + n log n)log n) Min-Cost Flow Algorithm," Journal of the ACM 35 (1988), 374-386.
 
-19\. M. R. Garey and D. S. Johnson, Computers and Intractability: A Guide to the Theory of NP- Completeness, Freeman, San Francisco, 1979.
+19. M. R. Garey and D. S. Johnson, Computers and Intractability: A Guide to the Theory of NP- Completeness, Freeman, San Francisco, 1979.
 
-20\. A. V. Goldberg and R. E. Tarjan, "A New Approach to the Maximum-Flow Problem," Journal of the ACM 35 (1988), 921-940.
+20. A. V. Goldberg and R. E. Tarjan, "A New Approach to the Maximum-Flow Problem," Journal of the ACM 35 (1988), 921-940.
 
-21\. F. Harary, Graph Theory, Addison-Wesley, Reading, MA, 1969.
+21. F. Harary, Graph Theory, Addison-Wesley, Reading, MA, 1969.
 
-22\. J. E. Hopcroft and R. M. Karp, "An n5/2 Algorithm for Maximum Matchings in Bipartite Graphs," SIAM Journal on Computing 2 (1973), 225-231.
+22. J. E. Hopcroft and R. M. Karp, "An n5/2 Algorithm for Maximum Matchings in Bipartite Graphs," SIAM Journal on Computing 2 (1973), 225-231.
 
-23\. J. E. Hopcroft and R. E. Tarjan, "Algorithm 447: Efficient Algorithms for Graph Manipulation," Communications of the ACM 16 (1973), 372-378.
+23. J. E. Hopcroft and R. E. Tarjan, "Algorithm 447: Efficient Algorithms for Graph Manipulation," Communications of the ACM 16 (1973), 372-378.
 
-24\. J. E. Hopcroft and R. E. Tarjan, "Dividing a Graph into Triconnected Components," SIAM Journal on Computing 2 (1973), 135-158.
+24. J. E. Hopcroft and R. E. Tarjan, "Dividing a Graph into Triconnected Components," SIAM Journal on Computing 2 (1973), 135-158.
 
-25\. J. E. Hopcroft and R. E. Tarjan, "Efficient Planarity Testing," Journal of the ACM 21 (1974),549-568.
+25. J. E. Hopcroft and R. E. Tarjan, "Efficient Planarity Testing," Journal of the ACM 21 (1974),549-568.
 
-26\. J. E. Hopcroft and J. K. Wong, "Linear Time Algorithm for Isomorphism of Planar Graphs," Proceedings of the Sixth Annual ACM Symposium on Theory of Computing (1974), 172-184.
+26. J. E. Hopcroft and J. K. Wong, "Linear Time Algorithm for Isomorphism of Planar Graphs," Proceedings of the Sixth Annual ACM Symposium on Theory of Computing (1974), 172-184.
 
-27\. D. B. Johnson, "Efficient Algorithms for Shortest Paths in Sparse Networks," Journal of the ACM 24 (1977), 1-13.
+27. D. B. Johnson, "Efficient Algorithms for Shortest Paths in Sparse Networks," Journal of the ACM 24 (1977), 1-13.
 
-28\. A. B. Kahn, "Topological Sorting of Large Networks," Communications of the ACM 5 (1962), 558- 562.
+28. A. B. Kahn, "Topological Sorting of Large Networks," Communications of the ACM 5 (1962), 558- 562.
 
-29\. R. M. Karp, "Reducibility among Combinatorial Problems," Complexity of Computer Computations (eds. R. E. Miller and J. W. Thatcher), Plenum Press, New York, 1972, 85-103.
+29. R. M. Karp, "Reducibility among Combinatorial Problems," Complexity of Computer Computations (eds. R. E. Miller and J. W. Thatcher), Plenum Press, New York, 1972, 85-103.
 
-30\. A. V. Karzanov, "Determining the Maximal Flow in a Network by the Method of Preflows," Soviet Mathematics Doklady 15 (1974), 434-437.
+30. A. V. Karzanov, "Determining the Maximal Flow in a Network by the Method of Preflows," Soviet Mathematics Doklady 15 (1974), 434-437.
 
-31\. D. E. Knuth, The Art of Computer Programming, Vol. 1: Fundamental Algorithms, second edition, Addison-Wesley, Reading, MA, 1973.
+31. D. E. Knuth, The Art of Computer Programming, Vol. 1: Fundamental Algorithms, second edition, Addison-Wesley, Reading, MA, 1973.
 
-32\. J. B. Kruskal, Jr. "On the Shortest Spanning Subtree of a Graph and the Traveling Salesman Problem," Proceedings of the American Mathematical Society 7 (1956), 48-50.
+32. J. B. Kruskal, Jr. "On the Shortest Spanning Subtree of a Graph and the Traveling Salesman Problem," Proceedings of the American Mathematical Society 7 (1956), 48-50.
 
-33\. H. W. Kuhn, "The Hungarian Method for the Assignment Problem," Naval Research Logistics Quarterly 2 (1955), 83-97.
+33. H. W. Kuhn, "The Hungarian Method for the Assignment Problem," Naval Research Logistics Quarterly 2 (1955), 83-97.
 
-34\. E. L. Lawler, Combinatorial Optimization: Networks and Matroids, Holt, Reinhart, and Winston, New York, NY, 1976.
+34. E. L. Lawler, Combinatorial Optimization: Networks and Matroids, Holt, Reinhart, and Winston, New York, NY, 1976.
  
-35\. S. Lin and B. W. Kernighan, "An Effective Heuristic Algorithm for the Traveling Salesman Problem," Operations Research 21 (1973), 498-516.
+35. S. Lin and B. W. Kernighan, "An Effective Heuristic Algorithm for the Traveling Salesman Problem," Operations Research 21 (1973), 498-516.
 
-36\. K. Melhorn, Data Structures and Algorithms 2: Graph Algorithms and NP-completeness, Springer- Verlag, Berlin, 1984.
+36. K. Melhorn, Data Structures and Algorithms 2: Graph Algorithms and NP-completeness, Springer- Verlag, Berlin, 1984.
 
-37\. B. M. E. Moret and H. D. Shapiro, "An Empirical Analysis of Algorithms for Constructing a Minimum Spanning Tree," Proceedings of the Second Workshop on Algorithms and Data Structures (1991), 400-411.
+37. B. M. E. Moret and H. D. Shapiro, "An Empirical Analysis of Algorithms for Constructing a Minimum Spanning Tree," Proceedings of the Second Workshop on Algorithms and Data Structures (1991), 400-411.
 
-38\. C. H. Papadimitriou and K. Steiglitz, Combinatorial Optimization: Algorithms and Complexity, Prentice Hall, Englewood Cliffs, NJ, 1982.
+38. C. H. Papadimitriou and K. Steiglitz, Combinatorial Optimization: Algorithms and Complexity, Prentice Hall, Englewood Cliffs, NJ, 1982.
 
-39\. R. C. Prim, "Shortest Connection Networks and Some Generalizations," Bell System Technical Journal 36 (1957), 1389-1401.
+39. R. C. Prim, "Shortest Connection Networks and Some Generalizations," Bell System Technical Journal 36 (1957), 1389-1401.
 
-40\. M. Sharir, "A Strong-Connectivity Algorithm and Its Application in Data Flow Analysis," Computers and Mathematics with Applications 7 (1981), 67-72.
+40. M. Sharir, "A Strong-Connectivity Algorithm and Its Application in Data Flow Analysis," Computers and Mathematics with Applications 7 (1981), 67-72.
 
-41\. R. E. Tarjan, "Depth First Search and Linear Graph Algorithms," SIAM Journal on Computing 1 (1972), 146-160.
+41. R. E. Tarjan, "Depth First Search and Linear Graph Algorithms," SIAM Journal on Computing 1 (1972), 146-160.
 
-42\. R. E. Tarjan, "Testing Flow Graph Reducibility," Journal of Computer and System Sciences 9 (1974), 355-365.
+42. R. E. Tarjan, "Testing Flow Graph Reducibility," Journal of Computer and System Sciences 9 (1974), 355-365.
 
-43\. R. E. Tarjan, "Finding Dominators in Directed Graphs," SIAM Journal on Computing 3 (1974), 62-89.
+43. R. E. Tarjan, "Finding Dominators in Directed Graphs," SIAM Journal on Computing 3 (1974), 62-89.
 
-页码，74/75Structures, Algorithm Analysis: CHAPTER 9: GRAPH ALGORITHMS
+44. R. E. Tarjan, "Complexity of Combinatorial Algorithms," SIAM Review 20 (1978), 457-491.
 
-2006-1-27mk:@MSITStore:K:\\Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+45. R. E. Tarjan, Data Structures and Network Algorithms, Society for Industrial and Applied Mathematics, Philadelphia, PA, 1983.
 
-44\. R. E. Tarjan, "Complexity of Combinatorial Algorithms," SIAM Review 20 (1978), 457-491.
-
-45\. R. E. Tarjan, Data Structures and Network Algorithms, Society for Industrial and Applied Mathematics, Philadelphia, PA, 1983.
-
-46\. A. C. Yao, "An O( |E | log log |V | ) Algorithm for Finding Minimum Spanning Trees," Information Processing Letters 4 (1975), 21-23.
+46. A. C. Yao, "An O( |E | log log |V | ) Algorithm for Finding Minimum Spanning Trees," Information Processing Letters 4 (1975), 21-23.
 
