@@ -303,13 +303,9 @@ There are two details that must be considered. First, the encoding information m
 
 The second problem is that as described, this is a two-pass algorithm. The first pass collects the frequency data and the second pass does the encoding. This is obviously not a desirable property for a program dealing with large files. Some
 
-页码，11/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 alternatives are described in the references.
 
-10.1.3. Approximate Bin Packing
+## 10.1.3. Approximate Bin Packing
 
 In this section, we will consider some algorithms to solve the bin packing problem. These algorithms will run quickly but will not necessarily produce optimal solutions. We will prove, however, that the solutions that are produced are not too far from optimal.
 
@@ -321,7 +317,7 @@ Figure 10.20 Optimal packing for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
 
 There are two versions of the bin packing problem. The first version is on-line bin packing. In this version, each item must be placed in a bin before the next item can be processed. The second version is the off-line bin packing problem. In an off-line algorithm, we do not need to do anything until all the input has been read. The distinction between on-line and off-line algorithms was discussed in Section 8.2.
 
-On-line Algorithms
+**On-line Algorithms**
 
 The first issue to consider is whether or not an on-line algorithm can actually always give an optimal answer, even if it is allowed unlimited computation. Remember that even though unlimited computation is allowed, an on-line algorithm must place an item before processing the next item and cannot change its decision.
 
@@ -330,10 +326,6 @@ To show that an on-line algorithm cannot always give an optimal solution, we wil
 m small items of weight followed by m large items of weight , 0 < < 0.01. It is clear that these items can be packed in m bins if we place one small item and one large item in each bin. Suppose there were an optimal on-line algorithm A that could perform this packing. Consider the operation of algorithm
 
 A on the sequence I2, consisting of only m small items of weight . I2 can be
-
-页码，12/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 packed in [m/2] bins. However, A will place each item in a separate bin, since A must yield the same results on I2 as it does for the first half of I1, since the
 
@@ -359,15 +351,12 @@ sequence consists of m small items followed by m large items. Let us consider wh
 
 Now consider the performance of algorithm A after all items have been packed. All bins created after the bth bin must contain exactly one item, since all small items are placed in the first b bins, and two large items will not fit in a bin. Since the first b bins can have at most two items each, and the remaining bins have one item each, we see that packing 2m items will require at least 2m - b bins. Since the 2m items can be optimally packed using m bins, our performance
 
-guarantee assures us that .
+guarantee assures us that ![alt ](sml.png).
+![alt Next fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.21.png)
 
-Figure 10.21 Next fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
+**Figure 10.21 Next fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8**
 
 The first inequality implies that , and the second inequality implies
-
-页码，13/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 that , which is a contradiction. Thus, no on-line algorithm can
 
@@ -375,7 +364,7 @@ guarantee that it will produce a packing with less than the optimal number of bi
 
 There are three simple algorithms that guarantee that the number of bins used is no more than twice optimal. There are also quite a few more complicated algorithms with better guarantees.
 
-Next Fit
+**Next Fit**
 
 Probably the simplest algorithm is next fit. When processing any item, we check to see whether it fits in the same bin as the last item. If it does, it is placed there; otherwise, a new bin is created. This algorithm is incredibly simple to implement and runs in linear time. Figure 10.21 shows the packing produced for the same input as Figure 10.20.
 
@@ -400,16 +389,14 @@ To see that this bound is tight, suppose that the n items have size si = 0.5 if 
 is odd and si = 2/n if i is even. Assume n is divisible by 4. The optimal
 
 packing, shown in Figure 10.22, consists of n/4 bins, each containing 2 elements of size 0.5, and one bin containing the n/2 elements of size 2/n, for a total of (n/4) + 1. Figure 10.23 shows that next fit uses n/2 bins. Thus, next fit can be forced to use almost twice as many bins as optimal.
+![alt Optimal packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .](10.22.png)
 
-页码，14/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+**Figure 10.22 Optimal packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .**
+![alt Next fit packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .](10.23.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**Figure 10.23 Next fit packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .**
 
-Figure 10.22 Optimal packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .
-
-Figure 10.23 Next fit packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .
-
-First Fit
+**First Fit**
 
 Although next fit has a reasonable performance guarantee, it performs poorly in practice, because it creates new bins when it does not need to. In the sample run, it could have placed the item of size 0.3 in either B1 or B2, rather than
 
@@ -421,13 +408,10 @@ A simple method of implementing first fit would process each item by scanning
 
 down the list of bins sequentially. This would take O(n2). It is possible to implement first fit to run in O(n log n); we leave this as an exercise.
 
-A moment's thought will convince you that at any point, at most one bin can be more than half empty, since if a second bin were also half empty, its contents would fit into the first bin. Thus, we can immediately conclude that first fit guarantees a solution with at most twice the optimal number of bins.
+A moment's thought will convince you that at any point, at most one bin can be more than half empty, since if a second bin were also half empty, its contents would fit into the first bin. Thus, we can immediately conclude that first fit guarantees a solution with at most twice the optimal number of bins. 
+![alt First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.24.png)
 
-页码，15/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.24 First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
+**Figure 10.24 First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8**
 
 On the other hand, the bad case that we used in the proof of next fit's performance bound does not apply for first fit. Thus, one might wonder if a better bound can be proven. The answer is yes, but the proof is complicated.
 
@@ -451,15 +435,14 @@ followed by 6m items of size , followed by 6m items of size . One simple packing
 
 When first fit is run on a large number of items with sizes uniformly distributed between 0 and 1, empirical results show that first fit uses roughly 2 percent more bins than optimal. In many cases, this is quite acceptable.
 
-页码，16/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+![alt  A case where first fit uses 10m bins instead of 6m](10.25.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+**Figure 10.25 A case where first fit uses 10m bins instead of 6m**
+![alt  Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.26.png)
 
-Figure 10.25 A case where first fit uses 10m bins instead of 6m
+**Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8**
 
-Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
-
-First Fit
+**First Fit**
 
 Although next fit has a reasonable performance guarantee, it performs poorly in practice, because it creates new bins when it does not need to. In the sample run, it could have placed the item of size 0.3 in either B1 or B2, rather than
 
@@ -472,15 +455,12 @@ A simple method of implementing first fit would process each item by scanning
 down the list of bins sequentially. This would take O(n2). It is possible to implement first fit to run in O(n log n); we leave this as an exercise.
 
 A moment's thought will convince you that at any point, at most one bin can be more than half empty, since if a second bin were also half empty, its contents would fit into the first bin. Thus, we can immediately conclude that first fit guarantees a solution with at most twice the optimal number of bins.
+![alt First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.244.png)
 
-Figure 10.24 First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
+**Figure 10.24 First fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8**
 
 On the other hand, the bad case that we used in the proof of next fit's performance bound does not apply for first fit. Thus, one might wonder if a
-
-页码，17/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+ 
 better bound can be proven. The answer is yes, but the proof is complicated.
 
 THEOREM 10.3.
@@ -502,16 +482,14 @@ indicate is shown in Figure 10.25. The input consists of 6m items of size ,
 followed by 6m items of size , followed by 6m items of size . One simple packing places one item of each size in a bin and requires 6m bins. First fit requires 10m bins.
 
 When first fit is run on a large number of items with sizes uniformly distributed between 0 and 1, empirical results show that first fit uses roughly 2 percent more bins than optimal. In many cases, this is quite acceptable.
+![alt A case where first fit uses 10m bins instead of 6m](10.255.png)
 
-Figure 10.25 A case where first fit uses 10m bins instead of 6m
+**Figure 10.25 A case where first fit uses 10m bins instead of 6m**
+![alt Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.26.png)
 
-Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
+**Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8** 
 
-页码，18/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-10.2. Divide and Conquer
+# 10.2. Divide and Conquer
 
 Another common technique used to design algorithms is divide and conquer. Divide and conquer algorithms consist of two parts:
 
@@ -535,11 +513,7 @@ can be multiplied in o(n3) operations. Unfortunately, even though these algorith
 
 10.2.1. Running Time of Divide and Conquer Algorithms
 
-页码，19/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-10.2.1. Running Time of Divide and Conquer Algorithms
+## 10.2.1. Running Time of Divide and Conquer Algorithms
 
 All the efficient divide and conquer algorithms we will see divide the problems into subproblems, each of which is some fraction of the original problem, and then perform some additional work to compute the final answer. As an example, we have seen that mergesort operates on two problems, each of which is half the size of the original, and then uses O(n) additional work. This yields the running time equation (with appropriate initial conditions)
 
@@ -550,6 +524,7 @@ We saw in Chapter 7 that the solution to this equation is O(n log n). The follow
 THEOREM 10.6.
 
 The solution to the equation T(n) = aT(n/b) + (nk), where a 1 and b > 1, is
+![alt ](gg.png)
 
 PROOF:
 
@@ -562,38 +537,41 @@ Let us assume T(1) = 1, and ignore the constant factor in (nk). Then we have
 T(bm) = aT(bm-l)+(bk)m
 
 If we divide through by am, we obtain the equation
+![alt 10.3](10.33.png)
 
-(10.3)
+**(10.3)**
 
 We can apply this equation for other values of m, obtaining
+![alt 10.4](10.44.png)
 
-(10.4)
+**(10.4)**
+![alt 10.5](10.55.png)
 
-页码，20/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+**(10.5)**
+![alt 10.6](10.66.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-(10.5)
-
-(10.6)
+**(10.6)**
 
 We use our standard trick of adding up the telescoping equations (10.3) through (10.6). Virtually
 
 all the terms on the left cancel the leading terms on the right, yielding
+![alt 10.7](10.777.png)
 
-(10.7)
+**(10.7)**
+![alt 10.8](10.88.png)
 
-(10.8)
+**(10.8)**
 
 Thus
+![alt 10.9](10.99.png)
 
-(10.9)
+**(10.9)**
 
 If a > bk, then the sum is a geometric series with ratio smaller than 1. Since the sum of infinite series would converge to a constant, this finite sum is also bounded by a constant, and thus Equation (10.10) applies:
 
 T(n) = O(am) = O(alogb n) O = O(nlogb a)
 
-(10.10)
+**(10.10)**
 
 If a = bk, then each term in the sum is 1. Since the sum contains 1 + logb n terms and a = b k
 
@@ -606,16 +584,12 @@ b a logb n) = O(n
 k logb n)
 
 = O (nk log n)
-
-页码，21/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-(10.11)
+  
+**(10.11)**
 
 Finally, if a < bk, then the terms in the geometric series are larger than 1, and the second formula in Section 1.2.3 applies. We obtain
 
-(10.12)
+**(10.12)**
 
 proving the last case of the theorem.
 
@@ -632,12 +606,13 @@ leaving the proofs as exercises. Theorem 10.7 generalizes the previous theorem.
 THEOREM 10.7.
 
 The solution to the equation T(n) = aT(n/b) + (nk logp n), where a 1, b > 1, and p 0 is
+![alt](qq.png)
 
 THEOREM 10.8.
 
-, then the solution to the equation is T(n) = O(n).
+![alt](ww.png), then the solution to the equation ![alt](ee.png)is T(n) = O(n).
 
-10.2.2. Closest-Points Problem
+## 10.2.2. Closest-Points Problem
 
 The input to our first problem is a list P of points in a plane. If pl = (x1, y1) and p2 = (x2,
 
@@ -652,11 +627,7 @@ If there are n points, then there are n (n - 1)/2 pairs of distances. We can che
 obtaining a very short program, but at the expense of an O(n2) algorithm. Since this approach is just an exhaustive search, we should expect to do better.
 
 Let us assume that the points have been sorted by x coordinate. At worst, this adds O(n log n) to the final time bound. Since we will show an O(n log n) bound for the entire algorithm, this sort is essentially free, from a complexity standpoint.
-
-页码，22/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+ 
 Figure 10.29 shows a small sample point set P. Since the points are sorted by x coordinate, we
 
 can draw an imaginary vertical line that partitions the points set into two halves, Pl and Pr.
@@ -686,16 +657,15 @@ There are two strategies that can be tried to compute dc. For large point sets t
 distributed, the number of points that are expected to be in the strip is very small. Indeed, it
 
 is easy to argue that only points are in the strip on average. Thus, we could perform a brute force calculation on these points in O(n) time. The pseudocode in Figure 10.32 implements this strategy, assuming the C convention that the points are indexed starting at 0.
+![alt A small point set](10.29.png)
 
-Figure 10.29 A small point set
+**Figure 10.29 A small point set**
+![alt  P partitioned into P1 and P2; shortest distances are shown](10.30.png)  
 
-页码，23/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
+**Figure 10.30 P partitioned into P1 and P2; shortest distances are shown**
+![alt Two-lane strip, containing all points considered for dc strip](10.31.png)
 
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.30 P partitioned into P1 **and P2; shortest distances are shown**
-
-Figure 10.31 Two-lane strip, containing all points considered for dc **strip**
+**Figure 10.31 Two-lane strip, containing all points considered for dc strip**
 
 /* Points are all in the strip */
 
@@ -713,10 +683,6 @@ Figure 10.32 Brute force calculation of min( , dc**)**
 
 for( i=0; i<NUM_POINTS_IN_STRIP; i++ )
 
-页码，24/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 for( j=i+1; j<NUM_POINTS_IN_STRIP; j++ )
 
 if ( pi and pj 's coordinates differ by more than )
@@ -729,7 +695,7 @@ if( dist( pi, pj) < )
 
 = dist( pi, pj);
 
-Figure 10.33 Refined calculation of min( , dc**)**
+**Figure 10.33 Refined calculation of min( , dc)**
 
 In the worst case, all the points could be in the strip, so this strategy does not always work in linear time. We can improve this algorithm with the following observation: The y coordinates of
 
@@ -748,16 +714,11 @@ points pj are examined before pi's and pj's y coordinates differ by more than an
 exit from the inner for loop. Figure 10.34 shows, for instance, that for point p3, only the two
 
 points p4 and p5 lie in the strip within vertical distance.
+![alt  Only p4 and p5 are considered in the second for loop](10.34.png)
+**Figure 10.34 Only p4 and p5 are considered in the second for loop**  
+![alt  At most eight points fit in the rectangle; there are two coordinates shared by two](10.35.png)
 
-Figure 10.34 Only p4 **and p5 are considered in the second for loop**
-
-页码，25/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Figure 10.35 At most eight points fit in the rectangle; there are two coordinates shared by two
-
-points each
+**Figure 10.35 At most eight points fit in the rectangle; there are two coordinates shared by two points each**
 
 In the worst case, for any point pi, at most 7 points pj are considered. This is because these
 
@@ -787,15 +748,11 @@ We will maintain two lists. One is the point list sorted by x coordinate, and th
 
 lists passed to the right-half recursive call. We have already seen that P is easily split in the middle. Once the dividing line is known, we step through Q sequentially, placing each element in Ql or Qr, as appropriate. It is easy to see that Ql and Qr will be automatically sorted by y
 
-coordinate. When the recursive calls return, we scan through the Q list and discard all the points whose x coordinates are not within the strip. Then Q contains only points in the strip, and these points are guaranteed to be sorted by their y coordinates.
-
-页码，26/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+coordinate. When the recursive calls return, we scan through the Q list and discard all the points whose x coordinates are not within the strip. Then Q contains only points in the strip, and these points are guaranteed to be sorted by their y coordinates. 
 
 This strategy ensures that the entire algorithm is O (n log n), because only O (n) extra work is performed.
 
-10.2.3. The Selection Problem
+## 10.2.3. The Selection Problem
 
 The selection problem requires us to find the kth smallest element in a list S of n elements. Of
 
@@ -829,10 +786,6 @@ The basic pivot selection algorithm is as follows:
 
 1. Arrange the n elements into _n_/5 groups of 5 elements, ignoring the (at most four) extra elements.
 
-页码，27/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 2. Find the median of each group. This gives a list M of _n_/5 medians.
 
 3. Find the median of M. Return this as the pivot, v.
@@ -842,18 +795,15 @@ We will use the term median-of-median-of-five partitioning to describe the quick
 Let us assume for the moment that n is divisible by 5, so there are no extra elements. Suppose also that n/5 is odd, so that the set M contains an odd number of elements. This provides some symmetry, as we shall see. We are thus assuming, for convenience, that n is of the form 10k + 5. We will also assume that all the elements are distinct. The actual algorithm must make sure to handle the case where this is not true. Figure 10.36 shows how the pivot might be chosen when n = 45.
 
 In Figure 10.36, v represents the element which is selected by the algorithm as pivot. Since v is the median of nine elements, and we are assuming that all elements are distinct, there must be four medians that are larger than v and four that are smaller. We denote these by L and S, respectively. Consider a group of five elements with a large median (type L). The median of the group is smaller than two elements in the group and larger than two elements in the group. We will let H represent the huge elements. These are elements that are known to be larger than a large median. Similarly, T represents the tiny elements, which are smaller than a small median. There are 10 elements of type H: Two are in each of the groups with an L type median, and two elements are in the same group as v. Similarly, there are 10 elements of type T.
+![alt How the pivot is chosen](10.36.png)
 
-Figure 10.36 How the pivot is chosen
+**Figure 10.36 How the pivot is chosen**
 
 Elements of type L or H are guaranteed to be larger than v, and elements of type S or T are
 
 guaranteed to be smaller than v. There are thus guaranteed to be 14 large and 14 small elements in our problem. Therefore, a recursive call could be on at most 45 - 14 - 1 = 30 elements.
 
 Let us extend this analysis to general n of the form 10k + 5. In this case, there are k elements of type L and k elements of type S . There are 2k + 2 elements of type H, and also 2k + 2 elements of type T. Thus, there are 3k + 2 elements that are guaranteed to be larger than v and 3k + 2 elements that are guaranteed to be smaller. Thus, in this case, the recursive call can contain at most 7k + 2 < 0.7n elements. If n is not of the form 10k + 5, similar arguments can be
-
-页码，28/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 made without affecting the basic result.
 
@@ -883,7 +833,7 @@ Theorem 10.8, the running time is linear.
 
 Reducing the Average Number of Comparisons
 
-Reducing the Average Number of Comparisons
+**Reducing the Average Number of Comparisons**
 
 Divide and conquer can also be used to reduce the expected number of comparisons required by the selection algorithm. Let us look at a concrete example. Suppose we have a group S of 1,000 numbers and are looking for the 100th smallest number, which we will call x. We choose a subset S' of S consisting of 100 numbers. We would expect that the value of x is similar in size to the 10th smallest number in S'. More specifically, the fifth smallest number in S' is almost certainly less than x, and the 15th smallest number in S' is almost certainly greater than x.
 
@@ -895,11 +845,7 @@ Almost certainly, the kth smallest element in S will fall between v1 and v2, so 
 
 a selection problem on 2 elements. With low probability, the kth smallest element does not fall in this range, and we have considerable work to do. However, with a good choice of s and
 
-, we can ensure, by the laws of probability, that the second case does not adversely affect the total work.
-
-页码，29/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+, we can ensure, by the laws of probability, that the second case does not adversely affect the total work. 
 
 If an analysis is performed, we find that if s = n2/3 log1/3 n and = n1/3 log2/3 n, then the
 
@@ -915,7 +861,7 @@ the kth element winds up in S', the cost of finishing the algorithm is equal to 
 
 This analysis shows that finding the median requires about 1.5n comparisons on average. Of course, this algorithm requires some floating-point arithmetic to compute s, which can slow down the algorithm on some machines. Even so, experiments have shown that if correctly implemented, this algorithm compares favorably with the quickselect implementation in Chapter 7.
 
-10.2.4. Theoretical Improvements for Arithmetic Problems
+## 10.2.4. Theoretical Improvements for Arithmetic Problems
 
 In this section we describe a divide and conquer algorithm that multiplies two n-digit numbers.
 
@@ -925,7 +871,7 @@ Multiplying Integers
 
 Matrix Multiplication
 
-Multiplying Integers
+**Multiplying Integers**
 
 Suppose we want to multiply two n-digit numbers x and y. If exactly one of x and y is negative, then the answer is negative; otherwise it is positive. Thus, we can perform this check and then
 
@@ -947,11 +893,7 @@ xy = xlyl10 8 + (xlyr + xryl)10
 
 Notice that this equation consists of four multiplications, xlyl, xlyr, xryl, and xryr, which are
 
-each half the size of the original problem (n/2 digits). The multiplications by 108 and 104 amount to the placing of zeros. This and the subsequent additions add only O(n) additional work.
-
-页码，30/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+each half the size of the original problem (n/2 digits). The multiplications by 108 and 104 amount to the placing of zeros. This and the subsequent additions add only O(n) additional work. 
 
 If we perform these four multiplications recursively using this algorithm, stopping at an appropriate base case, then we obtain the recurrence
 
@@ -970,18 +912,15 @@ It is easy to see that now the recurrence equation satisfies
 T(n) = 3T(n/2) + O(n),
 
 and so we obtain T(n) = O(nlog23) = O(n1.59). To complete the algorithm, we must have a base case, which can be solved without recursion.
+![alt The divide and conquer algorithm in action](10.37.png)
 
-Figure 10.37 The divide and conquer algorithm in action
+**Figure 10.37 The divide and conquer algorithm in action**
 
 When both numbers are one-digit, we can do the multiplication by table lookup. If one number has zero digits, then we return zero. In practice, if we were to use this algorithm, we would choose the base case to be that which is most convenient for the machine.
 
 Although this algorithm has better asymptotic performance than the standard quadratic algorithm, it is rarely used, because for small n the overhead is significant, and for larger n there are even better algorithms. These algorithms also make extensive use of divide and conquer.
 
-页码，31/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
-Matrix Multiplication
+**Matrix Multiplication**
 
 A fundamental numerical problem is the multiplication of two matrices. Figure 10.38 gives a
 
@@ -1027,17 +966,16 @@ C[i][j] += A[i][k] * B[k][j];
 
 }
 
-Figure 10.38 Simple O(n3) **matrix multiplication**
+**Figure 10.38 Simple O(n3) matrix multiplication**
+![alt Decomposing AB = C into four quadrants](10.39.png)
 
-Figure 10.39 Decomposing AB = C into four quadrants
+**Figure 10.39 Decomposing AB = C into four quadrants**
 
-As an example, to perform the multiplication AB
-
-页码，32/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+As an example, to perform the multiplication **AB**  
+![alt](pp.png)
 
 we define the following eight n/2 by n/2 matrices:
+![alt](oo.png)
 
 We could then perform eight n/2 by n/2 matrix multiplications and four n/2 by n/2 matrix
 
@@ -1075,17 +1013,13 @@ C1,4 = M2 - M3 + M5 - M7
 
 It is straightforward to verify that this tricky ordering produces the desired values. The running time now satisfies the recurrence
 
-T(n) = 7T(n/2) + O(n2).
-
-页码，33/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+T(n) = 7T(n/2) + O(n2).  
 
 The solution of this recurrence is T(n) = O(nlog27) = O(n2.81).
 
 As usual, there are details to consider, such as the case when n is not a power of two, but these are basically minor nuisances. Strassen's algorithm is worse than the straightforward algorithm until n is fairly large. It does not generalize for the case where the matrices are sparse (contain many zero entries), and it does not easily parallelize. When run with floating-point entries, it is less stable numerically than the classic algorithm. Thus, it is has only limited applicability. Nevertheless, it represents an important theoretical milestone and certainly shows that in computer science, as in many other fields, even though a problem seems to have an intrinsic complexity, nothing is certain until proven.
 
-10.3. Dynamic Programming
+# 10.3. Dynamic Programming
 
 In the previous section, we have seen that a problem that can be mathematically expressed
 
@@ -1093,7 +1027,7 @@ recursively can also be expressed as a recursive algorithm, in many cases yieldi
 
 Any recursive mathematical formula could be directly translated to a recursive algorithm, but the underlying reality is that often the compiler will not do justice to the recursive algorithm, and an inefficient program results. When we suspect that this is likely to be the case, we must provide a little more help to the compiler, by rewriting the recursive algorithm as a nonrecursive algorithm that systematically records the answers to the subproblems in a table. One technique that makes use of this approach is known as dynamic programming.
 
-10.3.1. Using a Table Instead of Recursion
+## 10.3.1. Using a Table Instead of Recursion
 
 In Chapter 2, we saw that the natural recursive program to compute the Fibonacci numbers is very
 
@@ -1123,10 +1057,6 @@ fib( unsigned int n )
 
 {
 
-页码，34/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
 if( n <= 1 )
 
 return 1;
@@ -1137,7 +1067,7 @@ return( fib( n-1 ) + fib( n-2 ) );
 
 }
 
-Figure 10.40 Inefficient algorithm to compute Fibonacci numbers
+**Figure 10.40 Inefficient algorithm to compute Fibonacci numbers**
 
 unsigned int
 
@@ -1169,19 +1099,16 @@ return answer;
 
 }
 
-Figure 10.41 Linear algorithm to compute Fibonacci numbers
+**Figure 10.41 Linear algorithm to compute Fibonacci numbers**
+![alt Trace of the recursive calculation of Fibonacci numbers](10.42.png)
 
-Figure 10.42 Trace of the recursive calculation of Fibonacci numbers
+**Figure 10.42 Trace of the recursive calculation of Fibonacci numbers**
 
 double
 
 eval( unsigned int n )
 
 {
-
-页码，35/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 int i;
 
@@ -1207,9 +1134,9 @@ return( 2.0 * sum / n + n );
 
 }
 
-Figure 10.43 Recursive program to evaluate
+**Figure 10.43 Recursive program to evaluate** ![alt Recursive program to evaluate](10.43.png)
 
-As a second example, we saw in Chapter 7 how to solve the recurrence
+As a second example, we saw in Chapter 7 how to solve the recurrence ![alt](10.43.png)
 
 with C(0) = 1. Suppose that we want to check, numerically, whether the solution we obtained is correct. We could then write the simple program in Figure 10.43 to evaluate the recursion.
 
@@ -1218,16 +1145,13 @@ Once again, the recursive calls duplicate work. In this case, the running time T
 because, as shown in Figure 10.44, there is one (direct) recursive call of each size from 0 to n -1, plus O(n) additional work (where else have we seen the tree shown in Figure 10.44?). Solving for T(n), we find that it grows exponentially. By using a table, we obtain the program in Figure 10.45. This program avoids the redundant recursive calls and runs in
 
 O(n2). It is not a perfect program; as an exercise, you should make the simple change that reduces its running time to O(n).
+![alt Trace of the recursive calculation in eval](10.444.png)
 
-Figure 10.44 Trace of the recursive calculation in eval
+**Figure 10.44 Trace of the recursive calculation in eval**
 
 double
 
 eval( unsigned int n )
-
-页码，36/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 {
 
@@ -1271,19 +1195,15 @@ return answer;
 
 }
 
-Figure 10.45 Evaluating with a table
+**Figure 10.45 Evaluating** ![alt](zz.png)**with a table**
 
-10.3.2. Ordering Matrix Multiplications
+## 10.3.2. Ordering Matrix Multiplications
 
-Suppose we are given four matrices, A, B, C, and D, of dimensions A = 50 X 10, B = 10 X 40, C =
+Suppose we are given four matrices,**A, B, C,**and **D**, of dimensions **A**= 50 X 10, **B** = 10 X 40, **C** =
 
-40 X 30, and D = 30 X 5. Although matrix multiplication is not commutative, it is associative, which means that the matrix product ABCD can be parenthesized, and thus evaluated, in any order. The obvious way to multiply two matrices of dimensions p X _q_ and q X r, respectively, uses pqr scalar multiplications. (Using a theoretically superior algorithm such as Strassen''s algorithm does not significantly alter the problem we will consider, so we will assume this performance bound.) What is the best way to perform the three matrix multiplications required to compute ABCD?
+40 X 30, and **D** = 30 X 5. Although matrix multiplication is not commutative, it is associative, which means that the matrix product **ABCD** can be parenthesized, and thus evaluated, in any order. The obvious way to multiply two matrices of dimensions p X _q_ and q X r, respectively, uses pqr scalar multiplications. (Using a theoretically superior algorithm such as Strassen''s algorithm does not significantly alter the problem we will consider, so we will assume this performance bound.) What is the best way to perform the three matrix multiplications required to compute ABCD?
 
-In the case of four matrices, it is simple to solve the problem by exhaustive search, since there are only five ways to order the multiplications. We evaluate each case below:
-
-页码，37/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+In the case of four matrices, it is simple to solve the problem by exhaustive search, since there are only five ways to order the multiplications. We evaluate each case below:  
 
 (A((BC)D)): Evaluating BC requires 10 X 40 X 30 = 12,000 multiplications. Evaluating (BC)D requires the 12,000 multiplications to compute BC, plus an additional 10 X 30 X 5 = 1,500 multiplications, for a total of 13,500. Evaluating (A((BC)D) requires 13,500 multiplications for (BC)D, plus an additional 50 X 10 X 5 = 2,500 multiplications, for a grand total of 16,000 multiplications.
 
@@ -1311,9 +1231,6 @@ Thus, for large n, an exhaustive search through all possible orderings is useles
 
 exponential. Let ci be the number of columns in matrix Ai for 1 i n. Then Ai has ci-1
 
-页码，38/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
 
 rows, since otherwise the multiplications are not valid. We will define c0 to be the number of
 
@@ -1362,10 +1279,7 @@ Returning to the algorithmic issues, this program contains a triply nested loop 
 seen to run in O(n3) time. The references describe a faster algorithm, but since the time to perform the actual matrix multiplication is still likely to be much larger than the time to compute the optimal ordering, this algorithm is still quite practical.
 
 /* Compute optimal ordering of matrix multiplication */
-
-页码，39/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
+ 
 
 /* c contains number of columns for each of the n matrices */
 
@@ -1427,14 +1341,10 @@ last_change[Left][Right] = i;
 
 }
 
-Figure 10.46 Program to find optimal ordering of Matrix Multiplications
+**Figure 10.46 Program to find optimal ordering of Matrix Multiplications**
 
-10.3.3. Optimal Binary Search Tree
-
-页码，40/83Structures, Algorithm Analysis: CHAPTER 10: ALGORITHM DESIGN TECH...
-
-2006-1-27mk:@MSITStore:K:Data.Structures.and.Algorithm.Analysis.in.C.chm::/...  
-
+## 10.3.3. Optimal Binary Search Tree
+  
 Our second dynamic programming example considers the following input: We are given a list of
 
 words, w1, w2,..., wn, and fixed probabilities p1, p2, . . . , pn of their occurrence. The
