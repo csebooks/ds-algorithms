@@ -1661,8 +1661,6 @@ d. What is the running time using a linked list implementation?
 
 **f. Prove that any algorithm to solve this problem requires (n log n) comparisons if only comparisons are used. Hint: Look to
 
-Chapter 7.
-
 *g. Prove that if we allow operations besides comparisons, and the keys are real numbers, then we can solve the problem without using comparisons between elements.
 
 3.17 An alternative to the deletion strategy we have given is to use lazy deletion. To delete an element, we merely mark it deleted (using an extra bit field). The number of deleted and nondeleted elements in the list is kept as part of the data structure. If there are as many deleted elements as nondeleted elements, we traverse the entire list, performing the standard deletion algorithm on all marked nodes.

@@ -1,5 +1,5 @@
 ---
-title: 'CHAPTER 2 ALGORITHM ANALYSIS'
+
 weight: 2
 ---
 
@@ -44,7 +44,7 @@ constant factors are ignored, f(n) is at least as big as T(n). In our case, we h
 
 If we use the traditional inequality operators to compare growth rates, then the first definition says that the growth rate of T(n) is less than or equal to () that of f(n). The second definition, T(n) = (g(n)) (pronounced "omega"),says that the growth rate of T(n) is greater than or equal to ( ) that of g(n). The third definition, T(n) = (h(n)) (pronounced "theta"), says that the growth rate of T(n) equals ( = ) the growth rate of h(n). The last definition, T (n) = o(p(n)) (pronounced "little-oh"), says that the growth rate of T(n) is less than (<) the growth rate of p(n). This is different from Big-Oh, because Big-Oh allows the possibility that the growth rates are the same.
 
-To prove that some function T(n) = O(f(n)), we usually do not apply these definitions formally but instead use a repertoire of known results. In general, this means that a proof (or determination that the assumption is incorrect) is a very simple calculation and should not involve calculus, except in extraordinary circumstances (not likely to occur in an algorithm analysis).
+
 
 When we say that T(n) = O(f(n)), we are guaranteeing that the function T(n) grows at a rate no faster than f(n); thus f(n) is an upper bound on T(n). Since this implies that f(n) = (T(n)), we say that T(n) is a lower bound on f(n).
 
@@ -579,7 +579,7 @@ else
 
 }
 ```
-Figure 2.8 Algorithm 4
+**Figure 2.8 Algorithm 4**
 
 It should be clear why the time bound is correct, but it takes a little thought to see why the algorithm actually works. This is left to the reader. An extra advantage of this algorithm is that it makes only one pass through the data, and once a[i] is read and processed, it does not need to be remembered. Thus, if the array is on a disk or tape, it can be read sequentially, and there is no need to store any part of it in main memory. Furthermore, at any point in time, the algorithm can correctly give an answer to the subsequence problem for the data it has already read (the other algorithms do not share this property). Algorithms that can do this are called on-line algorithms. An on-line algorithm that requires only constant space and runs in linear time is just about as good as possible.
 
@@ -641,7 +641,7 @@ else
 
 }
 ```
-Figure 2.9 Binary search.
+**Figure 2.9 Binary search.**
 
 **Euclid's Algorithm**
 
@@ -675,7 +675,7 @@ unsigned int rem;
 }
 
 ```
-Figure 2.10 Euclid's algorithm.
+**Figure 2.10 Euclid's algorithm.**
 
 THEOREM 2.1.
 ```
@@ -774,7 +774,7 @@ printf( "Percentage of relatively prime pairs is %lf\n",
 
 ( (double) rel )/tot );
 ```
-Figure 2.12 Estimate the probability that two random numbers are relatively prime
+**Figure 2.12 Estimate the probability that two random numbers are relatively prime**
 ```
 n CPU time (T) T/n2 T/n3 T/n2log n
 
@@ -1027,13 +1027,11 @@ Would the routine still work?
 
 *2.24 The inner loop of the cubic maximum subsequence sum algorithm performs n(n + 1)(n + 2)/6 iterations of the innermost code. The quadratic version performs n(n + 1)/2 iterations. The linear version performs n iterations. What pattern is evident? Can you give a combinatoric explanation of this phenomenon?
 
-**References**
+### References
 
 Analysis of the running time of algorithms was first made popular by Knuth in the three-part series [5], [6], and [7]. The analysis of the gcd algorithm appears in [6]. Another early text on the subject is [1].
 
-Big-Oh, big-omega, big-theta, and little-oh notation were advocated by Knuth in [8]. There is
-
-still not a uniform agreement on the matter, especially when it comes to using ( ). Many people prefer to use O( ), even though it is less expressive. Additionally, O( ) is still used i
+Big-Oh, big-omega, big-theta, and little-oh notation were advocated by Knuth in [8]. There is still not a uniform agreement on the matter, especially when it comes to using ( ). Many people prefer to use O( ), even though it is less expressive. Additionally, O( ) is still used i
 some corners to express a lower bound, when ( ) is called for.
 
 The maximum subsequence sum problem is from [3]. The series of books [2], [3], and [4] show how to optimize programs for speed.

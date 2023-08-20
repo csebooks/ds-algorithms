@@ -4,8 +4,8 @@ weight: 10
 ---
 
 
-#CHAPTER 10: 
-#ALGORITHM DESIGN TECHNIQUES
+# CHAPTER 10: 
+# ALGORITHM DESIGN TECHNIQUES
 
 So far, we have been concerned W~i~th the efficient implementation of algorithms. We have seen that when an algorithm is given, the actual data structures need not be specified. It is up to the programmer to choose the approriate data structure in order to make the running time as small as possible.
 
@@ -200,8 +200,6 @@ Total 146
 **Figure 10.12 Optimal prefix code**
 
 Notice that there are many optimal codes. These can be obtained by swapping children in the encoding tree. The main unresolved question, then, is how the coding tree is constructed. The algorithm to do this was given by Huffman in 1952. Thus, this coding system is commonly referred to as a Huffman code.
-
-Huffman's Algorithm
 
 ### Huffman's Algorithm
 

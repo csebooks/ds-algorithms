@@ -1164,7 +1164,7 @@ External sorting is covered in detail in [10]. Stable sorting, described in Exer
 
 15. R. Schaffer and R. Sedgewick, "The Analysis of Heapsort," Journal of Algorithms, to appear.
 
-16. R. Sedgewick, "Quicksort with Equal Keys," SIAM Journal on Computing 6 (1977), 240-267.
+16. R. Sedgewick, "Quicksort with Equal Keys,"SIAM Journal on Computing 6 (1977), 240-267.
 
 17. R. Sedgewick, "The Analysis of Quicksort Programs," Acta Informatica 7 (1977), 327-355.
 
@@ -1186,4 +1186,4 @@ External sorting is covered in detail in [10]. Stable sorting, described in Exer
 25. J. W. J. Williams, "Algorithm 232: Heapsort," Communications of the ACM 7 (1964), 347-348.
 
 26. A. C. Yao, "An Analysis of (h, k, 1) Shellsort," Journal of Algorithms 1 (1980), 14-50.
-27. 
+

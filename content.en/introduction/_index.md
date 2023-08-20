@@ -506,5 +506,3 @@ Addison-Wesley, Reading, Mass., 1973.
 13. F. S. Roberts, Applied Combinatorics, Prentice Hall, Englewood Cliffs, N.J., 1984.
 
 14. A. Tucker, Applied Combinatorics, 2d ed., John Wiley & Sons, New York, 1984.
-
-Go to Chapter 2 Return to Table of Contents

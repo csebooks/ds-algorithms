@@ -1661,4 +1661,3 @@ Other popular balanced search trees are red-black trees [19] and weight-balanced
 
 33. A. C. Yao, "On Random 2-3 trees," Acta Informatica 9 (1978), 159-170.
 
-Go to Chapter 5 Return to Table of Contents

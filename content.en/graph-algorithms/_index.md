@@ -93,7 +93,7 @@ indegree[w]--;
 }
 }
 ```
-Figure 9.5 Simple topological sort pseudocode
+**Figure 9.5 Simple topological sort pseudocode**
 
 Because find_new_vertex_of_indegree_zero is a simple sequential scan of the indegree array, each call to it takes O(|V|) time. Since there are |V| such calls, the running time of the algorithm is O(|V|^2^).
 
@@ -179,7 +179,7 @@ dispose_queue( Q ); * free the memory *
 
 }
 ```
-Figure 9.7 Pseudocode to perform topological sort
+**Figure 9.7 Pseudocode to perform topological sort**
 
 The time to perform this algorithm is O(|E| + |V|) if adjacency lists are used. This is apparent when one realizes that the body of the for loop at line 8 is executed at most once per edge. The queue operations are done at most once per vertex, and the initialization steps also take time proportional to the size of the graph.
 
@@ -314,7 +314,7 @@ T[w].path = v;
 
 }
 ```
-Figure 9.16 Pseudocode for unweighted shortest-path algorithm
+**Figure 9.16 Pseudocode for unweighted shortest-path algorithm**
 
 ![Alt text](figure-9.17.png)
 
@@ -380,7 +380,7 @@ dispose_queue( Q ); * free the memory *
 
 }
 ```
-Figure 9.18 Pseudocode for unweighted shortest-path algorithm
+**Figure 9.18 Pseudocode for unweighted shortest-path algorithm**
 
 The general method to solve the single-source shortest-path problem is known as Dijkstra's algorithm. This thirty-year-old solution is a prime example of a greedy algorithm. Greedy algorithms generally solve a problem in stages by doing what appears to be the best thing at each stage. For example, to make change in U.S. currency, most people count out the quarters first, then the dimes, nickels, and pennies. This greedy algorithm gives change using the minimum number of coins. The main problem with greedy algorithms is that they do not always work. The addition of a 12-cent piece breaks the coin-changing algorithm, because the answer it gives (one 12-cent piece and three pennies) is not optimal (one dime and one nickel).
 
@@ -641,7 +641,7 @@ vertex path;
 
 typedef struct table_entry TABLE[NUM_VERTEX+1];
 ```
-Figure 9.29 Declarations for Dijkstra's algorithm
+**Figure 9.29 Declarations for Dijkstra's algorithm**
 ```js
 void
 
@@ -669,7 +669,7 @@ T[start].dist = 0;
 
 }
 ```
-Figure 9.30 Table initialization routine
+**Figure 9.30 Table initialization routine**
 
 /* print shortest path to v after dijkstra has run */
 
@@ -695,7 +695,7 @@ printf("%v", v ); /* %v is a pseudocode option for printf */
 
 }
 ```
-Figure 9.31 Routine to print the actual shortest path
+**Figure 9.31 Routine to print the actual shortest path**
 
 Figure 9.32 shows the main algorithm, which is just a for loop to fill up the table using the greedy selection rule.
 
@@ -809,9 +809,7 @@ A combination of the weighted and unweighted algorithms will solve the problem, 
 
 Figure 9.33 (almost) implements this algorithm.
 
-Although the algorithm works if there are no negative-cost cycles, it is no longer true that the code in lines 6 through 10 is executed once per edge. Each vertex can dequeue at most |V| times,
-
-so the running time is O(|E| |V|) if adjacency lists are used (Exercise 9.7b). This is quite an increase from Dijkstra's algorithm, so it is fortunate that, in practice, edge costs are nonnegative. If negative-cost cycles are present, then the algorithm as written will loop indefinitely. By stopping the algorithm after any vertex has dequeued |V| + 1 times, we can guarantee termination.
+Although the algorithm works if there are no negative-cost cycles, it is no longer true that the code in lines 6 through 10 is executed once per edge. Each vertex can dequeue at most |V| times, so the running time is O(|E| |V|) if adjacency lists are used (Exercise 9.7b). This is quite an increase from Dijkstra's algorithm, so it is fortunate that, in practice, edge costs are nonnegative. If negative-cost cycles are present, then the algorithm as written will loop indefinitely. By stopping the algorithm after any vertex has dequeued |V| + 1 times, we can guarantee termination.
 
 ### 9.3.4. Acyclic Graphs
 
@@ -829,15 +827,9 @@ A more important use of acyclic graphs is critical path analysis. The graph in F
 
 This type of a graph could be (and frequently is) used to model construction projects. In this case, there are several important questions which would be of interest to answer. First, what is the earliest completion time for the project? We can see from the graph that 10 time units are required along the path A, C, F, H. Another important question is to determine which activities can be delayed, and by how long, without affecting the minimum completion time. For instance, delaying any of A, C, F, or H would push the completion time past 10 units. On the other hand, activity B is less critical and can be delayed up to two time units without affecting the final completion time.
 
-To perform these calculations, we convert the activity-node graph to an event-node graph. Each event corresponds to the completion of an activity and all its dependent activities. Events reachable from a node v in the event-node graph may not commence until after the event v is completed. This graph can be constructed automatically or by hand. Dummy edges and nodes may need to be inserted in the case where an activity depends on several others. This is necessary in order to avoid introducing false dependencies (or false lack of dependencies). The event node graph corresponding to the graph in
-
-Figure 9.34 is shown in Figure 9.35.
+To perform these calculations, we convert the activity-node graph to an event-node graph. Each event corresponds to the completion of an activity and all its dependent activities. Events reachable from a node v in the event-node graph may not commence until after the event v is completed. This graph can be constructed automatically or by hand. Dummy edges and nodes may need to be inserted in the case where an activity depends on several others. This is necessary in order to avoid introducing false dependencies (or false lack of dependencies). The event node graph corresponding to the graph in Figure 9.34 is shown in Figure 9.35.
 
 To find the earliest completion time of the project, we merely need to find the length of the longest path from the first event to the last event. For general graphs, the longest-path problem generally does not make sense, because of the possibility of positive-cost cycles. These are the equivalent of negative-cost cycles in shortest-path problems. If positive-cost cycles are present, we could ask for the longest simple path, but no satisfactory solution is known for this problem. Since the event-node graph is acyclic, we need not worry about cycles. In this case, it is easy to adapt the shortest-path algorithm to compute the earliest completion time for all nodes in the graph. If E Ci is the earliest completion time for node i, then the applicable rules
-
-are
-
-EC1 = 0
 
 ![Alt text](f1.png)
 
@@ -885,9 +877,7 @@ A first attempt to solve the problem proceeds in stages. We start with our graph
 
 At each stage, we find a path in Gr from s to t. This path is known as an augmenting path. The minimum edge on this path is the amount of flow that can be added to every edge on the path. We do this by adjusting Gf and recomputing Gr. When we find no path from s to t in Gr, we terminate.
 
-This algorithm is nondeterministic, in that we are free to choose any path from s to t; obviously some choices are better than others, and we will address this issue later. We will run this algorithm on our example. The graphs below are G, Gf, Gr respectively. Keep in mind that there is a slight flaw in this algorithm. The initial configuration is in
-
-Figure 9.40.
+This algorithm is nondeterministic, in that we are free to choose any path from s to t; obviously some choices are better than others, and we will address this issue later. We will run this algorithm on our example. The graphs below are G, Gf, Gr respectively. Keep in mind that there is a slight flaw in this algorithm. The initial configuration is in Figure 9.40.
 
 There are many paths from s to t in the residual graph. Suppose we select s, b, d, t. Then we can send two units of flow through every edge on this path. We will adopt the convention that once we have filled (saturated) an edge, it is removed from the residual graph. We then obtain Figure 9.41.
 
@@ -900,9 +890,7 @@ Next, we might select the path s, a, c, t, which also allows two units of flow. 
 ![Alt text](figure-9.42.png)
 
 
-The only path left to select is s, a, d, t, which allows one unit of flow. The resulting graphs are shown in
-
-Figure 9.43.
+The only path left to select is s, a, d, t, which allows one unit of flow. The resulting graphs are shown in Figure 9.43.
 
 The algorithm terminates at this point, because t is unreachable from s. The resulting flow of 5 happens to be the maximum. To see what the problem is, suppose that with our initial graph, we chose the path s, a, d, t. This path allows 3 units of flow and thus seems to be a good choice. The result of this choice, however, is that there is now no longer any path from s to t in the residual graph, and thus, our algorithm has failed to find an optimal solution. This is an example of a greedy algorithm that does not work. Figure 9.44 shows why the algorithm fails.
 
@@ -912,7 +900,7 @@ Notice that in the residual graph, there are edges in both directions between a 
 
 ![Alt text](figure-9.43.png)
  
-Figure 9.43 G, Gf**, Gr after one unit of flow added along s, a, d, t -- algorithm terminates**
+**Figure 9.43 G, Gf , Gr after one unit of flow added along s, a, d, t -- algorithm terminates**
 
 ![Alt text](figure-9.44.png)
 
@@ -1184,9 +1172,9 @@ set_union( S, u_set, v_set );
 
 }
 ```
-Figure 9.58 Pseudocode for Kruskal's algorithm
+**Figure 9.58 Pseudocode for Kruskal's algorithm**
 
-9.6. Applications of Depth-First Search
+## 9.6. Applications of Depth-First Search
 
 Depth-first search is a generalization of preorder traversal. Starting at some vertex, v, we process v and then recursively traverse all vertices adjacent to v. If this process is performed on a tree, then all tree vertices are systematically visited in a total of O(|E|) time, since |E|= (|V|). If we perform this process on an arbitrary graph, we need to be careful to avoid cycles. To do this, when we visit a vertex v, we mark it visited, since now we have been there, and recursively call depth-first search on all adjacent vertices that are not already marked. We implicitly assume that for undirected graphs every edge (v, w) appears twice in the adjacency lists: once as (v, w) and once as (w, v). The procedure in Figure 9.59 performs a depth-first search (and does absolutely nothing else) and is a template for the general style.
 ```js
@@ -1206,7 +1194,7 @@ dfs( w );
 
 }
 ```
-Figure 9.59 Template for depth-first search
+**Figure 9.59 Template for depth-first search**
  
 
 The (global) boolean array visited[ ] is initialized to FALSE. By recursively calling the procedures only on nodes that have not been visited, we guarantee that we do not loop indefinitely. If the graph is undirected and not connected, or directed and not strongly connected, this strategy might fail to visit some nodes. We then search for an unmarked node, apply a depth-first traversal there, and continue this process until there are no unmarked nodes.* Because this strategy guarantees that each edge is encountered only once, the total time to perform the traversal is O(|E| + |V|), as long as adjacency lists are used.
@@ -1300,7 +1288,7 @@ assign_num( w );
 
 }
 ```
-Figure 9.65 Routine to assign num to vertices (pseudocode)
+**Figure 9.65 Routine to assign num to vertices (pseudocode)**
 
 /* assign low. Also check for articulation points */
 ```js
@@ -1342,7 +1330,7 @@ low[v] = min( low[v], num[w] ); /* Rule 2 */
 
 }
 ```
-Figure 9.66 Pseudocode to compute low and to test for articulation points (test for the root is omitted)
+**Figure 9.66 Pseudocode to compute low and to test for articulation points (test for the root is omitted)**
 ```js
 void
 
@@ -1386,7 +1374,7 @@ low[v] = min( low[v], num[w] ); /* Rule 2 */
 
 }
 ```
-Figure 9.67 Testing for articulation points in one depth-first search (test for the root is omitted) (pseudocode)
+**Figure 9.67 Testing for articulation points in one depth-first search (test for the root is omitted) (pseudocode)**
   
 ![Alt text](figure-9.68.png)
 
