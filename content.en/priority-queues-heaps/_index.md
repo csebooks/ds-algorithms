@@ -1,10 +1,9 @@
 ---
-title: 'CHAPTER 6  PRIORITY QUEUES (HEAPS)'
+title: 'PRIORITY QUEUES (HEAPS)'
 weight: 6
 ---
 
-  
-# CHAPTER 6: 
+
 # PRIORITY QUEUES (HEAPS)
 
 Although jobs sent to a line printer are generally placed on a queue, this might not always be the best thing to do. For instance, one job might be particularly important, so that it might be desirable to allow that job to be run as soon as the printer is available. Conversely, if, when the printer becomes available, there are several one-page jobs and one hundred-page job, it might be reasonable to make the long job go last, even if it is not the last job submitted. (Unfortunately, most systems do not do this, which can be particularly annoying at times.)
@@ -143,8 +142,7 @@ return H;
 }
 ```
 
-
-## Figure 6.4a
+**Figure 6.4a**
 
 ![Alt text](D4.png)
 
@@ -154,11 +152,7 @@ return H;
 
 It is easy (both conceptually and practically) to perform the two required operations. All the work involves ensuring that the heap order property is maintained.
 
-Insert
-
-Delete_min
-
-## Insert
+#### Insert
 
 To insert an element x into the heap, we create a hole in the next available location, since otherwise the tree will not be complete. If x can be placed in the hole without violating heap order, then we do so and are done. Otherwise we slide the element that is in the hole's parent node into the hole, thus bubbling the hole up toward the root. We continue this process until x can be placed in the hole. Figure 6.6 shows that to insert 14, we create a hole in the next available heap location. Inserting 14 in the hole would violate the heap order property, so 31 is slid down into the hole. This strategy is continued in Figure 6.7 until the correct location for 14 is found.
 
@@ -218,7 +212,7 @@ If the element to be inserted is the new minimum, it will be pushed all the way 
 
 The time to do the insertion could be as much as O (log n), if the element to be inserted is the new minimum and is percolated all the way to the root. On average, the percolation terminates early; it has been shown that 2.607 comparisons are required on average to perform an insert, so the average insert moves an element up 1.607 levels.
 
-## Delete_min
+#### Delete_min
 
 Delete_mins are handled in a similar manner as insertions. Finding the minimum is easy; the hard part is removing it. When the minimum is removed, a hole is created at the root. Since the heap now becomes one smaller, it follows that the last element x in the heap must move somewhere in the heap. If x can be placed in the hole, then we are done. This is unlikely, so we slide the smaller of the hole's children into the hole, thus pushing the hole down one level. We repeat this step until x can be placed in the hole. Thus, our action is to place x in its correct spot along a path from the root containing minimum children.
 
@@ -304,15 +298,7 @@ Notice that although finding the minimum can be performed in constant time, a he
 
 If we assume that the position of every element is known by some other method, then several other operations become cheap. The three operations below all run in logarithmic worst-case time.
 
-Decrease_key
-
-Increase_key
-
-Delete
-
-Build_heap
-
-## Decrease_key
+**Decrease_key**
 
 The decrease_key(x, , H) operation lowers the value of the key at position x
 
@@ -322,19 +308,19 @@ by a positive amount . Since this might violate the heap order, it must be fixed
 
 **Figure 6.13 A very large complete binary tree**
 
-## Increase_key
+#### Increase_key
 
 The increase_key(x, , H) operation increases the value of the key at position
 
 x by a positive amount . This is done with a percolate down. Many schedulers automatically drop the priority of a process that is consuming excessive CPU time.
 
-## Delete
+#### Delete
 
 The delete(x, H) operation removes the node at position x from the heap. This is
 
 done by first performing decrease_key(x, , H) and then performing delete_min (H). When a process is terminated by a user (instead of finishing normally), it must be removed from the priority queue.
 
-## Build_heap
+#### Build_heap
 
 The build_heap(H) operation takes as input n keys and places them into an empty heap. Obviously, this can be done with n successive inserts. Since each insert will take O(1) average and O(log n) worst-case time, the total running time of this algorithm would be O(n) average but O(n log n) worst-case. Since this is a special instruction and there are no other operations intervening, and we already know that the instruction can be performed in linear average time, it is reasonable to expect that with reasonable care a linear time bound can be guaranteed.
 
@@ -365,7 +351,7 @@ percolate_down(i);
 
 To bound the running time of build_heap, we must bound the number of dashed lines. This can be done by computing the sum of the heights of all the nodes in the heap, which is the maximum number of dashed lines. What we would like to show is that this sum is O(n).
 
-## THEOREM 6.1.
+**THEOREM 6.1.**
 
 For the perfect binary tree of height h containing 2h+1 - 1 nodes, the sum of the
 
@@ -430,11 +416,7 @@ We give two algorithms here, both of which run in O(n log n) in the extreme case
 
 of k = _n_/2 , which is a distinct improvement.
 
-Algorithm 6A
-
-Algorithm 6B
-
-## Algorithm 6A
+#### Algorithm 6A
 
 For simplicity, we assume that we are interested in finding the kth smallest element. The algorithm is simple. We read the n elements into an array. We then apply the build_heap algorithm to this array. Finally, we'll perform k delete_min operations. The last element extracted from the heap is our answer. It should be clear that by changing the heap order property, we could solve the original problem of finding the kth largest element.
 
@@ -444,7 +426,7 @@ _n_/2 , then the running time is (n log n).
 
 Notice that if we run this program for k = n and record the values as they leave the heap, we will have essentially sorted the input file in O(n log n) time. In Chapter 7, we will refine this idea to obtain a fast sorting algorithm known as heapsort.
 
-## Algorithm 6B
+#### Algorithm 6B
 
 For the second algorithm, we return to the original problem and find the kth largest element. We use the idea from Algorithm 1B. At any point in time we will maintain a set S of the k largest elements. After the first k elements are read, when a new element is read, it is compared with the kth largest element, which we denote by Sk. Notice that Sk is the smallest element in S. If the new element is larger, then it replaces Sk in S. S will then have a new smallest element, which may or may not be the newly added element. At the end of the input, we find the smallest element in S and return it as the answer.
 
@@ -522,7 +504,7 @@ Indeed, a tree consisting of a long path of left nodes is possible (and actually
 
 Because leftist heaps tend to have deep left paths, it follows that the right path ought to be short. Indeed, the right path down a leftist heap is as short as any in the heap. Otherwise, there would be a path that goes through some node X and takes the left child. Then X would violate the leftist property.
 
-## THEOREM 6.2.
+**HEOREM 6.2.**
 
 A leftist tree with r nodes on the right path must have at least 2r - 1 nodes.
 
@@ -941,7 +923,7 @@ return T1;
 
 We can extend binomial queues to support some of the nonstandard operations that binary heaps allow, such as decrease_key and delete, when the position of the affected element is known. A decrease_key is a percolate up, which can be performed in O(log n) time if we add a field to each node pointing to its parent. An arbitrary delete can be performed by a combination of decrease_key and delete_min in O(log n) time.
 
-### Summary
+## Summary
 
 In this chapter we have seen various implementations and uses of the priority queue ADT. The standard binary heap implementation is elegant because of its simplicity and speed. It requires no pointers and only a constant amount of extra space, yet supports the priority queue operations efficiently.
 
@@ -1011,7 +993,7 @@ return merge(T3, H3);
 
 **Figure 6.55 Routine to merge two priority queues**
 
-### Exercises
+## Exercises
 
 6.1 Suppose that we replace the delete_min function with find_min. Can both insert and find_min be implemented in constant time?
 
@@ -1154,7 +1136,7 @@ d. Are any of these strategies enhanced by presorting the items by weight?
 
 6.36 Which of the two selection algorithms has the better time bound?
 
-### References
+## References
 
 The binary heap was first described in [21]. The linear-time algorithm for its construction is from [9]. 
 

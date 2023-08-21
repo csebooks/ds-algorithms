@@ -1,9 +1,9 @@
 ---
-title: "CHAPTER 3 LISTS, STACKS, AND QUEUES"
+title: "LISTS, STACKS, AND QUEUES"
 weight: 3
 ---
 
-# CHAPTER 3: LISTS, STACKS, AND QUEUES
+# LISTS, STACKS, AND QUEUES
 
 This chapter discusses three of the most simple and basic data structures. Virtually every significant program will use at least one of these structures explicitly, and a stack is always implicitly used in your program, whether or not you declare one. Among the highlights of this chapter, we will
 
@@ -138,7 +138,7 @@ return(p->next == NULL);
 **Figure 3.9 Function to test whether current position is the last in a linked list**
 
 The next routine we will write is find. Find, shown in Figure 3.10, returns the position in the list of some element. Line 2 takes advantage of the fact that the and (&&) operation is short-circuited: if the first half of the and is false, the result is automatically false and the second half is not executed.
-
+```js
 /* Return position of x in L; NULL if not found */
 
 position
@@ -158,7 +158,7 @@ position p;
 /*4*/ return p;
 
 }
-
+```
 **Figure 3.10 Find routine**
 
 Some programmers find it tempting to code the find routine recursively, possibly because it avoids the sloppy termination condition. We shall see later that this is a very bad idea and should be avoided at all costs.
@@ -434,7 +434,7 @@ for(i=poly_sum->high_power; i>=0; i--)
 
 poly_sum->coeff_array[i] = poly1->coeff_array[i]
 
-\+ poly2->coeff_array[i];
++ poly2->coeff_array[i];
 
 }
 ```
@@ -456,7 +456,7 @@ zero_polynomial(poly_prod);
 
 poly_prod->high_power = poly1->high_power
 
-\+ poly2->high_power;
++ poly2->high_power;
 
 if(poly_prod->high_power > MAX_DEGREE)
 
@@ -493,10 +493,11 @@ int exponent;
 node_ptr next;
 
 } ;
-```
+
 
 typedef node_ptr POLYNOMIAL; /* keep nodes sorted by exponent */
 
+```
 **Figure 3.23 Type declaration for linked list implementation of the Polynomial ADT**
 
 The operations would then be straightforward to implement. The only potential difficulty is that when two polynomials are multiplied, the resultant polynomial will have to have like terms combined. There are several ways to do this, but we will leave this as an exercise.
@@ -505,17 +506,11 @@ The operations would then be straightforward to implement. The only potential di
 
 A second example where linked lists are used is called radix sort. Radix sort is sometimes known as card sort, because it was used, until the advent of modern computers, to sort old-style punch cards.
 
-If we have n integers in the range 1 to m (or 0 to m - 1) 9, we can use this information to obtain a fast sort known as bucket sort. We keep an array called count, of size m, which is initialized to zero. Thus, count has m cells (or buckets), which are initially empty. When ai is read, increment (by one) count [a~i~]. After all the input is read, scan the count array, printing out a
-
-representation of the sorted list. This algorithm takes O(m + n); the proof is
-
-left as an exercise. If m = (n), then bucket sort is O(n).
+If we have n integers in the range 1 to m (or 0 to m - 1) 9, we can use this information to obtain a fast sort known as bucket sort. We keep an array called count, of size m, which is initialized to zero. Thus, count has m cells (or buckets), which are initially empty. When ai is read, increment (by one) count [a~i~]. After all the input is read, scan the count array, printing out a representation of the sorted list. This algorithm takes O(m + n); the proof is left as an exercise. If m = (n), then bucket sort is O(n).
 
 Radix sort is a generalization of this. The easiest way to see what happens is by example. Suppose we have 10 numbers, in the range 0 to 999, that we would like to
 
-sort. In general, this is n numbers in the range 0 to n^p^ - 1 for some constant p. Obviously, we cannot use bucket sort; there would be too many buckets. The trick is to use several passes of bucket sort. The natural algorithm would be to bucket-sort by the most significant "digit" (digit is taken to base n), then next most significant, and so on. That algorithm does not work, but if we perform bucket sorts by least significant "digit" first, then the algorithm works. Of course, more than one number could fall into the same bucket, and, unlike the original bucket sort, these numbers could be different, so we keep them in a list. Notice that all the numbers could have some digit in common, so if a simple array were used for the lists, then each array would have to be of size n, for a
-
-total space requirement of (n^2^).
+sort. In general, this is n numbers in the range 0 to n^p^ - 1 for some constant p. Obviously, we cannot use bucket sort; there would be too many buckets. The trick is to use several passes of bucket sort. The natural algorithm would be to bucket-sort by the most significant "digit" (digit is taken to base n), then next most significant, and so on. That algorithm does not work, but if we perform bucket sorts by least significant "digit" first, then the algorithm works. Of course, more than one number could fall into the same bucket, and, unlike the original bucket sort, these numbers could be different, so we keep them in a list. Notice that all the numbers could have some digit in common, so if a simple array were used for the lists, then each array would have to be of size n, for a total space requirement of (n^2^).
 
 The following example shows the action of radix sort on 10 numbers. The input is 64, 8, 216, 512, 27, 729, 0, 1, 343, 125 (the first ten cubes arranged randomly). The first step bucket sorts by the least significant digit. In this case the math is in base 10 (to make things simple), but do not assume this in general. The buckets are as shown in Figure 3.24, so the list, sorted by least significant digit, is 0, 1, 512, 343, 64, 125, 216, 27, 8, 729. These are now sorted by the next least significant digit (the tens digit here) (see Fig. 3.25). Pass 2 gives output 0, 1, 8, 512, 216, 125, 27, 729, 343, 64. This list is now sorted with respect to the two least significant digits. The final pass, shown in Figure 3.26, bucket-sorts by most significant digit. The final list is 0, 1, 8, 27, 64, 125, 216, 343, 512, 729.
 
@@ -1224,33 +1219,23 @@ It should come as no surprise that if we restrict the operations allowed on a li
 
 Compilers check your programs for syntax errors, but frequently a lack of one symbol (such as a missing brace or comment starter) will cause the compiler to spill out a hundred lines of diagnostics without identifying the real error.
 
-A useful tool in this situation is a program that checks whether everything is balanced. Thus, every right brace, bracket, and parenthesis must correspond to their left counterparts. The sequence [()] is legal, but [(] is wrong. Obviously, it is not worthwhile writing a huge program for this, but it turns out that it is easy to check these things. For simplicity, we will just check for balancing of parentheses, brackets, and braces and ignore any other character that appears.
+A useful tool in this situation is a program that checks whether everything is balanced. Thus, every right brace, bracket, and parenthesis must correspond to their left counterparts. The sequence [()] is legal, but [(] is wrong. Obviously, it is not worthwhile writing a huge program for this, but it turns out that it is easy to check these things. For simplicity, we will just check for > balancing of parentheses, brackets, and braces and ignore any other character that appears.
 
-> **The simple algorithm uses a stack and is as follows:**
->
-> Make an empty stack. Read characters until end of file. If the character is an open anything, push it onto the stack. If it is a close anything, then if the stack is empty report an error. Otherwise, pop the stack. If the symbol popped is not the corresponding opening symbol, then report an error. At end of file, if the stack is not empty report an error.
->
-> You should be able to convince yourself that this algorithm works. It is clearly linear and actually makes only one pass through the input. It is thus on-line and quite fast. Extra work can be done to attempt to decide what to do when an error is reported--such as identifying the likely cause.
+ **The simple algorithm uses a stack and is as follows:**
+
+ Make an empty stack. Read characters until end of file. If the character is an open anything, push it onto the stack. If it is a close anything, then if the stack is empty report an error. Otherwise, pop the stack. If the symbol popped is not the corresponding opening symbol, then report an error. At end of file, if the stack is not empty report an error.
+
+ You should be able to convince yourself that this algorithm works. It is clearly linear and actually makes only one pass through the input. It is thus on-line and quite fast. Extra work can be done to attempt to decide what to do when an error is reported--such as identifying the likely cause.
 
 **Postfix Expressions**
 
-Suppose we have a pocket calculator and would like to compute the cost of a shopping trip. To do so, we add a list of numbers and multiply the result by 1.06; this computes the purchase price of some items with local sales tax added. If the items are 4.99, 5.99, and 6.99, then a natural way to enter this would be the sequence
+Suppose we have a pocket calculator and would like to compute the cost of a shopping trip. To do so, we add a list of numbers and multiply the result by 1.06; this computes the purchase price of some items with local sales tax added. If the items are 4.99, 5.99, and 6.99, then a natural way to enter this would be the sequence 4.99 + 5.99 + 6.99 * 1.06 = Depending on the calculator, this produces either the intended answer, 19.05, or the scientific answer, 18.39. Most simple four-function calculators will give the first answer, but better calculators know that multiplication has higher precedence than addition.
 
-4.99 + 5.99 + 6.99 * 1.06 =
-
-Depending on the calculator, this produces either the intended answer, 19.05, or the scientific answer, 18.39. Most simple four-function calculators will give the first answer, but better calculators know that multiplication has higher precedence than addition.
-
-On the other hand, some items are taxable and some are not, so if only the first and last items were actually taxable, then the sequence
-
-4.99 * 1.06 + 5.99 + 6.99 * 1.06 =
-
-would give the correct answer (18.69) on a scientific calculator and the wrong answer (19.37) on a simple calculator. A scientific calculator generally comes with parentheses, so we can always get the right answer by parenthesizing, but with a simple calculator we need to remember intermediate results.
+On the other hand, some items are taxable and some are not, so if only the first and last items were actually taxable, then the sequence 4.99 * 1.06 + 5.99 + 6.99 * 1.06 = would give the correct answer (18.69) on a scientific calculator and the wrong answer (19.37) on a simple calculator. A scientific calculator generally comes with parentheses, so we can always get the right answer by parenthesizing, but with a simple calculator we need to remember intermediate results.
 
 A typical evaluation sequence for this example might be to multiply 4.99 and 1.06, saving this answer as a~1~. We then add 5.99 and a~1~, saving the result in a~1~.
 
-We multiply 6.99 and 1.06, saving the answer in a~2~, and finish by adding a~l~ and
-
-a~2~, leaving the final answer in al. We can write this sequence of operations as
+We multiply 6.99 and 1.06, saving the answer in a~2~, and finish by adding a~l~ and a~2~, leaving the final answer in al. We can write this sequence of operations as
 
 follows:
 
@@ -1287,17 +1272,13 @@ Not only can a stack be used to evaluate a postfix expression, but we can also u
 
 (,), and insisting on the usual precedence rules. We will further assume that the expression is legal. Suppose we want to convert the infix expression
 
-a + b ~*~ c + (d ~*~ e + f) ~*~ g
-
-into postfix. A correct answer is a b c * + d e * f + g * +.
+a + b ~*~ c + (d ~*~ e + f) ~*~ g into postfix. A correct answer is a b c * + d e * f + g * +.
 
 When an operand is read, it is immediately placed onto the output. Operators are not immediately output, so they must be saved somewhere. The correct thing to do is to place operators that have been seen, but not placed on the output, onto the stack. We will also stack left parentheses when they are encountered. We start with an initially empty stack.
 
 If we see a right parenthesis, then we pop the stack, writing symbols until we encounter a (corresponding) left parenthesis, which is popped but not output.
 
-If we see any other symbol ('+','*', '('), then we pop entries from the stack until we find an
-
-entry of lower priority. One exception is that we never remove a '(' from the stack except when processing a ')'. For the purposes of this operation, '+' has lowest priority and '(' highest. When the popping is done, we push the operand onto the stack.
+If we see any other symbol ('+','*', '('), then we pop entries from the stack until we find an entry of lower priority. One exception is that we never remove a '(' from the stack except when processing a ')'. For the purposes of this operation, '+' has lowest priority and '(' highest. When the popping is done, we push the operand onto the stack.
 
 Finally, if we read the end of input, we pop the stack until it is empty, writing symbols onto the output.
 
@@ -1363,10 +1344,7 @@ print_list(LIST L)
 **Figure 3.54 A bad use of recursion: printing a linked list**
 
 ```js
-void
-
-print_list(LIST L) /* No header */
-
+void print_list(LIST L) /* No header */
 {
 
 top:
@@ -1421,9 +1399,7 @@ Secondly, some programmers use different ways of representing the front and rear
 
 In applications where you are sure that the number of enqueues is not larger than the size of the queue, obviously the wraparound is not necessary. As with stacks, dequeues are rarely performed unless the calling routines are certain that the queue is not empty. Thus error calls are frequently skipped for this operation, except in critical code. This is generally not justifiable, because the time savings that you are likely to achieve are too minimal.
 
-We finish this section by writing some of the queue routines. We leave the others as an exercise to the reader. First, we give the type definitions in
-
-Figure 3.57. We add a maximum size field, as was done for the array implementation of the stack; queue_create and queue_dispose routines also need to be provided. We also provide routines to test whether a queue is empty and to make an empty queue (Figs. 3.58 and 3.59). The reader can write the function is_full, which performs the test implied by its name. Notice that q_rear is preinitialized to 1 before q_front. The final operation we will write is the enqueue routine. Following the exact description above, we arrive at the implementation in Figure 3.60.
+We finish this section by writing some of the queue routines. We leave the others as an exercise to the reader. First, we give the type definitions in Figure 3.57. We add a maximum size field, as was done for the array implementation of the stack; queue_create and queue_dispose routines also need to be provided. We also provide routines to test whether a queue is empty and to make an empty queue (Figs. 3.58 and 3.59). The reader can write the function is_full, which performs the test implied by its name. Notice that q_rear is preinitialized to 1 before q_front. The final operation we will write is the enqueue routine. Following the exact description above, we arrive at the implementation in Figure 3.60.
 
 ### Applications of Queues
 
@@ -1527,9 +1503,9 @@ Q->q_array[ Q->q_rear ] = x;
 
 **Figure 3.60 Routines to enqueue-array implementation**
 
-When jobs are submitted to a printer, they are arranged in order of arrival. Thus, essentially, jobs sent to a line printer are placed on a queue.*
+When jobs are submitted to a printer, they are arranged in order of arrival. Thus, essentially, jobs sent to a line printer are placed on a queue.
 
-*We say essentially a queue, because jobs can be killed. This amounts to a deletion from the middle of the queue, which is a violation of the strict definition.
+We say essentially a queue, because jobs can be killed. This amounts to a deletion from the middle of the queue, which is a violation of the strict definition.
 
 Virtually every real-life line is (supposed to be) a queue. For instance, lines at ticket counters are queues, because service is first-come first-served.
 
@@ -1553,7 +1529,7 @@ This chapter describes the concept of ADTs and illustrates the concept with thre
 
 Lists, stacks, and queues are perhaps the three fundamental data structures in all of computer science, and their use is documented through a host of examples. In particular, we saw how stacks are used to keep track of procedure and function calls and how recursion is actually implemented. This is important to understand, not just because it makes procedural languages possible, but because knowing how recursion is implemented removes a good deal of the mystery that surrounds its use. Although recursion is very powerful, it is not an entirely free operation; misuse and abuse of recursion can result in programs crashing.
 
-**Exercises**
+## Exercises
 
 3.1 Write a program to print out the elements of a singly linked list.
 
@@ -1565,13 +1541,9 @@ a. singly linked lists,
 
 b. doubly linked lists.
 
-3.4 Given two sorted lists, L1 and L2, write a procedure to compute L1 L2 using only the
+3.4 Given two sorted lists, L1 and L2, write a procedure to compute L1 L2 using only the basic list operations.
 
-basic list operations.
-
-3.5 Given two sorted lists, L1 and L2, write a procedure to compute L1 L2 using only the
-
-basic list operations.
+3.5 Given two sorted lists, L1 and L2, write a procedure to compute L1 L2 using only the basic list operations.
 
 3.6 Write a function to add two polynomials. Do not destroy the input. Use a linked list implementation. If the polynomials have m and n terms respectively, what is the time complexity of your program?
 
@@ -1585,13 +1557,9 @@ a. Give an algorithm to solve this problem in O(m2n2) time.
 
 d. Which time bound above is the best?
 
-3.8 Write a program that takes a polynomial, (x), and computes ((x))p. What is the complexity of your program? Propose at least one alternative solution that could be competitive
+3.8 Write a program that takes a polynomial, (x), and computes ((x))p. What is the complexity of your program? Propose at least one alternative solution that could be competitive for some plausible choices of (x) and p.
 
-for some plausible choices of (x) and p.
-
-3.9 Write an arbitrary-precision integer arithmetic package. You should use a strategy similar to
-
-polynomial arithmetic. Compute the distribution of the digits 0 to 9 in 24000.
+3.9 Write an arbitrary-precision integer arithmetic package. You should use a strategy similar to polynomial arithmetic. Compute the distribution of the digits 0 to 9 in 24000.
 
 3.10 The Josephus problem is the following mass suicide "game": n people, numbered 1 to n, are sitting in a circle. Starting at person 1, a handgun is passed. After m passes, the person holding the gun commits suicide, the body is removed, the circle closes ranks, and the game continues with the person who was sitting after the corpse picking up the gun. The last survivor is tried for n - 1 counts of manslaughter. Thus, if m = 0 and n = 5, players are killed in order and player 5 stands trial. If m = 1 and n = 5, the order of death is 2, 4, 1, 5.
 

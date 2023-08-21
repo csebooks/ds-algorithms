@@ -3,8 +3,6 @@ title: 'ALGORITHM DESIGN TECHNIQUES'
 weight: 10
 ---
 
-
-# CHAPTER 10: 
 # ALGORITHM DESIGN TECHNIQUES
 
 So far, we have been concerned W~i~th the efficient implementation of algorithms. We have seen that when an algorithm is given, the actual data structures need not be specified. It is up to the programmer to choose the approriate data structure in order to make the running time as small as possible.
@@ -17,7 +15,7 @@ In this chapter, we sW~i~tch our attention from the implementation of algorithms
 
 - Discuss, in general terms, the time and space complex~i~ty, where appropriate.
 
-# 10.1. Greedy Algorithms
+## Greedy Algorithms
 
 The first type of algorithm we W~i~ll examine is the greedy algorithm. We have already seen three greedy algorithms in Chapter 9: Dijkstra's, Prim's, and Kruskal's algorithms. Greedy algorithms work in phases. In each phase, a decision is made that appears to be good, W~i~thout regard for future consequences. Generally, this means that some local optimum is chosen. This "take what you can get now" strategy is the source of the name for this class of algorithms. When the algorithm terminates, we hope that the local optimum is equal to the global optimum. If this is the case, then the algorithm is correct; otherW~i~se, the algorithm has produced a suboptimal solution. If the absolute best answer is not required, then simple greedy algorithms are sometimes used to generate approx~i~mate answers, rather than using the more complicated algorithms generally required to generate an exact answer.
 
@@ -64,7 +62,7 @@ j~4~ 10
 
 Notice that in Equation (10.2), the first sum is independent of the job ordering, so only the second sum affects the total cost. Suppose that in an ordering there ex~i~sts some x > y such that tix < tiy. Then a calculation shows that by swapping j~ix~ and j~iy~, the second sum increases, decreasing the total cost. Thus, any schedule of jobs in which the times are not monotonically nonincreasing must be suboptimal. The only schedules left are those in which the jobs are arranged by smallest running time first, breaking ties arbitrarily.This result indicates the reason the operating system scheduler generally gives precedence to shorter jobs.
 
-### The Multiprocessor Case
+**The Multiprocessor Case**
 
 We can extend this problem to the case of several processors. Again we have jobs j~1~, j~2~, . . . , jn, W~i~th associated running times t~1~, t~2~, . . . , tn, and a number P of processors. We W~i~ll assume W~i~thout loss of generality that the jobs are ordered, shortest running time first. As an example, suppose P = 3, and the jobs are as shown in Figure 10.4.
 
@@ -116,7 +114,7 @@ Although this schedule does not have minimum mean completion time, it has merit 
 
 **Figure 10.7 Minimizing the final completion time**
 
-### Huffman Codes
+**Huffman Codes**
 
 In this section, we consider a second application of greedy algorithms, known as file compression.
 
@@ -201,7 +199,7 @@ Total 146
 
 Notice that there are many optimal codes. These can be obtained by swapping children in the encoding tree. The main unresolved question, then, is how the coding tree is constructed. The algorithm to do this was given by Huffman in 1952. Thus, this coding system is commonly referred to as a Huffman code.
 
-### Huffman's Algorithm
+**Huffman's Algorithm**
 
 Throughout this section we W~i~ll assume that the number of characters is C. Huffman's algorithm can be described as follows: We maintain a forest of trees.
 
@@ -267,7 +265,7 @@ Figure 10.20 Optimal packing for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8
 
 There are two versions of the bin packing problem. The first version is on-line bin packing. In this version, each item must be placed in a bin before the next item can be processed. The second version is the off-line bin packing problem. In an off-line algorithm, we do not need to do anything until all the input has been read. The distinction between on-line and off-line algorithms was discussed in Section 8.2.
 
-### On-line Algorithms
+**On-line Algorithms**
 
 The first issue to consider is whether or not an on-line algorithm can actually always give an optimal answer, even if it is allowed unlimited computation. Remember that even though unlimited computation is allowed, an on-line algorithm must place an item before processing the next item and cannot change its decision.
 
@@ -300,7 +298,7 @@ The first inequality implies that , and the second inequality implies that , whi
 
 There are three simple algorithms that guarantee that the number of bins used is no more than tW~i~ce optimal. There are also quite a few more complicated algorithms W~i~th better guarantees.
 
-### Next Fit
+**Next Fit**
 
 Probably the simplest algorithm is next fit. When processing any item, we check to see whether it fits in the same bin as the last item. If it does, it is placed there; otherW~i~se, a new bin is created. This algorithm is incredibly simple to implement and runs in linear time. Figure 10.21 shows the packing produced for the same input as Figure 10.20.
 
@@ -322,7 +320,7 @@ To see that this bound is tight, suppose that the n items have size si = 0.5 if 
 ![alt Next fit packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .](10.23.png)
 **Figure 10.23 Next fit packing for 0.5, 2/n, 0.5, 2/n, 0.5, 2/n, . . .**
 
-### First Fit
+**First Fit**
 
 Although next fit has a reasonable performance guarantee, it performs poorly in practice, because it creates new bins when it does not need to. In the sample run, it could have placed the item of size 0.3 in either B1 or B2, rather than create a new bin.
 
@@ -358,7 +356,7 @@ When first fit is run on a large number of items W~i~th sizes uniformly distribu
 
 **Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8**
 
-### First Fit
+**First Fit**
 
 Although next fit has a reasonable performance guarantee, it performs poorly in practice, because it creates new bins when it does not need to. In the sample run, it could have placed the item of size 0.3 in either B1 or B2, rather than create a new bin.
 
@@ -392,7 +390,7 @@ When first fit is run on a large number of items W~i~th sizes uniformly distribu
 ![alt Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.26.png)
 **Figure 10.26 Best fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8** 
 
-# 10.2. Divide and Conquer
+## Divide and Conquer
 
 Another common technique used to design algorithms is divide and conquer. Divide and conquer algorithms consist of two parts: 
 
@@ -778,7 +776,7 @@ The solution of this recurrence is T(n) = O(nlog27) = O(n2.81).
 
 As usual, there are details to consider, such as the case when n is not a power of two, but these are basically minor nuisances. Strassen's algorithm is worse than the straightforward algorithm until n is fairly large. It does not generalize for the case where the matrices are sparse (contain many zero entries), and it does not easily parallelize. When run W~i~th floating-point entries, it is less stable numerically than the classic algorithm. Thus, it is has only limited applicability. Nevertheless, it represents an important theoretical milestone and certainly shows that in computer science, as in many other fields, even though a problem seems to have an intrinsic complex~i~ty, nothing is certain until proven.
 
-# 10.3. Dynamic Programming
+## Dynamic Programming
 
 In the previous section, we have seen that a problem that can be mathematically expressed recursively can also be expressed as a recursive algorithm, in many cases yielding a significant performance improvement over a more naïve exhaustive search.
 
@@ -1213,7 +1211,7 @@ Dynamic programming is a powerful algorithm design technique, which provides a s
 
 In some sense, if you have seen one dynamic programming problem, you have seen them all. More examples of dynamic programming can be found in the exercises and references.
 
-# 10.4. Randomized Algorithms
+## Randomized Algorithms
 
 Suppose you are a professor who is giving weekly programming assignments. You want to make sure that the students are doing their own programs or, at the very least, understand the code they are submitting. One solution is to give a quiz on the day that each program is due. On the other hand, these quizzes take time out of class, so it might only be practical to do this for roughly half of the programs. Your problem is to decide when to give the quizzes.
 
@@ -1418,7 +1416,7 @@ Therefore, if at any point in the computation of an-1mod n we discover a violati
 
 Recall that if test_prime returns DEFINITELY_COMPOSITE, it has proven that n cannot be prime. The proof is nonconstructive, because it gives no method of actually finding the factors. It has been shown that for any (sufficiently large) n, at most (n - 9)/4 values of a fool this algorithm. Thus, if a is chosen at random, and the algorithm answers PROBABLY_PRIME, then the algorithm is correct at least 75 percent of the time. Suppose test_prime is run 50 times. The probability that the algorithm is fooled once is at most 1/4. Thus, the probability that 50 independent random trials fool the algorithm is never more than 1/450 = 2-100. This is actually a very conservative estimate, which holds for only a few choices of n. Even so, one is more likely to see a hardware error than an incorrect claim of primality.  
 
-# 10.5. Backtracking Algorithms
+## Backtracking Algorithms
 
 The last algorithm design technique we W~i~ll examine is backtracking. In many cases, a backtracking algorithm amounts to a clever implementation of exhaustive search, W~i~th generally unfavorable performance. This is not always the case, however, and even so, in some cases, the savings over a brute force exhaustive search can be significant. Performance is, of course, relative: An O(n2) algorithm for sorting is pretty bad, but an O(n5) algorithm for the traveling salesman (or any NP-complete) problem would be a landmark result.
 
@@ -1678,7 +1676,7 @@ int d_~max~, found = FALSE;
 ```
 **Figure 10.65 Turnpike reconstruction algorithm: backtracking steps (pseudocode)**
 
-### Minimax Strategy
+**Minimax Strategy**
 
 The general strategy is to use an evaluation function to quantify the "goodness" of a position. A
 
@@ -1837,7 +1835,7 @@ Nevertheless, for computer chess, the single most important factor seems to be n
 
 The basic method to increase the look-ahead factor in game programs is to come up W~i~th methods that evaluate fewer nodes W~i~thout losing any information. One method which we have already seen is to use a table to keep track of all positions that have been evaluated. For instance, in the course of searching for the first move, the program W~i~ll examine the positions in Figure 10.68. If the values of the positions are saved, the second occurrence of a position need not be recomputed; it essentially becomes a terminal position. The data structure that records this is known as a transposition table; it is almost always implemented by hashing. In many cases, this can save considerable computation. For instance, in a chess endgame, where there are relatively few pieces, the time savings can allow a search to go several levels deeper.
 
-### Pruning 
+**Pruning**  
 
 Probably the most significant improvement one can obtain in general is known as - pruning. Figure 10.69 shows the trace of the recursive calls used to evaluate some hypothetical position in a hypothetical game. This is commonly referred to as a game tree. (We have avoided the use of this term until now, because it is somewhat misleading: no tree is actually constructed by the algorithm. The game tree is just an abstract concept.) The value of the game tree is 44.
 
@@ -2241,7 +2239,7 @@ an acyclic graph, from s to t.
 
 (c) What is the worst-case running time of the algorithm?
 
-### References
+## References
 
 The original paper on Huffman codes is [21]. Variations on the algorithm are discussed in [29], [31], and [32]. Another popular compression scheme is Ziv-Lempel encoding [52], [53]. Here the codes have a fixed length but represent strings instead of characters. [3] and [34] are good surveys of the common compression schemes.
 

@@ -1527,13 +1527,13 @@ Once satisfiability was shown to be NP-complete, a host of new NP-complete probl
 
 In addition to the satisfiability, Hamiltonian circuit, traveling salesman, and longest-path problems, which we have already examined, some of the more well-known NP-complete problems which we have not discussed are bin packing, knapsack, graph coloring, and clique. The list is quite extensive and includes problems from operating systems (scheduling and security), database systems, operations research, logic, and especially graph theory.
 
-# Summary
+## Summary
 
 In this chapter we have seen how graphs can be used to model many real-life problems. Many of the graphs that occur are typically very sparse, so it is important to pay attention to the data structures that are used to implement them.
 
 We have also seen a class of problems that do not seem to have efficient solutions. In Chapter 10, some techniques for dealing with these problems will be discussed.
 
-Exercises
+## Exercises
 
 **9.1** Find a topological ordering for the graph in Figure 9.79.
 
@@ -1691,7 +1691,7 @@ which contains a subset of the year's baseball cards, and an integer K, is it po
 
 all the baseball cards by choosing K packets? Show that the baseball card collector problem is NP-complete.
 
-**References**
+## References
 
 Good graph theory textbooks include [7], [12], [21], and [34]. More advanced topics, including the more careful attention to running times, are covered in [36], [38], and [45].
 

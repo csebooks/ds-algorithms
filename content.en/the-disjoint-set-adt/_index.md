@@ -1,21 +1,21 @@
 ---
-title: 'CHAPTER 8  THE DISJOINT SET ADT'
+title: 'THE DISJOINT SET ADT'
 weight: 8
 ---
 
   
 
-# CHAPTER 8: THE DISJOINT SET ADT
+# THE DISJOINT SET ADT
 
 In this chapter, we describe an efficient data structure to solve the equivalence problem. The data structure is simple to implement. Each routine requires only a few lines of code, and a simple array can be used. The implementation is also extremely fast, requiring constant average time per operation. This data structure is also very interesting from a theoretical point of view, because its analysis is extremely difficult; the functional form of the worst case is unlike any we have yet seen. For the disjoint set ADT, we will Show how it can be implemented with minimal coding effort.
 
-Greatly increase its speed, using just two simple observations.
+- Greatly increase its speed, using just two simple observations.
 
-Analyze the running time of a fast implementation.
+- Analyze the running time of a fast implementation.
 
-See a simple application.
+- See a simple application.
 
-# 8.1. Equivalence Relations
+## Equivalence Relations
 
 A relation R is defined on a set S if for every pair of elements (a, b), a, b
 
@@ -39,7 +39,7 @@ Electrical connectivity, where all connections are by metal wires, is an equival
 
 Two cities are related if they are in the same country. It is easily verified that this is an equivalence relation. Suppose town a is related to b if it is possible to travel from a to b by taking roads. This relation is an equivalence relation if all the roads are two-way.
 
-# 8.2. The Dynamic Equivalence Problem
+## The Dynamic Equivalence Problem
 
 Given an equivalence relation ^~^, the natural problem is to decide, for any a and b, if a ^~^ b. If the relation is stored as a two-dimensional array of booleans, then, of course, this can be done in constant time. The problem is that the relation is usually not explicitly, but rather implicitly, defined.
 
@@ -94,7 +94,7 @@ the total time spent for n - 1 merges isO (n log n). The reason for this is that
 
 In the remainder of this chapter, we will examine a solution to the union/find problem that makes unions easy but finds hard. Even so, the running time for any sequences of at most m finds and up to n - 1 unions will be only a little more than O(m + n).
 
-# 8.3. Basic Data Structure
+## Basic Data Structure
 
 Recall that the problem does not require that a find operation return any specific name, just that finds on two elements return the same answer if and only if they are in the same set. One idea might be to use a tree to represent each set, since each element in a tree has the same root. Thus, the root can be used to name the set. We will represent each set by a tree. (Recall that a collection of trees is known as a forest.) Initially, each set contains one element. The trees we will use are not necessarily binary trees, but their representation is easy, because the only information we will need is a parent pointer. The name of a set is given by the node at the root. Since only the name of the parent is required, we can assume that this tree is stored implicitly in an array: each entry p[i] in the array represents the parent of element i. If i is a root, then
 
@@ -197,7 +197,7 @@ return(find(S[x], S));
 
 Quadratic running time for a sequence of operations is generally unacceptable. Fortunately, there are several ways of easily ensuring that this running time does not occur.
 
-# 8.4. Smart Union Algorithms
+## Smart Union Algorithms
 
 The unions above were performed rather arbitrarily, by making the second tree a subtree of the first. A simple improvement is always to make the smaller tree a subtree of the larger, breaking ties by any method; we call this approach union- by-size. The three unions in the preceding example were all ties, and so we can consider that they were performed by size. If the next operation were union (4, 5), then the forest in Figure 8.10 would form. Had the size heuristic not been used, a deeper forest would have been formed (Fig. 8.11).
 ![alt  Result of union-by-size](size.PNG)
@@ -222,7 +222,7 @@ of the deeper tree. This is an easy algorithm, since the height of a tree increa
 The following figures show a tree and its implicit representation for both union- by-size and union-by-height. The code in Figure 8.13 implements union-by-height.
 ![alt ](tbl.PNG)
 
-# 8.5. Path Compression
+## Path Compression
 
 The union/find algorithm, as described so far, is quite acceptable for most cases. It is very simple and linear on average for a sequence of m instructions (under all models). However, the worst case of O(m log n) can occur fairly easily and naturally.
 
@@ -292,7 +292,7 @@ Path compression is perfectly compatible with union-by-size, and thus both routi
 
 Path compression is not entirely compatible with union-by-height, because path compression can change the heights of the trees. It is not at all clear how to re-compute them efficiently. The answer is do not!! Then the heights stored for each tree become estimated heights (sometimes known as ranks), but it turns out that union-by-rank (which is what this has now become) is just as efficient in theory as union-by-size. Furthermore, heights are updated less often than sizes. As with union-by-size, it is not clear whether path compression is worthwhile on average. What we will show in the next section is that with either union heuristic, path compression significantly reduces the worst-case running time.
 
-# 8.6. Worst Case for Union-by-Rank and Path Compression
+## Worst Case for Union-by-Rank and Path Compression
 
 When both heuristics are used, the algorithm is almost linear in the worst case.
 
@@ -330,8 +330,6 @@ log log log log 65536 = 1. log* 265536 = 5, but keep in mind that 265536 is a
 In the remainder of this section, we will prove a slightly weaker result. We will
 
 show that any sequence of m = (n) union/find operations takes a total of O(m log* n) running time. The same bound holds if union-by-rank is replaced with union-by-size. This analysis is probably the most complex in the book and one of the first truly complex worst-case analyses ever performed for an algorithm that is essentially trivial to implement.
-
-8.6.1 Analysis of the Union/Find Algorithm
 
 ### Analysis of the Union/Find Algorithm
 
@@ -546,7 +544,7 @@ Plug in the definitions of F and G into Equation (8.1). The total number of Amer
 
 What the analysis shows is that there are few nodes that could be moved frequently by path compression, and thus the total time spent is relatively small.
 
-# 8.7. An Application
+## An Application
 
 As an example of how this data structure might be used, consider the following problem. We have a network of computers and a list of bidirectional connections; each of these connections allows a file transfer from one computer to another. Is it possible to send a file from any computer on the network to any other? An extra restriction is that the problem must be solved on-line. Thus, the list of connections is presented one at a time, and the algorithm must be prepared to give an answer at any point.
 
@@ -557,13 +555,13 @@ compression, we obtain a worst-case running time of O(m (m, n)), since there are
 
 We will see a much better application in the next chapter.
 
-**Summary**
+## Summary
 
 We have seen a very simple data structure to maintain disjoint sets. When the union operation is performed, it does not matter, as far as correctness is concerned, which set retains its name. A valuable lesson that should be learned here is that it can be very important to consider the alternatives when a particular step is not totally specified. The union step is flexible; by taking advantage of this, we are able to get a much more efficient algorithm.
 
 Path compression is one of the earliest forms of self-adjustment, which we have seen elsewhere (splay trees, skew heaps). Its use is extremely interesting, especially from a theoretical point of view, because it was one of the first examples of a simple algorithm with a not-so-simple worst-case analysis.
 
-**Exercises**
+## Exercises
 
 8.1 Show the result of the following sequence of instructions: union(1, 2), union(3, 4), union(3,
 
@@ -639,7 +637,7 @@ a. Write a procedure to do this.
 
 b. Prove that if path halving is performed on the finds and either union-by-height or union-by- size is used, the worst-case running time is O(m log* n).
 
-# References
+## References
 
 Various solutions to the union/find problem can be found in [5], [8], and [10]. Hopcroft and
 

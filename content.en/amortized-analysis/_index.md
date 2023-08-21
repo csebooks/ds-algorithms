@@ -3,9 +3,7 @@ title: 'AMORTIZED ANALYSIS'
 weight: 11
 ---
 
-  
-
-# CHAPTER 11: 
+# AMORTIZED ANALYSIS
 
 In this chapter, we will analyze the running time for several of the advanced data structures that have been presented in Chapters 4 and 6. In particular, we will consider the worst-case running time for any sequence of m operations. This contrasts with the more typical analysis, in which a worst-case bound is given for any single operation.
 
@@ -519,7 +517,7 @@ In general, by adding up the amortized costs of all the rotations, of which at m
 
 Because every operation on a splay tree requires a splay, the amortized cost of any operation is within a constant factor of the amortized cost of a splay. Thus, all splay tree operations take O (log n) amortized time. By using a more general potential function, it is possible to show that splay trees have several remarkable properties. This is discussed in more detail in the exercises.
 
-**Summary**
+## Summary
 
 In this chapter, we have seen how an amortized analysis can be used to apportion charges among operations. To perform the analysis, we invent a fictitious potential function. The potential function measures the state of the system. A high-potential data structure is volatile, having been built on relatively cheap operations. When the expensive bill comes for an operation, it is paid for by the savings of previous operations. One can view potential as standing for *potential for disaster* , in that very expensive operations can only occur when the data structure has a high potential and has used considerably less time than has been allocated.
 
@@ -529,7 +527,7 @@ As expressed by Equation (11.2), the amortized time for an operation is equal to
 
 The keys to choosing a potential function are to guarantee that the minimum potential occurs at the beginning of the algorithm, and to have the potential increase for cheap operations and decrease for expensive operations. It is important that the excess or saved time be measured by an opposite change in potential. Unfortunately, this is sometimes easier said than done.
 
-**Exercises**
+## Exercises
 
 11.1 When do m consecutive insertions into a binomial queue take less than 2m time units?
 
@@ -578,7 +576,7 @@ a. Describe how to support these operations in constant amortized time per opera
 
 b. Describe how to support these operations in constant worst-case time per operation.
 
-**References**
+## References
 
 An excellent survey of amortized analysis is provided in [9].
 
