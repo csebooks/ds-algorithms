@@ -7,9 +7,7 @@ weight: 8
 
 # CHAPTER 8: THE DISJOINT SET ADT
 
-In this chapter, we describe an efficient data structure to solve the equivalence problem. The data structure is simple to implement. Each routine requires only a few lines of code, and a simple array can be used. The implementation is also extremely fast, requiring constant average time per operation. This data structure is also very interesting from a theoretical point of view, because its analysis is extremely difficult; the functional form of the worst case is unlike any we have yet seen. For the disjoint set ADT, we will
-
-Show how it can be implemented with minimal coding effort.
+In this chapter, we describe an efficient data structure to solve the equivalence problem. The data structure is simple to implement. Each routine requires only a few lines of code, and a simple array can be used. The implementation is also extremely fast, requiring constant average time per operation. This data structure is also very interesting from a theoretical point of view, because its analysis is extremely difficult; the functional form of the worst case is unlike any we have yet seen. For the disjoint set ADT, we will Show how it can be implemented with minimal coding effort.
 
 Greatly increase its speed, using just two simple observations.
 
@@ -35,14 +33,9 @@ We'll consider several examples.
 
 The relationship is not an equivalence relationship. Although it is
 
-reflexive, since a a, and transitive, since a b and b c implies a
+reflexive, since a a, and transitive, since a b and b c implies a c, it is not symmetric, since a b does not imply b a.
 
-c, it is not symmetric, since a b does not imply b a.
-
-Electrical connectivity, where all connections are by metal wires, is an equivalence relation. The relation is clearly reflexive, as any component is
-
-
-connected to itself. If a is electrically connected to b, then b must be electrically connected to a, so the relation is symmetric. Finally, if a is connected to b and b is connected to c, then a is connected to c. Thus electrical connectivity is an equivalence relation.
+Electrical connectivity, where all connections are by metal wires, is an equivalence relation. The relation is clearly reflexive, as any component is connected to itself. If a is electrically connected to b, then b must be electrically connected to a, so the relation is symmetric. Finally, if a is connected to b and b is connected to c, then a is connected to c. Thus electrical connectivity is an equivalence relation.
 
 Two cities are related if they are in the same country. It is easily verified that this is an equivalence relation. Suppose town a is related to b if it is possible to travel from a to b by taking roads. This relation is an equivalence relation if all the roads are two-way.
 
@@ -77,7 +70,7 @@ Notice that we do not perform any operations comparing the relative values of el
 
 Our second observation is that the name of the set returned by find is actually
 
-fairly abitrary. All that really matters is that find(x) = find( ) if and only
+fairly abitrary. All that really matters is that find(x) = find() if and only
 
 if x and are in the same set.
 
@@ -153,13 +146,13 @@ typedef unsigned int element_type;
 
 void
 
-initialize( DISJ_SET S )
+initialize(DISJ_SET S)
 
 {
 
 int i;
 
-for( i = NUN_SETS; i > 0; i-- )
+for(i = NUN_SETS; i > 0; i--)
 
 S[i] = 0;
 
@@ -173,7 +166,7 @@ S[i] = 0;
 
 void
 
-set_union( DISJ_SET S, set_type root1, set_type root2 )
+set_union(DISJ_SET S, set_type root1, set_type root2)
 
 {
 
@@ -186,17 +179,17 @@ S[root2] = root1;
 
 set_type
 
-find( element_type x, DISJ_SET S )
+find(element_type x, DISJ_SET S)
 
 {
 
-if( S[x] <= 0 )
+if(S[x] <= 0)
 
 return x;
 
 else
 
-return( find( S[x], S ) );
+return(find(S[x], S));
 
 }
 
@@ -231,7 +224,7 @@ The following figures show a tree and its implicit representation for both union
 
 # 8.5. Path Compression
 
-The union/find algorithm, as described so far, is quite acceptable for most cases. It is very simple and linear on average for a sequence of m instructions (under all models). However, the worst case of O(m log n ) can occur fairly easily and naturally.
+The union/find algorithm, as described so far, is quite acceptable for most cases. It is very simple and linear on average for a sequence of m instructions (under all models). However, the worst case of O(m log n) can occur fairly easily and naturally.
 
 /* assume root1 and root2 are roots */
 
@@ -239,11 +232,11 @@ The union/find algorithm, as described so far, is quite acceptable for most case
 
 void
 
-set_union (DISJ_SET S, set_type root1, set_type root2 )
+set_union (DISJ_SET S, set_type root1, set_type root2)
 
 {
 
-if( S[root2] < S[root1] ) /* root2 is deeper set */
+if(S[root2] < S[root1]) /* root2 is deeper set */
 
 S[root1] = root2; /* make root2 new root */
 
@@ -251,7 +244,7 @@ else
 
 {
 
-if( S[root2] == S[root1] ) /* same height, so update */
+if(S[root2] == S[root1]) /* same height, so update */
 
 
 S[root1]--;
@@ -277,17 +270,17 @@ As the code in Figure 8.15 shows, path compression is a trivial change to the ba
 
 set_type
 
-find( element_type x, DISJ_SET S )
+find(element_type x, DISJ_SET S)
 
 {
 
-if( S[x] <= 0 )
+if(S[x] <= 0)
 
 return x;
 
 else
 
-return( S[x] = find( S[x], S ) );
+return(S[x] = find(S[x], S));
 
 }
 
@@ -320,7 +313,7 @@ A(i, j) = A(i - 1,A(i, j - 1)) for i, j 2
 
 From this, we define
 
-(m, n) = min{i 1|A(i, m/ n ) > log n}
+(m, n) = min{i 1|A(i, m/ n) > log n}
 
 You may want to compute some values, but for all practical purposes, (m, n)
 
@@ -340,7 +333,7 @@ show that any sequence of m = (n) union/find operations takes a total of O(m log
 
 8.6.1 Analysis of the Union/Find Algorithm
 
-## 8.6.1 Analysis of the Union/Find Algorithm
+### Analysis of the Union/Find Algorithm
 
 In this section we establish a fairly tight bound on the running time of a
 

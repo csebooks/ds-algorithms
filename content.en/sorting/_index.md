@@ -43,7 +43,7 @@ One of the simplest sorting algorithms is the insertion sort. Insertion sort con
 ```
 void
 
-insertion_sort( input_type a[ ], unsigned int n )
+insertion_sort(input_type a[ ], unsigned int n)
 
 {
 
@@ -53,13 +53,13 @@ input_type tmp;
 
 /*1*/ a[0] = MIN_DATA; /* sentinel */
 
-/*2*/ for( p=2; p <= n; p++ )
+/*2*/ for(p=2; p <= n; p++)
 
 {
 
 /*3*/ tmp = a[p];
 
-/*4*/ for( j = p; tmp < a[j-1]; j-- )
+/*4*/ for(j = p; tmp < a[j-1]; j--)
 
 /*5*/ a[j] = a[j-1];
 
@@ -371,7 +371,7 @@ A safe course is merely to choose the pivot randomly. This strategy is generally
 
 **Median-of-Three Partitioning**
 
-The median of a group of n numbers is the _n_/2 th largest number. The best choice of pivot would be the median of the file. Unfortunately, this is hard to calculate and would slow down quicksort considerably. A good estimate can be obtained by picking three elements randomly and using the median of these three as pivot. The randomness turns out not to help much, so the common course is to use as pivot the median of the left, right and center elements. For instance, with input 8, 1, 4, 9, 6, 3, 5, 2, 7, 0 as before, the left element is 8, the right element is 0 and the center (in position (_left_ + right)/2 ) element is 6. Thus, the pivot would be v = 6. Using median-of-three partitioning clearly eliminates the bad case for sorted input (the partitions become equal in this case) and actually reduces the running time of quicksort by about 5 percent.
+The median of a group of n numbers is the _n_/2 th largest number. The best choice of pivot would be the median of the file. Unfortunately, this is hard to calculate and would slow down quicksort considerably. A good estimate can be obtained by picking three elements randomly and using the median of these three as pivot. The randomness turns out not to help much, so the common course is to use as pivot the median of the left, right and center elements. For instance, with input 8, 1, 4, 9, 6, 3, 5, 2, 7, 0 as before, the left element is 8, the right element is 0 and the center (in position (_left_ + right)/2) element is 6. Thus, the pivot would be v = 6. Using median-of-three partitioning clearly eliminates the bad case for sorted input (the partitions become equal in this case) and actually reduces the running time of quicksort by about 5 percent.
 
 ### Partitioning Strategy
 
@@ -467,7 +467,7 @@ The real heart of the quicksort routine is in **figure 7.14**. It includes the p
 
 input_type
 
-median3( input_type a[], int left, int right )
+median3(input_type a[], int left, int right)
 
 {
 
@@ -475,21 +475,21 @@ int center;
 
 center = (left + right) / 2;
 
-if( a[left] > a[center] )
+if(a[left] > a[center])
 
-swap( &a[left], &a[center] );
+swap(&a[left], &a[center]);
 
-if( a[left] > a[right] )
+if(a[left] > a[right])
 
-swap( &a[left], &a[right] );
+swap(&a[left], &a[right]);
 
-if( a[center] > a[right] )
+if(a[center] > a[right])
 
-swap( &a[center], &a[right] );
+swap(&a[center], &a[right]);
 
 /* invariant: a[left] <= a[center] <= a[right] */
 
-swap( &a[center], &a[right-1] ); /* hide pivot */
+swap(&a[center], &a[right-1]); /* hide pivot */
 
 return a[right-1]; /* return pivot */
 
@@ -513,7 +513,7 @@ where i = |S1| is the number of elements in S1. We will look at three cases.
 
 void
 
-q_sort( input_type a[], int left, int right )
+q_sort(input_type a[], int left, int right)
 
 {
 
@@ -521,25 +521,25 @@ int i, j;
 
 input_type pivot;
 
-/*1*/ if( left + CUTOFF <= right )
+/*1*/ if(left + CUTOFF <= right)
 
 {
 
-/*2*/ pivot = median3( a, left, right );
+/*2*/ pivot = median3(a, left, right);
 
 /*3*/ i=left; j=right-1;
 
-/*4*/ for(; ; )
+/*4*/ for(; ;)
 
 {
 
-/*5*/ while( a[++i] < pivot );
+/*5*/ while(a[++i] < pivot);
 
-/*6*/ while( a[--j] > pivot );
+/*6*/ while(a[--j] > pivot);
 
-/*7*/ if( i < j )
+/*7*/ if(i < j)
 
-/*8*/ swap( &a[i], &a[j] );
+/*8*/ swap(&a[i], &a[j]);
 
 else
 
@@ -547,11 +547,11 @@ else
 
 }
 
-/*10*/ swap( &a[i], &a[right-1] ); /*restore pivot*/
+/*10*/ swap(&a[i], &a[right-1]); /*restore pivot*/
 
-/*11*/ q_sort( a, left, i-1 );
+/*11*/ q_sort(a, left, i-1);
 
-/*12*/ q_sort( a, i+1, right );
+/*12*/ q_sort(a, i+1, right);
 
 }
 
@@ -561,17 +561,17 @@ else
 
 /*3*/ i=left+1; j=right-2;
 
-/*4*/ for(; ; )
+/*4*/ for(; ;)
 
 {
 
-/*5*/ while( a[i] < pivot ) i++;
+/*5*/ while(a[i] < pivot) i++;
 
-/*6*/ while( a[j] > pivot ) j--;
+/*6*/ while(a[j] > pivot) j--;
 
-/*7*/ if( i < j )
+/*7*/ if(i < j)
 
-/*8*/ swap( &a[i], &a[j] );
+/*8*/ swap(&a[i], &a[j]);
 
 else
 
@@ -704,7 +704,7 @@ The implementation of quickselect is even simpler than the abstract description 
 
 void
 
-q_select( input_type a[], int k, int left, int right )
+q_select(input_type a[], int k, int left, int right)
 
 {
 
@@ -712,11 +712,11 @@ int i, j;
 
 input_type pivot;
 
-/*1*/ if( left + CUTOFF <= right )
+/*1*/ if(left + CUTOFF <= right)
 
 {
 
-/*2*/ pivot = median3( a, left, right );
+/*2*/ pivot = median3(a, left, right);
 
 /*3*/ i=left; j=right-1;
 
@@ -724,13 +724,13 @@ input_type pivot;
 
 {
 
-/*5*/ while( a[++i] < pivot );
+/*5*/ while(a[++i] < pivot);
 
-/*6*/ while( a[--j] > pivot );
+/*6*/ while(a[--j] > pivot);
 
-/*7*/ if (i < j )
+/*7*/ if (i < j)
 
-/*8*/ swap( &a[i], &a[j] );
+/*8*/ swap(&a[i], &a[j]);
 
 else
 
@@ -738,23 +738,23 @@ else
 
 }
 
-/*10*/ swap( &a[i], &a[right-1] ); /* restore pivot */
+/*10*/ swap(&a[i], &a[right-1]); /* restore pivot */
 
-/*11*/ if( k < i)
+/*11*/ if(k < i)
 
-/*12*/ q_select( a, k, left, i-1 );
+/*12*/ q_select(a, k, left, i-1);
 
 else
 
-/*13*/ if( k > i )
+/*13*/ if(k > i)
 
-/*14*/ q-select( a, k, i+1, right );
+/*14*/ q-select(a, k, i+1, right);
 
 }
 
 else
 
-/*15*/ insert_sort(a, left, right );
+/*15*/ insert_sort(a, left, right);
 
 }
 ```
@@ -1070,7 +1070,7 @@ b. â(n) =O(log n)?
 
 7.26 Prove that any algorithm that finds an element x in a sorted list of n elements requires
 
-(log n ) comparisons.
+(log n) comparisons.
 
 7.27 Using Stirling's formula,![Alt text](image-31.png) , give a precise estimate for log n !.
 

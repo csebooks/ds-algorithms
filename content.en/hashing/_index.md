@@ -1,10 +1,10 @@
 ---
-title: 'CHAPTER 5  HASHING'
+title: 'HASHING'
 weight: 5
 ---
 
   
-# CHAPTER 5: HASHING
+# HASHING
 
 In Chapter 4, we discussed the search tree ADT, which allowed various operations on a set of elements. In this chapter, we discuss the hash table ADT, which supports only a subset of the operations allowed by binary search trees.
 
@@ -20,7 +20,7 @@ Show numerous applications of hashing.
 
 Compare hash tables with binary search trees.
 
-## 5.1. General Idea
+## General Idea
 
 The ideal hash table data structure is merely an array of some fixed size, containing the keys. Typically, a key is a string with an associated value (for instance, salary information). We will refer to the table size as H_SIZE, with the understanding that this is part of a hash data structure and not merely some variable floating around globally. The common convention is to have the table run from 0 to H_SIZE-1; we will see why shortly.
 
@@ -31,7 +31,7 @@ Each key is mapped into some number in the range 0 to H_SIZE - 1 and placed in t
 Figure 5.1 An ideal hash table
 
 This is the basic idea of hashing. The only remaining problems deal with choosing a function, deciding what to do when two keys hash to the same value (this is known as a collision), and deciding on the table size.
-## 5.2. Hash Function
+## Hash Function
 
 If the input keys are integers, then simply returning key mod H_SIZE is generally a reasonable strategy, unless key happens to have some undesirable properties. In this case, the choice of hash function needs to be carefully considered. For instance, if the table size is 10 and the keys all end in zero, then the standard hash function is obviously a bad choice. For reasons we shall see later, and to avoid situations like the one above, it is usually a good idea to ensure that the table size is prime. When the input keys are random integers, then this function is not only very simple to compute but also distributes the keys evenly.
 
@@ -49,17 +49,17 @@ Figure 5.2 Type returned by hash function
 
 INDEX
 
-hash( char *key, unsigned int H_SIZE )
+hash(char *key, unsigned int H_SIZE)
 
 {
 
 unsigned int hash_val = 0;
 
-/*1*/ while( *key != '\\0' )
+/*1*/ while(*key != '\\0')
 
 /*2*/ hash_val += *key++;
 
-/*3*/ return( hash_val % H_SIZE );
+/*3*/ return(hash_val % H_SIZE);
 
 }
 
@@ -85,27 +85,27 @@ We have used 32 instead of 27, because multiplication by 32 is not really a mult
 
 INDEX
 
-hash( char *key, unsigned int H_SIZE )
+hash(char *key, unsigned int H_SIZE)
 
 {
 
-return ( ( key[0] + 27*key[1] + 729*key[2] ) % H_SIZE );
+return ((key[0] + 27*key[1] + 729*key[2]) % H_SIZE);
 
 }Figure 5.4 Another possible hash function -- not too good
 
 INDEX
 
-hash( char *key, unsigned int H_SIZE )
+hash(char *key, unsigned int H_SIZE)
 
 {
 
 unsigned int hash_val = O;
 
-/*1*/ while( *key != '\\0' )
+/*1*/ while(*key != '\\0')
 
-/*2*/ hash_val = ( hash_val << 5 ) + *key++;
+/*2*/ hash_val = (hash_val << 5) + *key++;
 
-/*3*/ return( hash_val % H_SIZE );
+/*3*/ return(hash_val % H_SIZE);
 
 }
 
@@ -117,7 +117,7 @@ The main programming detail left is collision resolution. If, when inserting an 
 
 *These are also commonly known as separate chaining and open addressing, respectively.
 
-## 5.3. Open Hashing (Separate Chaining)
+## Open Hashing (Separate Chaining)
 
 The first strategy, commonly known as either open hashing, or separate chaining, is to keep a list of all elements that hash to the same value. For convenience, our lists have headers. This makes the list implementation the same as in Chapter 3. If space is tight, it might be preferable to avoid their use. We assume for this section that the keys are the first 10 perfect squares and that the hashing function is simply hash(x) = x mod 10. (The table size is not prime, but is used here for simplicity.) Figure 5.6 should make this clear.
 
@@ -169,7 +169,7 @@ typedefs and abstraction are not used, this can be quite confusing.
 
 HASH_TABLE
 
-initialize_table( unsigned int table_size )
+initialize_table(unsigned int table_size)
 
 {
 
@@ -177,7 +177,7 @@ HASH_TABLE H;
 
 int i;
 
-/*1*/ if( table size < MIN_TABLE_SIZE )
+/*1*/ if(table size < MIN_TABLE_SIZE)
 
 {
 
@@ -189,34 +189,34 @@ int i;
 
 /* Allocate table */
 
-/*4*/ H = (HASH_TABLE) malloc ( sizeof (struct hash_tbl) );
+/*4*/ H = (HASH_TABLE) malloc (sizeof (struct hash_tbl));
 
-/*5*/ if( H == NULL )
+/*5*/ if(H == NULL)
 
 /*6*/ fatal_error("Out of space!!!");
 
-/*7*/ H->table_size = next_prime( table_size );
+/*7*/ H->table_size = next_prime(table_size);
 
 /* Allocate list pointers */
 
 /*8*/ H->the_lists = (position *)
 
-malloc( sizeof (LIST) * H->table_size );
+malloc(sizeof (LIST) * H->table_size);
 
-/*9*/ if( H->the_lists == NULL )
+/*9*/ if(H->the_lists == NULL)
 
 /*10*/ fatal_error("Out of space!!!");
 
 /* Allocate list headers */
 
-/*11*/ for(i=0; i<H->table_size; i++ )
+/*11*/ for(i=0; i<H->table_size; i++)
 
 {
 /*12*/ H->the_lists[i] = (LIST) malloc
 
-( sizeof (struct list_node) );
+(sizeof (struct list_node));
 
-/*13*/ if( H->the_lists[i] == NULL )
+/*13*/ if(H->the_lists[i] == NULL)
 
 /*14*/ fatal_error("Out of space!!!");
 
@@ -254,7 +254,7 @@ Next comes the insertion routine. If the item to be inserted is already present,
 ```
 position
 
-find( element_type key, HASH_TABLE H )
+find(element_type key, HASH_TABLE H)
 
 {
 
@@ -262,11 +262,11 @@ position p;
 
 LIST L;
 
-/*1*/ L = H->the_lists[ hash( key, H->table_size) ];
+/*1*/ L = H->the_lists[ hash(key, H->table_size) ];
 
 /*2*/ p = L->next;
 
-/*3*/ while( (p != NULL) && (p->element != key) )
+/*3*/ while((p != NULL) && (p->element != key))
 
 /* Probably need strcmp!! */
 
@@ -280,7 +280,7 @@ Figure 5.9 Find routine for open hash table
 ```
 void
 
-insert( element_type key, HASH_TABLE H )
+insert(element_type key, HASH_TABLE H)
 
 {
 
@@ -288,15 +288,15 @@ position pos, new_cell;
 
 LIST L;
 
-/*1*/ pos = find( key, H );
+/*1*/ pos = find(key, H);
 
-/*2*/ if( pos == NULL )
+/*2*/ if(pos == NULL)
 
 {
 
 /*3*/ new_cell = (position) malloc(sizeof(struct list_node));
 
-/*4*/ if( new_cell == NULL )
+/*4*/ if(new_cell == NULL)
 
 /*5*/ fatal_error("Out of space!!!");
 
@@ -304,7 +304,7 @@ else
 
 {
 
-/*6*/ L = H->the_lists[ hash( key, H->table size ) ];
+/*6*/ L = H->the_lists[ hash(key, H->table size) ];
 
 /*7*/ new_cell->next = L->next;
 
@@ -333,11 +333,11 @@ We define the load factor, , of a hash table to be the ratio of the number of el
 hash table to the table size. In the example above, = 1.0. The average length of a list is  The effort required to perform a search is the constant time required to evaluate the hash function plus the time to traverse the list.
 
 ![Alt text](5.11.png)
-Figure 5.11 Closed hash table with linear probing, after each insertion In an unsuccessful search, the number of links to traverse is (excluding the final NULL link) on average. A successful search requires that about 1 + ( /2) links be traversed, since there is a guarantee that one link must be traversed (since the search is successful), and we also expect to go halfway down a list to find our match. This analysis shows that the table size is not really important, but the load factor is. The general rule for open hashing is to make the
+Figure 5.11 Closed hash table with linear probing, after each insertion In an unsuccessful search, the number of links to traverse is (excluding the final NULL link) on average. A successful search requires that about 1 + (/2) links be traversed, since there is a guarantee that one link must be traversed (since the search is successful), and we also expect to go halfway down a list to find our match. This analysis shows that the table size is not really important, but the load factor is. The general rule for open hashing is to make the
 
 table size about as large as the number of elements expected (in other words, let 1). It is also a good idea, as mentioned before, to keep the table size prime to ensure a good distribution.
 
-## 5.4. Closed Hashing (Open Addressing)
+## Closed Hashing (Open Addressing)
 
 Open hashing has the disadvantage of requiring pointers. This tends to slow the algorithm down a bit because of the time required to allocate new cells, and also essentially requires the implementation of a second data structure. Closed hashing, also known as open addressing, is an alternative to resolving collisions with linked lists. In a closed hashing system, if a collision occurs, alternate cells are tried until an empty cell is found. More formally, cells h0(x), h1
 
@@ -353,15 +353,15 @@ the load factor should be below = 0.5 for closed hashing. We now look at three c
 
 **5.4.3. Double Hashing**
 
-### 5.4.1. Linear Probing
+### Linear Probing
 
 In linear probing, is a linear function of i, typically (i) = i. This amounts to trying cells sequentially (with wraparound) in search of an empty cell. Figure 5.11 shows the result of inserting keys {89, 18, 49, 58, 69} into a closed table using the same hash function as before and the collision resolution strategy, (i) = i.
 
 The first collision occurs when 49 is inserted; it is put in the next available spot, namely spot 0, which is open. 58 collides with 18, 89, and then 49 before an empty cell is found three away. The collision for 69 is handled in a similar manner. As long as the table is big enough, a free cell can always be found, but the time to do so can get quite large. Worse, even if the table is relatively empty, blocks of occupied cells start forming. This effect, known as primary clustering, means that any key that hashes into the cluster will require several attempts to resolve the collision, and then it will add to the cluster.
 
-Although we will not perform the calculations here, it can be shown that the expected number of probes using linear probing is roughly 1/2(1 + 1/(1 - )2) for insertions and unsuccessful searches and 1/2(1 + 1/ (1- )) for successful searches. The calculations are somewhat involved. It is easy to see from the code that insertions and unsuccessful searches require the same number of probes. A moment's thought suggests that on average, successful searches should take less time than unsuccessful searches.
+Although we will not perform the calculations here, it can be shown that the expected number of probes using linear probing is roughly 1/2(1 + 1/(1 -)2) for insertions and unsuccessful searches and 1/2(1 + 1/ (1-)) for successful searches. The calculations are somewhat involved. It is easy to see from the code that insertions and unsuccessful searches require the same number of probes. A moment's thought suggests that on average, successful searches should take less time than unsuccessful searches.
 
-The corresponding formulas, if clustering were not a problem, are fairly easy to derive. We will assume a very large table and that each probe is independent of the previous probes. These assumptions are satisfied by a random collision resolution strategy and are reasonable unless is very close to 1. First, we derive the expected number of probes in an unsuccessful search. This is just the expected number of probes until we find an empty cell. Since the fraction of empty cells is 1 - , the number of cells we expect to probe is 1/(1 - ). The number of probes for a successful search is equal to the number of probes required when the particular element was inserted. When an element is inserted, it is done as a result of an unsuccessful search. Thus we can use the cost of an unsuccessful search to compute the average cost of a successful search.
+The corresponding formulas, if clustering were not a problem, are fairly easy to derive. We will assume a very large table and that each probe is independent of the previous probes. These assumptions are satisfied by a random collision resolution strategy and are reasonable unless is very close to 1. First, we derive the expected number of probes in an unsuccessful search. This is just the expected number of probes until we find an empty cell. Since the fraction of empty cells is 1 - , the number of cells we expect to probe is 1/(1 -). The number of probes for a successful search is equal to the number of probes required when the particular element was inserted. When an element is inserted, it is done as a result of an unsuccessful search. Thus we can use the cost of an unsuccessful search to compute the average cost of a successful search.
 
 The caveat is that changes from 0 to its current value, so that earlier insertions are cheaper and should bring the average down. For instance, in the table above, = 0.5, but the cost of accessing 18 is determined when 18 is inserted. At that point, = 0.2. Since 18 was inserted into a relatively empty table, accessing it should be easier than accessing a recently inserted element such as 69. We can estimate the average by using an integral to calculate the mean value of the insertion time, obtaining These formulas are clearly better than the corresponding formulas for linear probing. Clustering is not only a theoretical problem but actually occurs in real implementations.
 
@@ -369,7 +369,7 @@ Figure 5.12 compares the performance of linear probing (dashed curves) with what
 
 If = 0.75, then the formula above indicates that 8.5 probes are expected for an insertion in linear probing. If = 0.9, then 50 probes are expected, which is unreasonable. This compares with 4 and 10 probes for the respective load factors if clustering were not a problem. We see from these formulas that linear probing can be a bad idea if the table is expected to be more than half full. If = 0.5, however, only 2.5 probes are required on average for insertion andonly 1.5 probes are required, on average, for a successful search.
 
-### 5.4.2. Quadratic Probing
+### Quadratic Probing
 
 Quadratic probing is a collision resolution method that eliminates the primary clustering problem of linear probing. Quadratic probing is what you would expect-the collision function is quadratic. The popular choice is (i) = i2. Figure 5.13 shows the resulting closed table with this collision function on the same input used in the linear probing example.
 
@@ -463,14 +463,14 @@ Figure 5.14 Type declaration for closed hash tables
 ```
 HASH_TABLE
 
-initialize_table( unsigned int table_size )
+initialize_table(unsigned int table_size)
 
 {
 HASH_TABLE H;
 
 int i;
 
-/*1*/ if( table_size < MIN_TABLE_SIZE )
+/*1*/ if(table_size < MIN_TABLE_SIZE)
 
 {
 
@@ -482,25 +482,25 @@ int i;
 
 /* Allocate table */
 
-/*4*/ H = (HASH_TABLE) malloc( sizeof ( struct hash_tbl ) );
+/*4*/ H = (HASH_TABLE) malloc(sizeof (struct hash_tbl));
 
-/*5*/ if( H == NULL )
+/*5*/ if(H == NULL)
 
 /*6*/ fatal_error("Out of space!!!");
 
-/*7*/ H->table_size = next_prime( table_size );
+/*7*/ H->table_size = next_prime(table_size);
 
 /* Allocate cells */
 
 /*8*/ H->the cells = (cell *) malloc
 
-( sizeof ( cell ) * H->table_size );
+(sizeof (cell) * H->table_size);
 
-/*9*/ if( H->the_cells == NULL )
+/*9*/ if(H->the_cells == NULL)
 
 /*10*/ fatal_error("Out of space!!!");
 
-/*11*/ for(i=0; i<H->table_size; i++ )
+/*11*/ for(i=0; i<H->table_size; i++)
 
 /*12*/ H->the_cells[i].info = empty;
 
@@ -516,7 +516,7 @@ Lines 4 through 6 represent the fast way of doing quadratic resolution. From the
 ```
 position
 
-find( element_type key, HASH_TABLE H )
+find(element_type key, HASH_TABLE H)
 
 {
 
@@ -524,19 +524,19 @@ position i, current_pos;
 
 /*1*/ i = 0;
 
-/*2*/ current_pos = hash( key, H->table_size );
+/*2*/ current_pos = hash(key, H->table_size);
 
 /* Probably need strcmp! */
 
-/*3*/ while( (H->the_cells[current_pos].element != key ) &&
+/*3*/ while((H->the_cells[current_pos].element != key) &&
 
-(H->the_cells[current_pos].info != empty ) )
+(H->the_cells[current_pos].info != empty))
 
 {
 
 /*4*/ current_pos += 2*(++i) - 1;
 
-/*5*/ if( current_pos >= H->table_size )
+/*5*/ if(current_pos >= H->table_size)
 
 /*6*/ current_pos -= H->table_size;
 
@@ -552,21 +552,21 @@ The final routine is insertion. As with open hashing, we do nothing if key is al
 
 Although quadratic probing eliminates primary clustering, elements that hash to the same position will probe the same alternate cells. This is known as secondary clustering. Secondary clustering is a slight theoretical blemish. Simulation results suggest that it generally causes less than an extra probe per search. The following technique eliminates this, but does so at the cost of extra multiplications and divisions.
 
-### 5.4.3. Double Hashing 
+### Double Hashing 
 
 The last collision resolution method we will examine is double hashing. For double hashing, one popular choice is f(i) = i h2(x). This formula says that we apply a second hash function to x and probe at a distance h2(x), 2h2(x), . . ., and so on. A poor choice of h2(x) would be disastrous. For instance, the obvious choice h2(x) = x mod 9 would not help if 99 were inserted into the input in the previous examples. Thus, the function must never evaluate to zero. It is also important to make sure all cells can be probed (this is not possible in the example below, because the table size is not prime). A function such as h2(x) = R - (x mod R), with R a prime smaller than H_SIZE, will work well. If we choose R = 7, then Figure 5.18 shows the results of inserting the same keys as before.
 ```
 void
 
-insert( element_type key, HASH_TABLE H )
+insert(element_type key, HASH_TABLE H)
 
 {
 
 position pos;
 
-pos = find( key, H );
+pos = find(key, H);
 
-if( H->the_cells[pos].info != legitimate )
+if(H->the_cells[pos].info != legitimate)
 
 { /* ok to insert here */
 
@@ -593,7 +593,7 @@ As we have said before, the size of our sample hash table is not prime. We have 
 
 essentially have only one alternate location, and it is already taken. Thus, if the table size is not prime, it is possible to run out of alternate locations prematurely. However, if double hashing is correctly implemented, simulations imply that the expected number of probes is almost the same as for a random collision resolution strategy. This makes double hashing theoretically interesting. Quadratic probing, however, does not require the use of a second hash function and is thus likely to be simpler and faster in practice.
 
-## 5.5. Rehashing
+## Rehashing
 
 If the table gets too full, the running time for the operations will start taking too long and inserts might fail for closed hashing with quadratic resolution. This can happen if there are too many deletions intermixed with insertions. A solution, then, is to build another table that is about twice as big (with associated new hash function) and scan down the entire original hash table, computing the new hash value for each (non-deleted) element and inserting it in the new table.
 
@@ -625,7 +625,7 @@ Figure 5.22 shows that rehashing is simple to implement.
 ```sql
 HASH_TABLE
 
-rehash( HASH_TABLE H )
+rehash(HASH_TABLE H)
 
 {
 
@@ -639,24 +639,24 @@ cell *old_cells;
 
 /* Get a new, empty table */
 
-/*3*/ H = initialize_table( 2*old_size );
+/*3*/ H = initialize_table(2*old_size);
 
 /* Scan through old table, reinserting into new */
 
-/*4*/ for( i=0; i<old_size; i++ )
+/*4*/ for(i=0; i<old_size; i++)
 
-/*5*/ if( old_cells[i].info == legitimate )
+/*5*/ if(old_cells[i].info == legitimate)
 
-/*6*/ insert( old_cells[i].element, H );
+/*6*/ insert(old_cells[i].element, H);
 
-/*7*/ free( old_cells );
+/*7*/ free(old_cells);
 
 /*8*/ return H;
 
 }
 ```
 **Figure 5.22**
-## 5.6. Extendible Hashing
+## Extendible Hashing
 
 Our last topic in this chapter deals with the case where the amount of data is too large to fit in main memory. As we saw in Chapter 4, the main consideration then is the number of disk accesses required to retrieve data.
 

@@ -31,7 +31,7 @@ In this chapter we shall
 
 - Analyze splay trees.
 
-## 11.1. An Unrelated Puzzle
+## An Unrelated Puzzle
 
 Consider the following puzzle: Two kittens are placed on opposite ends of a football field, 100 yards apart. They walk towards each other at the speed of ten yards per minute. At the same time, their mother is at one end of the field. She can run at 100 yards per minute. The mother runs from one kitten to the other, making turns with no loss of speed, until the kittens (and thus the mother) meet at midfield. How far does the mother run?
 
@@ -41,7 +41,7 @@ Because the kittens are 100 yards apart and approach each other at a combined ve
 
 This puzzle illustrates the point that sometimes it is easier to solve a problem indirectly than directly. The amortized analyses that we will perform will use this idea. We will introduce an extra variable, known as the potential, to allow us to prove results that seem very difficult to establish otherwise.
 
-## 11.2. Binomial Queues
+## Binomial Queues
 
 The first data structure we will look at is the binomial queue of Chapter 6, which we now review briefly. Recall that a binomial tree B0 is a one-node tree,and for k > 0, the binomial tree Bk is built by melding two binomial trees Bk-1 together. Binomial trees B0 through B4 are shown in Figure 11.1.
 
@@ -140,7 +140,7 @@ PROOF:
 
 The potential function is the number of trees. The initial potential is 0, and the potential is always nonnegative, so the amortized time is an upper bound on the actual time. The analysis for insert follows from the argument above. For merge, assume the two trees have n1 and n2 nodes with T1 and T2 trees, respectively. Let n = n1 + n2. The actual time to perform the merge is O(log(n1) + log(n2)) = O(log n). After the merge, there can be at most log n trees, so the potential can increase by at most O(log n). This gives an amortized bound of O(log n). The delete_min bound follows in a similar manner.
 
-## 11.3. Skew Heaps
+## Skew Heaps
 
 The analysis of binomial queues is a fairly easy example of an amortized analysis. We now look at skew heaps. As is common with many of our examples, once the right potential function is found, the analysis is easy. The difficult part is choosing a meaningful potential function.
 
@@ -181,16 +181,16 @@ Now we must show that l1 + l2 = O(log n). Since l1 and l2 are the number of ligh
 
 The proof is completed by noting that the initial potential is 0 and that the potential is always nonnegative. It is important to verify this, since otherwise the amortized time does not bound the actual time and is meaningless. Since the insert and delete_min operations are basically just merges, they also have O(log n) amortized bounds.
 
-## 11.4. Fibonacci Heaps
+## Fibonacci Heaps
 
 In Section 9.3.2, we showed how to use priority queues to improve on the naïve O(|V|2) running time of Dijkstra's shortest-path algorithm. The important observation was that the running time was dominated by|E|decrease_key operations and |V| insert and delete_min operations. These operations take place on a set of size at most |V|. By using a binary heap, all these operations take O(log |V|) time, so the resulting bound for Dijkstra's algorithm can be reduced to O(|E| log |V|).
 
 In order to lower this time bound, the time required to perform the decrease_key operation must be improved. d-heaps, which were described in Section 6.5, give an O(logd |V|) time bound for the *delete_min* operation as well as for insert, but an O(d logd |V|) bound for delete_min. By choosing d to balance the costs of |E| decrease_key operations with |V| delete_min operations, and remembering that d must always be at least 2, we see that a good choice for d is
 
 ```
-*d = max(2, E / V ).*
+*d = max(2, E / V).*
 ```
-This improves the time bound for Dijkstra's algorithm to O( E log(2+ E / V ) V ).
+This improves the time bound for Dijkstra's algorithm to O(E log(2+ E / V) V).
 
 The *Fibonacci* heap is a data structure that supports all the basic heap operations in O(1) amortized time, with the exception of delete_min and delete, which take O (log n) amortized time. It immediately follows that the heap operations in Dijkstra's algorithm will require a total of O (|E| + |V| log |V|) time.
 
@@ -202,7 +202,7 @@ A different implementation of decrease_key: The method we have seen before is to
 
 Lazy merging: Two heaps are merged only when it is required to do so. This is similar to lazy deletion. For lazy merging, merges are cheap, but because lazy merging does not actually combine trees, the delete_min operation could encounter lots of trees, making that operation expensive. Any one delete_min could take linear time, but it is always possible to charge the time to previous merge operations. In particular, an expensive delete_min must have been preceded by a large number of unduly cheap merges, which have been able to store up extra potential.
 
-### 11.4.1. Cutting Nodes in Leftist Heaps
+### Cutting Nodes in Leftist Heaps
 
 In binary heaps, the decrease_key operation is implemented by lowering the value at a node and then percolating it up toward the root until heap order is established. In the worst case, this can take O(log n) time, which is the length of the longest path toward the root in a balanced tree.
 
@@ -244,7 +244,7 @@ Because we can convert T2 to the leftist heap H2 in O (log n) steps, and then me
 
                                 Figure 11.14.
 
-### 11.4.2. Lazy Merging for Binomial Queues
+### Lazy Merging for Binomial Queues
 
 The second idea that is used by Fibonacci heaps is lazy merging. We will apply this idea to binomial queues and show that the amortized time to perform a merge operation (as well as insertion, which is a special case) is O(1). The amortized time for delete_min will still be O (log n).
 
@@ -276,9 +276,9 @@ PROOF:
 
 The potential function is the number of trees in the collection of binomial queues. The initial potential is 0, and the potential is always nonnegative. Thus, over a sequence of operations, the total amortized time is an upper bound on the total actual time.
 ```
-/*1*/ for( r = 0; r <= log n ; r++ )
+/*1*/ for(r = 0; r <= log n ; r++)
 
-/*2*/ while ( |Lr| 2 )
+/*2*/ while (|Lr| 2)
 
 {
 
@@ -304,7 +304,7 @@ The *delete_min* operation is more complicated. Let r be the rank of the tree th
 
 *We can do this because we can place the constant implied by the Big-Oh notation in the potential function and still get the cancellation of terms, which is needed in the proof.
 
-### 11.4.3. The Fibonacci Heap Operations
+### The Fibonacci Heap Operations
 
 As we mentioned before, the Fibonacci heap combines the leftist heap decrease_key operation with the lazy binomial queue merge operation. Unfortunately, we cannot use both operations without a slight modification. The problem is that if arbitrary cuts are made in the binomial trees, the resulting forest will no longer be a collection of binomial trees. Because of this, it will no longer be true that the rank of every tree is at most log n . Since the amortized bound for delete_min in lazy binomial queues was shown to be 2 log n + r, we need r = O(log n) for the delete_min bound to hold.
 
@@ -326,7 +326,7 @@ Notice that 10 and 33, which used to be marked nodes, are no longer marked, beca
 ![Alt text](fig11.20.png)
 **Figure 11.20 The resulting segment of the Fibonacci heap after the decrease_key operation**
 
-### 11.4.4. Proof of the Time Bound
+### Proof of the Time Bound
 
 Recall that the reason for marking nodes is that we needed to bound the rank (number of children) r of any node. We will now show that any node with n descendants has rank O(log n).
 
@@ -390,7 +390,7 @@ For the *delete_min* operation, let r be the rank of the tree that contains the 
 
 Finally, for the decrease_key operation, let C be the number of cascading cuts. The actual cost of a decrease_key is C + 1, which is the total number of cuts performed. The first (noncascading) cut creates a new tree and thus increases the potential by 1. Each cascading cut creates a new tree, but converts a marked node to an unmarked (root) node, for a net loss of one unit per cascading cut. The last cut also can convert an unmarked node (in Figure 11.20 it is node 5) into a marked node, thus increasing the potential by 2. The total change in potential is thus 3 - C. Adding the actual time and the potential change gives a total of 4, which is O (1).
 
-## 11.5. Splay Trees
+## Splay Trees
 
 As a final example, we analyze the running time of splay trees. Recall, from Chapter 4, that after an access of some item x is performed, a splaying step moves x to the root by a series of three operations: zig, zig-zag, and zig-zig. These tree rotations are shown in Figure 11.21. We adopt the convention that if a tree rotation is being performed at node x, then prior to the rotation p is its parent and g is its grandparent (if x is not the child of the root).
 

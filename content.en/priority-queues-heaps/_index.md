@@ -21,7 +21,7 @@ This particular application seems to require a special kind of queue, known as a
 
 The data structures we will see are among the most elegant in computer science.
 
-## 6.1. Model
+## Model
 
 A priority queue is a data structure that allows at least the following two operations: insert, which does the obvious thing, and delete_min, which finds, returns and removes the minimum element in the heap. The insert operation is the equivalent of enqueue, and delete_min is the priority queue equivalent of the queue's dequeue operation. The delete_min function also alters its input. Current thinking in the software engineering community suggests that this is no longer a good idea. However, we will continue to use this function because of historical reasons--many programmers expect delete_min to operate this way.
 
@@ -33,7 +33,7 @@ As with most data structures, it is sometimes possible to add other operations, 
 
 Priority queues have many applications besides operating systems. In Chapter 7, we will see how priority queues are used for external sorting. Priority queues are also important in the implementation of greedy algorithms, which operate by repeatedly finding a minimum; we will see specific examples in Chapters 9 and 10. In this chapter we will see a use of priority queues in discrete event simulation.
 
-## 6.2. Simple Implementations
+## Simple Implementations
 
 There are several obvious ways to implement a priority queue. We could use a simple linked list, performing insertions at the front in O(1) and traversing the list, which requires O(n) time, to delete the minimum. Alternatively, we could insist that the list be always kept sorted; this makes insertions expensive (O (n)) and delete_mins cheap (O(1)). The former is probably the better idea of the two, based on the fact that there are never more delete_mins than insertions.
 
@@ -41,7 +41,7 @@ Another way of implementing priority queues would be to use a binary search tree
 
 Using a search tree could be overkill because it supports a host of operations that are not required. The basic data structure we will use will not require pointers and will support both operations in O(log n) worst-case time. Insertion will actually take constant time on average, and our implementation will allow building a heap of n items in linear time, if no deletions intervene. We will then discuss how to implement heaps to support efficient merging. This additional operation seems to complicate matters a bit and apparently requires the use of pointers.
 
-## 6.3. Binary Heap
+## Binary Heap
 
 The implementation we will use is known as a binary heap. Its use is so common for priority queue implementations that when the word heap is used without a qualifier, it is generally assumed to be referring to this implementation of the data structure. In this section, we will refer to binary heaps as merely heaps. Like binary search trees, heaps have two properties, namely, a structure property and a heap order property. As with AVL trees, an operation on a heap can destroy one of the properties, so a heap operation must not terminate until all heap properties are in order. This turns out to be simple to do.
 
@@ -53,7 +53,7 @@ The implementation we will use is known as a binary heap. Its use is so common f
 
 6.3.4. Other Heap Operations
 
-### 6.3.1. Structure Property
+### Structure Property
 
 A heap is a binary tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right. Such a tree is known as a complete binary tree. Figure 6.2 shows an example.
 
@@ -73,7 +73,7 @@ A heap data structure will, then, consist of an array (of whatever type the key 
 
 Throughout this chapter, we shall draw the heaps as trees, with the implication that an actual implementation will use simple arrays.
 
-### 6.3.2. Heap Order Property
+### Heap Order Property
 
 The property that allows operations to be performed quickly is the heap order property. Since we want to be able to find the minimum quickly, it makes sense that the smallest element should be at the root. If we consider that any subtree should also be a heap, then any node should be smaller than all of its descendants.
 
@@ -106,19 +106,19 @@ typedef struct heap_struct *PRIORITY_QUEUE;
 ```js
 PRIORITY_QUEUE
 
-create_pq( unsigned int max_elements )
+create_pq(unsigned int max_elements)
 
 {
 
 PRIORITY_QUEUE H;
 
-if( max_elements < MIN_PQ_SIZE )
+if(max_elements < MIN_PQ_SIZE)
 
 error("Priority queue size is too small");
 
-H = (PRIORITY_QUEUE) malloc ( sizeof (struct heap_struct) );
+H = (PRIORITY_QUEUE) malloc (sizeof (struct heap_struct));
 
-if( H == NULL )
+if(H == NULL)
 
 fatal_error("Out of space!!!");
 
@@ -126,9 +126,9 @@ fatal_error("Out of space!!!");
 
 H->elements = (element_type *) malloc
 
-( ( max_elements+1) * sizeof (element_type) );
+((max_elements+1) * sizeof (element_type));
 
-if( H->elements == NULL )
+if(H->elements == NULL)
 
 fatal_error("Out of space!!!");
 
@@ -150,7 +150,7 @@ return H;
 
 **Figure 6.5 Two complete trees (only the left tree is a heap)**
 
-### 6.3.3. Basic Heap Operations
+### Basic Heap Operations
 
 It is easy (both conceptually and practically) to perform the two required operations. All the work involves ensuring that the heap order property is maintained.
 
@@ -179,13 +179,13 @@ We could have implemented the percolation in the insert routine by performing re
 
 void
 
-insert( elementtype x, PRIORITY_QUEUE H )
+insert(elementtype x, PRIORITY_QUEUE H)
 
 {
 
 unsigned int i;
 
-if( is_full( H ) )
+if(is_full(H))
 
 error("Priority queue is full");
 
@@ -195,7 +195,7 @@ else
 
 i = ++H->size;
 
-while( H->elements[i/2] > x )
+while(H->elements[i/2] > x)
 
 {
 
@@ -238,7 +238,7 @@ A frequent implementation error in heaps occurs when there are an even number of
 ```js
 element_type
 
-delete_min( PRIORITY_QUEUE H )
+delete_min(PRIORITY_QUEUE H)
 
 {
 
@@ -246,7 +246,7 @@ unsigned int i, child;
 
 element_type min_element, last_element;
 
-if( is_empty( H ) )
+if(is_empty(H))
 
 {
 
@@ -260,7 +260,7 @@ min_element = H->elements[1];
 
 last_element = H->elements[H->size--];
 
-for( i=1; i*2 <= H->size; i=child )
+for(i=1; i*2 <= H->size; i=child)
 
 {
 
@@ -268,15 +268,15 @@ for( i=1; i*2 <= H->size; i=child )
 
 child = i*2;
 
-if( ( child != H->size ) &&
+if((child != H->size) &&
 
-( H->elements[child+1] < H->elements [child] ) )
+(H->elements[child+1] < H->elements [child]))
 
 child++;
 
 * percolate one level *
 
-if( last_element > H->elements[child] )
+if(last_element > H->elements[child])
 
 H->elements[i] = H->elements[child];
 
@@ -298,7 +298,7 @@ Although this eliminates the need to test for the presence of a right child, you
 
 The worst-case running time for this operation is O(log n). On average, the element that is placed at the root is percolated almost to the bottom of the heap (which is the level it came from), so the average running time is O (log n).
 
-### 6.3.4. Other Heap Operations
+### Other Heap Operations
 
 Notice that although finding the minimum can be performed in constant time, a heap designed to find the minimum element (also known as a (min) heap) is of no help whatsoever in finding the maximum element. In fact, a heap has very little ordering information, so there is no way to find any particular key without a linear scan through the entire heap. To see this, consider the large heap structure (the elements are not shown) in Figure 6.13, where we see that the only information known about the maximum element is that it is at one of the leaves. Half the elements, though, are contained in leaves, so this is practically useless information. For this reason, if it is important to know where elements are, some other data structure, such as a hash table, must be used in addition to the heap. (Recall that the model does not allow looking inside the heap.)
 
@@ -343,9 +343,9 @@ The general algorithm is to place the n keys into the tree in any order, maintai
 The first tree in Figure 6.15 is the unordered tree. The seven remaining trees in Figures 6.15 through 6.18 show the result of each of the seven percolate downs. Each dashed line corresponds to two comparisons: one to find the smaller child and one to compare the smaller child with the node. Notice that there are only 10 dashed lines in the entire algorithm (there could have been an 11th -- where?) corresponding to 20 comparisons.
 
 ```js
-for(i=n/2; i>0; i-- )
+for(i=n/2; i>0; i--)
 
-percolate_down( i );
+percolate_down(i);
 ```
 
 **Figure 6.14 Sketch of build_heap**
@@ -409,7 +409,7 @@ Although the result we have obtained is sufficient to show that build_heap is li
 
 complete tree with n = 2h nodes, the bound we have obtained is roughly 2n. The sum of the heights can be shown by induction to be n - b(n), where b(n) is the number of 1s in the binary representation of n.
 
-## 6.4. Applications of Priority Queues
+## Applications of Priority Queues
 
 We have already mentioned how priority queues are used in operating systems design. In Chapter 9, we will see how priority queues are used to implement several graph algorithms efficiently. Here we will show how to use priority queues to obtain solutions to two problems.
 
@@ -417,7 +417,7 @@ We have already mentioned how priority queues are used in operating systems desi
 
 6.4.2. Event Simulation
 
-### 6.4.1. The Selection Problem
+### The Selection Problem
 
 The first problem we will examine is the selection problem from Chapter 1. Recall that the input is a list of n elements, which can be totally ordered, and an integer k. The selection problem is to find the kth largest element.
 
@@ -448,11 +448,11 @@ Notice that if we run this program for k = n and record the values as they leave
 
 For the second algorithm, we return to the original problem and find the kth largest element. We use the idea from Algorithm 1B. At any point in time we will maintain a set S of the k largest elements. After the first k elements are read, when a new element is read, it is compared with the kth largest element, which we denote by Sk. Notice that Sk is the smallest element in S. If the new element is larger, then it replaces Sk in S. S will then have a new smallest element, which may or may not be the newly added element. At the end of the input, we find the smallest element in S and return it as the answer.
 
-This is essentially the same algorithm described in Chapter 1. Here, however, we will use a heap to implement S. The first k elements are placed into the heap in total time O(k) with a call to build_heap. The time to process each of the remaining elements is O(1), to test if the element goes into S, plus O(log k), to delete Sk and insert the new element if this is necessary. Thus, the total time is O(k + (n - k ) log k ) = O (n log k ) . This algorithm also gives a bound of (n log n) for finding the median.
+This is essentially the same algorithm described in Chapter 1. Here, however, we will use a heap to implement S. The first k elements are placed into the heap in total time O(k) with a call to build_heap. The time to process each of the remaining elements is O(1), to test if the element goes into S, plus O(log k), to delete Sk and insert the new element if this is necessary. Thus, the total time is O(k + (n - k) log k) = O (n log k) . This algorithm also gives a bound of (n log n) for finding the median.
 
 In Chapter 7, we will see how to solve this problem in O(n) average time. In Chapter 10, we will see an elegant, albeit impractical, algorithm to solve this problem in O(n) worst-case time.
 
-### 6.4.2. Event Simulation
+### Event Simulation
 
 In Section 3.4.3, we described an important queuing problem. Recall that we have a system, such as a bank, where customers arrive and wait on a line until one of k tellers is available. Customer arrival is governed by a probability distribution function, as is the service time (the amount of time to be served once a teller is available). We are interested in statistics such as how long on average a customer has to wait or how long the line might be.
 
@@ -476,9 +476,9 @@ The waiting line for customers can be implemented as a queue. Since we need to f
 
 It is then straightforward, although possibly time-consuming, to write the simulation routines. If there are C customers (and thus 2C events) and k tellers, then the running time of the simulation would be O(C log(k + 1)) because computing and processing each event takes O(logH), where H = k + 1 is the size of the heap.
 
- We use O(C log( k + 1)) instead of O(C log k) to avoid confusion for the k = 1 case.
+ We use O(C log(k + 1)) instead of O(C log k) to avoid confusion for the k = 1 case.
 
-## 6.5. d-Heaps
+## d-Heaps
 
 Binary heaps are so simple that they are almost always used when priority queues are needed. A simple generalization is a d-heap, which is exactly like a binary heap except that all nodes have d children (thus, a binary heap is a 2-heap). Figure 6.19 shows a 3-heap.
 
@@ -492,7 +492,7 @@ The most glaring weakness of the heap implementation, aside from the inability t
 
 **Figure 6.19 A d-heap**
 
-## 6.6. Leftist Heaps
+## Leftist Heaps
 
 It seems difficult to design a data structure that efficiently supports merging (that is, processes a merge in o(n) time) and uses only an array, as in a binary heap. The reason for this is that merging would seem to require copying one array
 
@@ -504,7 +504,7 @@ Like a binary heap, a leftist heap has both a structural property and an orderin
 
 6.6.2. Leftist Heap Operations
 
-### 6.6.1. Leftist Heap Property
+### Leftist Heap Property
 
 We define the null path length, npl(X) of any node X to be the length of the shortest path from X to a node without two children. Thus, the npl of a node with zero or one child is 0, while npl(NULL) = -1. In the tree in Figure 6.20, the null path lengths are indicated inside the tree nodes.
 
@@ -534,7 +534,7 @@ This plus the root gives at least 2r+1 - 1 nodes in the tree, proving the theore
 
 From this theorem, it follows immediately that a leftist tree of n nodes has a right path containing at most log(n + 1) nodes. The general idea for the leftist heap operations is to perform all the work on the right path, which is guaranteed to be short. The only tricky part is that performing inserts and merges on the right path could destroy the leftist heap property. It turns out to be extremely easy to restore the property.
 
-### 6.6.2. Leftist Heap Operations
+### Leftist Heap Operations
 
 The fundamental operation on leftist heaps is merging. Notice that insertion is merely a special case of merging, since we may view an insertion as a merge of a one-node heap with a larger heap. We will first give a simple recursive solution and then show how this might be done nonrecursively. Our input is the two leftist heaps, H1 and H2, in Figure 6.21. You should check that these heaps really are leftist. Notice that the smallest elements are at the roots. In addition to space for the data and left and right pointers, each cell will have an entry that indicates the null path length.
 
@@ -583,12 +583,12 @@ unsigned int npl;
 
 typedef tree_ptr PRIORITY_QUEUE;
 
-define insert( x, H ) ( H = insert1( (x), H ) )
+define insert(x, H) (H = insert1((x), H))
 ```
 
 **Figure 6.25 Leftist heap type declarations**
 
-The routine to merge ( Fig. 6.26) is a driver designed to remove special cases and ensure that H1 has the smaller root. The actual merging is performed in merge1 (Fig. 6.27).
+The routine to merge (Fig. 6.26) is a driver designed to remove special cases and ensure that H1 has the smaller root. The actual merging is performed in merge1 (Fig. 6.27).
 
 The time to perform the merge is proportional to the sum of the length of the right paths, because constant work is performed at each node visited during the recursive calls. Thus we obtain an O(log n) time bound to merge two leftist heaps. We can also perform this operation nonrecursively by essentially performing two passes. In the first pass, we create a new tree by merging the right paths of both heaps. To do this, we arrange the nodes on the right paths of H1
 and H2 in sorted order, keeping their respective left children. In our example, the new rightm path is 3, 6, 7, 8, 18 and the resulting tree is shown in Figure 6.28. A second pass is made up the heap, and child swaps are performed at nodes that violate the leftist heap property. In Figure 6.28, there is a swap at nodes 7 and 3, and the same tree as before is obtained. The nonrecursive version is simpler to visualize but harder to code. We leave it to the reader to show that the recursive and nonrecursive procedures do the same thing.
@@ -597,25 +597,25 @@ and H2 in sorted order, keeping their respective left children. In our example, 
 
 PRIORITY_QUEUE
 
-merge( PRIORITY_QUEUE H1, PRIORITY_QUEUE H2 )
+merge(PRIORITY_QUEUE H1, PRIORITY_QUEUE H2)
 
 {
 
-if( H1 == NULL )
+if(H1 == NULL)
 
 return H2;
 
-if( H2 == NULL )
+if(H2 == NULL)
 
 return H1;
 
-if( H1->element < H2->element )
+if(H1->element < H2->element)
 
-return merge1( H1, H2 );
+return merge1(H1, H2);
 
 else
 
-return merge1( H2, H1 );
+return merge1(H2, H1);
 
 }
 ```
@@ -626,11 +626,11 @@ return merge1( H2, H1 );
 
 PRIORITY_QUEUE
 
-merge1( PRIORITY_QUEUE H1, PRIORITY_QUEUE H2 )
+merge1(PRIORITY_QUEUE H1, PRIORITY_QUEUE H2)
 
 {
 
-if( H1->left == NULL ) /* single node */
+if(H1->left == NULL) /* single node */
 
 H1->left = H2; /* H1->right is already NULL,
 
@@ -640,11 +640,11 @@ else
 
 {
 
-H1->right = merge( H1->right, H2 );
+H1->right = merge(H1->right, H2);
 
-if( H1->left->npl < H1->right->npl )
+if(H1->left->npl < H1->right->npl)
 
-swap_children( H1 );
+swap_children(H1);
 
 H1->npl = H1->right->npl + 1;
 
@@ -671,15 +671,15 @@ Finally, we can build a leftist heap in O(n) time by building a binary heap (obv
 
 PRIORITY_QUEUE
 
-insert1( element_type x, PRIORITY_QUEUE H )
+insert1(element_type x, PRIORITY_QUEUE H)
 
 {
 
 tree_ptr single_node;
 
-single_node = (tree_ptr) malloc( sizeof (struct tree_node) );
+single_node = (tree_ptr) malloc(sizeof (struct tree_node));
 
-if( single_node == NULL )
+if(single_node == NULL)
 
 fatal_error("Out of space!!!");
 
@@ -691,7 +691,7 @@ single_node->element = x; single_node->npl = 0;
 
 single_node->left = single_node->right = NULL;
 
-H = merge( single_node, H );
+H = merge(single_node, H);
 
 }
 
@@ -712,7 +712,7 @@ return H;
 ```js
 PRIORITY_QUEUE
 
-delete_min1( PRIORITY_QUEUE H )
+delete_min1(PRIORITY_QUEUE H)
 
 {
 
@@ -722,16 +722,16 @@ left_heap = H->left;
 
 right_heap = H->right;
 
-free( H );
+free(H);
 
-return merge( left_heap, right_heap );
+return merge(left_heap, right_heap);
 
 }
 ```
 
 **Figure 6.30 Delete_min routine for leftist heaps**
 
-## 6.7. Skew Heaps
+## Skew Heaps
 
 A skew heap is a self-adjusting version of a leftist heap that is incredibly simple to implement. The relationship of skew heaps to leftist heaps is analogous to the relation between splay trees and AVL trees. Skew heaps are binary trees with heap order, but there is no structural constraint on these trees. Unlike leftist heaps, no information is maintained about the null path length of any node. The right path of a skew heap can be arbitrarily long at any time, so the worst-case running time of all operations is O(n). However, as with splay trees, it can be shown (see Chapter 11) that for any m consecutive operations, the total worst-case running time is O(m log n). Thus, skew heaps have O(log n) amortized cost per operation.
 
@@ -758,13 +758,13 @@ We can perform all operations nonrecursively, as with leftist heaps, by merging 
 
 The implementation of skew heaps is left as a (trivial) exercise. Skew heaps have the advantage that no extra space is required to maintain path lengths and no tests are required to determine when to swap children. It is an open problem to determine precisely the expected right path length of both leftist and skew heaps (the latter is undoubtedly more difficult). Such a comparison would make it easier to determine whether the slight loss of balance information is compensated by the lack of testing.
 
-## 6.8. Binomial Queues
+## Binomial Queues
 
 Although both leftist and skew heaps support merging, insertion, and delete_min all effectively in O(log n) time per operation, there is room for improvement because we know that binary heaps support insertion in constant average time per operation. Binomial queues support all three operations in O(log n) worst-case time per operation, but insertions take constant time on average.
 ```
 < P>
 ```
-### 6.8.1. Binomial Queue Structure
+### Binomial Queue Structure
 
 Binomial queues differ from all the priority queue implementations that we have seen in that a binomial queue is not a heap-ordered tree but rather a collection of heap-ordered trees, known as a forest. Each of the heap-ordered trees are of a constrained form known as a binomial tree (the name will be obvious later). There is at most one binomial tree of every height. A binomial tree of height 0 is a one-node tree; a binomial tree, Bk, of height k is formed by attaching a binomial tree, Bk-1, to the root of another binomial tree, Bk-1. Figure 6.34 shows binomial trees
 
@@ -782,7 +782,7 @@ As an example, a priority queue of six elements could be represented as in Figur
 
 **Figure 6.35 Binomial queue H1 with six elements**
 
-### 6.8.2. Binomial Queue Operations
+### Binomial Queue Operations
 
 The minimum element can then be found by scanning the roots of all the trees. Since there are at most log n different trees, the minimum can be found in O(log n) time. Alternatively, we can maintain knowledge of the minimum and perform the operation in O(1) time, if we remember to update the minimum when it changes during other operations.
 
@@ -816,7 +816,7 @@ Figure 6.46. The minimum root is 12, so we obtain the two priority queues H' and
 
 For the analysis, note first that the delete_min operation breaks the original binomial queue into two. It takes O (log n) time to find the tree containing the minimum element and to create the queues H' and H''. Merging these two queues takes O (log n) time, so the entire delete_min operation takes O (log n) time.
 
-### 6.8.3. Implementation of Binomial Queues
+### Implementation of Binomial Queues
 
 The delete_min operation requires the ability to find all the subtrees of the root quickly, so the standard representation of general trees is required: The children of each node are kept in a linked list, and each node has a pointer to its first child (if any). This operation also requires that the children be ordered by the size of their subtrees, in essentially the same way as we have been drawing them. The reason for this is that when a delete_min is performed, the children will form the binomial queue H''.
 
@@ -908,15 +908,15 @@ and merge this result with H'. This strategy is implemented in Figure 6.55. The 
 
 tree_ptr
 
-merge_tree( tree_ptr T1, tree_ptr T2 )
+merge_tree(tree_ptr T1, tree_ptr T2)
 
 {
 
-if( T1->element > T2->element )
+if(T1->element > T2->element)
 
-return merge_tree( T2, T1 );
+return merge_tree(T2, T1);
 
-if( T1->rank++ == 0 )
+if(T1->rank++ == 0)
 
 T1->f_child = T2;
 
@@ -954,7 +954,7 @@ We have also seen several uses of priority queues, ranging from operating system
 ```js
 PRIORITY_QUEUE
 
-merge( PRIORITY_QUEUE H1, PRIORITY_QUEUE H2 )
+merge(PRIORITY_QUEUE H1, PRIORITY_QUEUE H2)
 
 {
 
@@ -966,21 +966,21 @@ PRIORITY_QUEUE H3;
 
 tree_ptr T1, T2, T3;
 
-if( H1 == NULL )
+if(H1 == NULL)
 
 return H2;
 
-if( H2 == NULL )
+if(H2 == NULL)
 
 return H1;
 
-if( H1->rank < H2->rank )
+if(H1->rank < H2->rank)
 
 {
 
-T1 = extract( H1 ); /* extract is a macro */
+T1 = extract(H1); /* extract is a macro */
 
-H3 = merge( H1, H2 );
+H3 = merge(H1, H2);
 
 T1->l_sib = H3->l_sib;
 
@@ -992,19 +992,19 @@ return T1;
 
 {
 
-if( H2->rank < H1->rank )
+if(H2->rank < H1->rank)
 
-return merge( H2, H1 );
+return merge(H2, H1);
 
 /* Otherwise, first two trees have same rank */
 
-T1 = extract( H1 ); T2 = extract( H2 );
+T1 = extract(H1); T2 = extract(H2);
 
-H3 = merge( H1, H2 );
+H3 = merge(H1, H2);
 
-T3 = merge_tree( T1, T2 );
+T3 = merge_tree(T1, T2);
 
-return merge( T3, H3 );
+return merge(T3, H3);
 
 }
 ```
@@ -1150,7 +1150,7 @@ c. Place the weight in the most filled box that can accept it without overflowin
 
 d. Are any of these strategies enhanced by presorting the items by weight?
 
-6.35 Suppose we want to add the decrease_all_keys( ) operation to the heap repertoire. The result of this operation is that all keys in the heap have their value decreased by an amount. For the heap implementation of your choice, explain the necessary modifications so that all other operations retain their running times and decrease_all_keys runs in O(1).
+6.35 Suppose we want to add the decrease_all_keys() operation to the heap repertoire. The result of this operation is that all keys in the heap have their value decreased by an amount. For the heap implementation of your choice, explain the necessary modifications so that all other operations retain their running times and decrease_all_keys runs in O(1).
 
 6.36 Which of the two selection algorithms has the better time bound?
 

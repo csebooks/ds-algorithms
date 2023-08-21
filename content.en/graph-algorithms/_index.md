@@ -1,11 +1,8 @@
 ---
-title: 'CHAPTER 9  GRAPH ALGORITHMS'
+title: 'GRAPH ALGORITHMS'
 weight: 9
 ---
-
-  
-
-# CHAPTER 9: 
+ 
 # GRAPH ALGORITHMS
 
 In this chapter we discuss several common problems in graph theory. Not only are these algorithms useful in practice, they are interesting because in many real- life applications they are too slow unless careful attention is paid to the choice of data structures. We will 
@@ -17,7 +14,7 @@ In this chapter we discuss several common problems in graph theory. Not only are
 
 - See an important technique, known as depth-first search, and show how it can be used to solve several seemingly nontrivial problems in linear time.
 
-## 9.1 Definitions
+## Definitions
 
 A graph G = (V, E) consists of a set of vertices, V, and a set of edges, E. Each edge is a pair (v,w), where v,w V. Edges are sometimes referred to as arcs. If the pair is ordered, then the graph is directed. Directed graphs are sometimes referred to as digraphs. Vertex w is adjacent to v if and only if (v,w) E. In an undirected graph with edge (v,w), and hence (w,v), w is adjacent to v and v is adjacent to w. Sometimes an edge has a third component, known as either a weight or a cost.
 
@@ -33,7 +30,7 @@ Traffic flow can be modeled by a graph. Each street intersection represents a ve
 
 In the remainder of this chapter, we will see several more applications of graphs. Many of these graphs can be quite large, so it is important that the algorithms we use be efficient.
 
-### 9.1.1. Representation of Graphs
+### Representation of Graphs
 
 We will consider directed graphs (undirected graphs are similarly represented).
 
@@ -55,7 +52,7 @@ With this transformation, all the graph algorithms will use only the internal nu
 
 The code that we present in this chapter will be pseudocode using ADTS as much as possible. We will do this to save space and, of course, to make the algorithmic presentation of the algorithms much clearer.
 
-## 9.2. Topological Sort
+## Topological Sort
 
 A topological sort is an ordering of vertices in a directed acyclic graph, such that if there is a path from v~i~ to v~j~, then v~j~ appears after v~i~ in the ordering.
 
@@ -75,14 +72,14 @@ The function find_new_vertex_of_indegree_zero scans the indegree array looking f
 
 ```js
 void
-topsort( graph G )
+topsort(graph G)
 {
 unsigned int counter;
 vertex v, w;
-for( counter = 0; counter < NUM_VERTEX; counter++ )
+for(counter = 0; counter < NUM_VERTEX; counter++)
 {
-v = find_new_vertex_of_indegree_zero( );
-if( v = NOT_A_VERTEX )
+v = find_new_vertex_of_indegree_zero();
+if(v = NOT_A_VERTEX)
 {
 error("Graph has a cycle");
 break;
@@ -137,7 +134,7 @@ Figure 9.6 Result of applying topological sort to the graph in Figure 9.4
 ```js
 void
 
-topsort( graph G )
+topsort(graph G)
 
 {
 
@@ -147,35 +144,35 @@ unsigned int counter;
 
 vertex v, w;
  
-Q = create_queue( NUM_VERTEX ); make_null( Q ); counter = 0;
+Q = create_queue(NUM_VERTEX); make_null(Q); counter = 0;
 
 for each vertex v
 
-if( indegree[v] = 0 )
+if(indegree[v] = 0)
 
-enqueue( v, Q );
+enqueue(v, Q);
 
-while( !is_empty( Q ) )
+while(!is_empty(Q))
 
 {
 
-v = dequeue( Q );
+v = dequeue(Q);
 
 top_num[v] = ++counter; * assign next number *
 
 for each w adjacent to v
 
-if( --indegree[w] = 0 )
+if(--indegree[w] = 0)
 
-enqueue( w, Q );
+enqueue(w, Q);
 
 }
 
-if( counter != NUM_VERTEX )
+if(counter != NUM_VERTEX)
 
 error("Graph has a cycle");
 
-dispose_queue( Q ); * free the memory *
+dispose_queue(Q); * free the memory *
 
 }
 ```
@@ -183,7 +180,7 @@ dispose_queue( Q ); * free the memory *
 
 The time to perform this algorithm is O(|E| + |V|) if adjacency lists are used. This is apparent when one realizes that the body of the for loop at line 8 is executed at most once per edge. The queue operations are done at most once per vertex, and the initialization steps also take time proportional to the size of the graph.
 
-## 9.3. Shortest-Path Algorithms
+## Shortest-Path Algorithms
 
 In this section we examine various shortest-path problems. The input is a weighted graph: associated with each edge (v~i~, v~j~) is a cost c~i,j~ to traverse the arc. The cost of a path v~1~v~2~ ... v~n~ is This is referred to as the weighted path length. The unweighted path length is merely the number of edges on the path, namely, n - 1.
 
@@ -215,7 +212,7 @@ If the graph has negative edges, we will provide a simple solution, which unfort
 
 poor time bound of O (|E| |V|). Finally, we will solve the weighted problem for the special case of acyclic graphs in linear time.
 
-### 9.3.1. Unweighted Shortest Paths
+### Unweighted Shortest Paths
 
 Figure 9.10 shows an unweighted graph, G. Using some vertex, s, which is an input parameter, we would like to find the shortest path from s to all other vertices. We are only interested in the number of edges contained on the path, so there are no weights on the edges. This is clearly a special case of the weighted shortest-path problem, since we could assign all edges a weight of 1.
 
@@ -280,7 +277,7 @@ The running time of the algorithm is O(|V|2), because of the doubly nested for l
 ```js
 void
 
-unweighted( TABLE T ) * assume T is initialized *
+unweighted(TABLE T) * assume T is initialized *
 
 {
 
@@ -288,11 +285,11 @@ unsigned int curr_dist;
 
 vertex v, w;
 
-for( curr_dist = 0; curr_dist < NUM_VERTEX; curr_dist++)
+for(curr_dist = 0; curr_dist < NUM_VERTEX; curr_dist++)
 
 for each vertex v
 
-if( ( !T[v].known ) && ( T[v].dist = curr_dist ) )
+if((!T[v].known) && (T[v].dist = curr_dist))
 
 {
 
@@ -300,7 +297,7 @@ T[v].known = TRUE;
 
 for each w adjacent to v
 
-if( T[w].dist = INT_MAX )
+if(T[w].dist = INT_MAX)
 
 {
 
@@ -330,7 +327,7 @@ Figure 9.18. In the pseudocode, we have assumed that the start vertex, s, is kno
 
 Using the same analysis as was performed for topological sort, we see that the running time is O (|E| + |V|), as long as adjacency lists are used.
 
-### 9.3.2. Dijkstra's Algorithm
+### Dijkstra's Algorithm
 
 If the graph is weighted, the problem (apparently) becomes harder, but we can still use the ideas from the unweighted case.
 
@@ -338,7 +335,7 @@ We keep all of the same information as before. Thus, each vertex is marked as ei
 ```js
 void
 
-unweighted( TABLE T ) * assume T is initialized (Fig 9.30) *
+unweighted(TABLE T) * assume T is initialized (Fig 9.30) *
 
 {
 
@@ -346,23 +343,23 @@ QUEUE Q;
 
 vertex v, w;
 
-Q = create_queue( NUM_VERTEX ); make_null( Q );
+Q = create_queue(NUM_VERTEX); make_null(Q);
 
 * enqueue the start vertex s, determined elsewhere *
 
-enqueue( s, Q );
+enqueue(s, Q);
 
-while( !is empty( Q ) )
+while(!is empty(Q))
 
 {
 
-v = dequeue( Q );
+v = dequeue(Q);
 
 T[v].known = TRUE; * not really needed anymore *
 
 for each w adjacent to v
 
-if( T[w].dist = INT_MAX )
+if(T[w].dist = INT_MAX)
 
 {
 
@@ -370,13 +367,13 @@ T[w].dist = T[v].dist + 1;
 
 T[w].path = v;
 
-enqueue( w, Q );
+enqueue(w, Q);
 
 }
 
 }
 
-dispose_queue( Q ); * free the memory *
+dispose_queue(Q); * free the memory *
 
 }
 ```
@@ -645,15 +642,15 @@ typedef struct table_entry TABLE[NUM_VERTEX+1];
 ```js
 void
 
-init_table( vertex start, graph G, TABLE T )
+init_table(vertex start, graph G, TABLE T)
 
 {
 
 int i;
 
-read graph( G, T ); /* read graph somehow */
+read graph(G, T); /* read graph somehow */
 
-for( i=NUM_VERTEX; i>0; i-- )
+for(i=NUM_VERTEX; i>0; i--)
 
 {
 
@@ -677,21 +674,21 @@ T[start].dist = 0;
 ```js
 void
 
-print_path( vertex v, TABLE T )
+print_path(vertex v, TABLE T)
 
 {
 
-if( T[v].path != NOT_A_VERTEX )
+if(T[v].path != NOT_A_VERTEX)
 
 {
 
-print_path( T[v].path, T );
+print_path(T[v].path, T);
 
 printf(" to ");
 
 }
 
-printf("%v", v ); /* %v is a pseudocode option for printf */
+printf("%v", v); /* %v is a pseudocode option for printf */
 
 }
 ```
@@ -713,13 +710,13 @@ The alternate method is to insert w and the new value dw into the priority queue
 ```js
 void
 
-dijkstra( TABLE T )
+dijkstra(TABLE T)
 
 {
 
 vertex v, w;
 
-for( ; ; )
+for(; ;)
 
 {
 
@@ -731,15 +728,15 @@ T[v].known = TRUE;
 
 for each w adjacent to v
 
-if( !T[w].known )
+if(!T[w].known)
 
-if( T[v].dist + cv,w < T[w].dist )
+if(T[v].dist + cv,w < T[w].dist)
 
 { /* update w */
 
-decrease( T[w].dist to
+decrease(T[w].dist to
 
-T[v].dist + cv,w );
+T[v].dist + cv,w);
 
 T[w].path = v;
 
@@ -758,7 +755,7 @@ There are better time bounds possible using Dijkstra's algorithm if different da
 ```js
 void /* assume T is initialized as in Fig 9.18 */
 
-weighted_negative( TABLE T )
+weighted_negative(TABLE T)
 
 {
 
@@ -766,19 +763,19 @@ QUEUE Q;
 
 vertex v, w;
 
-Q = create_queue( NUM_VERTEX ); make_null( Q );
+Q = create_queue(NUM_VERTEX); make_null(Q);
 
-enqueue( s, Q ); /* enqueue the start vertex s */
+enqueue(s, Q); /* enqueue the start vertex s */
 
-while( !is_empty( Q ) )
+while(!is_empty(Q))
 
 {
 
-v = dequeue( Q );
+v = dequeue(Q);
 
 for each w adjacent to v
 
-if( T[v].dist + cv,w < T[w].dist )
+if(T[v].dist + cv,w < T[w].dist)
 
 { /*update w */
 
@@ -786,22 +783,22 @@ T[w].dist = T[v].dist + cv,w ;
 
 T[w].path = v;
 
-if( w is not already in Q )
+if(w is not already in Q)
 
-enqueue( w, Q );
-
-}
+enqueue(w, Q);
 
 }
 
-dispose_queue( Q );
+}
+
+dispose_queue(Q);
 
 }
 ```
 
 Figure 9.33 Pseudocode for weighted shortest-path algorithm with negative edge costs
 
-### 9.3.3. Graphs with Negative Edge Costs
+### Graphs with Negative Edge Costs
 
 If the graph has negative edge costs, then Dijkstra's algorithm does not work. The problem is that once a vertex u is declared known, it is possible that from some other, unknown vertex v there is a path back to u that is very negative. In such a case, taking a path from s to v back to u is better than going from s to u without using v.
 
@@ -811,7 +808,7 @@ Figure 9.33 (almost) implements this algorithm.
 
 Although the algorithm works if there are no negative-cost cycles, it is no longer true that the code in lines 6 through 10 is executed once per edge. Each vertex can dequeue at most |V| times, so the running time is O(|E| |V|) if adjacency lists are used (Exercise 9.7b). This is quite an increase from Dijkstra's algorithm, so it is fortunate that, in practice, edge costs are nonnegative. If negative-cost cycles are present, then the algorithm as written will loop indefinitely. By stopping the algorithm after any vertex has dequeued |V| + 1 times, we can guarantee termination.
 
-### 9.3.4. Acyclic Graphs
+### Acyclic Graphs
 
 If the graph is known to be acyclic, we can improve Dijkstra's algorithm by changing the order in which vertices are declared known, otherwise known as the vertex selection rule. The new rule is to select vertices in topological order. The algorithm can be done in one pass, since the selections and updates can take place as the topological sort is being performed.
 
@@ -857,13 +854,13 @@ Figure 9.38 shows the slack (as the third entry) for each activity in the event-
 
 Some activities have zero slack. These are critical activities, which must finish on schedule. There is at least one path consisting entirely of zero-slack edges; such a path is a critical path.
 
-### 9.3.5. All-Pairs Shortest Path
+### All-Pairs Shortest Path
 
 Sometimes it is important to find the shortest paths between all pairs of vertices in the graph. Although we could just run the appropriate single-source algorithm |V| times, we might expect a somewhat faster solution, especially on a dense graph, if we compute all the information at once.
 
 In Chapter 10, we will see an O(|V|~3~) algorithm to solve this problem for weighted graphs. Although, for dense graphs, this is the same bound as running a simple (non-priority queue) Dijkstra's algorithm |V| times, the loops are so tight that the specialized all-pairs algorithm is likely to be faster in practice. On sparse graphs, of course, it is faster to run |V| Dijkstra's algorithms coded with priority queues.
 
-## 9.4. Network Flow Problems
+## Network Flow Problems
 
 Suppose we are given a directed graph G = (V, E) with edge capacities c~v,w~. These capacities could represent the amount of water that could flow through a pipe or the amount of traffic that could flow on a street between two intersections. We have two vertices: s, which we call the source, and t, which is the sink. Through any edge, (v, w), at most c~v,w~ units of "flow" may pass. At any vertex, v, that is not either s or t, the total flow coming in must equal the total flow going out. The maximum flow problem is to determine the maximum amount of flow that can pass from s to t. As an example, for the graph in Figure 9.39 on the left the maximum flow is 5, as indicated by the graph on the right.
 
@@ -871,7 +868,7 @@ Suppose we are given a directed graph G = (V, E) with edge capacities c~v,w~. Th
 
 As required by the problem statement, no edge carries more flow than its capacity. Vertex a has three units of flow coming in, which it distributes to c and d. Vertex d takes three units of flow from a and b and combines this, sending the result to t. A vertex can combine and distribute flow in any manner that it likes, as long as edge capacities are not violated and as long as flow conservation is maintained (what goes in must come out).
 
-### 9.4.1. A Simple Maximum-Flow Algorithm
+### A Simple Maximum-Flow Algorithm
 
 A first attempt to solve the problem proceeds in stages. We start with our graph, G, and construct a flow graph Gf. Gf tells the flow that has been attained at any stage in the algorithm. Initially all edges in Gf have no flow, and we hope that when the algorithm terminates, Gf contains a maximum flow. We also construct a graph, Gr, called the residual graph. Gr tells, for each edge, how much more flow can be added. We can calculate this by subtracting the current flow from the capacity for each edge. An edge in Gr is known as a residual edge.
 
@@ -928,7 +925,7 @@ Further data structure improvements are possible to this algorithm, and there ar
 
 The analyses required to produce these bounds are rather intricate, and it is not clear how the worst-case results relate to the running times encountered in practice. A related, even more difficult problem is the min-cost flow problem. Each edge has not only a capacity but a cost per unit of flow. The problem is to find, among all maximum flows, the one flow of minimum cost. Both of these problems are being actively researched.
 
-## 9.5. Minimum Spanning Tree
+## Minimum Spanning Tree
 
 The next problem we will consider is that of finding a minimum spanning tree in an undirected graph. The problem makes sense for directed graphs but appears to be more difficult. Informally, a minimum spanning tree of an undirected graph G is a tree formed from graph edges that connects all the vertices of G at lowest total cost. A minimum spanning tree exists if and only if G is connected. Although a robust algorithm should report the case that G is unconnected, we will assume that G is connected, and leave the issue of robustness as an exercise for the reader.
 
@@ -940,7 +937,7 @@ In Figure 9.48 the second graph is a minimum spanning tree of the first (it happ
 
 **9.5.2. Kruskal's Algorithm**
 
-### 9.5.1. Prim's Algorithm
+### Prim's Algorithm
 
 One way to compute a minimum spanning tree is to grow the tree in successive stages. In each stage, one node is picked as the root, and we add an edge, and thus an associated vertex, to the tree.
 
@@ -958,7 +955,7 @@ The final table is shown in Figure 9.55. The edges in the spanning tree can be r
 
 The entire implementation of this algorithm is virtually identical to that of Dijkstra's algorithm, and everything that was said about the analysis of Dijkstra's algorithm applies here. Be aware that Prim's algorithm runs on undirected graphs, so when coding it, remember to put every edge in two adjacency lists. The running time is O (|V|^2^) without heaps, which is optimal for dense graphs, and O (|E| log |V|) using binary heaps, which is good for sparse graphs.
 
-### 9.5.2. Kruskal's Algorithm 
+### Kruskal's Algorithm 
 
 A second greedy strategy is continually to select the edges in order of smallest weight and accept an edge if it does not cause a cycle. The action of the algorithm on the graph in the preceding example is shown in Figure 9.56.
 
@@ -1122,7 +1119,7 @@ The worst-case running time of this algorithm is O(|E| log |E|), which is domina
 ```js
 void
 
-kruskal( graph G )
+kruskal(graph G)
 
 {
 
@@ -1138,25 +1135,25 @@ set_type u_set, v_set;
 
 edge e;
 
-initialize( S );
+initialize(S);
 
-read_graph_into_heap_array( G, H );
+read_graph_into_heap_array(G, H);
 
-build_heap( H );
+build_heap(H);
 
 edges_accepted = 0;
 
-while( edges_accepted < NUM_VERTEX-1 )
+while(edges_accepted < NUM_VERTEX-1)
 
 {
 
-e = delete_min( H ); /* e = (u, v) */
+e = delete_min(H); /* e = (u, v) */
 
-u_set = find( u, S );
+u_set = find(u, S);
 
-v_set = find( v, S );
+v_set = find(v, S);
 
-if( u_set != v_set )
+if(u_set != v_set)
 
 {
 
@@ -1164,7 +1161,7 @@ if( u_set != v_set )
 
 edges_accepted++;
 
-set_union( S, u_set, v_set );
+set_union(S, u_set, v_set);
 
 }
 
@@ -1174,13 +1171,13 @@ set_union( S, u_set, v_set );
 ```
 **Figure 9.58 Pseudocode for Kruskal's algorithm**
 
-## 9.6. Applications of Depth-First Search
+## Applications of Depth-First Search
 
 Depth-first search is a generalization of preorder traversal. Starting at some vertex, v, we process v and then recursively traverse all vertices adjacent to v. If this process is performed on a tree, then all tree vertices are systematically visited in a total of O(|E|) time, since |E|= (|V|). If we perform this process on an arbitrary graph, we need to be careful to avoid cycles. To do this, when we visit a vertex v, we mark it visited, since now we have been there, and recursively call depth-first search on all adjacent vertices that are not already marked. We implicitly assume that for undirected graphs every edge (v, w) appears twice in the adjacency lists: once as (v, w) and once as (w, v). The procedure in Figure 9.59 performs a depth-first search (and does absolutely nothing else) and is a template for the general style.
 ```js
 void
 
-dfs( vertex v )
+dfs(vertex v)
 
 {
 
@@ -1188,9 +1185,9 @@ visited[v] = TRUE;
 
 for each w adjacent to v
 
-if( !visited[w] )
+if(!visited[w])
 
-dfs( w );
+dfs(w);
 
 }
 ```
@@ -1203,7 +1200,7 @@ The (global) boolean array visited[ ] is initialized to FALSE. By recursively ca
 
 where v~k - 1~ is the vertex where the last depth-first search was started. This guarantees that throughout the algorithm, only O(|V|) is spent looking for vertices where new depth-first search trees can be started.
 
-### 9.6.1 Undirected Graphs
+### Undirected Graphs
 
 An undirected graph is connected if and only if a depth-first search starting from any node visits every node. Because this test is so easy to apply, we will assume that the graphs we deal with are connected. If they are not, then we can find all the connected components and apply our algorithm on each of these in turn.
 
@@ -1217,7 +1214,7 @@ Figure 9.60 is shown in Figure 9.61.
 
 The tree will simulate the traversal we performed. A preorder numbering of the tree, using only tree edges, tells us the order in which the vertices were marked. If the graph is not connected, then processing all nodes (and edges) requires several calls to dfs, and each generates a tree. This entire collection is a depth-first spanning forest, which is so named for obvious reasons.
 
-### 9.6.2. Biconnectivity
+### Biconnectivity
 
 A connected undirected graph is biconnected if there are no vertices whose removal disconnects the rest of the graph. The graph in the example above is biconnected. If the nodes are computers and the edges are links, then if any computer goes down, network mail is unaffected, except, of course, at the down computer. Similarly, if a mass transit system is biconnected, users always have an alternate route should some terminal be disrupted.
 
@@ -1255,7 +1252,7 @@ The second and third passes, which are postorder traversals, can be implemented 
 
 There is no rule that a traversal must be either preorder or postorder. It is possible to do processing both before and after the recursive calls. The procedure in Figure 9.67 combines the two routines assign_num and assign_low in a straightforward manner to produce the procedure find_art.
 
-### 9.6.3. Euler Circuits
+### Euler Circuits
 
 Consider the three figures in Figure 9.68. A popular puzzle is to reconstruct these figures using a pen, drawing each line exactly once. The pen may not be lifted from the paper while the drawing is being performed. As an extra challenge, make the pen finish at the same point at which it started. This puzzle has a surprisingly simple solution. Stop reading if you would like to try to solve it.
 
@@ -1265,7 +1262,7 @@ Consider the three figures in Figure 9.68. A popular puzzle is to reconstruct th
 /* assign num and compute parents */
 void
 
-assign_num( vertex v )
+assign_num(vertex v)
 
 {
 
@@ -1276,13 +1273,13 @@ visited[v] = TRUE;
 
 for each w adjacent to v
 
-if( !visited[w] )
+if(!visited[w])
 
 {
 
 parent[w] = v;
 
-assign_num( w );
+assign_num(w);
 
 }
 
@@ -1294,7 +1291,7 @@ assign_num( w );
 ```js
 void
 
-assign_low( vertex v )
+assign_low(vertex v)
 
 {
 
@@ -1306,25 +1303,25 @@ for each w adjacent to v
 
 {
 
-if( num[w] > num[v] ) /* forward edge */
+if(num[w] > num[v]) /* forward edge */
 
 {
 
-assign_low( w );
+assign_low(w);
 
-if( low[w] >= num[v] )
+if(low[w] >= num[v])
 
-printf( "%v is an articulation pointn", v );
+printf("%v is an articulation pointn", v);
 
-low[v] = min( low[v], low[w] ); /* Rule 3 */
+low[v] = min(low[v], low[w]); /* Rule 3 */
 
 }
 
 else
 
-if( parent[v] != w ) /* back edge */
+if(parent[v] != w) /* back edge */
 
-low[v] = min( low[v], num[w] ); /* Rule 2 */
+low[v] = min(low[v], num[w]); /* Rule 2 */
 
 }
 
@@ -1334,7 +1331,7 @@ low[v] = min( low[v], num[w] ); /* Rule 2 */
 ```js
 void
 
-find_art( vertex v )
+find_art(vertex v)
 
 {
 
@@ -1348,27 +1345,27 @@ for each w adjacent to v
 
 {
 
-if( !visited[w] ) /* forward edge */
+if(!visited[w]) /* forward edge */
 
 {
 
 parent[w] = v;
 
-find_art( w );
+find_art(w);
 
-if( low[w] >= num[v] )
+if(low[w] >= num[v])
 
-printf ( "%v is an articulation pointn", v );
+printf ("%v is an articulation pointn", v);
 
-low[v] = min( low[v], low[w] ); /* Rule */
+low[v] = min(low[v], low[w]); /* Rule */
 
 }
 
 else
 
-if( parent[v] != w ) /* back edge */
+if(parent[v] != w) /* back edge */
 
-low[v] = min( low[v], num[w] ); /* Rule 2 */
+low[v] = min(low[v], num[w]); /* Rule 2 */
 
 }
 
@@ -1414,7 +1411,7 @@ To make this algorithm efficient, we must use appropriate data structures. We wi
 
 A very similar problem is to find a simple cycle, in an undirected graph, that visits every vertex. This is known as the Hamiltonian cycle problem. Although it seems almost identical to the Euler circuit problem, no efficient algorithm for it is known. We shall see this problem again in Section 9.7.
 
-### 9.6.4. Directed Graphs
+### Directed Graphs
 
 Using the same strategy as with undirected graphs, directed graphs can be traversed in linear time, using depth-first search. If the graph is not strongly connected, a depth-first search starting at some node might not visit all nodes. In this case we repeatedly perform depth-first searches, starting at some unmarked node, until all vertices have been visited. As an example, consider the directed graph in Figure 9.74.
 
@@ -1432,7 +1429,7 @@ Some algorithms that use depth-first search need to distinguish between the thre
 
 One use of depth-first search is to test whether or not a directed graph is acyclic. The rule is that a directed graph is acyclic if and only if it has no back edges. (The graph above has back edges, and thus is not acyclic.) The alert reader may remember that a topological sort can also be used to determine whether a graph is acyclic. Another way to perform topological sorting is to assign the vertices topological numbers n, n - 1, . . . ,1 by postorder traversal of the depth- first spanning forest. As long as the graph is acyclic, this ordering will be consistent.
 
-### 9.6.5. Finding Strong Components
+### Finding Strong Components
 
 By performing two depth-first searches, we can test whether a directed graph is strongly connected, and if it is not, we can actually produce the subsets of vertices that are strongly connected to themselves. This can also be done in only one depth-first search, but the method used here is much simpler to understand.
 
@@ -1452,7 +1449,7 @@ Since v is a descendant of x in Gr's depth-first spanning tree, there is a path 
 
 ![Alt text](figure-9.77.png)
   
-## 9.7. Introduction to NP-Completeness
+## Introduction to NP-Completeness
 
 In this chapter, we have seen solutions to a wide variety of graph theory problems. All these problems have polynomial running times, and with the exception of the network flow problem, the running time is either linear or only slightly more than linear (O(|E| log |E|)). We have also mentioned, in passing, that for some problems certain variations seem harder than the original.
 
@@ -1472,7 +1469,7 @@ We will see that there are a host of important problems that are roughly equival
 
 **9.7.3. NP-Complete Problems**
 
-### 9.7.1. Easy vs. Hard
+### Easy vs. Hard
 
 When classifying problems, the first step is to examine the boundaries. We have already seen that many problems can be solved in linear time. We have also seen some O(log n) running times, but these either assume some preprocessing (such as input already being read or a data structure already being built) or occur on arithmetic examples. For instance, the gcd algorithm, when applied on two numbers m and n, takes O(log n) time. Since the numbers consist of log m and log n bits respectively, the gcd algorithm is really taking time that is linear in the amount or size of input. Thus, when we measure running time, we will be concerned with the running time as a function of the amount of input. Generally, we cannot expect better than linear running time.
 
@@ -1488,7 +1485,7 @@ What happens when LOOP is given itself as input? Either LOOP halts, or it does n
 
 By our definition, LOOP(P) goes into an infinite loop if P(P) terminates. Suppose that when P = LOOP, P(P) terminates. Then, according to the LOOP program, LOOP(P) is obligated to go into an infinite loop. Thus, we must have LOOP(LOOP) terminating and entering an infinite loop, which is clearly not possible. On the other hand, suppose that when P = LOOP, P(P) enters an infinite loop. Then LOOP(P) must terminate, and we arrive at the same set of contradictions. Thus, we see that the program LOOP cannot possibly exist.
 
-### 9.7.2. The Class NP
+### The Class NP
 
 A few steps down from the horrors of undecidable problems lies the class NP. NP stands for nondeterministic polynomial-time. A deterministic machine, at each point in time, is executing an instruction. Depending on the instruction, it then goes to some next instruction, which is unique. A nondeterministic machine has a choice of next steps. It is free to choose any that it wishes, and if one of these steps leads to a solution, it will always choose the correct one. A nondeterministic machine thus has the power of extremely good (optimal) guessing. This probably seems like a ridiculous model, since nobody could possibly build a nondeterministic computer, and because it would seem to be an incredible upgrade to your standard computer (every problem might now seem trivial). We will see that nondeterminism is a very useful theoretical construct. Furthermore, nondeterminism is not as powerful as one might think. For instance, undecidable problems are still undecidable, even if nondeterminism is allowed.
 
@@ -1498,7 +1495,7 @@ The class NP includes all problems that have polynomial-time solutions, since ob
 
 Notice also that not all decidable problems are in NP. Consider the problem of determining whether a graph does not have a Hamiltonian cycle. To prove that a graph has a Hamiltonian cycle is a relatively simple matter-we just need to exhibit one. Nobody knows how to show, in polynomial time, that a graph does not have a Hamiltonian cycle. It seems that one must enumerate all the cycles and check them one by one. Thus the Non-Hamiltonian cycle problem is not known to be in NP.
 
-### 9.7.3. NP-Complete Problems
+### NP-Complete Problems
 
 Among all the problems known to be in NP, there is a subset, known as the NP-complete problems, which contains the hardest. An NP-complete problem has the property that any problem in NP can be polynomially reduced to it.
 
@@ -1544,7 +1541,7 @@ Exercises
 
 **9.3** Write a program to perform a topological sort on a graph.
 
-**9.4** An adjacency matrix requires O( V 2) merely to initialize using a standard double loop. Propose a method that stores a graph in an adjacency matrix (so that testing for the existence of an edge is O(1)) but avoids the quadratic running time.
+**9.4** An adjacency matrix requires O(V 2) merely to initialize using a standard double loop. Propose a method that stores a graph in an adjacency matrix (so that testing for the existence of an edge is O(1)) but avoids the quadratic running time.
 
 **9.5** 
 a. Find the shortest path from A to all other vertices for the graph in Figure 9.80.
@@ -1802,5 +1799,5 @@ Exercise 9.35 deals with planar graphs, which commonly arise in practice. Planar
 
 45. R. E. Tarjan, Data Structures and Network Algorithms, Society for Industrial and Applied Mathematics, Philadelphia, PA, 1983.
 
-46. A. C. Yao, "An O( |E | log log |V | ) Algorithm for Finding Minimum Spanning Trees," Information Processing Letters 4 (1975), 21-23.
+46. A. C. Yao, "An O(|E | log log |V |) Algorithm for Finding Minimum Spanning Trees," Information Processing Letters 4 (1975), 21-23.
 
