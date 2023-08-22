@@ -49,7 +49,6 @@ One way to implement a tree would be to have in each node, besides its data, a p
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
-
 {
 
 element_type element;
@@ -82,30 +81,22 @@ The root of this directory is /usr. (The asterisk next to the name indicates tha
 
 **Figure 4.5 UNIX directory**
 ```c
-void
-
-list_directory (Directory_or_file D)
-
+void list_directory (Directory_or_file D)
 {
 
 list_dir (D, 0);
 
 }
 
-void
-
-list_dir (Directory_or_file D, unsigned int depth)
-
+void list_dir (Directory_or_file D, unsigned int depth)
 {
 
 /*1*/ if (D is a legitimate entry)
-
 {
 
 /*2*/ print_name (depth, D);
 
 /*3*/ if(D is a directory)
-
 /*4*/ for each child, c, of D
 
 /*5*/ list_dir(c, depth+1);
@@ -137,21 +128,17 @@ Since the directories are themselves files, they have sizes too. Suppose we woul
 unsigned int
 
 size_directory(Directory_or_file D)
-
 {
 
 unsigned int total_size;
 
 /*1*/ total_size = 0;
 
-/*2*/ if(D is a legitimate entry)
-
-{
+/*2*/ if(D is a legitimate entry){
 
 /*3*/ total_size = file_size(D);
 
 /*4*/ if(D is a directory)
-
 /*5*/ for each child, c, of D
 
 /*6*/ total_size += size_directory(c);
@@ -247,7 +234,6 @@ Because a binary tree has at most two children, we can keep direct pointers to t
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
-
 {
 
 element_type element;tree_ptr left;
@@ -325,8 +311,7 @@ We now give brief descriptions of the operations that are usually performed on b
 ```c
 typedef struct tree_node *tree_ptr;
 
-struct tree_node
-{
+struct tree_node{
 
 element_type element;
 
@@ -351,7 +336,6 @@ This operation generally requires returning a pointer to the node in tree T that
 SEARCH_TREE
 
 make_null (void)
-
 {
 
 return NULL;
@@ -363,25 +347,19 @@ return NULL;
 tree_ptr
 
 find(element_type x, SEARCH_TREE T)
-
 {
 
 if(T == NULL)
-
 return NULL;
 
 if(x < T->element)
-
 return(find(x, T->left));
 
 else
-
 if(x > T->element)
-
 return(find(x, T->right));
 
 else
-
 return T;
 
 }
@@ -401,21 +379,16 @@ Notice how we carefully handle the degenerate case of an empty tree. Although th
 tree_ptr
 
 find_min(SEARCH_TREE T)
-
 {
 
 if(T == NULL)
-
 return NULL;
 
 else
-
 if(T->left == NULL)
-
 return(T);
 
 else
-
 return(find_min (T->left));
 
 }
@@ -425,11 +398,9 @@ return(find_min (T->left));
 tree_ptr
 
 find_max(SEARCH_TREE T)
-
 {
 
 if(T != NULL)
-
 while(T->right != NULL)
 
 T = T->right;
@@ -453,20 +424,15 @@ Figure 4.22 shows the code for the insertion routine. Since T points to the root
 tree_ptr
 
 insert(element_type x, SEARCH_TREE T)
-
 {
 
-/*1*/ if(T == NULL)
-
-{ /* Create and return a one-node tree */
+/*1*/ if(T == NULL){ /* Create and return a one-node tree */
 
 /*2*/ T = (SEARCH_TREE) malloc (sizeof (struct tree_node));
 
 /*3*/ if(T == NULL)/*4*/ fatal_error("Out of space!!!");
 
-else
-
-{
+else{
 
 /*5*/ T->element = x;
 
@@ -477,15 +443,11 @@ else
 }
 
 else
-
 /*7*/ if(x < T->element)
-
 /*8*/ T->left = insert(x, T->left);
 
 else
-
 /*9*/ if(x > T->element)
-
 /*10*/ T->right = insert(x, T->right);
 
 /* else x is in the tree already. We'll do nothing */
@@ -519,23 +481,19 @@ If the number of deletions is expected to be small, then a popular strategy to u
 tree_ptr
 
 delete(element_type x, SEARCH_TREE T)
-
 {
 
 tree_ptr tmp_cell, child;
 
 if(T == NULL)
-
 error("Element not found");
 
 else
-
 if(x < T->element) /* Go left */
 
 T->left = delete(x, T->left);
 
 else
-
 if(x > T->element) /* Go right */
 
 T->right = delete(x, T->right);
@@ -543,7 +501,6 @@ T->right = delete(x, T->right);
 else /* Found element to be deleted */
 
 if(T->left && T->right) /* Two children */
-
 { /* Replace with smallest in right subtree */
 
 tmp_cell = find_min(T->right);
@@ -728,7 +685,6 @@ With all this, we are ready to write the **AVL** routines. We will do only a par
 typedef struct avl_node *avl_ptr;
 
 struct avl_node
-
 {
 
 element_type element;
@@ -748,15 +704,12 @@ typedef avl_ptr SEARCH_TREE;
 int
 
 height(avl_ptr p)
-
 {
 
 if(p == NULL)
-
 return -1;
 
 else
-
 return p->height;
 
 }
@@ -780,7 +733,6 @@ If any particular operation is allowed to have an O(n) worst-case time bound, an
 SEARCH_TREE
 
 insert(element_type x, SEARCH_TREE T)
-
 {
 
 return insert1(x, T, NULL);
@@ -790,24 +742,18 @@ return insert1(x, T, NULL);
 SEARCH_TREE
 
 insert1(element_type x, SEARCH_TREE T, avl_ptr parent)
-
 {
 
 avl_ptr rotated_tree;
 
-if(T == NULL)
-
-{ /* Create and return a one-node tree */
+if(T == NULL){ /* Create and return a one-node tree */
 
 T = (SEARCH_TREE) malloc (sizeof (struct avl_node));
 
 if(T == NULL)
-
 fatal_error("Out of space!!!");
 
-else
-
-{T->element = x; T->height = 0;
+else{T->element = x; T->height = 0;
 
 T->left = T->right = NULL;
 
@@ -815,46 +761,35 @@ T->left = T->right = NULL;
 
 }
 
-else
+else{
 
-{
-
-if(x < T->element)
-
-{
+if(x < T->element){
 
 T->left = insert1(x, T->left, T);
 
 if(height(T->left) - height(T->right)) == 2
-
 {
 
 if(x < T->left->element)
-
 rotated_tree = s_rotate_left(T);
 
 else
-
 rotated_tree = d_rotate_left(T);
 
 if(parent->left == T)
-
 parent->left = rotated_tree;
 
 else
-
 parent->right = rotated_tree;
 
 }
 
 else
-
 T->height = max(height(T->left), height(T->right)) + 1;
 
 }
 
 else
-
 /* Symmetric Case for right subtree */;
 
 /* Else x is in the tree already. We'll do nothing */
@@ -882,7 +817,6 @@ return T;
 avl_ptr
 
 s_rotate_left(avl_ptr k2)
-
 {
 
 avl_ptr k1;
@@ -916,7 +850,6 @@ return k1; /* New root */
 avl_ptr
 
 d_rotate_left(avl_ptr k3)
-
 {
 
 /* rotate between k1 and k2 */
@@ -1041,7 +974,6 @@ Zig-zigs and Zig-zags are similar. We will write the one routine to perform the 
 typedef struct splay_node *splay_ptr;
 
 struct splay_node
-
 {
 
 element_type element;
@@ -1058,10 +990,7 @@ typedef splay_ptr SEARCH_TREE;
 ```
 **Figure 4.54 Type declarations for splay trees**
 ```c
-void
-
-splay(splay_ptr current)
-
+void splay(splay_ptr current)
 {
 
 splay_ptr father;
@@ -1069,13 +998,10 @@ splay_ptr father;
 father = current->parent;
 
 while(father != NULL)
-
 {
 
 if(father->parent == NULL)
-
 single_rotate (current);else
-
 double_rotate(current);
 
 father = current->parent;
@@ -1086,28 +1012,20 @@ father = current->parent;
 ```
 **Figure 4.55 Basic splay routine**
 ```c
-void
-
-single_rotate(splay_ptr x)
-
+void single_rotate(splay_ptr x)
 {
 
 if(x->parent->left == x)
-
 zig_left(x);
 
 else
-
 zig_right(x);
 
 }
 ```
 **Figure 4.56 Single rotation**
 ```c
-void
-
-zig_left(splay_ptr x)
-
+void zig_left(splay_ptr x)
 {
 
 splay ptr p, B;
@@ -1121,7 +1039,6 @@ x->right = p; /* x's new right child is p*/
 x->parent = NULL; /* x will now be a root */
 
 if(B != NULL)
-
 B->parent = p;
 
 p->left = B;
@@ -1140,10 +1057,7 @@ The analysis of splay trees is difficult, because it must take into account the 
 ```c
 Figure 4.58
 
-void
-
-zig_zig_left(splay_ptr x)
-
+void zig_zig_left(splay_ptr x)
 {
 
 splay_ptr p, g, B, C, ggp;
@@ -1179,13 +1093,10 @@ g->left = C;
 x->parent = ggp; /* connect to rest of the tree */
 
 if(ggp ! = NULL)
-
 if(gpp->left == g)
-
 ggp->left = x;
 
 else
-
 ggp->right = x;
 
 }
@@ -1198,15 +1109,10 @@ Because of the ordering information in a binary search tree, it is simple to lis
 
 Convince yourself that this procedure works. As we have seen before, this kind of routine when applied to trees is known as an inorder traversal (which makes sense, since it lists the keys in order). The general strategy of an inorder traversal is to process the left subtree first, then perform processing at the current node, and finally process the right subtree. The interesting part about this algorithm, aside from its simplicity, is that the total running time is O (n). This is because there is constant work being performed at every node in the tree. Each node is visited once, and the work performed at each node is testing against NULL, setting up two procedure calls, and doing a print_element. Since there is constant work per node and n nodes, the running time is O(n).
 ```c
-void
-
-print_tree(SEARCH_TREE T)
-
+void print_tree(SEARCH_TREE T)
 {
 
-if(T != NULL)
-
-{print_tree(T->left);
+if(T != NULL){print_tree(T->left);
 
 print_element(T->element);
 
@@ -1227,15 +1133,12 @@ The common idea in all of these routines is that you handle the NULL case first,
 int
 
 height(TREE T)
-
 {
 
 if(T == NULL)
-
 return -1;
 
 else
-
 return (max(height(T->left), height(T->right)) + 1);
 
 }

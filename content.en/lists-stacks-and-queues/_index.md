@@ -91,7 +91,6 @@ The next function, which is shown in Figure 3.9, tests whether the current eleme
 typedef struct node *node_ptr;
 
 struct node
-
 {
 
 element_type element;
@@ -113,7 +112,6 @@ typedef node_ptr position;
 int
 
 is_empty(LIST L)
-
 {
 
 return(L->next == NULL);
@@ -127,7 +125,6 @@ return(L->next == NULL);
 int
 
 is_last(position p, LIST L)
-
 {
 
 return(p->next == NULL);
@@ -144,7 +141,6 @@ The next routine we will write is find. Find, shown in Figure 3.10, returns the 
 position
 
 find (element_type x, LIST L)
-
 {
 
 position p;
@@ -180,10 +176,7 @@ Notice that we have passed the list to the insert and is_last routines, even tho
 
 /* Assume use of a header node. */
 
-void
-
-delete(element_type x, LIST L)
-
+void delete(element_type x, LIST L)
 {
 
 position p, tmp_cell;
@@ -191,7 +184,6 @@ position p, tmp_cell;
 p = find_previous(x, L);
 
 if(p->next != NULL) /* Implicit assumption of header use */
-
 { /* x is found: delete it */
 
 
@@ -216,7 +208,6 @@ free(tmp_cell);
 position
 
 find_previous(element_type x, LIST L)
-
 {
 
 position p;
@@ -239,10 +230,7 @@ position p;
 
 /* Header implementation assumed. */
 
-void
-
-insert(element_type x, LIST L, position p)
-
+void insert(element_type x, LIST L, position p)
 {
 
 position tmp_cell;
@@ -250,11 +238,9 @@ position tmp_cell;
 /*1*/ tmp_cell = (position) malloc(sizeof (struct node));
 
 /*2*/ if(tmp_cell == NULL)
-
 /*3*/ fatal_error("Out of space!!!");
 
-else
-{
+else{
 
 /*4*/ tmp_cell->element = x;
 
@@ -280,10 +266,7 @@ The most common error that you will get is that your program will crash with a n
 The second common mistake concerns when and when not to use malloc to get a new cell. You must remember that declaring a pointer to a structure does not create the structure but only gives enough space to hold the address where some structure might be. The only way to create a record that is not already declared is to use the malloc command. The command malloc(size_p) has the system create, magically, a new structure and return a pointer to it. If, on the other hand, you want to use a pointer variable to run down a list, there is no need to declare a new structure; in that case the malloc command is inappropriate. A type cast is used to make both sides of the assignment operator compatible. The C library provides other variations of malloc such as calloc.
 
 ```c
-void
-
-delete_list(LIST L)
-
+void delete_list(LIST L)
 {
 
 position p;
@@ -293,7 +276,6 @@ position p;
 /*2*/ L->next = NULL;
 
 /*3*/ while(p != NULL)
-
 {
 
 /*4*/ free(p);
@@ -318,10 +300,7 @@ After a deletion in a linked list, it is usually a good idea to free the cell, e
 One last warning: malloc(sizeof node_ptr) is legal, but it doesn't allocate enough space for a structure. It allocates space only for a pointer.
 
 ```c
-void
-
-delete_list(LIST L)
-
+void delete_list(LIST L)
 {
 
 position p, tmp;
@@ -331,7 +310,6 @@ position p, tmp;
 /*2*/ L->next = NULL;
 
 /*3*/ while(p != NULL)
-
 {
 
 /*4*/ tmp = p->next;
@@ -377,7 +355,6 @@ then the running time is likely to be unacceptable. One can see that most of the
 
 ```c
 typedef struct
-
 {
 
 int coeff_array[ MAX_DEGREE+1 ];
@@ -394,10 +371,7 @@ An alternative is to use a singly linked list. Each term in the polynomial is co
 then use the declarations in Figure 3.23.
 
 ```c
-void
-
-zero_polynomial(POLYNOMIAL poly)
-
+void zero_polynomial(POLYNOMIAL poly)
 {
 
 unsigned int i;
@@ -414,12 +388,9 @@ poly->high_power = 0;
 **Figure 3.19 Procedure to initialize a polynomial to zero**
 
 ```c
-void
-
-add_polynomial(POLYNOMIAL poly1, POLYNOMIAL poly2,
+void add_polynomial(POLYNOMIAL poly1, POLYNOMIAL poly2,
 
 POLYNOMIAL poly_sum)
-
 {
 
 int i;
@@ -442,12 +413,9 @@ poly_sum->coeff_array[i] = poly1->coeff_array[i]
 **Figure 3.20 Procedure to add two polynomials**
 
 ```c
-void
-
-mult_polynomial(POLYNOMIAL poly1, POLYNOMIAL poly2,
+void mult_polynomial(POLYNOMIAL poly1, POLYNOMIAL poly2,
 
 POLYNOMIAL poly_prod)
-
 {
 
 unsigned int i, j;
@@ -459,11 +427,9 @@ poly_prod->high_power = poly1->high_power
 + poly2->high_power;
 
 if(poly_prod->high_power > MAX_DEGREE)
-
 error("Exceeded array size");
 
 else
-
 for(i=0; i<=poly->high_power; i++)
 
 for(j=0; j<=poly2->high_power; j++)
@@ -483,7 +449,6 @@ poly1->coeff_array[i] * poly2->coeff_array[j];
 typedef struct node *node_ptr;
 
 struct node
-
 {
 
 int coefficient;
@@ -589,7 +554,6 @@ A value of 0 for next is the equivalent of a pointer. The initialization of CURS
 typedef unsigned int node_ptr;
 
 struct node
-
 {
 
 element_type element;
@@ -643,7 +607,6 @@ Given this, the cursor implementation of linked lists is straightforward. For co
 position
 
 cursor_alloc(void)
-
 {
 
 position p;
@@ -656,10 +619,7 @@ return p;
 
 }
 
-void
-
-cursor_free(position p)
-
+void cursor_free(position p)
 {
 
 CURSOR_SPACE[p].next = CURSOR_SPACE[O].next;
@@ -710,7 +670,6 @@ The rest of the routines are similarly coded. The crucial point is that these ro
 int
 
 is_empty(LIST L) /* using a header node */
-
 {
 
 return(CURSOR_SPACE[L].next == 0
@@ -724,7 +683,6 @@ return(CURSOR_SPACE[L].next == 0
 int
 
 is_last(position p, LIST L) /* using a header node */
-
 {
 
 return(CURSOR_SPACE[p].next == 0
@@ -738,7 +696,6 @@ return(CURSOR_SPACE[p].next == 0
 position
 
 find(element_type x, LIST L) /* using a header node */
-
 {
 
 position p;
@@ -757,19 +714,14 @@ position p;
 **Figure 3.34 Find routine--cursor implementation**
 
 ```c
-void
-
-delete(element_type x, LIST L)
-
+void delete(element_type x, LIST L)
 {
 
 position p, tmp_cell;
 
 p = find_previous(x, L);
 
-if(!is_last(p, L))
-
-{
+if(!is_last(p, L)){
 
 tmp_cell = CURSOR_SPACE[p].next;
 
@@ -789,10 +741,7 @@ cursor_free(tmp_cell);
 
 /* header implementation assumed */
 
-void
-
-insert(element_type x, LIST L, position p)
-
+void insert(element_type x, LIST L, position p)
 {
 
 position tmp_cell;
@@ -800,12 +749,9 @@ position tmp_cell;
 /*1*/ tmp_cell = cursor_alloc()
 
 /*2*/ if(tmp_cell ==0)
-
 /*3*/ fatal_error("Out of space!!!");
 
-else
-
-{
+else{
 
 /*4*/ CURSOR_SPACE[tmp_cell].element = x;
 
@@ -859,7 +805,6 @@ If we use an array implementation, the implementation is trivial. Associated wit
 typedef struct node *node_ptr;
 
 struct node
-
 {
 
 element_type element;
@@ -879,7 +824,6 @@ typedef node_ptr STACK;
 int
 
 is_empty(STACK S)
-
 {
 
 return(S->next == NULL);
@@ -893,7 +837,6 @@ return(S->next == NULL);
 STACK
 
 create_stack(void)
-
 {
 
 STACK S;
@@ -901,25 +844,19 @@ STACK S;
 S = (STACK) malloc(sizeof(struct node));
 
 if(S == NULL)
-
 fatal_error("Out of space!!!");
 
 return S;
 
 }
 
-void
-
-make_null(STACK S)
-
+void make_null(STACK S)
 {
 
 if(S != NULL)
-
 S->next = NULL;
 
 else
-
 error("Must use create_stack first");
 
 }
@@ -928,10 +865,7 @@ error("Must use create_stack first");
 **Figure 3.41 Routine to create an empty stack-linked list implementation**
 
 ```c
-void
-
-push(element_type x, STACK S)
-
+void push(element_type x, STACK S)
 {
 
 node_ptr tmp_cell;
@@ -939,12 +873,9 @@ node_ptr tmp_cell;
 tmp_cell = (node_ptr) malloc(sizeof (struct node));
 
 if(tmp_cell == NULL)
-
 fatal_error("Out of space!!!");
 
-else
-
-{
+else{
 
 tmp_cell->element = x;
 
@@ -963,15 +894,12 @@ S->next = tmp_cell;
 element_type
 
 top(STACK S)
-
 {
 
 if(is_empty(S))
-
 error("Empty stack");
 
 else
-
 return S->next->element;
 
 }
@@ -980,21 +908,15 @@ return S->next->element;
 **Figure 3.43 Routine to return top element in a stack--linked list implementation**
 
 ```c
-void
-
-pop(STACK S)
-
+void pop(STACK S)
 {
 
 node_ptr first_cell;
 
 if(is_empty(S))
-
 error("Empty stack");
 
-else
-
-{
+else{
 
 first_cell = S->next;
 
@@ -1019,7 +941,6 @@ The routine dispose_stack should be written to free the stack structure. This ro
 
 ```c
 struct stack_record
-
 {
 
 unsigned int stack_size;
@@ -1039,19 +960,16 @@ Figure 3.45 STACK definition--array implementaion
 STACK
 
 create_stack(unsigned int max_elements)
-
 {
 
 STACK S;
 
 /*1*/ if(max_elements < MIN_STACK_SIZE)
-
 /*2*/ error("Stack size is too small");
 
 /*3*/ S = (STACK) malloc(sizeof(struct stack_record));
 
 /*4*/ if(S == NULL)
-
 /*5*/ fatal_error("Out of space!!!");
 
 /*6*/ S->stack_array = (element_type *)
@@ -1059,7 +977,6 @@ STACK S;
 malloc(sizeof(element_type) * max_elements);
 
 /*7*/ if(S->stack_array == NULL)
-
 /*8*/ fatal_error("Out of space!!!");
 
 /*9*/ S->top_of_stack = EMPTY_TOS;
@@ -1074,15 +991,10 @@ malloc(sizeof(element_type) * max_elements);
 **Figure 3.46 Stack creation--array implementaion**
 
 ```c
-void
-
-dispose_stack(STACK S)
-
+void dispose_stack(STACK S)
 {
 
-if(S != NULL)
-
-{
+if(S != NULL){
 
 free(S->stack_array);
 
@@ -1107,7 +1019,6 @@ Pop is occasionally written as a function that returns the popped element (and a
 int
 
 is_empty(STACK S)
-
 {
 
 return(S->top_of_stack == EMPTY_TOS);
@@ -1118,10 +1029,7 @@ return(S->top_of_stack == EMPTY_TOS);
 **Figure 3.48 Routine to test whether a stack is empty--array implementation**
 
 ```c
-void
-
-make_null(STACK S)
-
+void make_null(STACK S)
 {
 
 S->top_of_stack = EMPTY_TOS;
@@ -1132,18 +1040,13 @@ S->top_of_stack = EMPTY_TOS;
 **Figure 3.49 Routine to create an empty stack--array implementation**
 
 ```c
-void
-
-push(element_type x, STACK S)
-
+void push(element_type x, STACK S)
 {
 
 if(is_full(S))
-
 error("Full stack");
 
 else
-
 S->stack_array[ ++S->top_of_stack ] = x;
 
 }
@@ -1155,15 +1058,12 @@ S->stack_array[ ++S->top_of_stack ] = x;
 element_type
 
 top(STACK S)
-
 {
 
 if(is_empty(S))
-
 error("Empty stack");
 
 else
-
 return S->stack_array[ S->top_of_stack ];
 
 }
@@ -1172,18 +1072,13 @@ return S->stack_array[ S->top_of_stack ];
 **Figure 3.51 Routine to return top of stack--array implementation**
 
 ```c
-void
-
-pop(STACK S)
-
+void pop(STACK S)
 {
 
 if(is_empty(S))
-
 error("Empty stack");
 
 else
-
 S->top_of_stack--;
 
 }
@@ -1195,15 +1090,12 @@ S->top_of_stack--;
 element_type
 
 pop(STACK S)
-
 {
 
 if(is_empty(S))
-
 error("Empty stack");
 
 else
-
 return S->stack_array[ S->top_of_stack-- ];
 
 }
@@ -1325,12 +1217,9 @@ Removal of tail recursion is so simple that some compilers do it automatically. 
 void /* Not using a header */
 
 print_list(LIST L)
-
 {
 
-/*1*/ if(L != NULL)
-
-{
+/*1*/ if(L != NULL){
 
 /*2*/ print_element(L->element);
 
@@ -1344,14 +1233,11 @@ print_list(LIST L)
 **Figure 3.54 A bad use of recursion: printing a linked list**
 
 ```c
-void print_list(LIST L) /* No header */
-{
+void print_list(LIST L) /* No header */{
 
 top:
 
-if(L != NULL)
-
-{
+if(L != NULL){
 
 print_element(L->element);
 
@@ -1409,7 +1295,6 @@ Chapter 9. For now, we will give some simple examples of queue usage.
 
 ```c
 struct queue_record
-
 {
 
 unsigned int q_max_size; /* Maximum # of elements */
@@ -1433,7 +1318,6 @@ Figure 3.57 Type declarations for queue--array implementation
 int
 
 is_empty(QUEUE Q)
-
 {
 
 return(Q->q_size == 0);
@@ -1444,10 +1328,7 @@ return(Q->q_size == 0);
 **Figure 3.58 Routine to test whether a queue is empty-array implementation**
 
 ```c
-void
-
-make_null (QUEUE Q)
-
+void make_null (QUEUE Q)
 {
 
 Q->q_size = 0;
@@ -1465,30 +1346,22 @@ Q->q_rear = 0;
 unsigned int
 
 succ(unsigned int value, QUEUE Q)
-
 {
 
 if(++value == Q->q_max_size)
-
 value = 0;
 
 return value;
 
 }
 
-void
-
-enqueue(element_type x, QUEUE Q)
-
+void enqueue(element_type x, QUEUE Q)
 {
 
 if(is_full(Q))
-
 error("Full queue");
 
-else
-
-{
+else{
 
 Q->q_size++;
 
@@ -1601,7 +1474,6 @@ b. Rewrite this procedure using general list operations.
 
 ```c
 /*1*/ for(i=0; i<last_position; i++)
-
 {
 
 /*2*/ j = i + 1;
@@ -1613,7 +1485,6 @@ b. Rewrite this procedure using general list operations.
 /*5*/ DELETE(j);
 
 else
-
 /*6*/ j++;
 
 }

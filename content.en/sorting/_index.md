@@ -37,8 +37,7 @@ One of the simplest sorting algorithms is the insertion sort. Insertion sort con
 ![](1.png)
 **figure 7.1** Insertion sort after each pass
 ```c
-void insertion_sort(input_type a[], unsigned int n)
-{
+void insertion_sort(input_type a[], unsigned int n){
 
 unsigned int j, p;
 
@@ -47,7 +46,6 @@ input_type tmp;
 /*1*/ a[0] = MIN_DATA; /* sentinel */
 
 /*2*/ for(p=2; p <= n; p++)
-
 {
 
 /*3*/ tmp = a[p];
@@ -301,7 +299,6 @@ As its name implies, quicksort is the fastest known sorting algorithm in practic
 2. Pick any element v in S. This is called the pivot.
 
 3. Partition S - {v} (the remaining elements in S) into two disjoint groups: S1 =
-
 {x S - {v}| x v}, and S2 = {x S -{v}| x v}.
 
 4. Return { quicksort(S1) followed by v followed by quicksort(S2)}.
@@ -427,7 +424,6 @@ The real heart of the quicksort routine is in **figure 7.14**. It includes the p
 input_type
 
 median3(input_type a[], int left, int right)
-
 {
 
 int center;
@@ -435,15 +431,12 @@ int center;
 center = (left + right) / 2;
 
 if(a[left] > a[center])
-
 swap(&a[left], &a[center]);
 
 if(a[left] > a[right])
-
 swap(&a[left], &a[right]);
 
 if(a[center] > a[right])
-
 swap(&a[center], &a[right]);
 
 /* invariant: a[left] <= a[center] <= a[right] */
@@ -469,23 +462,19 @@ Like mergesort, quicksort is recursive, and hence, its analysis requires solving
 where i = |S1| is the number of elements in S1. We will look at three cases.
 
 void q_sort(input_type a[], int left, int right)
-
 {
 
 int i, j;
 
 input_type pivot;
 
-/*1*/ if(left + CUTOFF <= right)
-
-{
+/*1*/ if(left + CUTOFF <= right){
 
 /*2*/ pivot = median3(a, left, right);
 
 /*3*/ i=left; j=right-1;
 
 /*4*/ for(; ;)
-
 {
 
 /*5*/ while(a[++i] < pivot);
@@ -493,11 +482,9 @@ input_type pivot;
 /*6*/ while(a[--j] > pivot);
 
 /*7*/ if(i < j)
-
 /*8*/ swap(&a[i], &a[j]);
 
 else
-
 /*9*/ break;
 
 }
@@ -517,7 +504,6 @@ else
 /*3*/ i=left+1; j=right-2;
 
 /*4*/ for(; ;)
-
 {
 
 /*5*/ while(a[i] < pivot) i++;
@@ -525,11 +511,9 @@ else
 /*6*/ while(a[j] > pivot) j--;
 
 /*7*/ if(i < j)
-
 /*8*/ swap(&a[i], &a[j]);
 
 else
-
 /*9*/ break;
 
 }
@@ -649,26 +633,20 @@ The implementation of quickselect is even simpler than the abstract description 
 ```c
 /* q_select places the kth smallest element in a[k]*/
 
-void
-
-q_select(input_type a[], int k, int left, int right)
-
+void q_select(input_type a[], int k, int left, int right)
 {
 
 int i, j;
 
 input_type pivot;
 
-/*1*/ if(left + CUTOFF <= right)
-
-{
+/*1*/ if(left + CUTOFF <= right){
 
 /*2*/ pivot = median3(a, left, right);
 
 /*3*/ i=left; j=right-1;
 
 /*4*/ for(;;)
-
 {
 
 /*5*/ while(a[++i] < pivot);
@@ -680,7 +658,6 @@ input_type pivot;
 /*8*/ swap(&a[i], &a[j]);
 
 else
-
 /*9*/ break;
 
 }
@@ -688,19 +665,15 @@ else
 /*10*/ swap(&a[i], &a[right-1]); /* restore pivot */
 
 /*11*/ if(k < i)
-
 /*12*/ q_select(a, k, left, i-1);
 
 else
-
 /*13*/ if(k > i)
-
 /*14*/ q-select(a, k, i+1, right);
 
 }
 
 else
-
 /*15*/ insert_sort(a, left, right);
 
 }

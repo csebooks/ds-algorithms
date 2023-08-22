@@ -72,15 +72,12 @@ The function find_new_vertex_of_indegree_zero scans the indegree array looking f
 
 ```c
 void
-topsort(graph G)
-{
+topsort(graph G){
 unsigned int counter;
 vertex v, w;
-for(counter = 0; counter < NUM_VERTEX; counter++)
-{
+for(counter = 0; counter < NUM_VERTEX; counter++){
 v = find_new_vertex_of_indegree_zero();
-if(v = NOT_A_VERTEX)
-{
+if(v = NOT_A_VERTEX){
 error("Graph has a cycle");
 break;
 }
@@ -132,10 +129,7 @@ dequeue v1 v2 v5 v4 v3 v7 v6
 
 Figure 9.6 Result of applying topological sort to the graph in Figure 9.4
 ```c
-void
-
-topsort(graph G)
-
+void topsort(graph G)
 {
 
 QUEUE Q;
@@ -149,11 +143,9 @@ Q = create_queue(NUM_VERTEX); make_null(Q); counter = 0;
 for each vertex v
 
 if(indegree[v] = 0)
-
 enqueue(v, Q);
 
 while(!is_empty(Q))
-
 {
 
 v = dequeue(Q);
@@ -163,13 +155,11 @@ top_num[v] = ++counter; * assign next number *
 for each w adjacent to v
 
 if(--indegree[w] = 0)
-
 enqueue(w, Q);
 
 }
 
 if(counter != NUM_VERTEX)
-
 error("Graph has a cycle");
 
 dispose_queue(Q); * free the memory *
@@ -267,10 +257,7 @@ By tracing back through the pv variable, the actual path can be printed. We will
  
 The running time of the algorithm is O(|V|2), because of the doubly nested for loops. An obvious inefficiency is that the outside loop continues until NUM_VERTEX -1, even if all the vertices become known much earlier. Although an extra test could be made to avoid this, it does not affect the worst-case running time, as can be seen by generalizing what happens when the input is the graph in Figure 9.17 with start vertex v9.
 ```c
-void
-
-unweighted(TABLE T) * assume T is initialized *
-
+void unweighted(TABLE T) * assume T is initialized *
 {
 
 unsigned int curr_dist;
@@ -281,17 +268,13 @@ for(curr_dist = 0; curr_dist < NUM_VERTEX; curr_dist++)
 
 for each vertex v
 
-if((!T[v].known) && (T[v].dist = curr_dist))
-
-{
+if((!T[v].known) && (T[v].dist = curr_dist)){
 
 T[v].known = TRUE;
 
 for each w adjacent to v
 
-if(T[w].dist = INT_MAX)
-
-{
+if(T[w].dist = INT_MAX){
 
 T[w].dist = curr_dist + 1;
 
@@ -323,10 +306,7 @@ If the graph is weighted, the problem (apparently) becomes harder, but we can st
 
 We keep all of the same information as before. Thus, each vertex is marked as either known or unknown. A tentative distance dv is kept for each vertex, as before. This distance turns out to be the shortest path length from s to v using only known vertices as intermediates. As before, we record p~v~, which is the last vertex to cause a change to d~v~.
 ```c
-void
-
-unweighted(TABLE T) * assume T is initialized (Fig 9.30) *
-
+void unweighted(TABLE T) * assume T is initialized (Fig 9.30) *
 {
 
 QUEUE Q;
@@ -340,7 +320,6 @@ Q = create_queue(NUM_VERTEX); make_null(Q);
 enqueue(s, Q);
 
 while(!is empty(Q))
-
 {
 
 v = dequeue(Q);
@@ -349,9 +328,7 @@ T[v].known = TRUE; * not really needed anymore *
 
 for each w adjacent to v
 
-if(T[w].dist = INT_MAX)
-
-{
+if(T[w].dist = INT_MAX){
 
 T[w].dist = T[v].dist + 1;
 
@@ -599,7 +576,6 @@ The path can be printed out using the recursive routine in Figure 9.31. The rout
 typedef int vertex;
 
 struct table_entry
-
 {
 
 LIST header; /* Adjacency list header */
@@ -620,10 +596,7 @@ typedef struct table_entry TABLE[NUM_VERTEX+1];
 ```
 **Figure 9.29 Declarations for Dijkstra's algorithm**
 ```c
-void
-
-init_table(vertex start, graph G, TABLE T)
-
+void init_table(vertex start, graph G, TABLE T)
 {
 
 int i;
@@ -631,7 +604,6 @@ int i;
 read graph(G, T); /* read graph somehow */
 
 for(i=NUM_VERTEX; i>0; i--)
-
 {
 
 T[i].known = FALSE;
@@ -652,15 +624,10 @@ T[start].dist = 0;
 
 /* assume that the path exists */  
 ```c
-void
-
-print_path(vertex v, TABLE T)
-
+void print_path(vertex v, TABLE T)
 {
 
-if(T[v].path != NOT_A_VERTEX)
-
-{
+if(T[v].path != NOT_A_VERTEX){
 
 print_path(T[v].path, T);
 
@@ -686,16 +653,12 @@ One way treats the update as a decrease_key operation. The time to find the mini
 
 The alternate method is to insert w and the new value dw into the priority queue every time line 9 is executed. Thus, there may be more than one representative for each vertex in the priority queue. When the delete_min operation removes the smallest vertex from the priority queue, it must be checked to make sure that it is not already known. Thus, line 2 becomes a loop performing delete_mins until an unknown vertex emerges. Although this method is superior from a software point of view, and is certainly much easier to code, the size of the priority queue could get to be as big as |E|. This does not affect the asymptotic time bounds, since |E| |V|2 implies that log|E| 2 log |V|. Thus, we still get an O(|E| log |V|) algorithm. However, the space requirement does increase, and this could be important in some applications. Moreover, because this method requires |E| delete_mins instead of only |V|, it is likely to be slower in practice.
 ```c
-void
-
-dijkstra(TABLE T)
-
+void dijkstra(TABLE T)
 {
 
 vertex v, w;
 
 for(; ;)
-
 {
 
 v = smallest unknown distance vertex;
@@ -707,10 +670,7 @@ T[v].known = TRUE;
 for each w adjacent to v
 
 if(!T[w].known)
-
-if(T[v].dist + cv,w < T[w].dist)
-
-{ /* update w */
+if(T[v].dist + cv,w < T[w].dist){ /* update w */
 
 decrease(T[w].dist to
 
@@ -734,7 +694,6 @@ There are better time bounds possible using Dijkstra's algorithm if different da
 void /* assume T is initialized as in Fig 9.18 */
 
 weighted_negative(TABLE T)
-
 {
 
 QUEUE Q;
@@ -746,23 +705,19 @@ Q = create_queue(NUM_VERTEX); make_null(Q);
 enqueue(s, Q); /* enqueue the start vertex s */
 
 while(!is_empty(Q))
-
 {
 
 v = dequeue(Q);
 
 for each w adjacent to v
 
-if(T[v].dist + cv,w < T[w].dist)
-
-{ /*update w */
+if(T[v].dist + cv,w < T[w].dist){ /*update w */
 
 T[w].dist = T[v].dist + cv,w ;
 
 T[w].path = v;
 
 if(w is not already in Q)
-
 enqueue(w, Q);
 
 }
@@ -1091,10 +1046,7 @@ Figure 9.56 Action of Kruskal's algorithm on G
 
 The worst-case running time of this algorithm is O(|E| log |E|), which is dominated by the heap operations. Notice that since |E| = O(|V|^2^), this running time is actually O(|E| log |V|). In practice, the algorithm is much faster than this time bound would indicate.
 ```c
-void
-
-kruskal(graph G)
-
+void kruskal(graph G)
 {
 
 unsigned int edges_accepted;
@@ -1118,7 +1070,6 @@ build_heap(H);
 edges_accepted = 0;
 
 while(edges_accepted < NUM_VERTEX-1)
-
 {
 
 e = delete_min(H); /* e = (u, v) */
@@ -1127,9 +1078,7 @@ u_set = find(u, S);
 
 v_set = find(v, S);
 
-if(u_set != v_set)
-
-{
+if(u_set != v_set){
 
 /* accept the edge */
 
@@ -1149,10 +1098,7 @@ set_union(S, u_set, v_set);
 
 Depth-first search is a generalization of preorder traversal. Starting at some vertex, v, we process v and then recursively traverse all vertices adjacent to v. If this process is performed on a tree, then all tree vertices are systematically visited in a total of O(|E|) time, since |E|= (|V|). If we perform this process on an arbitrary graph, we need to be careful to avoid cycles. To do this, when we visit a vertex v, we mark it visited, since now we have been there, and recursively call depth-first search on all adjacent vertices that are not already marked. We implicitly assume that for undirected graphs every edge (v, w) appears twice in the adjacency lists: once as (v, w) and once as (w, v). The procedure in Figure 9.59 performs a depth-first search (and does absolutely nothing else) and is a template for the general style.
 ```c
-void
-
-dfs(vertex v)
-
+void dfs(vertex v)
 {
 
 visited[v] = TRUE;
@@ -1160,7 +1106,6 @@ visited[v] = TRUE;
 for each w adjacent to v
 
 if(!visited[w])
-
 dfs(w);
 
 }
@@ -1230,10 +1175,7 @@ Consider the three figures in Figure 9.68. A popular puzzle is to reconstruct th
 
 ```c
 /* assign num and compute parents */
-void
-
-assign_num(vertex v)
-
+void assign_num(vertex v)
 {
 
 vertex w;
@@ -1243,9 +1185,7 @@ visited[v] = TRUE;
 
 for each w adjacent to v
 
-if(!visited[w])
-
-{
+if(!visited[w]){
 
 parent[w] = v;
 
@@ -1259,10 +1199,7 @@ assign_num(w);
 
 /* assign low. Also check for articulation points */
 ```c
-void
-
-assign_low(vertex v)
-
+void assign_low(vertex v)
 {
 
 vertex w;
@@ -1270,17 +1207,14 @@ vertex w;
 low[v] = num[v]; /* Rule 1 */
 
 for each w adjacent to v
-
 {
 
 if(num[w] > num[v]) /* forward edge */
-
 {
 
 assign_low(w);
 
 if(low[w] >= num[v])
-
 printf("%v is an articulation pointn", v);
 
 low[v] = min(low[v], low[w]); /* Rule 3 */
@@ -1288,7 +1222,6 @@ low[v] = min(low[v], low[w]); /* Rule 3 */
 }
 
 else
-
 if(parent[v] != w) /* back edge */
 
 low[v] = min(low[v], num[w]); /* Rule 2 */
@@ -1299,10 +1232,7 @@ low[v] = min(low[v], num[w]); /* Rule 2 */
 ```
 **Figure 9.66 Pseudocode to compute low and to test for articulation points (test for the root is omitted)**
 ```c
-void
-
-find_art(vertex v)
-
+void find_art(vertex v)
 {
 
 vertex w;
@@ -1312,11 +1242,9 @@ visited[v] = TRUE;
 low[v] = num[v] = counter++; /* Rule 1 */
 
 for each w adjacent to v
-
 {
 
 if(!visited[w]) /* forward edge */
-
 {
 
 parent[w] = v;
@@ -1324,7 +1252,6 @@ parent[w] = v;
 find_art(w);
 
 if(low[w] >= num[v])
-
 printf ("%v is an articulation pointn", v);
 
 low[v] = min(low[v], low[w]); /* Rule */
@@ -1332,7 +1259,6 @@ low[v] = min(low[v], low[w]); /* Rule */
 }
 
 else
-
 if(parent[v] != w) /* back edge */
 
 low[v] = min(low[v], num[w]); /* Rule 2 */

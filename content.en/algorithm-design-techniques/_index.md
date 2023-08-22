@@ -527,7 +527,6 @@ for(i=0; i<NUM_POINTS_IN_STRIP; i++)
 for(j=i+1; j<NUM_POINTS_IN_STRIP; j++)
 
 if(dist(pi,pj) <)
-
 = dist(pi,pj);
 
 Figure 10.32 Brute force calculation of min(, dc**)**
@@ -543,9 +542,7 @@ if (pi and pj 's coordinates differ by more than)
 break; /* goto next pi */
 
 else
-
 if(dist(pi, pj) <)
-
 = dist(pi, pj);
 ```
 **Figure 10.33 Refined calculation of min(, dc)**
@@ -651,9 +648,7 @@ xy = x~1~y~1~10 8 + (x~1~y~r~ + x~r~y~1~)10 4 + x~r~y~r~
 
 Notice that this equation consists of four multiplications, x~1~y~1~, x~1~y~r~, x~r~y~1~, and x~r~y~r~, which are each half the size of the original problem (n/2 digits). The multiplications by 108 and 104 amount to the placing of zeros. This and the subsequent additions add only O(n) additional work. 
 
-If we perform these four multiplications recursively using this algorithm, stopping at an appropriate base case, then we obtain the recurrence T(n) = 4T(n/2) + O(n)
-
-From Theorem 10.6, we see that T(n) = O(n2), so, unfortunately, we have not improved the algorithm. To achieve a subquadratic algorithm, we must use less than four recursive calls. The key observation is that x~1~y~r~ + x~r~y~1~ = (x~1~ - x~r~)(y~r~ - y~1~) + x~1~y~1~ + x~r~y~r~
+If we perform these four multiplications recursively using this algorithm, stopping at an appropriate base case, then we obtain the recurrence T(n) = 4T(n/2) + O(n) From Theorem 10.6, we see that T(n) = O(n2), so, unfortunately, we have not improved the algorithm. To achieve a subquadratic algorithm, we must use less than four recursive calls. The key observation is that x~1~y~r~ + x~r~y~1~ = (x~1~ - x~r~)(y~r~ - y~1~) + x~1~y~1~ + x~r~y~r~
 
 Thus, instead of using two multiplications to compute the coefficient of 104, we can use one multiplication, plus the result of two multiplications that have already been performed. Figure 10.37 shows how only three recursive subproblems need to be solved.
 
@@ -683,10 +678,7 @@ C2,2 = A2,1B1,2 + A2,2B2,2
 ```c
 /* Standard matrix multiplication. Arrays start at 0 */
 
-void
-
-matrix_multiply(matrix A, matrix B, matrix C, unsigned int n)
-
+void matrix_multiply(matrix A, matrix B, matrix C, unsigned int n)
 {
 
 int i, j, k;
@@ -770,15 +762,12 @@ The reason that the recursive algorithm is so slow is because of the algorithm u
 /* Compute Fibonacci numbers as described in Chapter 1 */
 
 unsigned int fib(unsigned int n)
-
 {
 
 if(n <= 1)
-
 return 1;
 
 else
-
 return(fib(n-1) + fib(n-2));
 
 }
@@ -788,19 +777,16 @@ return(fib(n-1) + fib(n-2));
 unsigned int
 
 fibonacci(unsigned int n)
-
 {
 
 unsigned int i, last, next_to_last, answer;
 
 if(n <= 1)
-
 return 1;
 
 last = next_to_last = 1;
 
 for(i = 2; i <= n; i++)
-
 {
 
 answer = last + next_to_last;
@@ -821,7 +807,6 @@ return answer;
 **Figure 10.42 Trace of the recursive calculation of Fibonacci numbers**
 ```c
 double eval(unsigned int n)
-
 {
 
 int i;
@@ -829,12 +814,9 @@ int i;
 double sum;
 
 if(n == 0)
-
 return 1.0;
 
-else
-
-{
+else{
 
 sum = 0.0;
 
@@ -862,7 +844,6 @@ Once again, the recursive calls duplicate work. In this case, the running time T
 double
 
 eval(unsigned int n)
-
 {
 
 int i,j;
@@ -874,13 +855,11 @@ double *c;
 c = (double*) malloc(sizeof (double)*(n+1));
 
 if(c == NULL)
-
 fatal_error("Out of space!!!");
 
 c[0] = 1.0;
 
 for(i=1; i<=n; i++) /* Evaluate Ci, 1 i n */
-
 {
 
 sum = 0.0;
@@ -955,12 +934,9 @@ Returning to the algorithmic issues, this program contains a triply nested loop 
 
 /* M and last_change are indexed starting at 1, instead of zero */
 
-void
-
-opt_matrix(int c[], unsigned int n, two_d_array M,
+void opt_matrix(int c[], unsigned int n, two_d_array M,
 
 two_d_array last_change)
-
 {
 
 int i, k, Left, Right, this_M;
@@ -972,7 +948,6 @@ M[Left][Left] = 0;
 for(k = 1; k < n; k++) /* k is Right-Left */
 
 for(Left = 1; Left <= n-k; Left++)
-
 { /* for each position */
 
 Right = Left + k;
@@ -980,7 +955,6 @@ Right = Left + k;
 M[Left][Right] = INT_~max~;
 
 for(i = Left; i < Right; i++)
-
 {
 
 this_M = M[Left][i] + M[i+1][Right]
@@ -988,7 +962,6 @@ this_M = M[Left][i] + M[i+1][Right]
 + c[Left-1] * c[i] * c[Right];
 
 if(this_M < M[Left][Right]) /* Update min */
-
 {
 
 M[Left][Right] = this_M;
@@ -1121,10 +1094,7 @@ Dijkstra's algorithm provides the idea for the dynamic programming algorithm: we
 
 /* All arrays are indexed starting at 0 */
 
-void
-
-all_pairs(two_d_array A, two_d_array D, two_d_array path)
-
+void all_pairs(two_d_array A, two_d_array D, two_d_array path)
 {
 
 int i, j, k;
@@ -1132,7 +1102,6 @@ int i, j, k;
 /*1*/ for(i = 0; i < |V |; i++) /* Initialize D and path */
 
 /*2*/ for(j = 0; j < |V |; j++)
-
 {
 
 /*3*/ D[i][j] = A[i][j];
@@ -1150,9 +1119,7 @@ int i, j, k;
 /*7*/ for(j = 0; j < |V |; j++)
 
 /*8*/ if(d[i][k] + d[k][j] < d[i][j])
-
 /*update min */
-
 {
 
 /*9*/ d[i][j] = d[i][k] + d[k][j];
@@ -1234,7 +1201,6 @@ define m 2147483647 /* 2^31 - 1 */
 double
 
 random(void)
-
 {
 
 seed = (a * seed) % m;
@@ -1273,7 +1239,6 @@ define r 2836 /* m%a */
 double
 
 random(void)
-
 {
 
 int tmp_seed;
@@ -1281,11 +1246,9 @@ int tmp_seed;
 tmp_seed = a * (seed % q) - r * (seed / q);
 
 if(tmp_seed >= 0)
-
 seed = tmp_seed; 
 
 else
-
 seed = tmp_seed + m;
 
 return(((double) seed) / m);
@@ -1399,12 +1362,9 @@ typedef enum test_result test_result;
 
 /* We are assuming very large integers, so this is pseudocode. */
 
-void
-
-power(unsigned int a, unsigned int p, unsigned int n,
+void power(unsigned int a, unsigned int p, unsigned int n,
 
 unsigned int *result, test_result *whatnis)
-
 {
 
 unsigned int x;
@@ -1413,9 +1373,7 @@ unsigned int x;
 
 /*2*/ *result = 1;
 
-else
-
-{
+else{
 
 /*3*/ power(a, p/2, n, &x, whatnis);
 
@@ -1424,13 +1382,11 @@ else
 /* Check whether x2 1(mod n), x 1, x n - 1 */
 
 /*5*/ if((*result = 1) && (x != 1) && (x != n-1))
-
 /*6*/ *whatnis = DEFINITELY_COMPOSITE;
 
 /* If p is odd, we need one more a */
 
 /*7*/ if((p % 2) = 1)
-
 /*8*/ *result = (*result * a) % n;
 
 }
@@ -1446,7 +1402,6 @@ else
 test_result
 
 test_prime(unsigned int n)
-
 {
 
 unsigned int a, result;
@@ -1463,11 +1418,9 @@ test_result whatnis;
 /*11*/ power(a, n-1, n, &result, &whatnis);
 
 /*12*/ if((result != 1) | | (whatnis = DEFINITELY_COMPOSITE))
-
 /*13*/ return DEFINITELY_COMPOSITE;
 
 else
-
 /*14*/ return PROBABLY_PRIME;
 
 }
@@ -1512,7 +1465,6 @@ Instead of labeling the branches, we have placed the labels in the branches' des
 int
 
 turnpike(int x [], dist_set D , unsigned int n)
-
 {
 
 /*1*/ x[1] = 0;
@@ -1521,16 +1473,13 @@ turnpike(int x [], dist_set D , unsigned int n)
 
 /*3*/ x[n - 1] = delete_~max~(D);
 
-/*4*/ if(x[n ]-x[n - 1] D)
-
-{
+/*4*/ if(x[n ]-x[n - 1] D){
 
 /*5*/ delete(x[n ]-x[n - 1],D);
 
 /*6*/ return place(x, D, n, 2,n - 2); }
 
 else
-
 /*7*/ return FALSE;
 
 }
@@ -1569,7 +1518,6 @@ Tic-tac-toe is, of course, a draw if both sides play optimally. By performing a 
 int
 
 place(int x[ ], dist_set D , unsigned int n, int Left, int Right)
-
 {
 
 int d_~max~, found = FALSE;
@@ -1582,9 +1530,7 @@ int d_~max~, found = FALSE;
 
 /* Check if setting x[Right] = d_~max~ is feasible. */
 
-/*4*/ if(|x[ j ]-d_~max~| D for all 1 j < Left and Right < j n)
-
-{
+/*4*/ if(|x[ j ]-d_~max~| D for all 1 j < Left and Right < j n){
 
 /*5*/ x[Right] = d_~max~; /* Try x[Right] = d_~max~ */
 
@@ -1609,7 +1555,6 @@ int d_~max~, found = FALSE;
 /*12*/ if(!found && (|x[n]-d_~max~-x[j ]| D
 
 /*13*/ for all 1 j < Left and Right < j n))
-
 {
 
 /*14*/ x[Left] = x [n] -d_~max~; / * Same logic as before */
@@ -1658,37 +1603,26 @@ Since these routines must pass back both the value of the position and the best 
 
 /* board_type is an array; thus board can be changed by place () */
 
-void
-
-find_comp_move(board_type board, int *best_move, int *value)
-
+void find_comp_move(board_type board, int *best_move, int *value)
 {
 
 int dc, i, response; /* dc means don't care */
 
 /*1*/ if(full_board(board))
-
 /*2*/ *value = DRAW;
 
 else
-
 /*3*/ if(immediate_comp_W~i~n(board, best_move))
-
 /*4*/ *value = COMP_W~i~N;
 
-else
-
-{
+else{
 
 /*5*/ *value = COMP_LOSS;
 
 /*6*/ for(i=1; i<=9; i++) /* try each square */
-
 {
 
-/*7*/ if(is_empty(board, i))
-
-{
+/*7*/ if(is_empty(board, i)){
 
 /*8*/ place(board, i, COMP);
 
@@ -1697,7 +1631,6 @@ else
 /*10*/ unplace(board, i); /* Restore board */
 
 /*11*/ if(response >* value) /* Update best move */
-
 {
 
 /*12*/ *value = response;
@@ -1716,37 +1649,26 @@ else
 ```
 **Figure 10.66 Mini~max~ tic-tac-toe algorithm: computer selection**
 ```c
-void
-
-find_human_move(board_type board, int *best_move, int *value)
-
+void find_human_move(board_type board, int *best_move, int *value)
 {
 
 int dc, i, response; /* dc means don't care */
 
 /*1*/ if(full_board(board))
-
 /*2*/ *value = DRAW;
 
 else
-
 /*3*/ if(immediate_human_W~i~n(board, best_move))
-
 /*4*/ *value = COMP_LOSS;
 
-else
-
-{
+else{
 
 /*5*/ *value = COMP_W~i~N;
 
 /*6*/ for(i=1; i<=9; i++) /* try each square */
-
 {
 
-/*7*/ if(is_empty(board, i))
-
-{
+/*7*/ if(is_empty(board, i)){
 
 /*8*/ place(board, i, HUMAN);
 
@@ -1755,7 +1677,6 @@ else
 /*10*/ unplace(board, i); /* Restore board */
 
 /*11*/ if(response < * value) /* Update best move */
-
 {
 
 /*12*/ *value = response;
@@ -1828,39 +1749,28 @@ Figure 10.73 shows half of the - pruning scheme (minus type declarations); you s
 
 = COMP_W~i~N. */
 
-void
-
-find_comp_move(board_type board, int *best_move, int *value,
+void find_comp_move(board_type board, int *best_move, int *value,
 
 int , int)
-
 {
 
 int dc, i, response; /* dc means don't care */
 
 /*1*/ if(full_board(board))
-
 /*2*/ *value = DRAW;
 
 else
-
 /*3*/ if(immediate-comp_W~i~n(board, best_move))
-
 /*4*/ *value = COMP_W~i~N;
 
-else
-
-{
+else{
 
 /*5*/ *value = ;
 
 /*6*/ for(i=1; (i<=9) && (*value<); i++) /* try each square */
-
 {
 
-/*7*/ if(is_empty(board, i))
-
-{
+/*7*/ if(is_empty(board, i)){
 
 /*8*/ place(board, i, COMP);
 
@@ -1869,7 +1779,6 @@ else
 /*10*/ unplace(board, i); /* Restore board */
 
 /*11*/ if(response >* value) /* Update best move */
-
 {
 
 /*12*/ *value = response;
@@ -2024,15 +1933,12 @@ typedef enum coin_side coin_side;
 coin_side
 
 flip(void)
-
 {
 
 if((rand() % 2) == 0)
-
 return heads;
 
 else
-
 return tails;
 
 }
@@ -2138,25 +2044,21 @@ As an example, if we are searching for the pattern "textbook" W~i~th at most thr
 distance
 
 shortest(s, t, G)
-
 {
 
 distance dt,tmp;
 
 if(s == t)
-
 return 0;
 
 dt = ;
 
 for each vertex v adjacent to s
-
 {
 
 tmp = shortest(v, t, G);
 
 if(cs,v + tmp < dt)
-
 dt = cs,v + tmp;
 
 }

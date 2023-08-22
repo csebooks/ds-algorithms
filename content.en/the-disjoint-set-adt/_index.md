@@ -113,10 +113,7 @@ typedef unsigned int element_type;
 
 **Figure 8.6 Disjoint set type declaration**
 ```c
-void
-
-initialize(DISJ_SET S)
-
+void initialize(DISJ_SET S)
 {
 
 int i;
@@ -133,10 +130,7 @@ S[i] = 0;
 
 /* union is a C keyword, so this routine is named set_union. */
 
-void
-
-set_union(DISJ_SET S, set_type root1, set_type root2)
-
+void set_union(DISJ_SET S, set_type root1, set_type root2)
 {
 
 S[root2] = root1;
@@ -149,15 +143,12 @@ S[root2] = root1;
 set_type
 
 find(element_type x, DISJ_SET S)
-
 {
 
 if(S[x] <= 0)
-
 return x;
 
 else
-
 return(find(S[x], S));
 
 }
@@ -197,16 +188,13 @@ The union/find algorithm, as described so far, is quite acceptable for most case
 /* union is a C keyword, so this routine is named set_union */
 
 void set_union (DISJ_SET S, set_type root1, set_type root2)
-
 {
 
 if(S[root2] < S[root1]) /* root2 is deeper set */
 
 S[root1] = root2; /* make root2 new root */
 
-else
-
-{
+else{
 
 if(S[root2] == S[root1]) /* same height, so update */
 
@@ -235,15 +223,12 @@ As the code in Figure 8.15 shows, path compression is a trivial change to the ba
 set_type
 
 find(element_type x, DISJ_SET S)
-
 {
 
 if(S[x] <= 0)
-
 return x;
 
 else
-
 return(S[x] = find(S[x], S));
 
 }

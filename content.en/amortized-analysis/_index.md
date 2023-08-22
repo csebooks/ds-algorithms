@@ -121,9 +121,7 @@ Picking a potential function that proves a meaningful bound is a very tricky tas
 
 - Always assume its minimum at the start of the sequence. A popular method of choosing potential functions is to ensure that the potential function is initially 0, and always nonnegative. All of the examples that we will encounter use this strategy.
 
-- Cancel a term in the actual time. In our case, if the actual cost was c, then the potential change was 2 - c. When these are added, an amortized cost of 2 is obtained. This is shown in
-
-Figure 11.5.
+- Cancel a term in the actual time. In our case, if the actual cost was c, then the potential change was 2 - c. When these are added, an amortized cost of 2 is obtained. This is shown in Figure 11.5.
 
 We can now perform a complete analysis of binomial queue operations.
 
@@ -226,11 +224,9 @@ If these two trees were both leftist heaps, then they could be merged in O (log 
 
 Nevertheless, it seems that this scheme will not work, because T2 is not necessarily leftist.However, it is easy to reinstate the leftist heap property by using two observations:
 
-- Only nodes on the path from p to the root of T2 can be in violation of the leftist heap property; these can be fixed by swapping children.
+- Only nodes on the path from p to the root of T2 can be in violation of the leftist heap property these can be fixed by swapping children.
 
-- Since the maximum right path length has at most log(n + 1) nodes, we only need to check the first log(n + 1) nodes on the path from p to the root of T2. Figure 11.13
-
-shows H1 and T2 after T2 is converted to a leftist heap.
+- Since the maximum right path length has at most log(n + 1) nodes, we only need to check the first log(n + 1) nodes on the path from p to the root of T2. Figure 11.13 shows H1 and T2 after T2 is converted to a leftist heap.
 
 ![Alt text](fig11.13.png)
 **Figure 11.13 T2 converted to the leftist heap H2**
@@ -238,9 +234,7 @@ shows H1 and T2 after T2 is converted to a leftist heap.
 ![Alt text](fig11.14.png)
 **Figure 11.14 decrease_key (H,x,9) completed by merging Hl and H2**
 
-Because we can convert T2 to the leftist heap H2 in O (log n) steps, and then merge H1 and H2, we have an O (log n) algorithm for performing the decrease_key operation in leftist heaps. The heap that results in our example is shown in
-
-                                Figure 11.14.
+Because we can convert T2 to the leftist heap H2 in O (log n) steps, and then merge H1 and H2, we have an O (log n) algorithm for performing the decrease_key operation in leftist heaps. The heap that results in our example is shown in Figure 11.14.
 
 ### Lazy Merging for Binomial Queues
 
@@ -273,11 +267,10 @@ THEOREM 11.3.
 PROOF:
 
 The potential function is the number of trees in the collection of binomial queues. The initial potential is 0, and the potential is always nonnegative. Thus, over a sequence of operations, the total amortized time is an upper bound on the total actual time.
-```
+```c
 /*1*/ for(r = 0; r <= log n ; r++)
 
 /*2*/ while (|Lr| 2)
-
 {
 
 /*3*/ remove two trees from Lr;

@@ -74,8 +74,7 @@ Analogously, we can declare a (max) heap, which enables us to efficiently find a
 
 ```c
 struct heap_struct
- 
-{
+ {
 
 /* Maximum # that can fit in the heap */
 
@@ -98,19 +97,16 @@ typedef struct heap_struct *PRIORITY_QUEUE;
 PRIORITY_QUEUE
 
 create_pq(unsigned int max_elements)
-
 {
 
 PRIORITY_QUEUE H;
 
 if(max_elements < MIN_PQ_SIZE)
-
 error("Priority queue size is too small");
 
 H = (PRIORITY_QUEUE) malloc (sizeof (struct heap_struct));
 
 if(H == NULL)
-
 fatal_error("Out of space!!!");
 
 /*Allocate the array + one extra for sentinel */
@@ -120,7 +116,6 @@ H->elements = (element_type *) malloc
 ((max_elements+1) * sizeof (element_type));
 
 if(H->elements == NULL)
-
 fatal_error("Out of space!!!");
 
 H->max_heap_size = max_elements;
@@ -163,23 +158,17 @@ We could have implemented the percolation in the insert routine by performing re
 ```c
 /* H->element[0] is a sentinel */
 
-void
-
-insert(elementtype x, PRIORITY_QUEUE H)
-{
+void insert(elementtype x, PRIORITY_QUEUE H){
 
 unsigned int i;
 
-if(is_full(H))
-error("Priority queue is full");
+if(is_full(H))error("Priority queue is full");
 
-else
-{
+else{
 
 i = ++H->size;
 
-while(H->elements[i/2] > x)
-{
+while(H->elements[i/2] > x){
 
 H->elements[i] = H->elements[i/2];
 
@@ -221,16 +210,13 @@ A frequent implementation error in heaps occurs when there are an even number of
 element_type
 
 delete_min(PRIORITY_QUEUE H)
-
 {
 
 unsigned int i, child;
 
 element_type min_element, last_element;
 
-if(is_empty(H))
-
-{
+if(is_empty(H)){
 
 error("Priority queue is empty");
 
@@ -243,7 +229,6 @@ min_element = H->elements[1];
 last_element = H->elements[H->size--];
 
 for(i=1; i*2 <= H->size; i=child)
-
 {
 
 /* find smaller child */
@@ -259,11 +244,9 @@ child++;
 * percolate one level *
 
 if(last_element > H->elements[child])
-
 H->elements[i] = H->elements[child];
 
 else
-
 break;
 
 }
@@ -508,7 +491,6 @@ Because insert is a macro and is textually substituted by the preprocessor, any 
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
-
 {
 
 element_type element;
@@ -538,23 +520,18 @@ and H2 in sorted order, keeping their respective left children. In our example, 
 PRIORITY_QUEUE
 
 merge(PRIORITY_QUEUE H1, PRIORITY_QUEUE H2)
-
 {
 
 if(H1 == NULL)
-
 return H2;
 
 if(H2 == NULL)
-
 return H1;
 
 if(H1->element < H2->element)
-
 return merge1(H1, H2);
 
 else
-
 return merge1(H2, H1);
 
 }
@@ -567,7 +544,6 @@ return merge1(H2, H1);
 PRIORITY_QUEUE
 
 merge1(PRIORITY_QUEUE H1, PRIORITY_QUEUE H2)
-
 {
 
 if(H1->left == NULL) /* single node */
@@ -576,14 +552,11 @@ H1->left = H2; /* H1->right is already NULL,
 
 H1->npl is already 0 */
 
-else
-
-{
+else{
 
 H1->right = merge(H1->right, H2);
 
 if(H1->left->npl < H1->right->npl)
-
 swap_children(H1);
 
 H1->npl = H1->right->npl + 1;
@@ -612,7 +585,6 @@ Finally, we can build a leftist heap in O(n) time by building a binary heap (obv
 PRIORITY_QUEUE
 
 insert1(element_type x, PRIORITY_QUEUE H)
-
 {
 
 tree_ptr single_node;
@@ -620,12 +592,9 @@ tree_ptr single_node;
 single_node = (tree_ptr) malloc(sizeof (struct tree_node));
 
 if(single_node == NULL)
-
 fatal_error("Out of space!!!");
 
-else
-
-{
+else{
 
 single_node->element = x; single_node->npl = 0;
 
@@ -653,7 +622,6 @@ return H;
 PRIORITY_QUEUE
 
 delete_min1(PRIORITY_QUEUE H)
-
 {
 
 PRIORITY_QUEUE left_heap, right_heap;
@@ -807,7 +775,6 @@ In order to merge two binomial queues, we need a routine to merge two binomial t
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
-
 {
 
 element_type element;
@@ -839,20 +806,15 @@ Then, to merge H1, we remove the first tree in H1 and add to it the result of me
 tree_ptr
 
 merge_tree(tree_ptr T1, tree_ptr T2)
-
 {
 
 if(T1->element > T2->element)
-
 return merge_tree(T2, T1);
 
 if(T1->rank++ == 0)
-
 T1->f_child = T2;
 
-else
-
-{
+else{
 
 T2->l_sib = T1->f_child->l_sib;
 
@@ -883,7 +845,6 @@ We have also seen several uses of priority queues, ranging from operating system
 PRIORITY_QUEUE
 
 merge(PRIORITY_QUEUE H1, PRIORITY_QUEUE H2)
-
 {
 
 PRIORITY_QUEUE H3;
@@ -891,16 +852,12 @@ PRIORITY_QUEUE H3;
 tree_ptr T1, T2, T3;
 
 if(H1 == NULL)
-
 return H2;
 
 if(H2 == NULL)
-
 return H1;
 
-if(H1->rank < H2->rank)
-
-{
+if(H1->rank < H2->rank){
 
 T1 = extract(H1); /* extract is a macro */
 
@@ -913,11 +870,9 @@ H3->l_sib->r_sib = NULL;
 T1->r_sib = H3; H3->l_sib = T1;
 
 return T1;
-
 {
 
 if(H2->rank < H1->rank)
-
 return merge(H2, H1);
 
 /* Otherwise, first two trees have same rank */

@@ -194,13 +194,11 @@ The statement Fk k2 is false. The easiest way to prove this is to compute F11 = 
 
 Proof by contradiction proceeds by assuming that the theorem is false and showing that this assumption implies that some known property is false, and hence the original assumption was erroneous. A classic example is the proof that there is an infinite number of primes. To prove this, we assume that the theorem is false, so that there is some largest prime pk. Let p1, p2, . . . , pk be all the primes in order and consider N = p1p2p3 . . . pk + 1 Clearly, N is larger than pk, so by assumption N is not prime. However, none of p1, p2, . . . , pk divide N exactly, because there will always be a remainder of 1. This is a contradiction, because every number is either prime or a product of primes. Hence, the original assumption, that pk is the largest prime, is false, which implies that the theorem is true.
 ```
-int f(int x)
-{
+int f(int x){
 /*1*/ if (x = 0)
 /*2*/ return 0;
 
-else
-/*3*/ return(2*f(x-1) + x*x);
+else/*3*/ return(2*f(x-1) + x*x);
 
 }
 ```
@@ -228,13 +226,11 @@ These considerations lead to the first two fundamental rules of recursion:
 
 Throughout this book, we will use recursion to solve problems. As an example of a nonmathematical use, consider a large dictionary. Words in dictionaries are defined in terms of other words. When we look up a word, we might not always understand the definition, so we might have to look up words in the definition. Likewise, we might not understand some of those, so we might have to continue this search for a while. As the dictionary is finite, eventually either we will come to a point where we understand all of the words in some definition (and thus understand that definition and retrace our path through the other definitions), or we will find that the definitions are circular and we are stuck, or that some word we need to understand a definition is not in the dictionary.
 ```c
-int bad(unsigned int n)
-{
+int bad(unsigned int n){
 
 /*2*/ return 0;
 
 else
-
 /*3*/ return(bad (n/3 + 1) + n - 1);
 
 }
@@ -267,13 +263,10 @@ PROOF:
 
 First, if n has one digit, then the program is trivially correct, since it merely makes a call to print_digit. Assume then that print_out works for all numbers of k or fewer digits. A number of k + 1 digits is expressed by its first k digits followed by its least significant digit. But the number formed by the first k digits is exactly _n_/10 , which, by the indicated hypothesis is correctly printed, and the last digit is n mod10, so the program prints out any (k + 1)-digit number correctly. Thus, by induction, all numbers are correctly printed.
 ```c
-void print_out(unsigned int n) /* print nonnegative n */
-{
-if(n<10)
-    print_digit(n);
+void print_out(unsigned int n) /* print nonnegative n */{
+if(n<10)    print_digit(n);
 
-else
-{
+else{
     print_out(n/10);
     print_digit(n%10);
 }
