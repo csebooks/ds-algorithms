@@ -81,7 +81,7 @@ The root of this directory is /usr. (The asterisk next to the name indicates tha
 ![alt text](t4.png)
 
 **Figure 4.5 UNIX directory**
-```js
+```c
 void
 
 list_directory (Directory_or_file D)
@@ -133,7 +133,7 @@ Since the directories are themselves files, they have sizes too. Suppose we woul
 ![alt text](t5.png)
 
 **Figure 4.8 UNIX directory with file sizes obtained via postorder traversal**
-```js
+```c
 unsigned int
 
 size_directory(Directory_or_file D)
@@ -243,7 +243,7 @@ A property of a binary tree that is sometimes important is that the depth of an 
 
 Because a binary tree has at most two children, we can keep direct pointers to them. The declaration of tree nodes is similar in structure to that for doubly linked lists, in that a node is a structure consisting of the key information plus two pointers (left and right) to other nodes see Many of the rules that apply to linked lists will apply to trees as well. In particular, when an insertion is performed, a node will have to be created by a call to malloc. Nodes can be freed after deletion by calling free.
 
-```js
+```c
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
@@ -322,7 +322,7 @@ We now give brief descriptions of the operations that are usually performed on b
 ![alt text](t15.png)
 
 **Figure 4.15 Two binary trees (only the left tree is a search tree)**
-```js
+```c
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
@@ -347,7 +347,7 @@ This operation is mainly for initialization. Some programmers prefer to initiali
 ### Find
 
 This operation generally requires returning a pointer to the node in tree T that has key x, or NULL if there is no such node. The structure of the tree makes this simple. If T is , then we can just return . Otherwise, if the key stored at T is x, we can return T. Otherwise, we make a recursive call on a subtree of T, either left or right, depending on the relationship of x to the key stored in T. The code in Figure 4.18 is an implementation of this strategy.
-```js
+```c
 SEARCH_TREE
 
 make_null (void)
@@ -359,7 +359,7 @@ return NULL;
 }
 ```
 **Figure 4.17 Routine to make an empty tree**
-```js
+```c
 tree_ptr
 
 find(element_type x, SEARCH_TREE T)
@@ -397,7 +397,7 @@ These routines return the position of the smallest and largest elements in the t
 This is so easy that many programmers do not bother using recursion. We will code the routines both ways by doing find_min recursively and find_max nonrecursively (see Figs. 4.19 and 4.20).
 
 Notice how we carefully handle the degenerate case of an empty tree. Although this is always important to do, it is especially crucial in recursive programs. Also notice that it is safe to change T in find_max, since we are only working with a copy. Always be extremely careful, however, because a statement such as T -> right : =T -> right -> right will make changes in most languages.
-```js
+```c
 tree_ptr
 
 find_min(SEARCH_TREE T)
@@ -421,7 +421,7 @@ return(find_min (T->left));
 }
 ```
 **Figure 4.19 Recursive implementation of find_min for binary search trees**
-```js
+```c
 tree_ptr
 
 find_max(SEARCH_TREE T)
@@ -449,7 +449,7 @@ Duplicates can be handled by keeping an extra field in the node record indicatin
 **Figure 4.21 Binary search trees before and after inserting 5**
 
 Figure 4.22 shows the code for the insertion routine. Since T points to the root of the tree, and the root changes on the first insertion, insert is written as a function that returns a pointer to the root of the new tree. Lines 8 and 10 recursively insert and attach x into the appropriate subtree.
-```js
+```c
 tree_ptr
 
 insert(element_type x, SEARCH_TREE T)
@@ -515,7 +515,7 @@ The complicated case deals with a node with two children. The general strategy i
 The code in Figure 4.25 performs deletion. It is inefficient, because it makes two passes down the tree to find and delete the smallest node in the right subtree when this is appropriate. It is easy to remove this inefficiency, by writing a special delete_min function, and we have left it in only for simplicity.
 
 If the number of deletions is expected to be small, then a popular strategy to use is lazy deletion: When an element is to be deleted, it is left in the tree and merely marked as being deleted. This is especially popular if duplicate keys are present, because then the field that keeps count of the frequency of appearance can be decremented. If the number of real nodes in the tree is the same as the number of "deleted" nodes, then the depth of the tree is only expected to go up by a small constant (why?), so there is a very small time penalty associated with lazy deletion. Also, if a deleted key is reinserted, the overhead of allocating a new cell is avoided.
-```js
+```c
 tree_ptr
 
 delete(element_type x, SEARCH_TREE T)
@@ -724,7 +724,7 @@ The reader can verify that any imbalance caused by an insertion into an AVL tree
 Another efficiency issue concerns storage of the height information. Since all that is really required is the difference in height, which is guaranteed to be small, we could get by with two bits (to represent +1, 0, -1) if we really try. Doing so will avoid repetitive calculation of balance factors but results in some loss of clarity. The resulting code is somewhat more complicated than if the height were stored at each node. If a recursive routine is written, then speed is probably not the main consideration. In this case, the slight speed advantage obtained by storing balance factors hardly seems worth the loss of clarity and relative simplicity. Furthermore, since most machines will align this to at least an 8-bit boundary anyway, there is not likely to be any difference in the amount of space used. Eight bits will allow us to store absolute heights of up to 255. Since the tree is balanced, it is inconceivable that this would be insufficient (see the exercises).
 
 With all this, we are ready to write the **AVL** routines. We will do only a partial job and leave the rest as an exercise. First, we need the declarations. These are given in Figure 4.35. We also need a quick function to return the height of a node. This function is necessary to handle the annoying case of a NULL pointer. This is shown in Figure 4.36. The basic insertion routine is easy to write, sinceit consists mostly of function calls (see Fig. 4.37).
-```js
+```c
 typedef struct avl_node *avl_ptr;
 
 struct avl_node
@@ -744,7 +744,7 @@ int height;
 typedef avl_ptr SEARCH_TREE;
 ```
 **Figure 4.35 Node declaration for AVL trees**
-```js
+```c
 int
 
 height(avl_ptr p)
@@ -776,7 +776,7 @@ We now describe a relatively simple data structure, known as a splay tree, that 
 Splay trees are based on the fact that the O(n) worst-case time per operation for binary search trees is not bad, as long at it occurs relatively infrequently. Any one access, even if it takes O(n), is still likely to be extremely fast. The problem with binary search trees is that it is possible, and not uncommon, for a whole sequence of bad accesses to take place. The cumulative running time then becomes noticeable. A search tree data structure with O(n) worst-case time, but a guarantee of at most O(m log n) for any m consecutive operations, is certainly satisfactory, because there are no bad sequences.
 
 If any particular operation is allowed to have an O(n) worst-case time bound, and we still want an O(log n) amortized time bound, then it is clear that whenever a node is accessed, it must be moved. Otherwise, once we find a deep node, we could keep performing finds on it. If the node does not change location, and each access costs O(n), then a sequence of m accesses will cost O(m n).
-```js
+```c
 SEARCH_TREE
 
 insert(element_type x, SEARCH_TREE T)
@@ -870,7 +870,7 @@ return T;
 ![alt text](t41.png)
 
 **Figure 4.38**
-```js
+```c
 /* This function can be called only if k2 has a left child. */
 
 /* Perform a rotate between a node (k2) and its left child. */
@@ -906,7 +906,7 @@ return k1; /* New root */
 ![alt text](t42.png)
 
 **Figure 4.40**
-```js
+```c
 /* This function can be called only if k3 has a left child */
 
 /* and k3's left child has a right child */
@@ -1037,7 +1037,7 @@ The type declarations (Fig. 4.54) are simple to understand. The splaying routine
 The rotation routines are similar to the AVL rotations, except that the parent pointers must be maintained. Some sample routines are in the figures that follow. Since zig rotations always make x the new root, we know that x will have no parent after the operation. The code for this is in Figure 4.57.
 
 Zig-zigs and Zig-zags are similar. We will write the one routine to perform the zig-zig splay when both x and p are left children. One way to do this is to write a single_rotate routine that includes pointer changes for the parent, and then implement the complex rotations with two single rotations. This is the way we coded the AVL routines. We have taken a different approach in Figure 4.58 to show the diversity of styles available. See Figure 4.59. You should try to code the other cases yourself; it will be excellent pointer manipulation practice.
-```js
+```c
 typedef struct splay_node *splay_ptr;
 
 struct splay_node
@@ -1057,7 +1057,7 @@ splay-ptr parent;
 typedef splay_ptr SEARCH_TREE;
 ```
 **Figure 4.54 Type declarations for splay trees**
-```js
+```c
 void
 
 splay(splay_ptr current)
@@ -1085,7 +1085,7 @@ father = current->parent;
 }
 ```
 **Figure 4.55 Basic splay routine**
-```js
+```c
 void
 
 single_rotate(splay_ptr x)
@@ -1103,7 +1103,7 @@ zig_right(x);
 }
 ```
 **Figure 4.56 Single rotation**
-```js
+```c
 void
 
 zig_left(splay_ptr x)
@@ -1137,7 +1137,7 @@ We can perform deletion by accessing the node to be deleted. This puts the node 
 The analysis of splay trees is difficult, because it must take into account the ever-changing structure of the tree. On the other hand, splay trees are much simpler to program than AVL trees, since there are fewer cases to consider and no balance information to maintain. Our splay tree code may look complicated, but as pointed out before, it can be simplified; it is probably much simpler than a nonrecursive AVL implementation. Some empirical evidence suggests that this translates into faster code in practice, although the case for this is far from complete. Finally, we point out that there are several variations of splay trees that can perform even better in practice.
 
 ![alt text](t62.png)
-```js
+```c
 Figure 4.58
 
 void
@@ -1197,7 +1197,7 @@ ggp->right = x;
 Because of the ordering information in a binary search tree, it is simple to list all the keys in sorted order. The recursive procedure in Figure 4.60 does this.
 
 Convince yourself that this procedure works. As we have seen before, this kind of routine when applied to trees is known as an inorder traversal (which makes sense, since it lists the keys in order). The general strategy of an inorder traversal is to process the left subtree first, then perform processing at the current node, and finally process the right subtree. The interesting part about this algorithm, aside from its simplicity, is that the total running time is O (n). This is because there is constant work being performed at every node in the tree. Each node is visited once, and the work performed at each node is testing against NULL, setting up two procedure calls, and doing a print_element. Since there is constant work per node and n nodes, the running time is O(n).
-```js
+```c
 void
 
 print_tree(SEARCH_TREE T)

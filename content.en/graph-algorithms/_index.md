@@ -70,7 +70,7 @@ To formalize this, we define the indegree of a vertex v as the number of edges (
 
 The function find_new_vertex_of_indegree_zero scans the indegree array looking for a vertex with indegree 0 that has not already been assigned a topological number. It returns NOT_A_VERTEX if no such vertex exists; this indicates that the graph has a cycle.
 
-```js
+```c
 void
 topsort(graph G)
 {
@@ -131,7 +131,7 @@ enqueue v1 v2 v5 v4 v3 v7 v6
 dequeue v1 v2 v5 v4 v3 v7 v6
 
 Figure 9.6 Result of applying topological sort to the graph in Figure 9.4
-```js
+```c
 void
 
 topsort(graph G)
@@ -192,11 +192,7 @@ For example, in the graph in Figure 9.8, the shortest weighted path from v~1~ to
 
 Generally, when it is not specified whether we are referring to a weighted or an unweighted path, the path is weighted if the graph is. Notice also that in this graph there is no path from v6 to v1.
 
-The graph in the preceding example has no edges of negative cost. The graph in Figure 9.9 shows the problems that negative edges can cause. The path from v~5~ to v~4~ has cost 1, but a shorter path
-
-exists by following the loop v~5~, v~4~, v~2~, v~5~, v~4~, which has cost -5. This path is still not the shortest, because we could stay in the loop arbitrarily long. Thus, the shortest path between these two points is undefined. Similarly, the shortest path from v~~ to v~6~ is undefined, because
-
-we can get into the same loop. This loop is known as a negative-cost cycle; when one is present in the graph, the shortest paths are not defined. Negative-cost edges are not necessarily bad, as the cycles are, but their presence seems to make the problem harder. For convenience, in the absence of a negative-cost cycle, the shortest path from s to s is zero.
+The graph in the preceding example has no edges of negative cost. The graph in Figure 9.9 shows the problems that negative edges can cause. The path from v~5~ to v~4~ has cost 1, but a shorter path exists by following the loop v~5~, v~4~, v~2~, v~5~, v~4~, which has cost -5. This path is still not the shortest, because we could stay in the loop arbitrarily long. Thus, the shortest path between these two points is undefined. Similarly, the shortest path from v~~ to v~6~ is undefined, because we can get into the same loop. This loop is known as a negative-cost cycle; when one is present in the graph, the shortest paths are not defined. Negative-cost edges are not necessarily bad, as the cycles are, but their presence seems to make the problem harder. For convenience, in the absence of a negative-cost cycle, the shortest path from s to s is zero.
 
 ![Alt text](figure-9.8.png)
 
@@ -208,9 +204,7 @@ We can model airplane or other mass transit routes by graphs and use a shortest-
 
 We will examine algorithms to solve four versions of this problem. First, we will consider the unweighted shortest-path problem and show how to solve it in O(|E| + |V|). Next, we will show how to solve the weighted shortest-path problem if we assume that there are no negative edges. The running time for this algorithm is O (|E| log |V|) when implemented with reasonable data structures.
 
-If the graph has negative edges, we will provide a simple solution, which unfortunately has a
-
-poor time bound of O (|E| |V|). Finally, we will solve the weighted problem for the special case of acyclic graphs in linear time.
+If the graph has negative edges, we will provide a simple solution, which unfortunately has a poor time bound of O (|E| |V|). Finally, we will solve the weighted problem for the special case of acyclic graphs in linear time.
 
 ### Unweighted Shortest Paths
 
@@ -239,9 +233,7 @@ Finally we can find, by examining vertices adjacent to the recently evaluated v~
 
 This strategy for searching a graph is known as breadth-first search. It operates by processing vertices in layers: the vertices closest to the start are evaluated first, and the most distant vertices are evaluated last. This is much the same as a level-order traversal for trees.
 
-Given this strategy, we must translate it into code. Figure 9.15 shows the initial configuration
-
-of the table that our algorithm will use to keep track of its progress.
+Given this strategy, we must translate it into code. Figure 9.15 shows the initial configuration of the table that our algorithm will use to keep track of its progress.
 
 For each vertex, we will keep track of three pieces of information. First, we will keep its distance from s in the entry dv. Initially all vertices are unreachable except for s, whose path length is 0. The entry in pv is the bookkeeping variable, which will allow us to print the actual paths. The entry known is set to 1 after a vertex is processed. Initially, all entries are unknown, including the start vertex.
  
@@ -274,7 +266,7 @@ The basic algorithm can be described in Figure 9.16. The algorithm in Figure 9.1
 By tracing back through the pv variable, the actual path can be printed. We will see how when we discuss the weighted case.
  
 The running time of the algorithm is O(|V|2), because of the doubly nested for loops. An obvious inefficiency is that the outside loop continues until NUM_VERTEX -1, even if all the vertices become known much earlier. Although an extra test could be made to avoid this, it does not affect the worst-case running time, as can be seen by generalizing what happens when the input is the graph in Figure 9.17 with start vertex v9.
-```js
+```c
 void
 
 unweighted(TABLE T) * assume T is initialized *
@@ -321,9 +313,7 @@ A very simple but abstract solution is to keep two boxes. Box #1 will have the u
 
 We can refine this idea even further by using just one queue. At the start of the pass, the queue contains only vertices of distance curr_dist. When we add adjacent vertices of distance curr_dist + 1, since they enqueue at the rear, we are guaranteed that they will not be processed until after all the vertices of distance curr_dist have been processed. After the last vertex at distance curr_dist dequeues and is processed, the queue only contains vertices of distance curr_dist + 1, so this process perpetuates. We merely need to begin the process by placing the start node on the queue by itself.
 
-The refined algorithm is shown in
-
-Figure 9.18. In the pseudocode, we have assumed that the start vertex, s, is known somehow and T[s].dist is 0. A C routine might pass s as an argument. Also, it is possible that the queue might empty prematurely, if some vertices are unreachable from the start node. In this case, a distance of INT_MAX will be reported for these nodes, which is perfectly reasonable. Finally, the known field is not used; once a vertex is processed it can never enter the queue again, so the fact that it need not be reprocessed is implicitly marked. Thus, the known field can be discarded. Figure 9.19 shows how the values on the graph we have been using are changed during the algorithm. We keep the known field to make the table easier to follow, and for consistency with the rest of this section.
+The refined algorithm is shown in Figure 9.18. In the pseudocode, we have assumed that the start vertex, s, is known somehow and T[s].dist is 0. A C routine might pass s as an argument. Also, it is possible that the queue might empty prematurely, if some vertices are unreachable from the start node. In this case, a distance of INT_MAX will be reported for these nodes, which is perfectly reasonable. Finally, the known field is not used; once a vertex is processed it can never enter the queue again, so the fact that it need not be reprocessed is implicitly marked. Thus, the known field can be discarded. Figure 9.19 shows how the values on the graph we have been using are changed during the algorithm. We keep the known field to make the table easier to follow, and for consistency with the rest of this section.
 
 Using the same analysis as was performed for topological sort, we see that the running time is O (|E| + |V|), as long as adjacency lists are used.
 
@@ -332,7 +322,7 @@ Using the same analysis as was performed for topological sort, we see that the r
 If the graph is weighted, the problem (apparently) becomes harder, but we can still use the ideas from the unweighted case.
 
 We keep all of the same information as before. Thus, each vertex is marked as either known or unknown. A tentative distance dv is kept for each vertex, as before. This distance turns out to be the shortest path length from s to v using only known vertices as intermediates. As before, we record p~v~, which is the last vertex to cause a change to d~v~.
-```js
+```c
 void
 
 unweighted(TABLE T) * assume T is initialized (Fig 9.30) *
@@ -381,9 +371,7 @@ dispose_queue(Q); * free the memory *
 
 The general method to solve the single-source shortest-path problem is known as Dijkstra's algorithm. This thirty-year-old solution is a prime example of a greedy algorithm. Greedy algorithms generally solve a problem in stages by doing what appears to be the best thing at each stage. For example, to make change in U.S. currency, most people count out the quarters first, then the dimes, nickels, and pennies. This greedy algorithm gives change using the minimum number of coins. The main problem with greedy algorithms is that they do not always work. The addition of a 12-cent piece breaks the coin-changing algorithm, because the answer it gives (one 12-cent piece and three pennies) is not optimal (one dime and one nickel).
 
-Dijkstra's algorithm proceeds in stages, just like the unweighted shortest-path algorithm. At each stage, Dijkstra's algorithm selects a vertex v, which has the smallest dv among all the
-
-unknown vertices, and declares that the shortest path from s to v is known. The remainder of a stage consists of updating the values of dw.
+Dijkstra's algorithm proceeds in stages, just like the unweighted shortest-path algorithm. At each stage, Dijkstra's algorithm selects a vertex v, which has the smallest dv among all the unknown vertices, and declares that the shortest path from s to v is known. The remainder of a stage consists of updating the values of dw.
 
 Initial State v~3~ Dequeued v~1~ Dequeued v~6~ Dequeued
 
@@ -437,13 +425,9 @@ v~7~ 0 0 0 3 v~4~ 0 3 v~4~ 1 3 v~4~
 
 Q: v~4~,v~5~ v~5~,v~7~ v~7~ empty
 
-Figure 9.19 How the data structure changes during the unweighted shortest-path algorithm
+Figure 9.19 How the data structure changes during the unweighted shortest-path algorithm In the unweighted case, we set d~w~ = d~v + 1~ if d~w~ = . Thus, we essentially lowered the value of dw if vertex v offered a shorter path. If we apply the same logic to the weighted case, then we should set d~w~ = d~v~ + c~v~,w if this new value for dw would be an improvement. Put simply, the algorithm decides whether or not it is a good idea to use v on the path to w. The original cost, dw, is the cost without using v; the cost calculated above is the cheapest path using v (and only known vertices).
 
-In the unweighted case, we set d~w~ = d~v + 1~ if d~w~ = . Thus, we essentially lowered the value of dw if vertex v offered a shorter path. If we apply the same logic to the weighted case, then we should set d~w~ = d~v~ + c~v~,w if this new value for dw would be an improvement. Put simply, the algorithm decides whether or not it is a good idea to use v on the path to w. The original cost, dw, is the cost without using v; the cost calculated above is the cheapest path using v (and only known vertices).
-
-The graph in
-
-Figure 9.20 is our example. Figure 9.21 represents the initial configuration, assuming that the start node, s, is v~2~. The first vertex selected is v~1~, with path length 0. This vertex is marked known. Now that v~1~ is known, some entries need to be adjusted. The vertices adjacent to v~1~ are v~2~ and v~4~. Both these vertices get their entries adjusted, as indicated in
+The graph in Figure 9.20 is our example. Figure 9.21 represents the initial configuration, assuming that the start node, s, is v~2~. The first vertex selected is v~1~, with path length 0. This vertex is marked known. Now that v~1~ is known, some entries need to be adjusted. The vertices adjacent to v~1~ are v~2~ and v~4~. Both these vertices get their entries adjusted, as indicated in
 Figure 9.22.
 
 Next, v~4~ is selected and marked known. Vertices v~3~, v~5~, v~6~, and v~7~ are adjacent, and it turns out that all require adjusting, as shown in Figure 9.23.
@@ -580,9 +564,7 @@ The resulting table is depicted in Figure 9.25.
 
 Next v7 is selected; v6 gets updated down to 5 + 1 = 6. The resulting table is Figure 9.26.
 
-Finally, v6 is selected. The final table is shown in Figure 9.27. Figure 9.28 graphically shows
-
-how edges are marked known and vertices updated during Dijkstra's algorithm.
+Finally, v6 is selected. The final table is shown in Figure 9.27. Figure 9.28 graphically shows how edges are marked known and vertices updated during Dijkstra's algorithm.
 
 v Known d~v~ p~v~
 
@@ -606,16 +588,14 @@ Figure 9.27 After v~6~ **is declared known and algorithm terminates**
   
 ![Alt text](figure-9.28.png)
 
-
 To print out the actual path from a start vertex to some vertex v, we can write a recursive routine to follow the trail left in the p array.
 
 We now give pseudocode to implement Dijkstra's algorithm. We will assume that the vertices are numbered from 0 to NUM_VERTEX for convenience (see Fig. 9.29), and that the graph can be read into an adjacency list by the routine read_graph.
 
 In the routine in Figure 9.30, the start vertex is passed to the initialization routine. This is the only place in the code where the start vertex needs to be known.
 
-
 The path can be printed out using the recursive routine in Figure 9.31. The routine recursively prints the path all the way up to the vertex before v on the path, and then just prints v. This works because the path is simple.
-```js
+```c
 typedef int vertex;
 
 struct table_entry
@@ -639,7 +619,7 @@ vertex path;
 typedef struct table_entry TABLE[NUM_VERTEX+1];
 ```
 **Figure 9.29 Declarations for Dijkstra's algorithm**
-```js
+```c
 void
 
 init_table(vertex start, graph G, TABLE T)
@@ -671,7 +651,7 @@ T[start].dist = 0;
 /* print shortest path to v after dijkstra has run */
 
 /* assume that the path exists */  
-```js
+```c
 void
 
 print_path(vertex v, TABLE T)
@@ -702,12 +682,10 @@ If the graph is sparse, with |E| = (|V|), this algorithm is too slow. In this ca
 
 Lines 2 and 5 combine to form a delete_min operation, since once the unknown minimum vertex is found, it is no longer unknown and must be removed from future consideration. The update at line 9 can be implemented two ways.
 
-One way treats the update as a decrease_key operation. The time to find the minimum is then O(log |V|), as is the time to perform updates, which amount to decrease_key operations. This gives a running time of O(|E| log |V| + |V| log |V|) = O(|E| log |V|), an improvement over the previous bound for sparse graphs. Since priority queues do not efficiently support the find operation, the location in the priority queue of each value of di will need to be maintained and updated
-
-whenever di changes in the priority queue. This is not typical of the priority queue ADT and thus is considered ugly.
+One way treats the update as a decrease_key operation. The time to find the minimum is then O(log |V|), as is the time to perform updates, which amount to decrease_key operations. This gives a running time of O(|E| log |V| + |V| log |V|) = O(|E| log |V|), an improvement over the previous bound for sparse graphs. Since priority queues do not efficiently support the find operation, the location in the priority queue of each value of di will need to be maintained and updated whenever di changes in the priority queue. This is not typical of the priority queue ADT and thus is considered ugly.
 
 The alternate method is to insert w and the new value dw into the priority queue every time line 9 is executed. Thus, there may be more than one representative for each vertex in the priority queue. When the delete_min operation removes the smallest vertex from the priority queue, it must be checked to make sure that it is not already known. Thus, line 2 becomes a loop performing delete_mins until an unknown vertex emerges. Although this method is superior from a software point of view, and is certainly much easier to code, the size of the priority queue could get to be as big as |E|. This does not affect the asymptotic time bounds, since |E| |V|2 implies that log|E| 2 log |V|. Thus, we still get an O(|E| log |V|) algorithm. However, the space requirement does increase, and this could be important in some applications. Moreover, because this method requires |E| delete_mins instead of only |V|, it is likely to be slower in practice.
-```js
+```c
 void
 
 dijkstra(TABLE T)
@@ -752,7 +730,7 @@ Figure 9.32 Pseudocode for Dijkstra's algorithm
 Notice that for the typical problems, such as computer mail and mass transit commutes, the graphs are typically very sparse because most vertices have only a couple of edges, so it is important in many applications to use a priority queue to solve this problem.
 
 There are better time bounds possible using Dijkstra's algorithm if different data structures are used. In Chapter 11, we will see another priority queue data structure called the Fibonacci heap. When this is used, the running time is O(|E| + |V| log |V|). Fibonacci heaps have good theoretical time bounds but a fair amount of overhead, so it is not dear whether using Fibonacci heaps is actually better in practice than Dijkstra's algorithm with binary heaps. Needless to say, there are no average-case results for this problem, since it is not even obvious how to model a random graph.
-```js
+```c
 void /* assume T is initialized as in Fig 9.18 */
 
 weighted_negative(TABLE T)
@@ -832,9 +810,7 @@ To find the earliest completion time of the project, we merely need to find the 
 
 Figure 9.36 shows the earliest completion time for each event in our example event-node graph.
 
-We can also compute the latest time, LCi, that each event can finish without affecting the final completion time. The formulas to do this are
-
-LCn = ECn
+We can also compute the latest time, LCi, that each event can finish without affecting the final completion time. The formulas to do this are LCn = ECn
 
 ![Alt text](f2.png)
 
@@ -1085,9 +1061,7 @@ v~7~ 1 4 v~4~
 
 Figure 9.55 The table after v~6~ **and v~5~ are selected (Prim's algorithm terminates)**
 
-The edges could be sorted to facilitate the selection, but building a heap in linear time is a much better idea. Then delete_mins give the edges to be tested in order. Typically, only a small fraction of the edges needs to be tested before the algorithm can terminate, although it is always possible that all the edges must be tried. For instance, if there was an extra vertex v~8~ and edge (v~5~, v~8~) of cost 100, all the edges would have to be examined. Procedure kruskal in
-
-Figure 9.58 finds a minimum spanning tree. Because an edge consists of three pieces of data, on some machines it is more efficient to implement the priority queue as an array of pointers to edges, rather than as an array of edges. The effect of this implementation is that, to rearrange the heap, only pointers, not large records, need to be moved.
+The edges could be sorted to facilitate the selection, but building a heap in linear time is a much better idea. Then delete_mins give the edges to be tested in order. Typically, only a small fraction of the edges needs to be tested before the algorithm can terminate, although it is always possible that all the edges must be tried. For instance, if there was an extra vertex v~8~ and edge (v~5~, v~8~) of cost 100, all the edges would have to be examined. Procedure kruskal in Figure 9.58 finds a minimum spanning tree. Because an edge consists of three pieces of data, on some machines it is more efficient to implement the priority queue as an array of pointers to edges, rather than as an array of edges. The effect of this implementation is that, to rearrange the heap, only pointers, not large records, need to be moved.
 
 Edge Weight Action
 
@@ -1116,7 +1090,7 @@ Figure 9.56 Action of Kruskal's algorithm on G
 ![Alt text](figure-9.57.png)
 
 The worst-case running time of this algorithm is O(|E| log |E|), which is dominated by the heap operations. Notice that since |E| = O(|V|^2^), this running time is actually O(|E| log |V|). In practice, the algorithm is much faster than this time bound would indicate.
-```js
+```c
 void
 
 kruskal(graph G)
@@ -1174,7 +1148,7 @@ set_union(S, u_set, v_set);
 ## Applications of Depth-First Search
 
 Depth-first search is a generalization of preorder traversal. Starting at some vertex, v, we process v and then recursively traverse all vertices adjacent to v. If this process is performed on a tree, then all tree vertices are systematically visited in a total of O(|E|) time, since |E|= (|V|). If we perform this process on an arbitrary graph, we need to be careful to avoid cycles. To do this, when we visit a vertex v, we mark it visited, since now we have been there, and recursively call depth-first search on all adjacent vertices that are not already marked. We implicitly assume that for undirected graphs every edge (v, w) appears twice in the adjacency lists: once as (v, w) and once as (w, v). The procedure in Figure 9.59 performs a depth-first search (and does absolutely nothing else) and is a template for the general style.
-```js
+```c
 void
 
 dfs(vertex v)
@@ -1196,9 +1170,7 @@ dfs(w);
 
 The (global) boolean array visited[ ] is initialized to FALSE. By recursively calling the procedures only on nodes that have not been visited, we guarantee that we do not loop indefinitely. If the graph is undirected and not connected, or directed and not strongly connected, this strategy might fail to visit some nodes. We then search for an unmarked node, apply a depth-first traversal there, and continue this process until there are no unmarked nodes.* Because this strategy guarantees that each edge is encountered only once, the total time to perform the traversal is O(|E| + |V|), as long as adjacency lists are used.
 
-* An efficient way of implementing this is to begin the depth-first search at v1. If we need to restart the depth-first search, we examine the sequence v~k~, v~k + 1~, . . . for an unmarked vertex,
-
-where v~k - 1~ is the vertex where the last depth-first search was started. This guarantees that throughout the algorithm, only O(|V|) is spent looking for vertices where new depth-first search trees can be started.
+* An efficient way of implementing this is to begin the depth-first search at v1. If we need to restart the depth-first search, we examine the sequence v~k~, v~k + 1~, . . . for an unmarked vertex, where v~k - 1~ is the vertex where the last depth-first search was started. This guarantees that throughout the algorithm, only O(|V|) is spent looking for vertices where new depth-first search trees can be started.
 
 ### Undirected Graphs
 
@@ -1208,9 +1180,7 @@ As an example of depth-first search, suppose in the graph of Figure 9.60 we star
 
 ![Alt text](figure-9.60.png)
  
-We graphically illustrate these steps with a depth-first spanning tree. The root of the tree is A, the first vertex visited. Each edge (v, w) in the graph is present in the tree. If, when we process (v, w), we find that w is unmarked, or if, when we process (w, v), we find that v is unmarked, we indicate this with a tree edge. If when we process (v, w), we find that w is already marked, and when processing (w, v), we find that v is already marked, we draw a dashed line, which we will call a back edge, to indicate that this "edge" is not really part of the tree. The depth-first search of the graph in
-
-Figure 9.60 is shown in Figure 9.61.
+We graphically illustrate these steps with a depth-first spanning tree. The root of the tree is A, the first vertex visited. Each edge (v, w) in the graph is present in the tree. If, when we process (v, w), we find that w is unmarked, or if, when we process (w, v), we find that v is unmarked, we indicate this with a tree edge. If when we process (v, w), we find that w is already marked, and when processing (w, v), we find that v is already marked, we draw a dashed line, which we will call a back edge, to indicate that this "edge" is not really part of the tree. The depth-first search of the graph in Figure 9.60 is shown in Figure 9.61.
 
 The tree will simulate the traversal we performed. A preorder numbering of the tree, using only tree edges, tells us the order in which the vertices were marked. If the graph is not connected, then processing all nodes (and edges) requires several calls to dfs, and each generates a tree. This entire collection is a depth-first spanning forest, which is so named for obvious reasons.
 
@@ -1258,7 +1228,7 @@ Consider the three figures in Figure 9.68. A popular puzzle is to reconstruct th
 
 ![Alt text](figure-9.64.png)
 
-```js
+```c
 /* assign num and compute parents */
 void
 
@@ -1288,7 +1258,7 @@ assign_num(w);
 **Figure 9.65 Routine to assign num to vertices (pseudocode)**
 
 /* assign low. Also check for articulation points */
-```js
+```c
 void
 
 assign_low(vertex v)
@@ -1328,7 +1298,7 @@ low[v] = min(low[v], num[w]); /* Rule 2 */
 }
 ```
 **Figure 9.66 Pseudocode to compute low and to test for articulation points (test for the root is omitted)**
-```js
+```c
 void
 
 find_art(vertex v)
@@ -1461,13 +1431,7 @@ The situation for these problem variations is actually much worse than we have d
 
 In this section we will take a brief look at this problem. This topic is rather complex, so we will only take a quick and informal look at it. Because of this, the discussion may be (necessarily) somewhat imprecise in places.
 
-We will see that there are a host of important problems that are roughly equivalent in complexity. These problems form a class called the NP-complete problems. The exact complexity of these NP-complete problems has yet to be determined and remains the foremost open problem in theoretical computer science. Either all these problems have polynomial-time solutions or none of them do.
-
-**9.7.1. Easy vs. Hard***
-
-**9.7.2. The Class NP**
-
-**9.7.3. NP-Complete Problems**
+We will see that there are a host of important problems that are roughly equivalent in complexity. These problems form a class called the NP-complete problems. The exact complexity of these NP-complete problems has yet to be determined and remains the foremost open problem in theoretical computer science.Either all these problems have polynomial-time solutions or none of them do.
 
 ### Easy vs. Hard
 
@@ -1675,9 +1639,7 @@ b. Give an algorithm that determines whether it is possible to pick up all the s
 
 **9.39** The clique problem can be stated as follows: Given an undirected graph G = (V, E) and an integer K, does G contain a complete subgraph of at least K vertices?
 
-The vertex cover problem can be stated as follows: Given an undirected graph G = (V, E) and an
-
-integer K, does G contain a subset V' V such that V' K and every edge in G has a vertex in V'? Show that the clique problem is polynomially reducible to vertex cover.
+The vertex cover problem can be stated as follows: Given an undirected graph G = (V, E) and an integer K, does G contain a subset V' V such that V' K and every edge in G has a vertex in V'? Show that the clique problem is polynomially reducible to vertex cover.
 
 **9.40** Assume that the Hamiltonian cycle problem is NP-complete for undirected graphs.
 

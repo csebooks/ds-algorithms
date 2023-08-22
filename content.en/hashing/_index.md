@@ -70,7 +70,7 @@ For instance, another way of computing hk = k1 + 27k2 + 27 2k3 is by the formula
 
 We have used 32 instead of 27, because multiplication by 32 is not really a multiplication, but amounts to bit-shifting by five. In line 2, the addition could be replaced with a bitwise exclusive or, for increased speed.
 
-```js
+```c
 INDEX
 
 hash(char *key, unsigned int H_SIZE)
@@ -115,7 +115,7 @@ item is found. To perform an insert, we traverse down the appropriate list to ch
 Figure 5.6 An open hash table
 
 The type declarations required to implement open hashing are in Figure 5.7. The first few lines are the same as the linked list declarations of Chapter 3. The hash table structure contains the actual size and an array of linked lists, which are dynamically allocated when the table is initialized. The HASH_TABLE type is just a pointer to this structure.
-```js
+```c
 typedef struct list_node *node_ptr;
 
 struct list_node
@@ -223,11 +223,11 @@ Figure 5.8 Initialization routine for open hash table
 Figure 5.8 shows the initialization function, which uses the same ideas that were seen in the array implementation of stacks. Lines 4 through 6 allocate a hash table structure. If space is available, then H will point to a structure containing an integer and a pointer to a list. Line 7 sets the table size to a prime number, and lines 8 through 10 attempt to allocate an array of lists. Since a LIST is defined to be a pointer, the result is an array of pointers.
 
 If our LIST implementation was not using headers, we could stop here. Since our implementation uses headers, we must allocate one header per list and set its next field to NULL. This is done in lines 11 through 15. Of course, lines 12 through 15 could be replaced with the statement
-```js
+```c
 H->the_lists[i] = make_null();
 ```
 Although we have not used this option, because in this instance it is preferable to make the code as self-contained as possible, it is certainly worth considering. An inefficiency of our code is that the malloc on line 12 is performed H->table_size times. This can be avoided by replacing line 12 with one call to malloc before the loop occurs:
-```js
+```c
 H->the lists = (LIST*) malloc
 
 (H->table_size * sizeof (struct list_node));
@@ -239,7 +239,7 @@ The call find(key, H) will return a pointer to the cell containing key. The code
 Next comes the insertion routine. If the item to be inserted is already present, then we do nothing; otherwise we place it at the front of the list (see Fig. 5.10).*
 
 *Since the table in Figure 5.6 was created by inserting at the end of the list, the code in Figure 5.10 will produce a table with the lists in Figure 5.6 reversed.
-```js
+```c
 position
 
 find(element_type key, HASH_TABLE H)
@@ -265,7 +265,7 @@ LIST L;
 }
 ```
 Figure 5.9 Find routine for open hash table
-```js
+```c
 void
 
 insert(element_type key, HASH_TABLE H)
@@ -391,7 +391,7 @@ If the table is even one more than half full, the insertion could fail (although
 Standard deletion cannot be performed in a closed hash table, because the cell might have caused a collision to go past it. For instance, if we remove 89, then virtually all of the remaining finds will fail. Thus, closed hash tables require lazy deletion, although in this case there really is no laziness implied.
 
 The type declarations required to implement closed hashing are in Figure 5.14. Instead of an array of lists, we have an array of hash table entry cells, which, as in open hashing, are allocated dynamically. Initializing the table (Figure 5.15) consists of allocating space (lines 1 through 10) and then setting the info field to empty for each cell.
-```js
+```c
 enum kind_of_entry { legitimate, empty, deleted };
 
 struct hash_entry
@@ -422,7 +422,7 @@ cell *the_cells;
 typedef struct hash_tbl *HASH_TABLE;
 ```
 Figure 5.14 Type declaration for closed hash tables
-```js
+```c
 HASH_TABLE
 
 initialize_table(unsigned int table_size)
@@ -580,7 +580,7 @@ Rehashing can be implemented in several ways with quadratic probing. One alterna
 Rehashing frees the programmer from worrying about the table size and is important because hash tables cannot be made arbitrarily large in complex programs. The exercises ask you to investigate the use of rehashing in conjunction with lazy deletion. Rehashing can be used in other data structures as well. For instance, if the queue data structure of Chapter 3 became full, we could declare a double-sized array and copy everything over, freeing the original.
 
 Figure 5.22 shows that rehashing is simple to implement.
-```js
+```c
 HASH_TABLE
 
 rehash(HASH_TABLE H)
