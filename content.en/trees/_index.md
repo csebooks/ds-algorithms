@@ -1,23 +1,23 @@
 ---
-title: 'CHAPTER 4  TREES'
+title: 'TREES'
 weight: 4
 ---
 
   
 
-# CHAPTER 4: TREES
+# TREES
 
 For large amounts of input, the linear access time of linked lists is prohibitive. In this chapter we look at a simple data structure for which the running time of most operations is O(log n) on average. We also sketch a conceptually simple modification to this data structure that guarantees the above time bound in the worst case and discuss a second modification that essentially gives an O(log n) running time per operation for a long sequence of instructions.
 
 The data structure that we are referring to is known as a binary search tree. Trees in general are very useful abstractions in computer science, so we will discuss their use in other, more general applications. In this chapter, we will
 
-See how trees are used to implement the file system of several popular operating systems.
+- See how trees are used to implement the file system of several popular operating systems.
 
-See how trees can be used to evaluate arithmetic expressions.
+- See how trees can be used to evaluate arithmetic expressions.
 
-Show how to use trees to support searching operations in O(log n) average time, and how to refine these ideas to obtain O(log n) worst-case bounds. We will also see how to implement these operations when the data is stored on a disk.
+- Show how to use trees to support searching operations in O(log n) average time, and how to refine these ideas to obtain O(log n) worst-case bounds. We will also see how to implement these operations when the data is stored on a disk.
 
-## 4.1 Preliminaries
+## Preliminaries
 
 A tree can be defined in several ways. One natural way to define a tree is recursively. A tree is a collection of nodes. The collection can be empty, which is sometimes denoted as A. Otherwise, a tree consists of a distinguished node r, called the root, and zero or more (sub)trees T1, T2, . . . , Tk, each of whose roots are connected by a directed edge to r.
 
@@ -35,21 +35,17 @@ From the recursive definition, we find that a tree is a collection of n nodes, o
 
 In the tree of Figure 4.2, the root is A. Node F has A as a parent and K, L, and M as children. Each node may have an arbitrary number of children, possibly zero. Nodes with no children are known as leaves; the leaves in the tree above are B, C, H, I, P, Q, K, L, M, and N. Nodes with the same parent are siblings; thus K, L, and M are all siblings. Grandparent and grandchild relations can be defined in a similar manner.
 
-A path from node n1 to nk is defined as a sequence of nodes n1, n2, . . . , nk
-
-such that ni is the parent of ni+1 for 1 i < k. The length of this path isthe number of edges on the path, namely k -1. There is a path of length zero from every node to itself. Notice that in a tree there is exactly one path from the root to each node.
+A path from node n1 to nk is defined as a sequence of nodes n1, n2, . . . , nk such that ni is the parent of ni+1 for 1 i < k. The length of this path isthe number of edges on the path, namely k -1. There is a path of length zero from every node to itself. Notice that in a tree there is exactly one path from the root to each node.
 
 For any node ni, the depth of ni is the length of the unique path from the rootto ni. Thus, the root is at depth 0. The height of ni is the longest path from ni to a leaf. Thus all leaves are at height 0. The height of a tree is equal to the height of the root. For the tree in Figure 4.2, E is at depth 1 and height 2; F is at depth 1 and height 1; the height of the tree is 3. The depth of a tree is equal to the depth of the deepest leaf; this is always equal to the height of the tree.
 
-If there is a path from n1 to n2, then n1 is an ancestor of n2 and n2 is a
+If there is a path from n1 to n2, then n1 is an ancestor of n2 and n2 is a descendant of n1. If n1 n2, then n1 is a proper ancestor of n2 and n2 is aproper descendant of n1.
 
-descendant of n1. If n1 n2, then n1 is a proper ancestor of n2 and n2 is aproper descendant of n1.
-
-### 4.1.1. Implementation of Trees
+### Implementation of Trees
 
 One way to implement a tree would be to have in each node, besides its data, a pointer to each child of the node. However, since the number of children per node can vary so greatly and is not known in advance, it might be infeasible to make the children direct links in the data structure, because there would be too much wasted space. The solution is simple: Keep the children of each node in a linked list of tree nodes. The declaration in Figure 4.3 is typical.
 
-```
+```c
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
@@ -74,7 +70,7 @@ Figure 4.4 shows how a tree might be represented in this implementation. Arrows 
 
 In the tree of Figure 4.4, node E has both a pointer to a sibling (F) and a pointer to a child (I), while some nodes have neither.
 
-### 4.1.2. Tree Traversals with an Application
+### Tree Traversals with an Application
 
 There are many applications for trees. One of the popular uses is the directory structure in many common operating systems, including **UNIX, VAX/VMS,** and **DOS**. Figure 4.5 is a typical directory in the **UNIX** file system.
 
@@ -88,31 +84,31 @@ The root of this directory is /usr. (The asterisk next to the name indicates tha
 ```js
 void
 
-list_directory ( Directory_or_file D )
+list_directory (Directory_or_file D)
 
 {
 
-list_dir ( D, 0 );
+list_dir (D, 0);
 
 }
 
 void
 
-list_dir ( Directory_or_file D, unsigned int depth )
+list_dir (Directory_or_file D, unsigned int depth)
 
 {
 
-/*1*/ if ( D is a legitimate entry)
+/*1*/ if (D is a legitimate entry)
 
 {
 
-/*2*/ print_name ( depth, D );
+/*2*/ print_name (depth, D);
 
-/*3*/ if( D is a directory )
+/*3*/ if(D is a directory)
 
 /*4*/ for each child, c, of D
 
-/*5*/ list_dir( c, depth+1 );
+/*5*/ list_dir(c, depth+1);
 
 }
 
@@ -140,7 +136,7 @@ Since the directories are themselves files, they have sizes too. Suppose we woul
 ```js
 unsigned int
 
-size_directory( Directory_or_file D )
+size_directory(Directory_or_file D)
 
 {
 
@@ -148,21 +144,21 @@ unsigned int total_size;
 
 /*1*/ total_size = 0;
 
-/*2*/ if( D is a legitimate entry)
+/*2*/ if(D is a legitimate entry)
 
 {
 
-/*3*/ total_size = file_size( D );
+/*3*/ total_size = file_size(D);
 
-/*4*/ if( D is a directory )
+/*4*/ if(D is a directory)
 
 /*5*/ for each child, c, of D
 
-/*6*/ total_size += size_directory( c );
+/*6*/ total_size += size_directory(c);
 
 }
 
-/*7*/ return( total_size );
+/*7*/ return(total_size);
 
 }
 ```
@@ -231,7 +227,7 @@ unsigned int total_size;
 
 If D is not a directory, then size_directory merely returns the number of blocks used by D. Otherwise, the number of blocks used by D is added to the number of blocks (recursively) found in all of the children. To see the difference between the postorder traversal strategy and the preorder traversal strategy, Figure 4.10 shows how the size of each directory or file is produced by the algorithm.
 
-## 4.2. Binary Trees
+## Binary Trees
 
 A binary tree is a tree in which no node can have more than two children.
 
@@ -243,9 +239,10 @@ A property of a binary tree that is sometimes important is that the depth of an 
 ![alt text](t7.png)
 **Figure 4.12 Worst-case binary tree**
 
-### 4.2.1. Implementation
+### Implementation
 
-Because a binary tree has at most two children, we can keep direct pointers to them. The declaration of tree nodes is similar in structure to that for doubly linked lists, in that a node is a structure consisting of the key information plus two pointers (left and right) to other nodes (see
+Because a binary tree has at most two children, we can keep direct pointers to them. The declaration of tree nodes is similar in structure to that for doubly linked lists, in that a node is a structure consisting of the key information plus two pointers (left and right) to other nodes see Many of the rules that apply to linked lists will apply to trees as well. In particular, when an insertion is performed, a node will have to be created by a call to malloc. Nodes can be freed after deletion by calling free.
+
 ```js
 typedef struct tree_node *tree_ptr;
 
@@ -263,22 +260,20 @@ typedef tree_ptr TREE;
 ```
 **Figure 4.13 Binary tree node declarations**
 
-Many of the rules that apply to linked lists will apply to trees as well. In particular, when an insertion is performed, a node will have to be created by a call to malloc. Nodes can be freed after deletion by calling free.
-
 We could draw the binary trees using the rectangular boxes that are customary for linked lists, but trees are generally drawn as circles connected by lines, because they are actually graphs. We also do not explicitly draw NULL pointers when referring to trees, because every binary tree with n nodes would require n + 1 NULL pointers.
 
 Binary trees have many important uses not associated with searching. One of the principal uses of binary trees is in the area of compiler design, which we will now explore.
 
-## 4.2.2. Expression Trees
+### Expression Trees
 
-Figure 4.14 shows an example of an expression tree. The leaves of an expression tree are operands, such as constants or variable names, and the other nodes contain operators. This particular tree happens to be binary, because all of the operations are binary, and although this is the simplest case, it is possible for nodes to have more than two children. It is also possible for a node to have only one child, as is the case with the unary minus operator. We can evaluate an expression tree, T, by applying the operator at the root to the values obtained by recursively evaluating the left and right subtrees. In our example, the left subtree evaluates to a + (b * c) and the right subtree evaluates to ((d *e) + f ) *g. The entire tree therefore represents (a + (b*c)) + (((d * e) + f)* g).
+Figure 4.14 shows an example of an expression tree. The leaves of an expression tree are operands, such as constants or variable names, and the other nodes contain operators. This particular tree happens to be binary, because all of the operations are binary, and although this is the simplest case, it is possible for nodes to have more than two children. It is also possible for a node to have only one child, as is the case with the unary minus operator. We can evaluate an expression tree, T, by applying the operator at the root to the values obtained by recursively evaluating the left and right subtrees. In our example, the left subtree evaluates to a + (b * c) and the right subtree evaluates to ((d *e) + f) *g. The entire tree therefore represents (a + (b*c)) + (((d * e) + f)* g).
 
-We can produce an (overly parenthesized) infix expression by recursively producing a parenthesized left expression, then printing out the operator at the root, and finally recursively producing a parenthesized right expression. This general strattegy ( left, node, right ) is known as an inorder traversal; it is easy to remember because of the type of expression it produces.
+We can produce an (overly parenthesized) infix expression by recursively producing a parenthesized left expression, then printing out the operator at the root, and finally recursively producing a parenthesized right expression. This general strattegy (left, node, right) is known as an inorder traversal; it is easy to remember because of the type of expression it produces.
 
 An alternate traversal strategy is to recursively print out the left subtree, the right subtree, and then the operator. If we apply this strategy to our tree above, the output is a b c * + d e * f + g * +, which is easily seen to be the postfix representation of Section 3.3.3. This traversal strategy is generally known as a postorder traversal. We have seen this traversal strategy earlier in Section 4.1.
 
 ![alt text](t8.png)
-**Figure 4.14 Expression tree for (a + b * c) + ((d * e + f ) * g)**
+**Figure 4.14 Expression tree for (a + b * c) + ((d * e + f) * g)**
 
 A third traversal strategy is to print out the operator first and then recursively print out the left and right subtrees. The resulting expression, + + a * b c * + * d e f g, is the less useful prefix notation and the traversal strategy is a preorder traversal, which we have also seen earlier in Section 4.1. We will return to these traversal strategies once again later in the chapter.
 
@@ -286,9 +281,7 @@ A third traversal strategy is to print out the operator first and then recursive
 
 We now give an algorithm to convert a postfix expression into an expression tree. Since we already have an algorithm to convert infix to postfix, we can generate expression trees from the two common types of input. The method we describe strongly resembles the postfix evaluation algorithm of Section 3.2.3. We read our expression one symbol at a time. If the symbol is an operand, we create a one- node tree and push a pointer to it onto a stack. If the symbol is an operator, we pop pointers to two trees *T1* and *T2* from the stack (T1 is popped first) and form a new tree whose root is the operator and whose left and right children point to *T2* and *T1* respectively. A pointer to this new tree is then pushed onto the stack.
 
-As an example, suppose the input is
-
-a b + c d e + * *
+As an example, suppose the input is a b + c d e + * *
 
 The first two symbols are operands, so we create one-node trees and push pointers to them onto a stack.*
 
@@ -318,7 +311,7 @@ Finally, the last symbol is read, two trees are merged, and a pointer to the fin
 
 ![alt](t14.png)
 
-## 4.3. The Search Tree ADT-Binary Search Trees
+## The Search Tree ADT-Binary Search Trees
 
 An important application of binary trees is their use in searching. Let us assume that each node in the tree is assigned a key value. In our examples, we will assume for simplicity that these are integers, although arbitrarily complex keys are allowed. We will also assume that all the keys are distinct, and deal with duplicates later.
 
@@ -333,7 +326,6 @@ We now give brief descriptions of the operations that are usually performed on b
 typedef struct tree_node *tree_ptr;
 
 struct tree_node
-
 {
 
 element_type element;
@@ -348,17 +340,17 @@ typedef tree_ptr SEARCH_TREE;
 ```
 **Figure 4.16 Binary search tree declarations**
 
-## 4.3.1. Make_null
+### Make_null
 
 This operation is mainly for initialization. Some programmers prefer to initialize the first element as a one-node tree, but our implementation follows the recursive definition of trees more closely. It is also a simple routine, as evidenced by Figure 4.17.
 
-### 4.3.2. Find
+### Find
 
 This operation generally requires returning a pointer to the node in tree T that has key x, or NULL if there is no such node. The structure of the tree makes this simple. If T is , then we can just return . Otherwise, if the key stored at T is x, we can return T. Otherwise, we make a recursive call on a subtree of T, either left or right, depending on the relationship of x to the key stored in T. The code in Figure 4.18 is an implementation of this strategy.
 ```js
 SEARCH_TREE
 
-make_null ( void )
+make_null (void)
 
 {
 
@@ -370,23 +362,23 @@ return NULL;
 ```js
 tree_ptr
 
-find( element_type x, SEARCH_TREE T )
+find(element_type x, SEARCH_TREE T)
 
 {
 
-if( T == NULL )
+if(T == NULL)
 
 return NULL;
 
-if( x < T->element )
+if(x < T->element)
 
-return( find( x, T->left ) );
+return(find(x, T->left));
 
 else
 
-if( x > T->element )
+if(x > T->element)
 
-return( find( x, T->right ) );
+return(find(x, T->right));
 
 else
 
@@ -398,7 +390,7 @@ return T;
 
 Notice the order of the tests. It is crucial that the test for an empty tree be performed first, since otherwise the indirections would be on a NULL pointer. The remaining tests are arranged with the least likely case last. Also note that both recursive calls are actually tail recursions and can be easily removed with an assignment and a goto. The use of tail recursion is justifiable here because the simplicity of algorithmic expression compensates for the decrease in speed, and the amount of stack space used is expected to be only O(log n).
 
-### 4.3.3. Find_min and find_max
+### Find_min and find_max
 
 These routines return the position of the smallest and largest elements in the tree, respectively. Although returning the exact values of these elements might seem more reasonable, this would be inconsistent with the find operation. It is important that similar-looking operations do similar things. To perform a find_min, start at the root and go left as long as there is a left child. The stopping point is the smallest element. The find_max routine is the same, except that branching is to the right child.
 
@@ -408,23 +400,23 @@ Notice how we carefully handle the degenerate case of an empty tree. Although th
 ```js
 tree_ptr
 
-find_min( SEARCH_TREE T )
+find_min(SEARCH_TREE T)
 
 {
 
-if( T == NULL )
+if(T == NULL)
 
 return NULL;
 
 else
 
-if( T->left == NULL )
+if(T->left == NULL)
 
-return( T );
+return(T);
 
 else
 
-return( find_min ( T->left ) );
+return(find_min (T->left));
 
 }
 ```
@@ -432,13 +424,13 @@ return( find_min ( T->left ) );
 ```js
 tree_ptr
 
-find_max( SEARCH_TREE T )
+find_max(SEARCH_TREE T)
 
 {
 
-if( T != NULL )
+if(T != NULL)
 
-while( T->right != NULL )
+while(T->right != NULL)
 
 T = T->right;
 
@@ -446,7 +438,7 @@ return T;}
 ```
 **Figure 4.20 Nonrecursive implementation of find_max for binary search trees**
 
-## 4.3.4. Insert
+### Insert
 
 The insertion routine is conceptually simple. To insert x into tree T, proceed down the tree as you would with a find. If x is found, do nothing (or "update" something). Otherwise, insert x at the last spot on the path traversed. Figure 4.21 shows what happens. To insert 5, we traverse the tree as though a find were occurring. At the node with key 4, we need to go right, but there is no subtree, so 5 is not in the tree, and this is the correct spot.
 
@@ -460,17 +452,17 @@ Figure 4.22 shows the code for the insertion routine. Since T points to the root
 ```js
 tree_ptr
 
-insert( element_type x, SEARCH_TREE T )
+insert(element_type x, SEARCH_TREE T)
 
 {
 
-/*1*/ if( T == NULL )
+/*1*/ if(T == NULL)
 
 { /* Create and return a one-node tree */
 
-/*2*/ T = (SEARCH_TREE) malloc ( sizeof (struct tree_node) );
+/*2*/ T = (SEARCH_TREE) malloc (sizeof (struct tree_node));
 
-/*3*/ if( T == NULL )/*4*/ fatal_error("Out of space!!!");
+/*3*/ if(T == NULL)/*4*/ fatal_error("Out of space!!!");
 
 else
 
@@ -486,15 +478,15 @@ else
 
 else
 
-/*7*/ if( x < T->element )
+/*7*/ if(x < T->element)
 
-/*8*/ T->left = insert( x, T->left );
+/*8*/ T->left = insert(x, T->left);
 
 else
 
-/*9*/ if( x > T->element )
+/*9*/ if(x > T->element)
 
-/*10*/ T->right = insert( x, T->right );
+/*10*/ T->right = insert(x, T->right);
 
 /* else x is in the tree already. We'll do nothing */
 
@@ -504,7 +496,7 @@ else
 ```
 **Figure 4.22 Insertion into a binary search tree**
 
-### 4.3.5. Delete
+### Delete
 
 As is common with many data structures, the hardest operation is deletion. Once we have found the node to be deleted, we need to consider several possibilities.
 
@@ -526,39 +518,39 @@ If the number of deletions is expected to be small, then a popular strategy to u
 ```js
 tree_ptr
 
-delete( element_type x, SEARCH_TREE T )
+delete(element_type x, SEARCH_TREE T)
 
 {
 
 tree_ptr tmp_cell, child;
 
-if( T == NULL )
+if(T == NULL)
 
 error("Element not found");
 
 else
 
-if( x < T->element ) /* Go left */
+if(x < T->element) /* Go left */
 
-T->left = delete( x, T->left );
+T->left = delete(x, T->left);
 
 else
 
-if( x > T->element ) /* Go right */
+if(x > T->element) /* Go right */
 
-T->right = delete( x, T->right );
+T->right = delete(x, T->right);
 
 else /* Found element to be deleted */
 
-if( T->left && T->right ) /* Two children */
+if(T->left && T->right) /* Two children */
 
 { /* Replace with smallest in right subtree */
 
-tmp_cell = find_min( T->right );
+tmp_cell = find_min(T->right);
 
 T->element = tmp_cell->element;
 
-T->right = delete( T->element, T->right );
+T->right = delete(T->element, T->right);
 
 }
 
@@ -568,15 +560,15 @@ else /* One child */
 
 tmp_cell = T;
 
-if( T->left == NULL ) /* Only a right child */
+if(T->left == NULL) /* Only a right child */
 
 child = T->right;
 
-if( T->right == NULL ) /* Only a left child */
+if(T->right == NULL) /* Only a left child */
 
 child = T->left;
 
-free( tmp_cell );
+free(tmp_cell);
 
 return child;
 
@@ -588,7 +580,7 @@ return T;
 ```
 **Figure 4.25 Deletion routine for binary search trees**
 
-### 4.3.6. Average-Case Analysis
+### Average-Case Analysis
 
 Intuitively, we expect that all of the operations of the previous section, except make_null, should take O(log n) time, because in constant time we descend a level in the tree, thus operating on a tree that is now roughly half as large. Indeed, the running time of all the operations, except make_null, is O(d), where d is the depth of the node containing the accessed key.
 
@@ -610,11 +602,7 @@ If all subtree sizes are equally likely, which is true for binary search trees (
 
 This recurrence will be encountered and solved in Chapter 7, obtaining an average value of D(n) = O(n log n). Thus, the expected depth of any node is O(log n). As an example, the randomly generated 500-node tree shown in Figure 4.26 has nodes at expected depth 9.98.
 
-It is tempting to say immediately that this result implies that the average running time of all the operations discussed in the previous section is O(log n), but this is not entirely true. The reason for this is that because of deletions, it is not clear that all binary search trees are equally likely. In particular, the deletion algorithm described above favors making the left subtrees deeper than the right, because we are always replacing a deleted node with a node from the right subtree. The exact effect of this strategy is still unknown, but it seems only to be a theoretical novelty. It has been shown that if we alternate
-
-insertions and deletions (n2) times, then the trees will have an expected
-
-depth of . After a quarter-million random insert/delete pairs, the tree that was somewhat right-heavy in Figure 4.26 looks decidedly unbalanced (averagedepth = 12.51). See Figure 4.27.
+It is tempting to say immediately that this result implies that the average running time of all the operations discussed in the previous section is O(log n), but this is not entirely true. The reason for this is that because of deletions, it is not clear that all binary search trees are equally likely. In particular, the deletion algorithm described above favors making the left subtrees deeper than the right, because we are always replacing a deleted node with a node from the right subtree. The exact effect of this strategy is still unknown, but it seems only to be a theoretical novelty. It has been shown that if we alternate insertions and deletions (n2) times, then the trees will have an expected depth of . After a quarter-million random insert/delete pairs, the tree that was somewhat right-heavy in Figure 4.26 looks decidedly unbalanced (averagedepth = 12.51). See Figure 4.27.
 
 ![Alt text](t18.png)
 
@@ -634,7 +622,7 @@ There are quite a few general algorithms to implement balanced trees. Most are q
 
 A second, newer, method is to forego the balance condition and allow the tree to be arbitrarily deep, but after every operation, a restructuring rule is applied that tends to make future operations efficient. These types of data structures are generally classified as self-adjusting. In the case of a binary search tree, we can no longer guarantee an O(log n) bound on any single operation, but can show that any sequence of m operations takes total time O(m log n) in the worst case. This is generally sufficient protection against a bad worst case. The data structure we will discuss is known as a splay tree; its analysis is fairly intricate and is discussed in Chapter 11.
 
-## 4.4. AVL Trees
+## AVL Trees
 
 An AVL (Adelson-Velskii and Landis) tree is a binary search tree with a balance condition. The balance condition must be easy to maintain, and it ensures that the depth of the tree is O(log n). The simplest idea is to require that the left and right subtrees have the same height. As Figure 4.28 shows, this idea does not force the tree to be shallow.
 
@@ -644,9 +632,7 @@ An AVL (Adelson-Velskii and Landis) tree is a binary search tree with a balance 
 
 Another balance condition would insist that every node must have left and right subtrees of the same height. If the height of an empty subtree is defined to be -1 (as is usual), then only perfectly balanced trees of 2k - 1 nodes would satisfy this criterion. Thus, although this guarantees trees of small depth, the balance condition is too rigid to be useful and needs to be relaxed.An **AVL** tree is identical to a binary search tree, except that for every node in the tree, the height of the left and right subtrees can differ by at most 1. (The height of an empty tree is defined to be -1.) In Figure 4.29 the tree on the left is an **AVL** tree, but the tree on the right is not. Height information is kept for each node (in the node structure). It is easy to show that the height of an **AVL** tree is at most roughly 1.44 log(n + 2) - .328, but in practice it is about log(n + 1) + 0.25 (although the latter claim has not been proven). As an example, the **AVL** tree of height 9 with the fewest nodes (143) is shown in Figure 4.30. This tree has as a left subtree an **AVL** tree of height 7 of minimum size. The right subtree is an **AVL** tree of height 8 of minimum size. This tells us that the minimum number of nodes, N(h), in an **AVL** tree of height h is given by N(h) = N(h -1) + N(h - 2) + 1. For h = 0, N(h) = 1. For h = 1, N(h) = 2. The function N(h) is closely related to the Fibonacci numbers, from which the bound claimed above on the height of an **AVL** tree follows.
 
-Thus, all the tree operations can be performed in O(log n) time, except possibly insertion (we will assume lazy deletion). When we do an insertion, we need to update all the balancing information for the nodes on the path back to the root, but the reason that insertion is potentially difficult is that inserting a node
-
-could violate the **AVL** tree property. (For instance, inserting into the **AVL** tree in Figure 4.29 would destroy the balance condition at the node with key 8.) If this is the case, then the property has to be restored before the insertion step is considered over. It turns out that this can always be done with a simple modification to the tree, known as a rotation. We describe rotations in the following section.
+Thus, all the tree operations can be performed in O(log n) time, except possibly insertion (we will assume lazy deletion). When we do an insertion, we need to update all the balancing information for the nodes on the path back to the root, but the reason that insertion is potentially difficult is that inserting a node could violate the **AVL** tree property. (For instance, inserting into the **AVL** tree in Figure 4.29 would destroy the balance condition at the node with key 8.) If this is the case, then the property has to be restored before the insertion step is considered over. It turns out that this can always be done with a simple modification to the tree, known as a rotation. We describe rotations in the following section.
 
 ![alt text](t23.png)
 
@@ -660,14 +646,12 @@ could violate the **AVL** tree property. (For instance, inserting into the **AVL
 
 4.4.2. Double Rotation
 
-### 4.4.1. Single Rotation
+### Single Rotation
 
 The two trees in Figure 4.31 contain the same elements and are both binary search trees. First of all, in both trees k1 < k2. Second, all elements in the subtree X
 are smaller than k1 in both trees. Third, all elements in subtree Z are larger than k2. Finally, all elements in subtree Y are in between k1 and k2. The conversion of one of the above trees to the other is known as a rotation. A rotation involves only a few pointer changes (we shall see exactly how many later), and changes the structure of the tree while preserving the search tree property.
 
-The rotation does not have to be done at the root of a tree; it can be done at any node in the tree, since that node is the root of some subtree. It can transform either tree into the other. This gives a simple method to fix up an AVL tree if an insertion causes some node in an AVL tree to lose the balance property: Do a rotation at that node. The basic algorithm is to start at the node inserted and travel up the tree, updating the balance information at every node on the path. If we get to the root without having found any badly balanced nodes, we are done. Otherwise, we do a rotation at the first bad node found, adjust its balance, and are done (we do not have to continue going to the root). In many cases, this is sufficient to rebalance the tree. For instance, in Figure 4.32,
-
-after the insertion of the in the original AVL tree on the left, node 8 becomes unbalanced. Thus, we do a single rotation between 7 and 8, obtaining thetree on the right.
+The rotation does not have to be done at the root of a tree; it can be done at any node in the tree, since that node is the root of some subtree. It can transform either tree into the other. This gives a simple method to fix up an AVL tree if an insertion causes some node in an AVL tree to lose the balance property: Do a rotation at that node. The basic algorithm is to start at the node inserted and travel up the tree, updating the balance information at every node on the path. If we get to the root without having found any badly balanced nodes, we are done. Otherwise, we do a rotation at the first bad node found, adjust its balance, and are done (we do not have to continue going to the root). In many cases, this is sufficient to rebalance the tree. For instance, in Figure 4.32, after the insertion of the in the original AVL tree on the left, node 8 becomes unbalanced. Thus, we do a single rotation between 7 and 8, obtaining thetree on the right.
 
 ![alt text](t25.png)
 
@@ -693,7 +677,7 @@ The rotation is performed by making 2 a child of 4 and making 4's original left 
 
 ![alt text](t30.png)
 
-### 4.4.2. Double Rotation
+### Double Rotation
 
 The algorithm described in the preceding paragraphs has one problem. There is a case where the rotation does not fix the tree. Continuing our example, suppose we insert keys 8 through 15 in reverse order. Inserting 15 is easy, since it does not destroy the balance property, but inserting 14 causes a height imbalance at node 7.
 
@@ -709,8 +693,7 @@ As the diagram shows, the single rotation has not fixed the height imbalance. Th
 
 **Figure 4.34 (Left-right) double rotation**
 
-In our example, the double rotation is a right-left double rotation and involves 7, 15, and 14. Here, k3 is the node with key 7, k1 is the node with key 15, and
-k2 is the node with key 14. Subtrees A, B, C, and D are all empty.
+In our example, the double rotation is a right-left double rotation and involves 7, 15, and 14. Here, k3 is the node with key 7, k1 is the node with key 15, and k2 is the node with key 14. Subtrees A, B, C, and D are all empty.
 
 ![alt text](t35.png)
 
@@ -764,11 +747,11 @@ typedef avl_ptr SEARCH_TREE;
 ```js
 int
 
-height( avl_ptr p )
+height(avl_ptr p)
 
 {
 
-if( p == NULL )
+if(p == NULL)
 
 return -1;
 
@@ -786,41 +769,39 @@ The last function we will write will perform the double rotation pictured in Fig
 
 Deletion in **AVL** trees is somewhat more complicated than insertion. Lazy deletion is probably the best strategy if deletions are relatively infrequent.
 
-## 4.5. Splay Trees
+## Splay Trees
 
 We now describe a relatively simple data structure, known as a splay tree, that guarantees that any m consecutive tree operations take at most O(m log n) time.Although this guarantee does not preclude the possibility that any single operation might take O(n) time, and thus the bound is not as strong as an O(log n) worst-case bound per operation, the net effect is the same: There are no bad input sequences. Generally, when a sequence of m operations has total worst-case running time of O(m f(n)), we say that the amortized running time is O(f(n)). Thus, a splay tree has O(log n) amortized cost per operation. Over a long sequence of operations, some may take more, some less.
 
 Splay trees are based on the fact that the O(n) worst-case time per operation for binary search trees is not bad, as long at it occurs relatively infrequently. Any one access, even if it takes O(n), is still likely to be extremely fast. The problem with binary search trees is that it is possible, and not uncommon, for a whole sequence of bad accesses to take place. The cumulative running time then becomes noticeable. A search tree data structure with O(n) worst-case time, but a guarantee of at most O(m log n) for any m consecutive operations, is certainly satisfactory, because there are no bad sequences.
 
-If any particular operation is allowed to have an O(n) worst-case time bound, and we still want an O(log n) amortized time bound, then it is clear that whenever a node is accessed, it must be moved. Otherwise, once we find a deep node, we could keep performing finds on it. If the node does not change location, and each
-
-access costs O(n), then a sequence of m accesses will cost O(m n).
+If any particular operation is allowed to have an O(n) worst-case time bound, and we still want an O(log n) amortized time bound, then it is clear that whenever a node is accessed, it must be moved. Otherwise, once we find a deep node, we could keep performing finds on it. If the node does not change location, and each access costs O(n), then a sequence of m accesses will cost O(m n).
 ```js
 SEARCH_TREE
 
-insert( element_type x, SEARCH_TREE T )
+insert(element_type x, SEARCH_TREE T)
 
 {
 
-return insert1( x, T, NULL );
+return insert1(x, T, NULL);
 
 }
 
 SEARCH_TREE
 
-insert1( element_type x, SEARCH_TREE T, avl_ptr parent )
+insert1(element_type x, SEARCH_TREE T, avl_ptr parent)
 
 {
 
 avl_ptr rotated_tree;
 
-if( T == NULL )
+if(T == NULL)
 
 { /* Create and return a one-node tree */
 
-T = (SEARCH_TREE) malloc ( sizeof (struct avl_node) );
+T = (SEARCH_TREE) malloc (sizeof (struct avl_node));
 
-if( T == NULL )
+if(T == NULL)
 
 fatal_error("Out of space!!!");
 
@@ -838,25 +819,25 @@ else
 
 {
 
-if( x < T->element )
+if(x < T->element)
 
 {
 
-T->left = insert1( x, T->left, T );
+T->left = insert1(x, T->left, T);
 
-if( ( height( T->left ) - height( T->right ) ) == 2
+if(height(T->left) - height(T->right)) == 2
 
 {
 
-if( x < T->left->element )
+if(x < T->left->element)
 
-rotated_tree = s_rotate_left( T );
+rotated_tree = s_rotate_left(T);
 
 else
 
-rotated_tree = d_rotate_left( T );
+rotated_tree = d_rotate_left(T);
 
-if( parent->left == T )
+if(parent->left == T)
 
 parent->left = rotated_tree;
 
@@ -868,7 +849,7 @@ parent->right = rotated_tree;
 
 else
 
-T->height = max( height(T->left), height(T->right) ) + 1;
+T->height = max(height(T->left), height(T->right)) + 1;
 
 }
 
@@ -900,7 +881,7 @@ return T;
 
 avl_ptr
 
-s_rotate_left( avl_ptr k2 )
+s_rotate_left(avl_ptr k2)
 
 {
 
@@ -912,9 +893,9 @@ k2->left = k1->right;
 
 k1->right = k2;
 
-k2->height = max( height(k2->left), height(k2->right) ) + 1;
+k2->height = max(height(k2->left), height(k2->right)) + 1;
 
-k1->height = max( height(k1->left), k2->height ) + 1;
+k1->height = max(height(k1->left), k2->height) + 1;
 
 return k1; /* New root */
 
@@ -934,17 +915,17 @@ return k1; /* New root */
 
 avl_ptr
 
-d_rotate_left( avl_ptr k3 )
+d_rotate_left(avl_ptr k3)
 
 {
 
 /* rotate between k1 and k2 */
 
-k3->left = s_rotate_right( k3->left );
+k3->left = s_rotate_right(k3->left);
 
 /* rotate between k3 and k2 */
 
-return( s_rotate_left( k3 ) );
+return(s_rotate_left(k3));
 
 }
 ```
@@ -952,11 +933,7 @@ return( s_rotate_left( k3 ) );
 
 The basic idea of the splay tree is that after a node is accessed, it is pushed to the root by a series of **AVL** tree rotations. Notice that if a node is deep, there are many nodes on the path that are also relatively deep, and by restructuring we can make future accesses cheaper on all these nodes. Thus, if the node is unduly deep, then we want this restructuring to have the side effect of balancing the tree (to some extent). Besides giving a good time bound in theory, this method is likely to have practical utility, because in many applications when a node is accessed, it is likely to be accessed again in the near future. Studies have shown that this happens much more often than one would expect. Splay trees also do not require the maintenance of height or balance information, thus saving space and simplifying the code to some extent (especially when careful implementations are written).
 
-4.5.1. A Simple Idea (That Does Not Work)
-
-4.5.2. Splaying
-
-### 4.5.1. A Simple Idea (That Does Not Work)
+### A Simple Idea (That Does Not Work)
 
 One way of performing the restructuring described above is to perform single rotations, bottom up. This means that we rotate every node on the access path with its parent. As an example, consider what happens after an access (a find) on k1 in the following tree.
 
@@ -976,11 +953,9 @@ Then two more rotations are performed until we reach the root.
 
 These rotations have the effect of pushing k1 all the way to the root, so that future accesses on k1 are easy (for a while). Unfortunately, it has pushed another node (k3) almost as deep as k1 used to be. An access on that node will then push another node deep, and so on. Although this strategy makes future accesses of k1 cheaper, it has not significantly improved the situation for the other nodes on the (original) access path. It turns out that it is possible to prove that using this strategy, there is a sequence of m operations requiring
 
-(m n) time, so this idea is not quite good enough. The simplest way to show this is to consider the tree formed by inserting keys 1, 2, 3, . . . , n into an initially empty tree (work this example out). This gives a tree consisting of only left children. This is not necessarily bad, though, since the time to build this tree is O(n) total. The bad part is that accessing the node with key 1 takes n -1 units of time. After the rotations are complete, an access of the node with key 2 takes n - 2 units of time. The total for accessing all the
+(m n) time, so this idea is not quite good enough. The simplest way to show this is to consider the tree formed by inserting keys 1, 2, 3, . . . , n into an initially empty tree (work this example out). This gives a tree consisting of only left children. This is not necessarily bad, though, since the time to build this tree is O(n) total. The bad part is that accessing the node with key 1 takes n -1 units of time. After the rotations are complete, an access of the node with key 2 takes n - 2 units of time. The total for accessing all the keys in order is . After they are accessed, the tree reverts to its original state, and we can repeat the sequence.
 
-keys in order is . After they are accessed, the tree reverts to its original state, and we can repeat the sequence.
-
-### 4.5.2. Splaying
+### Splaying
 
 The splaying strategy is similar to the rotation idea above, except that we are a little more selective about how rotations are performed. We will still rotate bottom up along the access path. Let x be a (nonroot) node on the access path at which we are rotating. If the parent of x is the root of the tree, we merely rotate x and the root. This is the last rotation along the access path. Otherwise, x has both a parent (p) and a grandparent (g), and there are twocases, plus symmetries, to consider. The first case is the zig-zag case (see Fig. 4.42). Here x is a right child and p is a left child (or vice versa). If this is the case, we perform a double rotation, exactly like an AVL double rotation. Otherwise, we have a zig-zig case: x and p are either both left children or both right children. In that case, we transform the tree on the left of Figure 4.43 to the tree on the right.
 
@@ -1000,11 +975,9 @@ The first splay step is at k1, and is clearly a zig-zag, so we perform a standar
 
 ![alt text](t50.png)
 
-
 The next splay step at k1 is a zig-zig, so we do the zig-zig rotation with k1,k4, and k5, obtaining the final tree.
 
 ![alt text](t51.png)
-
 
 Although it is hard to see from small examples, splaying not only moves the accessed node to the root, but also has the effect of roughly halving the depth of most nodes on the access path (some shallow nodes are pushed down at most two levels).
 
@@ -1087,7 +1060,7 @@ typedef splay_ptr SEARCH_TREE;
 ```js
 void
 
-splay( splay_ptr current )
+splay(splay_ptr current)
 
 {
 
@@ -1095,15 +1068,15 @@ splay_ptr father;
 
 father = current->parent;
 
-while( father != NULL )
+while(father != NULL)
 
 {
 
-if( father->parent == NULL )
+if(father->parent == NULL)
 
-single_rotate (current );else
+single_rotate (current);else
 
-double_rotate( current );
+double_rotate(current);
 
 father = current->parent;
 
@@ -1115,17 +1088,17 @@ father = current->parent;
 ```js
 void
 
-single_rotate( splay_ptr x )
+single_rotate(splay_ptr x)
 
 {
 
-if( x->parent->left == x)
+if(x->parent->left == x)
 
-zig_left( x );
+zig_left(x);
 
 else
 
-zig_right( x );
+zig_right(x);
 
 }
 ```
@@ -1133,7 +1106,7 @@ zig_right( x );
 ```js
 void
 
-zig_left( splay_ptr x )
+zig_left(splay_ptr x)
 
 {
 
@@ -1147,7 +1120,7 @@ x->right = p; /* x's new right child is p*/
 
 x->parent = NULL; /* x will now be a root */
 
-if( B != NULL )
+if(B != NULL)
 
 B->parent = p;
 
@@ -1169,7 +1142,7 @@ Figure 4.58
 
 void
 
-zig_zig_left( splay_ptr x )
+zig_zig_left(splay_ptr x)
 
 {
 
@@ -1191,13 +1164,13 @@ p->parent = x;
 
 p->right = g; /* p's new right child is g */
 
-g->parent = p;if( B != NULL ) /* p's new left child is subtree B */
+g->parent = p;if(B != NULL) /* p's new left child is subtree B */
 
 B->parent = p;
 
 p->left = B;
 
-if( C != NULL ) /* g's new left child is subtree C */
+if(C != NULL) /* g's new left child is subtree C */
 
 C->parent = g;
 
@@ -1205,9 +1178,9 @@ g->left = C;
 
 x->parent = ggp; /* connect to rest of the tree */
 
-if( ggp ! = NULL )
+if(ggp ! = NULL)
 
-if( gpp->left == g )
+if(gpp->left == g)
 
 ggp->left = x;
 
@@ -1219,7 +1192,7 @@ ggp->right = x;
 ```
 **Figure 4.59 Routine to perform a zig-zig when both children are initially left children**
 
-## 4.6. Tree Traversals (Revisited)
+## Tree Traversals (Revisited)
 
 Because of the ordering information in a binary search tree, it is simple to list all the keys in sorted order. The recursive procedure in Figure 4.60 does this.
 
@@ -1227,17 +1200,17 @@ Convince yourself that this procedure works. As we have seen before, this kind o
 ```js
 void
 
-print_tree( SEARCH_TREE T )
+print_tree(SEARCH_TREE T)
 
 {
 
-if( T != NULL )
+if(T != NULL)
 
-{print_tree( T->left );
+{print_tree(T->left);
 
-print_element( T->element );
+print_element(T->element);
 
-print_tree( T->right );
+print_tree(T->right);
 
 }
 
@@ -1253,34 +1226,35 @@ The common idea in all of these routines is that you handle the NULL case first,
 ```
 int
 
-height( TREE T )
+height(TREE T)
 
 {
 
-if( T == NULL )
+if(T == NULL)
 
 return -1;
 
 else
 
-return ( max( height(T->left), height(T->right) ) + 1 );
+return (max(height(T->left), height(T->right)) + 1);
 
 }
 ```
 **Figure 4.61 Routine to compute the height of a tree using a postorder traversal**
 
-## 4.7. B-Trees
+## B-Trees
 Although all of the search trees we have seen so far are binary, there is a popular search tree that is not binary. This tree is known as a B-tree.
 
 A B-tree of order m is a tree with the following structural properties:
 
-The root is either a leaf or has between 2 and m children.
+- The root is either a leaf or has between 2 and m children.
 
-All nonleaf nodes (except the root) have between m/2 and m children.
+- All nonleaf nodes (except the root) have between m/2 and m children.
 
-All leaves are at the same depth.
+- All leaves are at the same depth.
 
 All data is stored at the leaves. Contained in each interior node are pointers p1, p2, . . . , pm to the children, and values k1, k2, . . . , km - 1, representing the smallest key found in the subtrees p2, p3, . . . , pm respectively. Of course, some of these pointers might be NULL, and the corresponding ki would then be undefined. For every node, all the keys in subtree p1 are smaller than the keys in subtree p2, and so on. The leaves contain all the actual data, which is either the keys themselves or pointers to records containing the keys. We will assume the former to keep our examples simple. There are various definitions of B-trees that change this structure in mostly minor ways, but this definition is one of the popular forms. We will also insist (for now) that the number of keys in a leaf is also between _m_/2 and m.
+
 The tree in Figure 4.62 is an example of a B-tree of order 4.
 
 ![alt text](t63.png)
@@ -1324,27 +1298,15 @@ There are other ways to handle the case where a node becomes overloaded with chi
 
 We can perform deletion by finding the key to be deleted and removing it. If thiskey was one of only two keys in a node, then its removal leaves only one key. We can fix this by combining this node with a sibling. If the sibling has three keys, we can steal one and have both nodes with two keys. If the sibling has only two keys, we combine the two nodes into a single node with three keys. The parent of this node now loses a child, so we might have to percolate this strategy all the way to the top. If the root loses its second child, then the root is also deleted and the tree becomes one level shallower. As we combine nodes, we must remember to update the information kept at the internal nodes.
 
-With general B-trees of order m, when a key is inserted, the only difficulty arises when the node that is to accept the key already has m keys. This key gives
+With general B-trees of order m, when a key is inserted, the only difficulty arises when the node that is to accept the key already has m keys. This key gives the node m + 1 keys, which we can split into two nodes with (m + 1) / 2 and (m + 1) / 2 keys respectively. As this gives the parent an extra node, we have to check whether this node can be accepted by the parent and split the parent if it already has m children. We repeat this until we find a parent with less than m children. If we split the root, we create a new root with two children.
 
-the node m + 1 keys, which we can split into two nodes with (m + 1) / 2
+The depth of a B-tree is at most log m/2 n . At each node on the path, we perform O(log m) work to determine which branch to take (using a binary search), but an insert or delete could require O(m) work to fix up all the information at the node. The worst-case running time for each of the insert and delete operations is thus O(m logm n) = O((m / log m) log n), but a find takes only O(log n). The best (legal) choice of m for running time considerations has been shown empirically to be either m = 3 or m = 4; this agrees with the bounds above, which show that as m gets larger, the insertion and deletion times increase. If we are only concerned with main memory speed, higher order B-trees, such as 5-9 trees, are not an advantage.
 
-and (m + 1) / 2 keys respectively. As this gives the parent an extra node, we have to check whether this node can be accepted by the parent and split the parent if it already has m children. We repeat this until we find a parent with less than m children. If we split the root, we create a new root with two children.
-
-The depth of a B-tree is at most log m/2 n . At each node on the path,
-
-we perform O(log m) work to determine which branch to take (using a binary search), but an insert or delete could require O(m) work to fix up all the information at the node. The worst-case running time for each of the insert and delete operations is thus O(m logm n) = O( (m / log m ) log n), but a find takes
-
-only O(log n ). The best (legal) choice of m for running time considerations has been shown empirically to be either m = 3 or m = 4; this agrees with the bounds above, which show that as m gets larger, the insertion and deletion times increase. If we are only concerned with main memory speed, higher order B-trees, such as 5-9 trees, are not an advantage.
-
-The real use of B-trees lies in database systems, where the tree is kept on a physical disk instead of main memory. Accessing a disk is typically several orders of magnitude slower than any main memory operation. If we use a B-tree of order m, then the number of disk accesses is O(logm n). Although each disk access
-
-carries the overhead of O(log m) to determine the direction to branch, the time to perform this computation is typically much smaller than the time to read a block of memory and can thus be considered inconsequential (as long as m is chosen reasonably). Even if updates are performed and O(m) computing time is required at each node, this too is generally not significant. The value of m is then chosen to be the largest value that still allows an interior node to fit
-
-into one disk block, and is typically in the range 32 m 256. The maximum number of elements that are stored in a leaf is chosen so that if the leaf is full, it fits in one block. This means that a record can always be found in very few disk accesses, since a typical B-tree will have a depth of only 2 or 3, and the root (and possibly the first level) can be kept in main memory.
+The real use of B-trees lies in database systems, where the tree is kept on a physical disk instead of main memory. Accessing a disk is typically several orders of magnitude slower than any main memory operation. If we use a B-tree of order m, then the number of disk accesses is O(logm n). Although each disk access carries the overhead of O(log m) to determine the direction to branch, the time to perform this computation is typically much smaller than the time to read a block of memory and can thus be considered inconsequential (as long as m is chosen reasonably). Even if updates are performed and O(m) computing time is required at each node, this too is generally not significant. The value of m is then chosen to be the largest value that still allows an interior node to fit into one disk block, and is typically in the range 32 m 256. The maximum number of elements that are stored in a leaf is chosen so that if the leaf is full, it fits in one block. This means that a record can always be found in very few disk accesses, since a typical B-tree will have a depth of only 2 or 3, and the root (and possibly the first level) can be kept in main memory.
 
 Analysis suggests that a B-tree will be ln 2 = 69 percent full. Better space utilization can be obtained if, instead of always splitting a node when the tree obtains its (m + 1)th entry, the routine searches for a sibling that can take theextra child. The details can be found in the references.
 
-**Summary**
+## Summary
 
 We have seen uses of trees in operating systems, compiler design, and searching. Expression trees are a small example of a more general structure known as a parse tree, which is a central data structure in compiler design. Parse trees are not binary, but are relatively simple extensions of expression trees (although the algorithms to build them are not quite so simple).
 
@@ -1360,7 +1322,7 @@ In practice, the running time of all the balanced tree schemes is worse (by a co
 
 A final note: By inserting elements into a search tree and then performing an inorder traversal, we obtain the elements in sorted order. This gives an O(n log n) algorithm to sort, which is a worst-case bound if any sophisticated search tree is used. We shall see better ways in Chapter 7, but none that have a lower time bound.
 
-**Exercises**
+## Exercises
 
 Questions 4.1 to 4.3 refer to the tree in Figure 4.63.
 
@@ -1567,12 +1529,9 @@ c. What is the advantage of using threaded trees?
 
 a. One method is to build two separate binary search trees. How many extra pointers does this require?
 
-b. An alternative method is a 2-d tree. A 2-d tree is similar to a binary search tree, except that branching at even levels is done with respect to key1, and
-branching at odd levels is done with key2. Figure 4.68 shows a 2-d tree, with the first and last names as keys, for post-WWII presidents. The presidents' names were inserted chronologically (Truman, Eisenhower, Kennedy, Johnson, Nixon, Ford, Carter, Reagan, Bush). Write a routine to perform insertion into a 2-d tree.
+b. An alternative method is a 2-d tree. A 2-d tree is similar to a binary search tree, except that branching at even levels is done with respect to key1, and branching at odd levels is done with key2. Figure 4.68 shows a 2-d tree, with the first and last names as keys, for post-WWII presidents. The presidents' names were inserted chronologically (Truman, Eisenhower, Kennedy, Johnson, Nixon, Ford, Carter, Reagan, Bush). Write a routine to perform insertion into a 2-d tree.
 
-c. Write an efficient procedure that prints all records in the tree thatsimultaneously satisfy the constraints low1 key1 high1 and low2 key2
-
-high2.
+c. Write an efficient procedure that prints all records in the tree thatsimultaneously satisfy the constraints low1 key1 high1 and low2 key2 high2.
 
 d. Show how to extend the 2-d tree to handle more than two search keys. The resulting strategy is known as a k-d tree.
 
@@ -1580,7 +1539,7 @@ d. Show how to extend the 2-d tree to handle more than two search keys. The resu
 
 **Figure 4.68 A 2-d tree**
 
-**References**
+## References
 
 More information on binary search trees, and in particular the mathematical properties of trees can be found in the two books by Knuth [23] and [24].
 
@@ -1590,8 +1549,7 @@ AVL trees were proposed by Adelson-Velskii and Landis [1]. Simulation results fo
 
 [3] and [9] considered self-adjusting trees like the type in Section 4.5.1. Splay trees are described in [29].
 
-B-trees first appeared in [6]. The implementation described in the original paper allows data to be stored in internal nodes as well as leaves. The data structure
-we have described is sometimes known as a B+ tree. A survey of the different types of B-trees is presented in [10]. Empirical results of the various schemes is reported in [18]. Analysis of 2-3 trees and B-trees can be found in [4], [14], and [33].
+B-trees first appeared in [6]. The implementation described in the original paper allows data to be stored in internal nodes as well as leaves. The data structure we have described is sometimes known as a B+ tree. A survey of the different types of B-trees is presented in [10]. Empirical results of the various schemes is reported in [18]. Analysis of 2-3 trees and B-trees can be found in [4], [14], and [33].
 
 Exercise 4.14 is deceptively difficult. A solution can be found in [16]. Exercise 4.26 is from [32]. Information on B*-trees, described in Exercise 4.38, can be found in [13]. Exercise 4.42 is from [2]. A solution to Exercise 4.43 using 2n -6 rotations is given in [30]. Using threads, a la Exercise 4.45, was first proposed in [28]. k-d trees were first proposed in [7]. Their major drawback is that both deletion and balancing are difficult. [8] discusses k-d trees and other methods used for multidimensional searching.
 
@@ -1661,4 +1619,3 @@ Other popular balanced search trees are red-black trees [19] and weight-balanced
 
 33. A. C. Yao, "On Random 2-3 trees," Acta Informatica 9 (1978), 159-170.
 
-Go to Chapter 5 Return to Table of Contents
