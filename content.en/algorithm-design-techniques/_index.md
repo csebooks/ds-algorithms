@@ -245,9 +245,7 @@ The proof can be completed by using an induction argument. As trees are merged, 
 
 The reason that this is a greedy algorithm is that at each stage we perform a merge W~i~thout regard to global considerations. We merely select the two smallest trees.
 
-If we maintain the trees in a priority queue, ordered by weight, then the running time is O(C log C), since there W~i~ll be one build_heap, 2C - 2 delete_mins, and C - 2 inserts, on a priority queue that never has more than C elements. A simple
-
-implementation of the priority queue, using a linked list, would give an O (C2) algorithm. The choice of priority queue implementation depends on how large C is. In the typical case of an ASCII character set, C is small enough that the quadratic running time is acceptable. In such an application, virtually all the running time W~i~ll be spent on the disk I/O required to read the input file and write out the compressed version.
+If we maintain the trees in a priority queue, ordered by weight, then the running time is O(C log C), since there W~i~ll be one build_heap, 2C - 2 delete_mins, and C - 2 inserts, on a priority queue that never has more than C elements. A simple implementation of the priority queue, using a linked list, would give an O (C2) algorithm. The choice of priority queue implementation depends on how large C is. In the typical case of an ASCII character set, C is small enough that the quadratic running time is acceptable. In such an application, virtually all the running time W~i~ll be spent on the disk I/O required to read the input file and write out the compressed version.
 
 There are two details that must be considered. First, the encoding information must be transmitted at the start of the compressed file, since otherW~i~se it W~i~ll be impossible to decode. There are several ways of doing this; see Exercise 10.4. For small files, the cost of transmitting this table W~i~ll override any possible savings in compression, and the result W~i~ll probably be file expansion. Of course, this can be detected and the original left intact. For large files, the size of the table is not significant.
 
@@ -269,11 +267,11 @@ There are two versions of the bin packing problem. The first version is on-line 
 
 The first issue to consider is whether or not an on-line algorithm can actually always give an optimal answer, even if it is allowed unlimited computation. Remember that even though unlimited computation is allowed, an on-line algorithm must place an item before processing the next item and cannot change its decision.
 
-To show that an on-line algorithm cannot always give an optimal solution, we W~i~ll give it particularly difficult data to work on. Consider an input sequence I~1~ of m small items of weight followed by m large items of weight , 0 < < 0.01. It is clear that these items can be packed in m bins if we place one small item and one large item in each bin. Suppose there were an optimal on-line algorithm A that could perform this packing. Consider the operation of algorithm
+To show that an on-line algorithm cannot always give an optimal solution, we W~i~ll give it particularly difficult data to work on. Consider an input sequence I~1~ of m small items of weight followed by m large items of weight , 0 < < 0.01. It is clear that these items can be packed in m bins if we place one small item and one large item in each bin. Suppose there were an optimal on-line algorithm A that could perform this packing. Consider the operation of algorithm 
 
 A on the sequence I~2~, consisting of only m small items of weight . I~2~ can be packed in [m/2] bins. However, A W~i~ll place each item in a separate bin, since A must yield the same results on I~2~ as it does for the first half of I~1~, since the first half of I~1~ is exactly the same input as I~2~. This means that A W~i~ll use tW~i~ce as many bins as is optimal for I~2~. What we have proven is that there is no optimal algorithm for on-line bin packing.
 
-What the argument above shows is that an on-line algorithm never knows when the input might end, so any performance guarantees it provides must hold at every instant throughout the algorithm. If we follow the foregoing strategy, we can prove the folloW~i~ng.
+What the argument above shows is that an on-line algorithm never knows when the input might end, so any performance guarantees it provides must hold at every instant throughout the algorithm. If we follow the foregoing strategy, we can prove the folloWing.
 
 THEOREM 10.1.
 
@@ -281,13 +279,9 @@ There are inputs that force any on-line bin-packing algorithm to use at least th
 
 PROOF:
 
-Suppose otherW~i~se, and suppose for simplicity that m is even. Consider any on- line algorithm A running on the input sequence I~1~, above. Recall that this
+Suppose otherW~i~se, and suppose for simplicity that m is even. Consider any on- line algorithm A running on the input sequence I~1~, above. Recall that this sequence consists of m small items followed by m large items. Let us consider what the algorithm A has done after processing the mth item. Suppose A has already used b bins. At this point in the algorithm, the optimal number of bins is m/2, because we can place two elements in each bin. Thus we know that, by our assumption of a performance guarantee.
 
-sequence consists of m small items followed by m large items. Let us consider what the algorithm A has done after processing the mth item. Suppose A has already used b bins. At this point in the algorithm, the optimal number of bins is m/2, because we can place two elements in each bin. Thus we know that, by our assumption of a performance guarantee.
-
-Now consider the performance of algorithm A after all items have been packed. All bins created after the bth bin must contain exactly one item, since all small items are placed in the first b bins, and two large items W~i~ll not fit in a bin. Since the first b bins can have at most two items each, and the remaining bins have one item each, we see that packing 2m items W~i~ll require at least 2m - b bins. Since the 2m items can be optimally packed using m bins, our performance
-
-guarantee assures us that
+Now consider the performance of algorithm A after all items have been packed. All bins created after the bth bin must contain exactly one item, since all small items are placed in the first b bins, and two large items W~i~ll not fit in a bin. Since the first b bins can have at most two items each, and the remaining bins have one item each, we see that packing 2m items W~i~ll require at least 2m - b bins. Since the 2m items can be optimally packed using m bins, our performance guarantee assures us that
 ![alt ](sml.png).
 
 ![alt Next fit for 0.2, 0.5, 0.4, 0.7, 0.1, 0.3, 0.8](10.21.png)
@@ -525,7 +519,7 @@ There are two strategies that can be tried to compute dc. For large point sets t
 
 ![alt Two-lane strip, containing all points considered for dc strip](10.31.png)
 **Figure 10.31 Two-lane strip, containing all points considered for dc strip**
-```
+```c
 /* Points are all in the strip */
 
 for(i=0; i<NUM_POINTS_IN_STRIP; i++)
@@ -533,7 +527,6 @@ for(i=0; i<NUM_POINTS_IN_STRIP; i++)
 for(j=i+1; j<NUM_POINTS_IN_STRIP; j++)
 
 if(dist(pi,pj) <)
-
 = dist(pi,pj);
 
 Figure 10.32 Brute force calculation of min(, dc**)**
@@ -549,18 +542,14 @@ if (pi and pj 's coordinates differ by more than)
 break; /* goto next pi */
 
 else
-
 if(dist(pi, pj) <)
-
 = dist(pi, pj);
 ```
 **Figure 10.33 Refined calculation of min(, dc)**
 
 In the worst case, all the points could be in the strip, so this strategy does not always work in linear time. We can improve this algorithm W~i~th the folloW~i~ng observation: The y coordinates of the two points that define dc can differ by at most . OtherW~i~se, dc > . Suppose that the points in the strip are sorted by their y coordinates. Therefore, if pi and pj's y coordinates differ by more than , then we can proceed to pi + l. This simple modification is implemented in Figure 10.33.
 
-This extra test has a significant effect on the running time, because for each pi only a few points pj are examined before pi's and pj's y coordinates differ by more than and force an ex~i~t from the inner for loop. Figure 10.34 shows, for instance, that for point P~3~, only the two
-
-points P~4~ and P~5~ lie in the strip W~i~thin vertical distance.
+This extra test has a significant effect on the running time, because for each pi only a few points pj are examined before pi's and pj's y coordinates differ by more than and force an ex~i~t from the inner for loop. Figure 10.34 shows, for instance, that for point P~3~, only the two points P~4~ and P~5~ lie in the strip W~i~thin vertical distance.
 ![Only P~4~ and P~5~ are considered in the second for loop](10.34.png)
 
 **Figure 10.34 Only P~4~ and P~5~ are considered in the second for loop**  
@@ -580,7 +569,7 @@ This strategy ensures that the entire algorithm is O (n log n), because only O (
 
 ### The Selection Problem
 
-The selection problem requires us to find the kth smallest element in a list S of n elements. Of particular interest is the special case of finding the median. This occurs when k = _n_/2 .
+The selection problem requires us to find the kth smallest element in a list S of n elements. Of particular interest is the special case of finding the median. This occurs when k = n/2 .
 
 In Chapters 1, 6, 7 we have seen several solutions to the selection problem. The solution in Chapter 7 uses a variation of quicksort and runs in O(n) average time. Indeed, it is described in Hoare's original paper on quicksort.
 
@@ -596,9 +585,9 @@ The basic idea is still useful. Indeed, we W~i~ll see that we can use it to impr
 
 The basic pivot selection algorithm is as follows:
 
-1. Arrange the n elements into _n_/5 groups of 5 elements, ignoring the (at most four) extra elements.
+1. Arrange the n elements into n/5 groups of 5 elements, ignoring the (at most four) extra elements.
 
-2. Find the median of each group. This gives a list M of _n_/5 medians.
+2. Find the median of each group. This gives a list M of n/5 medians.
 
 3. Find the median of M. Return this as the pivot, v.
 
@@ -615,9 +604,9 @@ Elements of type L or H are guaranteed to be larger than v, and elements of type
 
 Let us extend this analysis to general n of the form 10k + 5. In this case, there are k elements of type L and k elements of type S . There are 2k + 2 elements of type H, and also 2k + 2 elements of type T. Thus, there are 3k + 2 elements that are guaranteed to be larger than v and 3k + 2 elements that are guaranteed to be smaller. Thus, in this case, the recursive call can contain at most 7k + 2 < 0.7n elements. If n is not of the form 10k + 5, similar arguments can be made W~i~thout affecting the basic result.
 
-It remains to bound the running time to obtain the pivot element. There are two basic steps. We can find the median of five elements in constant time. For instance, it is not hard to sort five elements in eight comparisons. We must do this _n_/5 times, so this step takes O(n) time.
+It remains to bound the running time to obtain the pivot element. There are two basic steps. We can find the median of five elements in constant time. For instance, it is not hard to sort five elements in eight comparisons. We must do this n/5 times, so this step takes O(n) time.
 
-We must then compute the median of a group of _n_/5 elements. The obvious way to do this is to sort the group and return the element in the middle. But this takes O(_n/5_ log _n/5_) = O(n log n) time, so this does not work. The solution is to call the selection algorithm recursively on the _n_/5 elements.
+We must then compute the median of a group of n/5 elements. The obvious way to do this is to sort the group and return the element in the middle. But this takes O(n/5 log n/5) = O(n log n) time, so this does not work. The solution is to call the selection algorithm recursively on the n/5 elements.
 
 This completes the description of the basic algorithm. There are still some details that need to be filled in if an actual implementation is desired. For instance, duplicates must be handled correctly, and the algorithm needs a cutoff large enough to ensure that the recursive calls make progress. There is quite a large amount of overhead involved, and this algorithm is not practical at all, so we W~i~ll not describe any more of the details that need to be considered. Even so, from a theoretical standpoint, the algorithm is a major breakthrough, because, as the folloW~i~ng theorem shows, the running time is linear in the worst case.
 
@@ -649,35 +638,21 @@ In this section we describe a divide and conquer algorithm that multiplies two n
 
 Our previous model of computation assumed that multiplication was done in constant time, because the numbers were small. For large numbers, this assumption is no longer valid. If we measure multiplication in terms of the size of numbers being multiplied, then the natural multiplication algorithm takes quadratic time. The divide and conquer algorithm runs in subquadratic time. We also present the classic divide and conquer algorithm that multiplies two n by n matrices in subcubic time.
 
-Multiplying Integers
-
-Matrix Multiplication
-
 **Multiplying Integers**
 
 Suppose we want to multiply two n-digit numbers x and y. If exactly one of x and y is negative, then the answer is negative; otherW~i~se it is positive. Thus, we can perform this check and then assume that x, y 0. The algorithm that almost everyone uses when multiplying by hand requires (n2) operations, because each digit in x is multiplied by each digit in y.
 
-If x = 61,438,521 and y = 94,736,407, xy = 5,820,464,730,934,047. Let us break x and y into two halves, consisting of the most significant and least significant digits, respectively. Then x~1~ = 6,143, x~r~ = 8,521, y~1~ = 9,473, and y~r~ = 6,407. We also have x = x~1~10 4 + x~r~ and y = y~1~10 4 + y~r~. It follows that
+If x = 61,438,521 and y = 94,736,407, xy = 5,820,464,730,934,047. Let us break x and y into two halves, consisting of the most significant and least significant digits, respectively. Then x~1~ = 6,143, x~r~ = 8,521, y~1~ = 9,473, and y~r~ = 6,407. We also have x = x~1~10 4 + x~r~ and y = y~1~10 4 + y~r~. It follows that 
 
 xy = x~1~y~1~10 8 + (x~1~y~r~ + x~r~y~1~)10 4 + x~r~y~r~
 
 Notice that this equation consists of four multiplications, x~1~y~1~, x~1~y~r~, x~r~y~1~, and x~r~y~r~, which are each half the size of the original problem (n/2 digits). The multiplications by 108 and 104 amount to the placing of zeros. This and the subsequent additions add only O(n) additional work. 
 
-If we perform these four multiplications recursively using this algorithm, stopping at an appropriate base case, then we obtain the recurrence
-
-T(n) = 4T(n/2) + O(n)
-
-From Theorem 10.6, we see that T(n) = O(n2), so, unfortunately, we have not improved the algorithm. To achieve a subquadratic algorithm, we must use less than four recursive calls. The key observation is that
-
-x~1~y~r~ + x~r~y~1~ = (x~1~ - x~r~)(y~r~ - y~1~) + x~1~y~1~ + x~r~y~r~
+If we perform these four multiplications recursively using this algorithm, stopping at an appropriate base case, then we obtain the recurrence T(n) = 4T(n/2) + O(n) From Theorem 10.6, we see that T(n) = O(n2), so, unfortunately, we have not improved the algorithm. To achieve a subquadratic algorithm, we must use less than four recursive calls. The key observation is that x~1~y~r~ + x~r~y~1~ = (x~1~ - x~r~)(y~r~ - y~1~) + x~1~y~1~ + x~r~y~r~
 
 Thus, instead of using two multiplications to compute the coefficient of 104, we can use one multiplication, plus the result of two multiplications that have already been performed. Figure 10.37 shows how only three recursive subproblems need to be solved.
 
-It is easy to see that now the recurrence equation satisfies
-
-T(n) = 3T(n/2) + O(n),
-
-and so we obtain T(n) = O(nlog23) = O(n1.59). To complete the algorithm, we must have a base case, which can be solved W~i~thout recursion.
+It is easy to see that now the recurrence equation satisfies T(n) = 3T(n/2) + O(n), and so we obtain T(n) = O(nlog23) = O(n1.59). To complete the algorithm, we must have a base case, which can be solved W~i~thout recursion.
 
 ![alt The divide and conquer algorithm in action](10.37.png)
 
@@ -700,13 +675,10 @@ C1,2 = A1,1B1,2 + A1,2B2,2
 C2,1 = A2,1B1,1 + A2,2B2,1
 
 C2,2 = A2,1B1,2 + A2,2B2,2
-```
+```c
 /* Standard matrix multiplication. Arrays start at 0 */
 
-void
-
-matrix_multiply(matrix A, matrix B, matrix C, unsigned int n)
-
+void matrix_multiply(matrix A, matrix B, matrix C, unsigned int n)
 {
 
 int i, j, k;
@@ -738,9 +710,7 @@ As an example, to perform the multiplication **AB**
 we define the folloW~i~ng eight n/2 by n/2 matrices:
 ![alt](oo.png)
 
-We could then perform eight n/2 by n/2 matrix multiplications and four n/2 by n/2 matrix additions. The matrix additions take O(n2) time. If the matrix multiplications are done recursively, then the running time satisfies
-
-T(n) = 8T(n/2) + O(n2).
+We could then perform eight n/2 by n/2 matrix multiplications and four n/2 by n/2 matrix additions. The matrix additions take O(n2) time. If the matrix multiplications are done recursively, then the running time satisfies T(n) = 8T(n/2) + O(n2).
 
 From Theorem 10.6, we see that T(n) = O(n3), so we do not have an improvement. As we saw W~i~th integer multiplication, we must reduce the number of subproblems below 8. Strassen used a strategy similar to the integer multiplication divide and conquer algorithm and showed how to use only seven recursive calls by carefully arranging the computations. The seven multiplications are
 
@@ -768,9 +738,7 @@ C1,3 = M6 + M7
 
 C1,4 = M2 - M3 + M5 - M7
 
-It is straightforward to verify that this tricky ordering produces the desired values. The running time now satisfies the recurrence
-
-T(n) = 7T(n/2) + O(n2).  
+It is straightforward to verify that this tricky ordering produces the desired values. The running time now satisfies the recurrence T(n) = 7T(n/2) + O(n2).  
 
 The solution of this recurrence is T(n) = O(nlog27) = O(n2.81).
 
@@ -784,29 +752,22 @@ Any recursive mathematical formula could be directly translated to a recursive a
 
 ### Using a Table Instead of Recursion
 
-In Chapter 2, we saw that the natural recursive program to compute the Fibonacci numbers is very inefficient. Recall that the program shown in Figure 10.40 has a running time T(n) that satisfies
-
-T(n) T(n - 1) + T(n - 2). Since T(n) satisfies the same recurrence relation as the Fibonacci numbers and has the same initial conditions, T(n) in fact grows at the same rate as the Fibonacci numbers, and is thus exponential.
+In Chapter 2, we saw that the natural recursive program to compute the Fibonacci numbers is very inefficient. Recall that the program shown in Figure 10.40 has a running time T(n) that satisfies T(n) T(n - 1) + T(n - 2). Since T(n) satisfies the same recurrence relation as the Fibonacci numbers and has the same initial conditions, T(n) in fact grows at the same rate as the Fibonacci numbers, and is thus exponential.
 
 On the other hand, since to compute Fn, all that is needed is Fn-1 and Fn-2, we only need to record the two most recently computed Fibonacci numbers. This yields the O(n) algorithm in Figure 10.41
 
 The reason that the recursive algorithm is so slow is because of the algorithm used to simulate recursion. To compute Fn, there is one call to Fn-1 and Fn-2. However, since Fn-1 recursively makes a call to Fn-2 and Fn-3, there are actually two separate calls to compute Fn-2. If one traces out the entire algorithm, then we can see that Fn-3 is computed three times, Fn-4 is computed five times, Fn-5 is computed eight times, and so on. As Figure 10.42 shows, the growth of redundant calculations is explosive. If the compiler's recursion simulation algorithm were able to keep a list of all precomputed values and not make a recursive call for an already solved subproblem, then this exponential explosion would be avoided. This is why the program in Figure 10.41 is so much more efficient. calculations is explosive. If the compiler's recursion simulation algorithm were able to keep a list of all precomputed values and not make a recursive call for an already solved subproblem, then this exponential explosion would be avoided. This is why the program in Figure 10.41 is so much more efficient.
 
-```
+```c
 /* Compute Fibonacci numbers as described in Chapter 1 */
 
-unsigned int
-
-fib(unsigned int n)
-
+unsigned int fib(unsigned int n)
 {
 
 if(n <= 1)
-
 return 1;
 
 else
-
 return(fib(n-1) + fib(n-2));
 
 }
@@ -816,19 +777,16 @@ return(fib(n-1) + fib(n-2));
 unsigned int
 
 fibonacci(unsigned int n)
-
 {
 
 unsigned int i, last, next_to_last, answer;
 
 if(n <= 1)
-
 return 1;
 
 last = next_to_last = 1;
 
 for(i = 2; i <= n; i++)
-
 {
 
 answer = last + next_to_last;
@@ -847,11 +805,8 @@ return answer;
 
 ![alt Trace of the recursive calculation of Fibonacci numbers](10.42.png)
 **Figure 10.42 Trace of the recursive calculation of Fibonacci numbers**
-```
-double
-
-eval(unsigned int n)
-
+```c
+double eval(unsigned int n)
 {
 
 int i;
@@ -859,12 +814,9 @@ int i;
 double sum;
 
 if(n == 0)
-
 return 1.0;
 
-else
-
-{
+else{
 
 sum = 0.0;
 
@@ -884,19 +836,14 @@ As a second example, we saw in Chapter 7 how to solve the recurrence ![alt](10.4
 
 W~i~th C(0) = 1. Suppose that we want to check, numerically, whether the solution we obtained is correct. We could then write the simple program in Figure 10.43 to evaluate the recursion.
 
-Once again, the recursive calls duplicate work. In this case, the running time T(n) satisfies 
-
-because, as shown in Figure 10.44, there is one (direct) recursive call of each size from 0 to n -1, plus O(n) additional work (where else have we seen the tree shown in Figure 10.44?). Solving for T(n), we find that it grows exponentially. By using a table, we obtain the program in Figure 10.45. This program avoids the redundant recursive calls and runs in
-
-O(n2). It is not a perfect program; as an exercise, you should make the simple change that reduces its running time to O(n).
+Once again, the recursive calls duplicate work. In this case, the running time T(n) satisfies because, as shown in Figure 10.44, there is one (direct) recursive call of each size from 0 to n -1, plus O(n) additional work (where else have we seen the tree shown in Figure 10.44?). Solving for T(n), we find that it grows exponentially. By using a table, we obtain the program in Figure 10.45. This program avoids the redundant recursive calls and runs in O(n2). It is not a perfect program; as an exercise, you should make the simple change that reduces its running time to O(n).
 ![alt Trace of the recursive calculation in eval](10.444.png)
 
 **Figure 10.44 Trace of the recursive calculation in eval**
-```
+```c
 double
 
 eval(unsigned int n)
-
 {
 
 int i,j;
@@ -908,13 +855,11 @@ double *c;
 c = (double*) malloc(sizeof (double)*(n+1));
 
 if(c == NULL)
-
 fatal_error("Out of space!!!");
 
 c[0] = 1.0;
 
 for(i=1; i<=n; i++) /* Evaluate Ci, 1 i n */
-
 {
 
 sum = 0.0;
@@ -974,7 +919,7 @@ If we want to print out the actual ordering of the multiplications in addition t
 Although the emphasis of this chapter is not coding, it is worth noting that many programmers tend to shorten variable names to a single letter. c, i, and k are used as single-letter variables because this agrees W~i~th the names we have used in the description of the algorithm, which is very mathematical. However, it is generally best to avoid l as a variable name, because "l" looks too much like 1 and can make for very difficult debugging if you make a transcription error.
 
 Returning to the algorithmic issues, this program contains a triply nested loop and is easily seen to run in O(n3) time. The references describe a faster algorithm, but since the time to perform the actual matrix multiplication is still likely to be much larger than the time to compute the optimal ordering, this algorithm is still quite practical.
-```
+```c
 /* Compute optimal ordering of matrix multiplication */
  
 /* c contains number of columns for each of the n matrices */
@@ -989,12 +934,9 @@ Returning to the algorithmic issues, this program contains a triply nested loop 
 
 /* M and last_change are indexed starting at 1, instead of zero */
 
-void
-
-opt_matrix(int c[], unsigned int n, two_d_array M,
+void opt_matrix(int c[], unsigned int n, two_d_array M,
 
 two_d_array last_change)
-
 {
 
 int i, k, Left, Right, this_M;
@@ -1006,7 +948,6 @@ M[Left][Left] = 0;
 for(k = 1; k < n; k++) /* k is Right-Left */
 
 for(Left = 1; Left <= n-k; Left++)
-
 { /* for each position */
 
 Right = Left + k;
@@ -1014,7 +955,6 @@ Right = Left + k;
 M[Left][Right] = INT_~max~;
 
 for(i = Left; i < Right; i++)
-
 {
 
 this_M = M[Left][i] + M[i+1][Right]
@@ -1022,7 +962,6 @@ this_M = M[Left][i] + M[i+1][Right]
 + c[Left-1] * c[i] * c[Right];
 
 if(this_M < M[Left][Right]) /* Update min */
-
 {
 
 M[Left][Right] = this_M;
@@ -1136,7 +1075,7 @@ Our third and final dynamic programming application is an algorithm to compute s
 Let us recall the important details of Dijkstra's algorithm (the reader may W~i~sh to review Section 9.3). Dijkstra's algorithm starts at a vertex s and works in stages. Each vertex in the graph is eventually selected as an intermediate vertex. If the current selected vertex is v, then for each w V, we set dw = min(dw, dv + cv,w). This formula says that the best distance to w (from s) is either the previously known distance to w from s, or the result of going from s to v (optimally) and then directly from v to w.
 
 Dijkstra's algorithm provides the idea for the dynamic programming algorithm: we select the vertices in sequential order. We W~i~ll define Dk,i,j to be the weight of the shortest path from vi to vj that uses only v1, v2, . . . ,vk as intermediates. By this definition, D0,i,j = ci,j, where ci,j is if (vi, vj) is not an edge in the graph. Also, by definition, D|V|,i,j is the  shortest path from v_i_ to v_j_ in the graph.
-```
+```c
 /* Compute All-Shortest Paths */
 
 /* A[] contains the adjacency matrix */
@@ -1155,10 +1094,7 @@ Dijkstra's algorithm provides the idea for the dynamic programming algorithm: we
 
 /* All arrays are indexed starting at 0 */
 
-void
-
-all_pairs(two_d_array A, two_d_array D, two_d_array path)
-
+void all_pairs(two_d_array A, two_d_array D, two_d_array path)
 {
 
 int i, j, k;
@@ -1166,7 +1102,6 @@ int i, j, k;
 /*1*/ for(i = 0; i < |V |; i++) /* Initialize D and path */
 
 /*2*/ for(j = 0; j < |V |; j++)
-
 {
 
 /*3*/ D[i][j] = A[i][j];
@@ -1184,9 +1119,7 @@ int i, j, k;
 /*7*/ for(j = 0; j < |V |; j++)
 
 /*8*/ if(d[i][k] + d[k][j] < d[i][j])
-
 /*update min */
-
 {
 
 /*9*/ d[i][j] = d[i][k] + d[k][j];
@@ -1225,9 +1158,7 @@ The worst-case running time of a randomized algorithm is almost always the same 
 
 Consider two variants of quicksort. Variant A uses the first element as pivot, while variant B uses a randomly chosen element as pivot. In both cases, the worst-case running time is (n2), because it is possible at each step that the largest element is chosen as pivot. The difference between these worst cases is that there is a particular input that can always be presented to variant A to cause the bad running time. Variant A W~i~ll run in (n2) time every single time it is given an already sorted list. If variant B is presented W~i~th the same input tW~i~ce, it W~i~ll have two different running times, depending on what random numbers occur.
 
-Throughout the text, in our calculations of running times, we have assumed that all inputs are equally likely. This is not true, because nearly sorted input, for instance, occurs much more often than is statistically expected, and this causes problems, particularly for quicksort and binary search trees. By using a randomized algorithm, the particular input is no longer important. The random numbers are important, and we can get an expected running time, where we now average over all possible random numbers instead of over all possible inputs. Using quicksort W~i~th a random pivot gives an O(n log n)-expected-time algorithm. This means that for any input, including already-sorted input, the running time is expected to be O(n log n), based on the statistics of random numbers. An expected running time bound is somewhat stronger than an average-case bound but, of course, is weaker than the corresponding worst-case bound. On the other hand, as we saw in the selection problem, solutions that obtain the worst-case bound are frequently not as practical as their average-case counterparts. Randomized algorithms usually are.
-
-In this section we W~i~ll examine two uses of randomization. First, we W~i~ll see a novel scheme for supporting the binary search tree operations in O(log n) expected time. Once again, this means that there are no bad inputs, just bad random numbers. From a theoretical point of view, this is not terribly exciting, since balanced search trees achieve this bound in the worst case. Nevertheless, the use of randomization leads to relatively simple algorithms for searching, inserting, and especially deleting.
+Throughout the text, in our calculations of running times, we have assumed that all inputs are equally likely. This is not true, because nearly sorted input, for instance, occurs much more often than is statistically expected, and this causes problems, particularly for quicksort and binary search trees. By using a randomized algorithm, the particular input is no longer important. The random numbers are important, and we can get an expected running time, where we now average over all possible random numbers instead of over all possible inputs. Using quicksort W~i~th a random pivot gives an O(n log n)-expected-time algorithm. This means that for any input, including already-sorted input, the running time is expected to be O(n log n), based on the statistics of random numbers. An expected running time bound is somewhat stronger than an average-case bound but, of course, is weaker than the corresponding worst-case bound. On the other hand, as we saw in the selection problem, solutions that obtain the worst-case bound are frequently not as practical as their average-case counterparts. Randomized algorithms usually are In this section we W~i~ll examine two uses of randomization. First, we W~i~ll see a novel scheme for supporting the binary search tree operations in O(log n) expected time. Once again, this means that there are no bad inputs, just bad random numbers. From a theoretical point of view, this is not terribly exciting, since balanced search trees achieve this bound in the worst case. Nevertheless, the use of randomization leads to relatively simple algorithms for searching, inserting, and especially deleting.
 
 Our second application is a randomized algorithm to test the primality of large numbers. No efficient polynomial-time nonrandomized algorithms are known for this problem. The algorithm we present runs quickly but occasionally makes an error. The probability of error can, however, be made negligibly small.
 
@@ -1241,13 +1172,9 @@ Suppose we only need to flip a coin; thus, we must generate a 0 or 1 randomly. O
 
 We W~i~ll use random in place of pseudorandom in the rest of this section.
 
-The standard method to generate random numbers is the linear congruential generator, which was first described by Lehmer in 1951. Numbers x1, x2, . . . are generated satisfying
+The standard method to generate random numbers is the linear congruential generator, which was first described by Lehmer in 1951. Numbers x1, x2, . . . are generated satisfying x~i~ + 1 = ax~i~ mod m.
 
-x~i~ + 1 = ax~i~ mod m.
-
-To start the sequence, some value of x0 must be given. This value is known as the seed. If x0 = 0, then the sequence is far from random, but if a and m are correctly chosen, then any other 1 x 0 < m is equally valid. If m is prime, then x~i~ is never 0. As an example, if m = 11, a = 7, and x0 = 1, then the numbers generated are 7, 5, 2, 3, 10, 4, 6, 9, 8, 1, 7, 5, 2, . . .
-
-Notice that after m - 1 = 10 numbers, the sequence repeats. Thus, this sequence has a period of m -1, which is as large as possible (by the pigeonhole principle). If m is prime, there are always choices of a that give a full period of m - 1. Some choices of a do not; if a = 5 and x0 = 1, the sequence has a short period of 5.
+To start the sequence, some value of x0 must be given. This value is known as the seed. If x0 = 0, then the sequence is far from random, but if a and m are correctly chosen, then any other 1 x 0 < m is equally valid. If m is prime, then x~i~ is never 0. As an example, if m = 11, a = 7, and x0 = 1, then the numbers generated are 7, 5, 2, 3, 10, 4, 6, 9, 8, 1, 7, 5, 2, . . . Notice that after m - 1 = 10 numbers, the sequence repeats. Thus, this sequence has a period of m -1, which is as large as possible (by the pigeonhole principle). If m is prime, there are always choices of a that give a full period of m - 1. Some choices of a do not; if a = 5 and x0 = 1, the sequence has a short period of 5.
 
 5, 3, 4, 9, 1, 5, 3, 4, . . .
 
@@ -1264,7 +1191,7 @@ It is also common to return a random real number in the open interval (0, 1) (0 
 The problem W~i~th this routine is that the multiplication could overflow; although this is not an error, it affects the result and thus the pseudo-randomness. Schrage gave a procedure in which all of the calculations can be done on a 32-bit machine W~i~thout overflow. We compute the quotient and remainder of m/a and define these as q and r, respectively. In our case, ~q~= 127,773, r = 2,836, and r < q. We have
 
 ![alt](er.png)
-```
+```c
 unsigned int seed; /* global variable */
 
 define a 16807 /* 7^5 */
@@ -1274,7 +1201,6 @@ define m 2147483647 /* 2^31 - 1 */
 double
 
 random(void)
-
 {
 
 seed = (a * seed) % m;
@@ -1298,10 +1224,8 @@ A quick check shows that because r < q, all the remaining terms can be calculate
 
 This program works as long as INT_~max~ 231 - 1. One might be tempted to assume that all machines have a random number generator at least as good as the one in Figure 10.55 in their standard library. Sadly, this is not true. Many libraries have generators based on the function x~i~+1 = (ax~i~ + c) mod 2 b where b is chosen to match the number of bits in the machine's integer, and c is odd. These libraries also return x~i~, instead of a value between 0 and 1. Unfortunately, these generators always produce values of x~i~ that alternate between even and odd--hardly a desirable property.
 
-Indeed, the lower k bits cycle W~i~th period 2k (at best). Many other random number generators have much smaller cycles than the one provided in Figure 10.55. These are not suitable for the case where long sequences of random numbers are needed. Finally, it may seem that we can get a better random number generator by adding a constant to the equation. For instance, it seems that x~i~+1 = (16807x~i~ + 1) mod (2 31 - 1) would somehow be even more random. This illustrates how fragile these generators are.
-
-[16807(1319592028) + 1] mod (231-1) = 1319592028, so if the seed is 1,319,592,028, the generator gets stuck in a cycle of period 1.
-```
+Indeed, the lower k bits cycle W~i~th period 2k (at best). Many other random number generators have much smaller cycles than the one provided in Figure 10.55. These are not suitable for the case where long sequences of random numbers are needed. Finally, it may seem that we can get a better random number generator by adding a constant to the equation. For instance, it seems that x~i~+1 = (16807x~i~ + 1) mod (2 31 - 1) would somehow be even more random. This illustrates how fragile these generators are [16807(1319592028) + 1] mod (231-1) = 1319592028, so if the seed is 1,319,592,028, the generator gets stuck in a cycle of period 1.
+```c
 unsigned int seed; /* global variable */
 
 define a 16807 /* 7^5 */
@@ -1315,7 +1239,6 @@ define r 2836 /* m%a */
 double
 
 random(void)
-
 {
 
 int tmp_seed;
@@ -1323,11 +1246,9 @@ int tmp_seed;
 tmp_seed = a * (seed % q) - r * (seed / q);
 
 if(tmp_seed >= 0)
-
 seed = tmp_seed; 
 
 else
-
 seed = tmp_seed + m;
 
 return(((double) seed) / m);
@@ -1412,7 +1333,7 @@ x2 1(mod p) implies that x2 -1 0(mod p). This implies (x - 1)(x + 1) 0(mod p).
 
 Since p is prime, 0 x < p, and p must divide either (x - 1) or (x + 1), the theorem follows.
 
-Therefore, if at any point in the computation of an-1mod n we discover a violation of this theorem, we can conclude that n is definitely not prime. If we use power, from Section 2.4.4, we see that there W~i~ll be several opportunities to apply this test. We modify this routine to perform operations mod n, and apply the test of Theorem 10.11. This strategy is implemented in Figure 10.62. Because power needs to return two pieces of information, we pass the address of these items (result and what_n_is) by pointers.
+Therefore, if at any point in the computation of an-1mod n we discover a violation of this theorem, we can conclude that n is definitely not prime. If we use power, from Section 2.4.4, we see that there W~i~ll be several opportunities to apply this test. We modify this routine to perform operations mod n, and apply the test of Theorem 10.11. This strategy is implemented in Figure 10.62. Because power needs to return two pieces of information, we pass the address of these items (result and whatnis) by pointers.
 
 Recall that if test_prime returns DEFINITELY_COMPOSITE, it has proven that n cannot be prime. The proof is nonconstructive, because it gives no method of actually finding the factors. It has been shown that for any (sufficiently large) n, at most (n - 9)/4 values of a fool this algorithm. Thus, if a is chosen at random, and the algorithm answers PROBABLY_PRIME, then the algorithm is correct at least 75 percent of the time. Suppose test_prime is run 50 times. The probability that the algorithm is fooled once is at most 1/4. Thus, the probability that 50 independent random trials fool the algorithm is never more than 1/450 = 2-100. This is actually a very conservative estimate, which holds for only a few choices of n. Even so, one is more likely to see a hardware error than an incorrect claim of primality.  
 
@@ -1427,7 +1348,7 @@ We W~i~ll see two examples of backtracking algorithms. The first is a problem in
 ### The Turnpike Reconstruction Problem
 
 Suppose we are given n points, P~1~, P~2~, . . . , pn, located on the x-ax~i~s. x~i~ is the x coordinate of pi. Let us further assume that x1 = 0 and the points are given from left to right. These n points determine n(n - 1)/2 (not necessarily unique) distances d1, d2, . . . , dn between every pair of points of the form | x~i~ - xj | (i j). It is clear that if we are given the set of points, it is easy to construct the set of distances in O(n2) time. This set W~i~ll not be sorted, but if we are W~i~lling to settle for an O(n2 log n) time bound, the distances can be sorted, too. The turnpike reconstruction problem is to reconstruct a point set from the distances. This finds applications in physics and molecular biology (see the references for pointers to more specific information). The name derives from the analogy of points to turnpike ex~i~ts on East Coast highways. Just as factoring seems harder than multiplication, the reconstruction problem seems harder than the construction problem. Nobody has been able to give an algorithm that is guaranteed to work in polynomial time. The algorithm that we W~i~ll present seems to run in O(n2log n); no counterexample to this conjecture is known, but it is still just that - a conjecture.
-```
+```c
 enum test_result { PROBABLY_PRIME, DEFINITELY_COMPOSITE };
 
 typedef enum test_result test_result;
@@ -1437,16 +1358,13 @@ typedef enum test_result test_result;
 /* If at any point x2 1(mod n) is detected W~i~th x 1, x n - 1, */
   
 
-/* then set what_n_is to DEFINITELY_COMPOSITE */
+/* then set whatnis to DEFINITELY_COMPOSITE */
 
 /* We are assuming very large integers, so this is pseudocode. */
 
-void
+void power(unsigned int a, unsigned int p, unsigned int n,
 
-power(unsigned int a, unsigned int p, unsigned int n,
-
-unsigned int *result, test_result *what_n_is)
-
+unsigned int *result, test_result *whatnis)
 {
 
 unsigned int x;
@@ -1455,24 +1373,20 @@ unsigned int x;
 
 /*2*/ *result = 1;
 
-else
+else{
 
-{
-
-/*3*/ power(a, p/2, n, &x, what_n_is);
+/*3*/ power(a, p/2, n, &x, whatnis);
 
 /*4*/ *result = (x * x) % n;
 
 /* Check whether x2 1(mod n), x 1, x n - 1 */
 
 /*5*/ if((*result = 1) && (x != 1) && (x != n-1))
-
-/*6*/ *what_n_is = DEFINITELY_COMPOSITE;
+/*6*/ *whatnis = DEFINITELY_COMPOSITE;
 
 /* If p is odd, we need one more a */
 
 /*7*/ if((p % 2) = 1)
-
 /*8*/ *result = (*result * a) % n;
 
 }
@@ -1488,28 +1402,25 @@ else
 test_result
 
 test_prime(unsigned int n)
-
 {
 
 unsigned int a, result;
 
-test_result what_n_is;
+test_result whatnis;
 
 /*9*/ a = rand_int(2, n-2); /* choose a randomly from 2..n-2 */
 
-/*10*/ what_n_is = PROBABLY_PRIME;
+/*10*/ whatnis = PROBABLY_PRIME;
 
 
 /* Compute an-1 mod n */
 
-/*11*/ power(a, n-1, n, &result, &what_n_is);
+/*11*/ power(a, n-1, n, &result, &whatnis);
 
-/*12*/ if((result != 1) | | (what_n_is = DEFINITELY_COMPOSITE))
-
+/*12*/ if((result != 1) | | (whatnis = DEFINITELY_COMPOSITE))
 /*13*/ return DEFINITELY_COMPOSITE;
 
 else
-
 /*14*/ return PROBABLY_PRIME;
 
 }
@@ -1550,11 +1461,10 @@ Instead of labeling the branches, we have placed the labels in the branches' des
 ![Decision tree for the worked turnpike reconstruction example](1.7.png)
 
 **Figure 10.63 Decision tree for the worked turnpike reconstruction example**
-```
+```c
 int
 
 turnpike(int x [], dist_set D , unsigned int n)
-
 {
 
 /*1*/ x[1] = 0;
@@ -1563,16 +1473,13 @@ turnpike(int x [], dist_set D , unsigned int n)
 
 /*3*/ x[n - 1] = delete_~max~(D);
 
-/*4*/ if(x[n ]-x[n - 1] D)
-
-{
+/*4*/ if(x[n ]-x[n - 1] D){
 
 /*5*/ delete(x[n ]-x[n - 1],D);
 
 /*6*/ return place(x, D, n, 2,n - 2); }
 
 else
-
 /*7*/ return FALSE;
 
 }
@@ -1594,7 +1501,7 @@ Of course, backtracking happens, and if it happens repeatedly, then the performa
 As our last application, we W~i~ll consider the strategy that a computer might use to play a strategic game, such as checkers or chess. We W~i~ll use, as an example, the much simpler game of tic-tac-toe, because it makes the points easier to illustrate.
 
 Tic-tac-toe is, of course, a draw if both sides play optimally. By performing a careful case-by- case analysis, it is not a difficult matter to construct an algorithm that never loses and always W~i~ns when presented the opportunity. This can be done, because certain positions are known traps and can be handled by a lookup table. Other strategies, such as taking the center square when it is available, make the analysis simpler. If this is done, then by using a table we can always choose a move based only on the current position. Of course, this strategy requires the programmer, and not the computer, to do most of the thinking.
-```
+```c
 /* Backtracking algorithm to place the points */
 
 /* x[left]...x[right]. */
@@ -1611,7 +1518,6 @@ Tic-tac-toe is, of course, a draw if both sides play optimally. By performing a 
 int
 
 place(int x[ ], dist_set D , unsigned int n, int Left, int Right)
-
 {
 
 int d_~max~, found = FALSE;
@@ -1624,9 +1530,7 @@ int d_~max~, found = FALSE;
 
 /* Check if setting x[Right] = d_~max~ is feasible. */
 
-/*4*/ if(|x[ j ]-d_~max~| D for all 1 j < Left and Right < j n)
-
-{
+/*4*/ if(|x[ j ]-d_~max~| D for all 1 j < Left and Right < j n){
 
 /*5*/ x[Right] = d_~max~; /* Try x[Right] = d_~max~ */
 
@@ -1651,7 +1555,6 @@ int d_~max~, found = FALSE;
 /*12*/ if(!found && (|x[n]-d_~max~-x[j ]| D
 
 /*13*/ for all 1 j < Left and Right < j n))
-
 {
 
 /*14*/ x[Left] = x [n] -d_~max~; / * Same logic as before */
@@ -1688,8 +1591,8 @@ A successor position of P is any position Ps that is reachable from P by playing
 
 The code in Figure 10.66 makes the computer's strategy more clear. Lines 1 through 4 evaluate immediate W~i~ns or draws. If neither of these cases apply, then the position is nonterminal. Recalling that value should contain the maximum of all possible successor positions, line 5 initializes it to the smallest possible value, and the loop in lines 6 through 13 searches for improvements. Each successor position is recursively evaluated in turn by lines 8 through 10. This is recursive, because, as we W~i~ll see, the procedure find_human_move calls find_comp_move. If the human's response to a move leaves the computer W~i~th a more favorable position than that obtained W~i~th the previously best computer move, then the value and best_move are updated. Figure 10.67 shows the procedure for the human's move selection. The logic is virtually identical, except that the human player chooses the move that leads to the lowest-valued position. Indeed, it is not difficult to combine these two procedures into one by passing an extra variable, which indicates whose turn it is to move. This does make the code somewhat less readable, so we have stayed W~i~th separate routines.
 
-Since these routines must pass back both the value of the position and the best move, we pass the address of two variables that W~i~ll get this information, by using pointers. The last two parameters now answer the question "WHERE?" instead of "WHAT? "  
-```
+Since these routines must pass back both the value of the position and the best move, we pass the address of two variables that W~i~ll get this information, by using pointers. The last two parameters now answer the question "WHERE?" instead of "WHAT?"  
+```c
 /* Recursive procedure to find best move for computer */
 
 /* best_move points to a number from 1-9 indicating square. */
@@ -1700,37 +1603,26 @@ Since these routines must pass back both the value of the position and the best 
 
 /* board_type is an array; thus board can be changed by place () */
 
-void
-
-find_comp_move(board_type board, int *best_move, int *value)
-
+void find_comp_move(board_type board, int *best_move, int *value)
 {
 
 int dc, i, response; /* dc means don't care */
 
 /*1*/ if(full_board(board))
-
 /*2*/ *value = DRAW;
 
 else
-
 /*3*/ if(immediate_comp_W~i~n(board, best_move))
-
 /*4*/ *value = COMP_W~i~N;
 
-else
-
-{
+else{
 
 /*5*/ *value = COMP_LOSS;
 
 /*6*/ for(i=1; i<=9; i++) /* try each square */
-
 {
 
-/*7*/ if(is_empty(board, i))
-
-{
+/*7*/ if(is_empty(board, i)){
 
 /*8*/ place(board, i, COMP);
 
@@ -1739,7 +1631,6 @@ else
 /*10*/ unplace(board, i); /* Restore board */
 
 /*11*/ if(response >* value) /* Update best move */
-
 {
 
 /*12*/ *value = response;
@@ -1757,38 +1648,27 @@ else
 }
 ```
 **Figure 10.66 Mini~max~ tic-tac-toe algorithm: computer selection**
-```
-void
-
-find_human_move(board_type board, int *best_move, int *value)
-
+```c
+void find_human_move(board_type board, int *best_move, int *value)
 {
 
 int dc, i, response; /* dc means don't care */
 
 /*1*/ if(full_board(board))
-
 /*2*/ *value = DRAW;
 
 else
-
 /*3*/ if(immediate_human_W~i~n(board, best_move))
-
 /*4*/ *value = COMP_LOSS;
 
-else
-
-{
+else{
 
 /*5*/ *value = COMP_W~i~N;
 
 /*6*/ for(i=1; i<=9; i++) /* try each square */
-
 {
 
-/*7*/ if(is_empty(board, i))
-
-{
+/*7*/ if(is_empty(board, i)){
 
 /*8*/ place(board, i, HUMAN);
 
@@ -1797,7 +1677,6 @@ else
 /*10*/ unplace(board, i); /* Restore board */
 
 /*11*/ if(response < * value) /* Update best move */
-
 {
 
 /*12*/ *value = response;
@@ -1863,46 +1742,35 @@ A similar thing happens at nodes A and C. This time, we are in the middle of a f
 Implementing - pruning requires surprisingly little code. It is not as difficult as one might think, although many programmers have a very hard time doing it W~i~thout looking at a reference book.
 
 Figure 10.73 shows half of the - pruning scheme (minus type declarations); you should have no trouble coding the other half.
-```
+```c
 /* Same as before, but perform - pruning. */
 
 /* The main routine should make the call W~i~th = COMP_LOSS,
 
 = COMP_W~i~N. */
 
-void
-
-find_comp_move(board_type board, int *best_move, int *value,
+void find_comp_move(board_type board, int *best_move, int *value,
 
 int , int)
-
 {
 
 int dc, i, response; /* dc means don't care */
 
 /*1*/ if(full_board(board))
-
 /*2*/ *value = DRAW;
 
 else
-
 /*3*/ if(immediate-comp_W~i~n(board, best_move))
-
 /*4*/ *value = COMP_W~i~N;
 
-else
-
-{
+else{
 
 /*5*/ *value = ;
 
 /*6*/ for(i=1; (i<=9) && (*value<); i++) /* try each square */
-
 {
 
-/*7*/ if(is_empty(board, i))
-
-{
+/*7*/ if(is_empty(board, i)){
 
 /*8*/ place(board, i, COMP);
 
@@ -1911,7 +1779,6 @@ else
 /*10*/ unplace(board, i); /* Restore board */
 
 /*11*/ if(response >* value) /* Update best move */
-
 {
 
 /*12*/ *value = response;
@@ -2027,17 +1894,13 @@ Al: 10 X 20, A2: 20 X 1, A3: 1 X 40, A4: 40 X 5, A5: 5 X 30, A6: 30 X 15?
 *10.33 Suppose Ci,i = 0 and that otherW~i~se
 ![alt](lr.png)
 
-Suppose that W satisfies the quadrangle inequality, namely, for all i i' j j', W~i~, j + W~i~',j' W~i~',j + W~i~, j'
-
-Suppose further, that W is monotone: If i i' and j' j', then W_i,j_ W~i~'_,,j_'.
+Suppose that W satisfies the quadrangle inequality, namely, for all i i' j j', W~i~, j + W~i~',j' W~i~',j + W~i~, j' Suppose further, that W is monotone: If i i' and j' j', then W_i,j_ W~i~'_,,j_'.
 
 (a) Prove that C satisfies the quadrangle inequality.
 
 (b) Let Ri, j be the largest k that achieves the minimum Ci,k-1 + Ck,j. (That is, in case of
 
-ties, choose the largest k). Prove that
-
-Ri, j Ri, j+1 Ri+1,j+1
+ties, choose the largest k). Prove that Ri, j Ri, j+1 Ri+1,j+1
 
 (c) Show that R is nondecreasing along each row and column.
 
@@ -2062,7 +1925,7 @@ Ri, j Ri, j+1 Ri+1,j+1
 10.40 Implement the turnpike reconstruction algorithm.
 
 10.41 Two point sets are homometric if they yield the same distance set and are not rotations of each other. The folloW~i~ng distance set gives two distinct point sets: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17 . Find the two point sets.
-```
+```c
 enum coin_side { heads, tails };
 
 typedef enum coin_side coin_side;
@@ -2070,15 +1933,12 @@ typedef enum coin_side coin_side;
 coin_side
 
 flip(void)
-
 {
 
 if((rand() % 2) == 0)
-
 return heads;
 
 else
-
 return tails;
 
 }
@@ -2184,25 +2044,21 @@ As an example, if we are searching for the pattern "textbook" W~i~th at most thr
 distance
 
 shortest(s, t, G)
-
 {
 
 distance dt,tmp;
 
 if(s == t)
-
 return 0;
 
 dt = ;
 
 for each vertex v adjacent to s
-
 {
 
 tmp = shortest(v, t, G);
 
 if(cs,v + tmp < dt)
-
 dt = cs,v + tmp;
 
 }
@@ -2213,9 +2069,7 @@ return dt
 ```
 **Figure 10.79 Recursive shortest path algorithm**
 
-*10.59 In the game of chess, a knight in row r and column c may move to row 1 r' B and
-
-column 1 c' B (where B is the size of the board) provided that either
+*10.59 In the game of chess, a knight in row r and column c may move to row 1 r' B and column 1 c' B (where B is the size of the board) provided that either
 
 |r - r'| = 2 and |c - c'| = 1
 
@@ -2229,9 +2083,7 @@ A knight's tour is a sequence of moves that visits all squares exactly once befo
 
 (b) Give a backtracking algorithm to find a knight's tour.
 
-10.60 Consider the recursive algorithm in Figure 10.79 for finding the shortest weighted path in
-
-an acyclic graph, from s to t.
+10.60 Consider the recursive algorithm in Figure 10.79 for finding the shortest weighted path in an acyclic graph, from s to t.
 
 (a) Why does this algorithm not work for general graphs?
 

@@ -36,12 +36,8 @@ One of the simplest sorting algorithms is the insertion sort. Insertion sort con
 
 ![](1.png)
 **figure 7.1** Insertion sort after each pass
-```
-void
-
-insertion_sort(input_type a[ ], unsigned int n)
-
-{
+```c
+void insertion_sort(input_type a[], unsigned int n){
 
 unsigned int j, p;
 
@@ -50,7 +46,6 @@ input_type tmp;
 /*1*/ a[0] = MIN_DATA; /* sentinel */
 
 /*2*/ for(p=2; p <= n; p++)
-
 {
 
 /*3*/ tmp = a[p];
@@ -74,17 +69,13 @@ Because of the nested loops, each of which can take n iterations, insertion sort
 
 is O(n2). Furthermore, this bound is tight, because input in reverse order can actually achieve this bound. A precise calculation shows that the test at line 4 can be executed at most p times for each value of p. Summing over all p gives a total of
 ![](a.png)
-On the other hand, if the input is presorted, the running time is O(n), because the test in the inner for loop always fails immediately. Indeed, if the input is almost sorted (this term will be more rigorously defined in the next section), insertion sort will run quickly. Because of this wide variation, it is worth analyzing the average-case behavior of this algorithm. It turns out that the
-
-average case is (n2) for insertion sort, as well as for a variety of other sorting algorithms, as the next section shows.
+On the other hand, if the input is presorted, the running time is O(n), because the test in the inner for loop always fails immediately. Indeed, if the input is almost sorted (this term will be more rigorously defined in the next section), insertion sort will run quickly. Because of this wide variation, it is worth analyzing the average-case behavior of this algorithm. It turns out that the average case is (n2) for insertion sort, as well as for a variety of other sorting algorithms, as the next section shows.
 
 ## A Lower Bound for Simple Sorting Algorithms
 
 An inversion in an array of numbers is any ordered pair (i, j) having the property that i < j but a[i] > a[j]. In the example of the last section, the input list 34, 8, 64, 51, 32, 21 had nine inversions, namely (34,8), (34,32), (34,21), (64,51), (64,32), (64,21), (51,32), (51,21) and (32,21). Notice that this is exactly the number of swaps that needed to be (implicitly) performed by insertion sort. This is always the case, because swapping two adjacent elements that are out of place removes exactly one inversion, and a sorted file has no inversions. Since there is O(n) other work involved in the algorithm, the running time of insertion sort is O(I + n), where I is the number of inversions in the original file. Thus, insertion sort runs in linear time if the number of inversions is O(n).
 
-We can compute precise bounds on the average running time of insertion sort by computing the average number of inversions in a permutation. As usual, defining average is a difficult proposition. We will assume that there are no duplicate elements (if we allow duplicates, it is not even clear what the average number of duplicates is). Using this assumption, we can assume that the input is some permutation of the first n integers (since only relative ordering is important)
-
-and that all are equally likely. Under these assumptions, we have the following theorem:
+We can compute precise bounds on the average running time of insertion sort by computing the average number of inversions in a permutation. As usual, defining average is a difficult proposition. We will assume that there are no duplicate elements (if we allow duplicates, it is not even clear what the average number of duplicates is). Using this assumption, we can assume that the input is some permutation of the first n integers (since only relative ordering is important) and that all are equally likely. Under these assumptions, we have the following theorem:
 
 **THEOREM 7.1.**
 
@@ -92,13 +83,7 @@ The average number of inversions in an array of n distinct numbers is n(n - 1)/4
 
 PROOF:
 
-For any list, L, of numbers, consider Lr, the list in reverse order. The reverse
-
-list of the example is 21, 32, 51, 64, 34, 8. Consider any pair of two numbers in the list (x, y), with y > x. Clearly, in exactly one of L and Lr this ordered
-
-pair represents an inversion. The total number of these pairs in a list L and its reverse Lr is n(n - 1)/2. Thus, an average list has half this amount, or n(n -
-
-1)/4 inversions.
+For any list, L, of numbers, consider Lr, the list in reverse order. The reverse list of the example is 21, 32, 51, 64, 34, 8. Consider any pair of two numbers in the list (x, y), with y > x. Clearly, in exactly one of L and Lr this ordered pair represents an inversion. The total number of these pairs in a list L and its reverse Lr is n(n - 1)/2. Thus, an average list has half this amount, or n(n - 1)/4 inversions.
 
 This theorem implies that insertion sort is quadratic on average. It also provides a very strong lower bound about any algorithm that only exchanges adjacent elements.
 
@@ -153,7 +138,7 @@ To finish the proof, we show the upper bound of O(n2). As we have observed befor
 
 ![](d.png)
 
-. Thus we obtain a total bound of O(n2).
+Thus we obtain a total bound of O(n2).
 
 The problem with Shell's increments is that pairs of increments are not necessarily relatively prime, and thus the smaller increment can have little effect. Hibbard suggested a slightly different increment sequence, which gives better results in practice (and theoretically). His increments are of the form 1, 3, 7, . . . , 2k - 1. Although these increments are almost identical, the key difference is that consecutive increments have no common factors. We now analyze the worst-case running time of Shellsort for this increment sequence. The proof is rather complicated.
 
@@ -230,6 +215,7 @@ If the array a contains 1, 13, 24, 26, and b contains 2, 15, 27, 38, then the al
 ![](g.png)
 
 13 is added to c, and then 24 and 15 are compared. This proceeds until 26 and 27 are compared.
+
 26 is added to c, and the a array is exhausted.
 
 ![](h.png)
@@ -241,6 +227,7 @@ The remainder of the b array is then copied to c.
 The time to merge two sorted lists is clearly linear, because at most n - 1 comparisons are made, where n is the total number of elements. To see this, note that every comparison adds an element to c, except the last comparison, which adds at least two.The mergesort algorithm is therefore easy to describe. If n = 1, there is only one element to sort, and the answer is at hand. Otherwise, recursively mergesort the first half and the second half. This gives two sorted halves, which can then be merged together using the merging algorithm described above. For instance, to sort the eight-element array 24, 13, 26, 1, 2, 27, 38, 15, we recursively sort the first four and last four elements, obtaining 1, 13, 24, 26, 2, 15, 27, 38. Then we merge the two halves as above, obtaining the final list 1, 2, 13, 15, 24, 26, 27, 38. This algorithm is a classic divide-and-conquer strategy. The problem is divided into smaller problems and solved recursively. The conquering phase consists of patching together the answers. Divide-and-conquer is a very powerful use of recursion that we will see many times.
 
 An implementation of mergesort is provided in **figure 7.9**. The procedure called mergesort is just a driver for the recursive routine m_sort.
+
 The merge routine is subtle. If a temporary array is declared locally for each recursive call of merge, then there could be log n temporary arrays active at any point. This could be fatal on a machine with small memory. On the other hand, if the merge routine dynamically allocates and frees the minimum amount of temporary memory, considerable time will be used by malloc. A close examination shows that since merge is the last line of m_sort, there only needs to be one temporary array active at any point. Further, we can use any part of the temporary array; we will use the same portion as the input array a. This allows the improvement described at the end of this section. **figure 7.10** implements the merge routine.
 
 ### Analysis of Mergesort
@@ -275,11 +262,7 @@ because all of the other terms cancel and there are log n equations, and so all 
 
 T(n) = n log n + n = O(n log n)
 
-Notice that if we did not divide through by n at the start of the solutions, the sum would not telescope. This is why it was necessary to divide through by n. An alternative method is to substitute the recurrence relation continually on the right-hand side. We have
-
-T(n) = 2T(n/2) + n
-
-Since we can substitute n/2 into the main equation,
+Notice that if we did not divide through by n at the start of the solutions, the sum would not telescope. This is why it was necessary to divide through by n. An alternative method is to substitute the recurrence relation continually on the right-hand side. We have T(n) = 2T(n/2) + n Since we can substitute n/2 into the main equation,
 
 2T(n/2) = 2(2(T(n/4)) + n/2) = 4T(n/4) + n
 
@@ -301,9 +284,7 @@ Using k = log n, we obtain
 
 T(n) = nT(1) + n log n = n log n + n
 
-The choice of which method to use is a matter of taste. The first method tends to
-
-produce scrap work that fits better on a standard sheet of paper, leading to fewer mathematical errors, but it requires a certain amount of experience to apply. The second method is more of a brute force approach.
+The choice of which method to use is a matter of taste. The first method tends to produce scrap work that fits better on a standard sheet of paper, leading to fewer mathematical errors, but it requires a certain amount of experience to apply. The second method is more of a brute force approach.
 
 Recall that we have assumed n = 2k. The analysis can be refined to handle cases when n is not a power of 2. The answer turns out to be almost identical (this is usually the case).
 
@@ -311,16 +292,13 @@ Although mergesort's running time is O(n log n), it is hardly ever used for main
 
 ## Quicksort
 
-As its name implies, quicksort is the fastest known sorting algorithm in practice. Its average running time is O(n log n). It is very fast, mainly due to
-
-a very tight and highly optimized inner loop. It has O(n2) worst-case performance, but this can be made exponentially unlikely with a little effort. The quicksort algorithm is simple to understand and prove correct, although for many years it had the reputation of being an algorithm that could in theory be highly optimized but in practice was impossible to code correctly (no doubt because of FORTRAN). Like mergesort, quicksort is a divide-and-conquer recursive algorithm. The basic algorithm to sort an array S consists of the following four easy steps:
+As its name implies, quicksort is the fastest known sorting algorithm in practice. Its average running time is O(n log n). It is very fast, mainly due to a very tight and highly optimized inner loop. It has O(n2) worst-case performance, but this can be made exponentially unlikely with a little effort. The quicksort algorithm is simple to understand and prove correct, although for many years it had the reputation of being an algorithm that could in theory be highly optimized but in practice was impossible to code correctly (no doubt because of FORTRAN). Like mergesort, quicksort is a divide-and-conquer recursive algorithm. The basic algorithm to sort an array S consists of the following four easy steps:
 
 1. If the number of elements in S is 0 or 1, then return.
 
 2. Pick any element v in S. This is called the pivot.
 
 3. Partition S - {v} (the remaining elements in S) into two disjoint groups: S1 =
-
 {x S - {v}| x v}, and S2 = {x S -{v}| x v}.
 
 4. Return { quicksort(S1) followed by v followed by quicksort(S2)}.
@@ -333,29 +311,11 @@ It should be clear that this algorithm works, but it is not clear why it is any 
 
 The algorithm as described so far lacks quite a few details, which we now fill in. There are many ways to implement steps 2 and 3; the method presented here is the result of extensive analysis and empirical study and represents a very efficient way to implement quicksort. Even the slightest deviations from this method can cause surprisingly bad results.
 
-7.7.1. Picking the Pivot
-
-7.7.2. Partitioning Strategy
-
-7.7.3. Small Files
-
-7.7.4. Actual Quicksort Routines
-
-7.7.5. Analysis of Quicksort
-
-7.7.6. A Linear-Expected-Time Algorithm for Selection
-
 ### Picking the Pivot
 
 Although the algorithm as described works no matter which element is chosen as pivot, some choices are obviously better than others.
 ![](11.png)
 **figure 7.11** The steps of quicksort illustrated by example
-
-A Wrong Way
-
-A Safe Maneuver
-
-Median-of-Three Partitioning
 
 **A Wrong Way**
 
@@ -464,7 +424,6 @@ The real heart of the quicksort routine is in **figure 7.14**. It includes the p
 input_type
 
 median3(input_type a[], int left, int right)
-
 {
 
 int center;
@@ -472,15 +431,12 @@ int center;
 center = (left + right) / 2;
 
 if(a[left] > a[center])
-
 swap(&a[left], &a[center]);
 
 if(a[left] > a[right])
-
 swap(&a[left], &a[right]);
 
 if(a[center] > a[right])
-
 swap(&a[center], &a[right]);
 
 /* invariant: a[left] <= a[center] <= a[right] */
@@ -499,34 +455,26 @@ Finally, lines 5 and 6 show why quicksort is so fast. The inner loop of the algo
 
 ### Analysis of Quicksort
 
-Like mergesort, quicksort is recursive, and hence, its analysis requires solving a recurrence formula. We will do the analysis for a quicksort, assuming a random pivot (no median-of-three partitioning) and no cutoff for small files. We will take T(0) = T(1) = 1, as in mergesort. The running time of quicksort is equal to the running time of the two recursive calls plus the linear time spent in the partition (the pivot selection takes only constant time). This gives the basic quicksort relation
-
-T(n) = T(i) + T(n - i - 1) + cn
+Like mergesort, quicksort is recursive, and hence, its analysis requires solving a recurrence formula. We will do the analysis for a quicksort, assuming a random pivot (no median-of-three partitioning) and no cutoff for small files. We will take T(0) = T(1) = 1, as in mergesort. The running time of quicksort is equal to the running time of the two recursive calls plus the linear time spent in the partition (the pivot selection takes only constant time). This gives the basic quicksort relation T(n) = T(i) + T(n - i - 1) + cn
 
 **(7.1)**
-```
+```c
 where i = |S1| is the number of elements in S1. We will look at three cases.
 
-void
-
-q_sort(input_type a[], int left, int right)
-
+void q_sort(input_type a[], int left, int right)
 {
 
 int i, j;
 
 input_type pivot;
 
-/*1*/ if(left + CUTOFF <= right)
-
-{
+/*1*/ if(left + CUTOFF <= right){
 
 /*2*/ pivot = median3(a, left, right);
 
 /*3*/ i=left; j=right-1;
 
 /*4*/ for(; ;)
-
 {
 
 /*5*/ while(a[++i] < pivot);
@@ -534,11 +482,9 @@ input_type pivot;
 /*6*/ while(a[--j] > pivot);
 
 /*7*/ if(i < j)
-
 /*8*/ swap(&a[i], &a[j]);
 
 else
-
 /*9*/ break;
 
 }
@@ -558,7 +504,6 @@ else
 /*3*/ i=left+1; j=right-2;
 
 /*4*/ for(; ;)
-
 {
 
 /*5*/ while(a[i] < pivot) i++;
@@ -566,23 +511,15 @@ else
 /*6*/ while(a[j] > pivot) j--;
 
 /*7*/ if(i < j)
-
 /*8*/ swap(&a[i], &a[j]);
 
 else
-
 /*9*/ break;
 
 }
 ```
 
 **figure 7.15** A small change to quicksort, which breaks the algorithm
-
-Worst-Case Analysis
-
-Best-Case Analysis
-
-Average-Case Analysis
 
 **Worst-Case Analysis**
 
@@ -647,9 +584,7 @@ Notice that this is the exact same analysis as mergesort, hence we get the same 
 
 **Average-Case Analysis**
 
-This is the most difficult part. For the average case, we assume that each of the file sizes for S1 is equally likely, and hence has probability 1/n. This assumption is actually valid for our pivoting and partitioning strategy, but it is not valid for some others. Partitioning strategies that do not preserve the randomness of the subfiles cannot use this analysis. Interestingly, these strategies seem to result in programs that take longer to run in practice. With this assumption, the average value of T(i), and hence T(n - i -1), is
-
-. Equation **(7.1)** then becomes
+This is the most difficult part. For the average case, we assume that each of the file sizes for S1 is equally likely, and hence has probability 1/n. This assumption is actually valid for our pivoting and partitioning strategy, but it is not valid for some others. Partitioning strategies that do not preserve the randomness of the subfiles cannot use this analysis. Interestingly, these strategies seem to result in programs that take longer to run in practice. With this assumption, the average value of T(i), and hence T(n - i -1), is Equation **(7.1)** then becomes
 ![](3.14.png)
 
 **(7.16)**
@@ -695,29 +630,23 @@ Since we can sort the file in O(n log n) time, one might expect to obtain a bett
 4. If k |S1|, then the kth smallest element must be in S1. In this case, return quickselect (S1, k). If k = 1 + |S1|, then the pivot is the kth smallest element and we can return it as the answer. Otherwise, the kth smallest element lies in S2, and it is the (k - |S1| - 1)st smallest element in S2. We make a recursive call and return quickselect (S2, k - |S1| - 1). In contrast to quicksort, quickselect makes only one recursive call instead of two. The worst case of quickselect is identical to that of quicksort and is O (n2). Intuitively, this is because quicksort's worst case is when one of S1 and S2 is empty; thus, quickselect is not really saving a recursive call. The average running time, however, is O(n). The analysis is similar to quicksort's and is left as an exercise.
 
 The implementation of quickselect is even simpler than the abstract description might imply. The code to do this shown in **figure 7.16**. When the algorithm terminates, the kth smallest element is in position k. This destroys the original ordering; if this is not desirable, then a copy must be made.
-```
+```c
 /* q_select places the kth smallest element in a[k]*/
 
-void
-
-q_select(input_type a[], int k, int left, int right)
-
+void q_select(input_type a[], int k, int left, int right)
 {
 
 int i, j;
 
 input_type pivot;
 
-/*1*/ if(left + CUTOFF <= right)
-
-{
+/*1*/ if(left + CUTOFF <= right){
 
 /*2*/ pivot = median3(a, left, right);
 
 /*3*/ i=left; j=right-1;
 
 /*4*/ for(;;)
-
 {
 
 /*5*/ while(a[++i] < pivot);
@@ -729,7 +658,6 @@ input_type pivot;
 /*8*/ swap(&a[i], &a[j]);
 
 else
-
 /*9*/ break;
 
 }
@@ -737,19 +665,15 @@ else
 /*10*/ swap(&a[i], &a[right-1]); /* restore pivot */
 
 /*11*/ if(k < i)
-
 /*12*/ q_select(a, k, left, i-1);
 
 else
-
 /*13*/ if(k > i)
-
 /*14*/ q-select(a, k, i+1, right);
 
 }
 
 else
-
 /*15*/ insert_sort(a, left, right);
 
 }
@@ -1176,8 +1100,7 @@ External sorting is covered in detail in [10]. Stable sorting, described in Exer
 
 23. M. A. Weiss and R. Sedgewick, "More On Shellsort Increment Sequences," Information Processing Letters 34 (1990), 267-270.
 
-24. M. A. Weiss and R. Sedgewick, "Tight Lower Bounds for Shellsort," Journal of Algorithms 11 (1990), 242-2
-51.
+24. M. A. Weiss and R. Sedgewick, "Tight Lower Bounds for Shellsort," Journal of Algorithms 11 (1990), 242-251.
 
 25. J. W. J. Williams, "Algorithm 232: Heapsort," Communications of the ACM 7 (1964), 347-348.
 

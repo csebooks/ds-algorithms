@@ -89,13 +89,7 @@ RULE 3:
 
 logk n = O(n) for any constant k. This tells us that logarithms grow very slowly.
 
-To see that rule 1(a) is correct, note that by definition there exist four
-
-constants c1, c2, n1, and n2 such that T1(n) c1 f(n) for n n1 and T2(n)
-
-c2g(n) for n n2. Let n0 = max(n1, n2). Then, for n n0, T1(n) c1f
-
-(n) and T2(n) c~2~g(n), so that T1(n) + T2(n) c1f(n) + c2g(n). Let c3 = max
+To see that rule 1(a) is correct, note that by definition there exist four constants c1, c2, n1, and n2 such that T1(n) c1 f(n) for n n1 and T2(n) c2g(n) for n n2. Let n0 = max(n1, n2). Then, for n n0, T1(n) c1f(n) and T2(n) c~2~g(n), so that T1(n) + T2(n) c1f(n) + c2g(n). Let c3 = max
 
 (c1, c2). Then,
 ```
@@ -203,7 +197,6 @@ To simplify the analysis, we will adopt the convention that there are no particu
 Here is a simple program fragment to calculate
 ```c
 unsigned int sum(int n)
-
 {
 
 unsigned int i, partial_sum;
@@ -246,9 +239,7 @@ k++;
 
 These just add (which means that the maximum is the one that counts -- see 1(a) on page 16).
 
-As an example, the following program fragment, which has O(n) work followed by O
-
-(n2) work, is also O (n2):
+As an example, the following program fragment, which has O(n) work followed by O(n2) work, is also O (n2):
 ```c
 for(i=0; i<n; i++)
 
@@ -267,30 +258,24 @@ a[i] += a[j] + i + j;
 For the fragment
 ```
 if(cond)
-
 S1
 
 else
-
 S2
-
+```
 the running time of an if/else statement is never more than the running time of the test plus the larger of the running times of S1 and S2.
 
-```
 
 Clearly, this can be an overestimate in some cases, but it is never an underestimate.
 
 Other rules are obvious, but a basic strategy of analyzing from the inside (or deepest part) out works. If there are function calls, obviously these must be analyzed first. If there are recursive procedures, there are several options. If the recursion is really just a thinly veiled for loop, the analysis is usually trivial. For instance, the following function is really just a simple loop and is obviously O (n):
 ```c
-unsigned int factorial(unsigned int n)
-{
+unsigned int factorial(unsigned int n){
 
 if(n <= 1)
-
 return 1;
 
 else
-
 return(n * factorial(n-1));
 
 }
@@ -299,15 +284,12 @@ This example is really a poor use of recursion. When recursion is properly used,
 ```c
 /* Compute Fibonacci numbers as described Chapter 1 */
 
-unsigned int fib(unsigned int n)
-{
+unsigned int fib(unsigned int n){
 
 /*1*/ if(n <= 1)
-
 /*2*/ return 1;
 
 else
-
 /*3*/ return(fib(n-1) + fib(n-2));
 
 }
@@ -329,7 +311,6 @@ We will now present four algorithms to solve the maximum subsequence sum problem
 Convince yourself that this algorithm works (this should not take much). The running time is O(n) and is entirely due to lines 5 and 6, which consist of an O (1) statement buried inside three nested for loops. The loop at line 2 is of size n.
 ```c
 int max_subsequence_sum(int a[],unsigned int n)
-
 {
 
 int this_sum, max_sum, best_i, best_j, i, j, k;
@@ -339,7 +320,6 @@ int this_sum, max_sum, best_i, best_j, i, j, k;
 /*2*/ for(i=0; i<n; i++)
 
 /*3*/ for(j=i; j<n; j++)
-
 {
 
 /*4*/ this_sum=0;
@@ -348,9 +328,7 @@ int this_sum, max_sum, best_i, best_j, i, j, k;
 
 /*6*/ this_sum += a[k];
 
-/*7*/ if(this_sum > max_sum)
-
-{ /* update max_sum, best_i, best_j */
+/*7*/ if(this_sum > max_sum){ /* update max_sum, best_i, best_j */
 
 /*8*/ max_sum = this_sum;
 
@@ -382,27 +360,23 @@ We can avoid the cubic running time by removing a for loop. Obviously, this is n
 
 There is a recursive and relatively complicated O(n log n) solution to this problem, which we now describe. If there didn't happen to be an O(n) (linear) solution, this would be an excellent example of the power of recursion. The algorithm uses a "divide-and-conquer" strategy. The idea is to split the problem into two roughly equal subproblems, each of which is half the size of the original. The subproblems are then solved recursively. This is the "divide" part. The "conquer" stage consists of patching together the two solutions of the subproblems, and possibly doing a small amount of additional work, to arrive at a solution for the whole problem.
 ```c
-int max_subsequence_sum(int a[], unsigned int n)
-{
+int max_subsequence_sum(int a[], unsigned int n){
 
 int this_sum, max_sum, best_i, best_j, i, j, k;
 
 /*1*/ max_sum = 0; best_i = best_j = -1;
 
 /*2*/ for(i=0; i<n; i++)
-
 {
 
 /*3*/ this_sum = 0;
 
 /*4*/ for(j=i; j<n; j++)
-
 {
 
 /*5*/ this_sum += a[j];
 
 /*6*/ if(this_sum > max_sum)
-
 /* update max_sum, best_i, best_j */;
 }
 
@@ -431,15 +405,13 @@ The maximum sum in the first half that includes the last element in the first ha
 
 We see, then, that among the three ways to form a large maximum subsequence, for our example, the best way is to include elements from both halves. Thus, the answer is 11. Figure 2.7 shows an implementation of this strategy.
 ```c
-int max_sub_sequence_sum(int a[], unsigned int n)
-{
+int max_sub_sequence_sum(int a[], unsigned int n){
 
 return max_sub_sum(a, 0, n-1);
 
 }
 
 int max_sub_sum(int a[], int left, int right)
-
 {
 
 int max_left_sum, max_right_sum;
@@ -453,11 +425,9 @@ int center, i;
 /*1*/ if (left == right) /* Base Case */
 
 /*2*/ if(a[left] > 0)
-
 /*3*/ return a[left];
 
 else
-
 /*4*/ return 0;
 
 /*5*/ center = (left + right)/2;
@@ -469,13 +439,11 @@ else
 /*8*/ max_left_border_sum = 0; left_border_sum = 0;
 
 /*9*/ for(i=center; i>=left; i--)
-
 {
 
 /*10*/ left_border_sum += a[i];
 
 /*11*/ if(left_border_sum > max_left_border_sum)
-
 /*12*/ max_left_border_sum = left_border_sum;
 
 }
@@ -483,13 +451,11 @@ else
 /*13*/ max_right_border_sum = 0; right_border_sum = 0;
 
 /*14*/ for(i=center+1; i<=right; i++)
-
 {
 
 /*15*/ right_border_sum += a[i];
 
 /*16*/ if(right_border_sum > max_right_border_sum)
-
 /*17*/ max_right_border_sum = right_border_sum;
 
 }
@@ -511,7 +477,7 @@ Lines 1 to 4 handle the base case. If left == right, then there is one element, 
 Algorithm 3 clearly requires more effort to code than either of the two previous algorithms. However, shorter code does not always mean better code. As we have seen in the earlier table showing the running times of the algorithms, this algorithm is considerably faster than the other two for all but the smallest of input sizes.
 
 The running time is analyzed in much the same way as for the program that computes the Fibonacci numbers. Let T(n) be the time it takes to solve a maximum subsequence sum problem of size n. If n = 1, then the program takes some constant amount of time to execute lines 1 to 4, which we shall call one unit. Thus, T(1) = 1. Otherwise, the program must perform two recursive calls, the two for loops between lines 9 and 17, and some small amount of bookkeeping, such as lines 5 and 18. The two for loops combine to touch every element from a0 to an_1, and there is constant work inside the loops, so the time expended in lines 9 to 17 is O(n). The code in lines 1 to 5, 8, and 18 is all a constant amount of work and can thus be ignored when compared to O(n). The remainder of the work is performed in lines 6 and 7. These lines solve two subsequence problems of size n/2 (assuming n is even). Thus, these lines take T(n/2) units of time each, for a total of 2T(n/2). The total time for the algorithm then is 2T(n/2) + O(n). This gives the equations
-```
+```c
 T(1) = 1
 
 T(n) = 2T(n/2) + O(n)
@@ -523,7 +489,6 @@ This analysis assumes n is even, since otherwise n/2 is not defined. By the recu
 In future chapters, we will see several clever applications of recursion. Here, we present a fourth algorithm to find the maximum subsequence sum. This algorithm is simpler to implement than the recursive algorithm and also is more efficient. It is shown in Figure 2.8.
 ```c
 int max_subsequence_sum(int a[], unsigned int n)
-
 {
 
 int this_sum, max_sum, best_i, best_j, i, j;
@@ -531,14 +496,11 @@ int this_sum, max_sum, best_i, best_j, i, j;
 /*1*/ i = this_sum = max_sum = 0; best_i = best_j = -1;
 
 /*2*/ for(j=0; j<n; j++)
-
 {
 
 /*3*/ this_sum += a[j];
 
-/*4*/ if(this_sum > max_sum)
-
-{ /* update max_sum, best_i, best_j */
+/*4*/ if(this_sum > max_sum){ /* update max_sum, best_i, best_j */
 
 /*5*/ max_sum = this_sum;
 
@@ -549,10 +511,7 @@ int this_sum, max_sum, best_i, best_j, i, j;
 }
 
 else
-
-/*8*/ if(this_sum < 0)
-
-{
+/*8*/ if(this_sum < 0){
 
 /*9*/ i = j + 1;
 
@@ -593,31 +552,26 @@ Clearly all the work done inside the loop is O(1) per iteration, so the analysis
 Binary search can be viewed as our first data structure. It supports the find operation in O(log n) time, but all other operations (in particular insert) require O(n) time. In applications where the data are static (that is, insertions and deletions are not allowed), this could be a very useful data structure. The input would then need to be sorted once, but afterward accesses would be fast. An example could be a program that needs to maintain information about the periodic table of elements (which arises in chemistry and physics). This table is relatively stable, as new elements are added infrequently. The element names could be kept sorted. Since there are only about 110 elements, at most eight accesses would be required to find an element. Performing a sequential search would require many more accesses.
 
 ```c
-int binary_search(input_type a[ ], input_type x, unsigned int n)
-{
+int binary_search(input_type a[ ], input_type x, unsigned int n){
 
 int low, mid, high; /* Can't be unsigned; why? */
 
 /*1*/ low = 0; high = n - 1;
 
 /*2*/ while(low <= high)
-
 {
 
 /*3*/ mid = (low + high)/2;
 
 /*4*/ if(a[mid] < x)
-
 /*5*/ low = mid + 1;
 
 else
-
 /*6*/ if (a[mid] < x)
 
 /*7*/ high = mid - 1;
 
 else
-
 /*8*/ return(mid); /* found */
 
 }
@@ -637,12 +591,10 @@ The algorithm works by continually computing remainders until 0 is reached. The 
 As before, the entire running time of the algorithm depends on determining how long the sequence of remainders is. Although log n seems like a good answer, it is not at all obvious that the value of the remainder has to decrease by a constant factor, since we see that the remainder went from 399 to only 393 in the example. Indeed, the remainder does not decrease by a constant factor in one iteration. However, we can prove that after two iterations, the remainder is at most half of its original value. This would show that the number of iterations is at most 2 log n = O(log n) and establish the running time. This proof is easy, so we include it here. It follows directly from the following theorem.
 ```c
 
-unsigned int gcd(unsigned int m, unsigned int n)
-{
+unsigned int gcd(unsigned int m, unsigned int n){
 unsigned int rem;
 
-/*1*/ while(n > 0)
-{
+/*1*/ while(n > 0){
 
 /*2*/ rem = m % n;
 /*3*/ m = n;
@@ -664,31 +616,22 @@ If m > n, then mmod n < m/2.
 
 There are two cases. If n m/2, then obviously, since the remainder is smaller than n, the theorem is true for this case. The other case is n > m/2. But then n goes into m once with a remainder m - n < m/2, proving the theorem.
 
-One might wonder if this is the best bound possible, since 2 log n is about 20 for our example, and only seven operations were performed. It turns out that the constant can be improved slightly, to roughly 1.44 log n, in the worst case (which is achievable if m and n are consecutive Fibonacci numbers). The average- case performance of Euclid's algorithm requires pages and pages of highly sophisticated mathematical analysis, and it turns out that the average number of iterations is about .
+One might wonder if this is the best bound possible, since 2 log n is about 20 for our example, and only seven operations were performed. It turns out that the constant can be improved slightly, to roughly 1.44 log n, in the worst case (which is achievable if m and n are consecutive Fibonacci numbers). The average- case performance of Euclid's algorithm requires pages and pages of highly sophisticated mathematical analysis, and it turns out that the average number of iterations is about.
 
 **Exponentiation**
 
 Our last example in this section deals with raising an integer to a power (which is also an integer). Numbers that result from exponentiation are generally quite large, so an analysis only works if we can assume that we have a machine that can store such large integers (or a compiler that can simulate this). We will count the number of multiplications as the measurement of running time.
 ```c
 int pow(int x, unsigned int n)
-
 {
 
-/*1*/ if(n == 0)
+/*1*/ if(n == 0)/*2*/ return 1;
 
-/*2*/ return 1;
+/*1*/ if(n == 1)/*4*/ return x;
 
-/*1*/ if(n == 1)
+/*5*/ if(even(n))/*6*/ return(pow(x*x, n/2));
 
-/*4*/ return x;
-
-/*5*/ if(even(n))
-
-/*6*/ return(pow(x*x, n/2));
-
-else
-
-/*7*/ return(pow(x*x, n/2) * x);
+else/*7*/ return(pow(x*x, n/2) * x);
 }
 ```
 
@@ -734,15 +677,11 @@ rel = 0; tot = 0;
 
 for(i=1; i<=n; i++)
 
-for(j=i+1; j<=n; j++)
-
-{
+for(j=i+1; j<=n; j++){
 
 tot++;
 
-if(gcd(i, j) = 1)
-
-rel++;
+if(gcd(i, j) = 1)rel++;
 
 }
 
@@ -870,7 +809,6 @@ for(i=1; i<n; i++)
 for(j=1; j<i*i; j++)
 
 if(j%1 == 0)
-
 for(k=0; k<j; k++)
 
 sum++;
@@ -900,14 +838,13 @@ e. What is the worst-case running time of each algorithm?
 2.8 Complete the table in Figure 2.2 with estimates for the running times that were too long to simulate. Interpolate the running times for these algorithms and estimate the time required to compute the maximum subsequence sum of one million numbers. What assumptions have you made?
 
 2.9 How much time is required to compute
-```
+
 a. using a simple routine to perform exponentiation?
 
 b. using the routine in Section 2.4.4?
-```
 
 2.10 Consider the following algorithm (known as Horner's rule) to evaluate
-```
+```c
 poly = 0;
 
 for(i=n; i>=0; i--)
@@ -932,9 +869,7 @@ c. What is the running time of this algorithm?
 
 2.13 a. Write a program to determine if a positive integer, n, is prime.
 
-b. In terms of n, what is the worst-case running time of your program? (You should be able to do
-
-this in .)
+b. In terms of n, what is the worst-case running time of your program? (You should be able to do this in .)
 
 c. Let B equal the number of bits in the binary representation of n. What is the value of B?
 
@@ -1020,3 +955,5 @@ The maximum subsequence sum problem is from [3]. The series of books [2], [3], a
 7. D. E. Knuth, The Art of Computer Programming, Vol 3: Sorting and Searching, Addison-Wesley, Reading, Mass., 1975.
 
 8. D. E. Knuth, "Big Omicron and Big Omega and Big Theta," ACM SIGACT News, 8 (1976), 18-23.
+
+if()
