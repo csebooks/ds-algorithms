@@ -1,9 +1,9 @@
 ---
-title: 'INTRODUCTION'
+title: 'Introduction'
 weight: 1
 ---
 
-# INTRODUCTION
+# Introduction
 
 In this chapter, we discuss the aims and goals of this text and briefly review programming concepts and discrete mathematics. We will
 

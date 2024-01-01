@@ -1,11 +1,9 @@
 ---
-title: 'TREES'
+title: 'Trees'
 weight: 4
 ---
 
-  
-
-# TREES
+# Trees
 
 For large amounts of input, the linear access time of linked lists is prohibitive. In this chapter we look at a simple data structure for which the running time of most operations is O(log n) on average. We also sketch a conceptually simple modification to this data structure that guarantees the above time bound in the worst case and discuss a second modification that essentially gives an O(log n) running time per operation for a long sequence of instructions.
 

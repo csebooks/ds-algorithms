@@ -1,11 +1,10 @@
 ---
-title: 'SORTING'
+title: 'Sorting'
 weight: 7
 ---
 
-  
 
-# SORTING
+# Sorting
 
 In this chapter we discuss the problem of sorting an array of elements. To simplify matters, we will assume in our examples that the array contains only integers, although, obviously, more complicated structures are possible. For most of this chapter, we will also assume that the entire sort can be done in main memory, so that the number of elements is relatively small (less than a million). Sorts that cannot be performed in main memory and must be done on disk or tape are also quite important. This type of sorting, known as external sorting, will be discussed at the end of the chapter.
 

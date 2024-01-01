@@ -1,10 +1,10 @@
 ---
-title: 'ALGORITHM ANALYSIS'
+title: 'Algorithm Analysis'
 weight: 2
 Extension: Katex
 ---
 
-# ALGORITHM ANALYSIS
+# Algorithm Analysis
 
 An algorithm is a clearly specified set of simple instructions to be followed to solve a problem. Once an algorithm is given for a problem and decided (somehow) to be correct, an important step is to determine how much in the way of resources, such as time or space, the algorithm will require. An algorithm that solves a problem but requires a year is hardly of any use. Likewise, an algorithm that requires a gigabyte of main memory is not (currently) useful.
 
@@ -156,7 +156,7 @@ Second, the times given do not include the time required to read the input. For 
 ```
 Algorithm 1 2 3 4
 
--------------------- -----------------------------------
+-----------------------------------------------------------
 
 Time O(n3) O(n2) O(n log n) (n)
 
@@ -253,7 +253,7 @@ a[i] += a[j] + i + j;
 
 ```
 
-**RULE 4-lF/ELSE:**
+**RULE 4-IF/ELSE:**
 
 For the fragment
 ```

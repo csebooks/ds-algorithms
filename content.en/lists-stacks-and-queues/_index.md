@@ -1,9 +1,9 @@
 ---
-title: "LISTS, STACKS, AND QUEUES"
+title: "Lists, Stacks, and Queues"
 weight: 3
 ---
 
-# LISTS, STACKS, AND QUEUES
+# Lists, Stacks, and Queues
 
 This chapter discusses three of the most simple and basic data structures. Virtually every significant program will use at least one of these structures explicitly, and a stack is always implicitly used in your program, whether or not you declare one. Among the highlights of this chapter, we will
 

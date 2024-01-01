@@ -1,9 +1,9 @@
 ---
-title: 'GRAPH ALGORITHMS'
+title: 'Graph Algorithms'
 weight: 9
 ---
  
-# GRAPH ALGORITHMS
+# Graph Algorithms
 
 In this chapter we discuss several common problems in graph theory. Not only are these algorithms useful in practice, they are interesting because in many real- life applications they are too slow unless careful attention is paid to the choice of data structures. We will 
 - Show several real-life problems, which can be converted to problems on graphs. 

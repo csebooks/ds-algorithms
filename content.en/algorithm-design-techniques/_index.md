@@ -1,9 +1,9 @@
 ---
-title: 'ALGORITHM DESIGN TECHNIQUES'
+title: 'Algorithm Design Techniques'
 weight: 10
 ---
 
-# ALGORITHM DESIGN TECHNIQUES
+# Algorithm Design Techniques
 
 So far, we have been concerned W~i~th the efficient implementation of algorithms. We have seen that when an algorithm is given, the actual data structures need not be specified. It is up to the programmer to choose the approriate data structure in order to make the running time as small as possible.
 

@@ -1,10 +1,10 @@
 ---
-title: 'PRIORITY QUEUES (HEAPS)'
+title: 'Priority Queues (heaps)'
 weight: 6
 ---
 
 
-# PRIORITY QUEUES (HEAPS)
+# Priority Queues (heaps)
 
 Although jobs sent to a line printer are generally placed on a queue, this might not always be the best thing to do. For instance, one job might be particularly important, so that it might be desirable to allow that job to be run as soon as the printer is available. Conversely, if, when the printer becomes available, there are several one-page jobs and one hundred-page job, it might be reasonable to make the long job go last, even if it is not the last job submitted. (Unfortunately, most systems do not do this, which can be particularly annoying at times.)
 

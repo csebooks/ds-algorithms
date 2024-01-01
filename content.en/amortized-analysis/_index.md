@@ -1,9 +1,9 @@
 ---
-title: 'AMORTIZED ANALYSIS'
+title: 'Amortized Analysis'
 weight: 11
 ---
 
-# AMORTIZED ANALYSIS
+# Amortized Analysis
 
 In this chapter, we will analyze the running time for several of the advanced data structures that have been presented in Chapters 4 and 6. In particular, we will consider the worst-case running time for any sequence of m operations. This contrasts with the more typical analysis, in which a worst-case bound is given for any single operation.
 

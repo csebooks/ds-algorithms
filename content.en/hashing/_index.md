@@ -1,9 +1,9 @@
 ---
-title: 'HASHING'
+title: 'Hashing'
 weight: 5
 ---
 
-# HASHING
+# Hashing
 
 In Previous Chapter, we discussed the search tree ADT, which allowed various operations on a set of elements. In this chapter, we discuss the hash table ADT, which supports only a subset of the operations allowed by binary search trees.
 
