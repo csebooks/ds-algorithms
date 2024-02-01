@@ -24,7 +24,7 @@ A different implementation of decrease_key: The method we have seen before is to
 
 Lazy merging: Two heaps are merged only when it is required to do so. This is similar to lazy deletion. For lazy merging, merges are cheap, but because lazy merging does not actually combine trees, the delete_min operation could encounter lots of trees, making that operation expensive. Any one delete_min could take linear time, but it is always possible to charge the time to previous merge operations. In particular, an expensive delete_min must have been preceded by a large number of unduly cheap merges, which have been able to store up extra potential.
 
-### Cutting Nodes in Leftist Heaps
+## Cutting Nodes in Leftist Heaps
 
 In binary heaps, the decrease_key operation is implemented by lowering the value at a node and then percolating it up toward the root until heap order is established. In the worst case, this can take O(log n) time, which is the length of the longest path toward the root in a balanced tree.
 
@@ -62,7 +62,7 @@ Nevertheless, it seems that this scheme will not work, because T2 is not necessa
 
 Because we can convert T2 to the leftist heap H2 in O (log n) steps, and then merge H1 and H2, we have an O (log n) algorithm for performing the decrease_key operation in leftist heaps. The heap that results in our example is shown in Figure 11.14.
 
-### Lazy Merging for Binomial Queues
+## Lazy Merging for Binomial Queues
 
 The second idea that is used by Fibonacci heaps is lazy merging. We will apply this idea to binomial queues and show that the amortized time to perform a merge operation (as well as insertion, which is a special case) is O(1). The amortized time for delete_min will still be O (log n).
 
@@ -121,7 +121,7 @@ The *delete_min* operation is more complicated. Let r be the rank of the tree th
 
 *We can do this because we can place the constant implied by the Big-Oh notation in the potential function and still get the cancellation of terms, which is needed in the proof.
 
-### The Fibonacci Heap Operations
+## The Fibonacci Heap Operations
 
 As we mentioned before, the Fibonacci heap combines the leftist heap decrease_key operation with the lazy binomial queue merge operation. Unfortunately, we cannot use both operations without a slight modification. The problem is that if arbitrary cuts are made in the binomial trees, the resulting forest will no longer be a collection of binomial trees. Because of this, it will no longer be true that the rank of every tree is at most log n . Since the amortized bound for delete_min in lazy binomial queues was shown to be 2 log n + r, we need r = O(log n) for the delete_min bound to hold.
 
@@ -143,7 +143,7 @@ Notice that 10 and 33, which used to be marked nodes, are no longer marked, beca
 ![Alt text](fig11.20.png)
 **Figure 11.20 The resulting segment of the Fibonacci heap after the decrease_key operation**
 
-### Proof of the Time Bound
+## Proof of the Time Bound
 
 Recall that the reason for marking nodes is that we needed to bound the rank (number of children) r of any node. We will now show that any node with n descendants has rank O(log n).
 
