@@ -12,8 +12,8 @@ Stacks are sometimes known as LIFO (last in, first out) lists. The model depicte
 
 **Figure 3.38** shows an abstract stack after several operations. The general model is that there is some element that is at the top of the stack, and it is the only element that is visible.
 
-![Alt text](Image/Linkedlist37.png)
-![Alt text](Image/Linkedlist38.png)
+![Alt text](Linkedlist37.png)
+![Alt text](Linkedlist38.png)
 
 ### Implementation of Stacks
 
@@ -375,21 +375,21 @@ When a number is seen, it is pushed onto the stack; when an operator is seen, th
 
 is evaluated as follows: The first four symbols are placed on the stack. The resulting stack is
 
-![Alt text](Image/image.png)
+![Alt text](image.png)
 Next a '+' is read, so 3 and 2 are popped from the stack and their sum, 5, is pushed.
-![Alt text](Image/image1.png)
+![Alt text](image1.png)
 Next 8 is pushed.
-![Alt text](Image/image2.png)
+![Alt text](image2.png)
 Now a '*' is seen, so 8 and 5 are popped as 8 * 5 = 40 is pushed.
-![Alt text](Image/image3.png)
+![Alt text](image3.png)
 Next a '+' is seen, so 40 and 5 are popped and 40 + 5 = 45 is pushed.
-![Alt text](Image/image4.png)
+![Alt text](image4.png)
 Now, 3 is pushed.
-![Alt text](Image/image5.png)
+![Alt text](image5.png)
 Next '+' pops 3 and 45 and pushes 45 + 3 = 48.
-![Alt text](Image/image6.png)
+![Alt text](image6.png)
 Finally, a '*' is seen and 48 and 6 are popped, the result 6 * 48 = 288 is pushed.
-![Alt text](Image/image7.png)
+![Alt text](image7.png)
 The time to evaluate a postfix expression is O(n), because processing each element in the input consists of stack operations and thus takes constant time. The algorithm to do so is very simple. Notice that when an expression is given in postfix notation, there is no need to know any precedence rules; this is an obvious advantage.
 
 **Infix to Postfix Conversion**
@@ -409,24 +409,24 @@ If we see any other symbol ('+','*', '(')), then we pop entries from the stack u
 Finally, if we read the end of input, we pop the stack until it is empty, writing symbols onto the output.
 
 To see how this algorithm performs, we will convert the infix expression above into its postfix form. First, the symbol a is read, so it is passed through to the output. Then '+' is read and pushed onto the stack. Next b is read and passed through to the output. The state of affairs at this juncture is as follows:
-![Alt text](Image/image8.png)
+![Alt text](image8.png)
 Next a '*' is read. The top entry on the operator stack has lower precedence than '*', so nothing is output and '*' is put on the stack. Next, c is read and output. Thus far, we have
-![Alt text](Image/image9.png)
+![Alt text](image9.png)
 The next symbol is a '+'. Checking the stack, we find that we will pop a '*' and place it on the
 output, pop the other '+', which is not of lower but equal priority, on the stack, and then push the '+'.
-![Alt text](Image/image10.png)
+![Alt text](image10.png)
 The next symbol read is an '(', which, being of highest precedence, is placed on the stack. Then d is read and output.
-![Alt text](Image/image11.png)
+![Alt text](image11.png)
 We continue by reading a '*'. Since open parentheses do not get removed except when a closed parenthesis is being processed, there is no output. Next, e is read and output.
-![Alt text](Image/image12.png)
+![Alt text](image12.png)
 The next symbol read is a '+'. We pop and output '*' and then push '+'. Then we read and output.
-![Alt text](Image/image13.png)
+![Alt text](image13.png)
 Now we read a ')', so the stack is emptied back to the '('. We output a '+'.
-![Alt text](Image/image14.png)
+![Alt text](image14.png)
 We read a '*' next; it is pushed onto the stack. Then g is read and output.
-![Alt text](Image/image15.png)
+![Alt text](image15.png)
 The input is now empty, so we pop and output symbols from the stack until it is empty.
-![Alt text](Image/image16.png)
+![Alt text](image16.png)
 As before, this conversion requires only O(n) time and works in one pass through the input. We can add subtraction and division to this repertoire by assigning subtraction and addition equal priority and multiplication and division equal priority. A subtle point is that the expression a - b - c will be converted to ab - c- and not abc - -. Our algorithm does the right thing, because these operators associate from left to right. This is not necessarily the case in general, since
 
 exponentiation associates right to left: 2^23^ = 2^8^ = 256 not 4^3^ = 64. We leave as an exercise the problem of adding exponentiation to the repertoire of assignments.

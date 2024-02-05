@@ -9,7 +9,7 @@ Like stacks, queues are lists. With a queue, however, insertion is done at one e
 ### Queue Model
 
 The basic operations on a queue are enqueue, which inserts an element at the end of the list (called the rear), and dequeue, which deletes (and returns) the element at the start of the list (known as the front). Figure 3.56 shows the abstract model of a queue.
-![Alt text](Image/linkedlist56.png)
+![Alt text](linkedlist56.png)
 **Figure 3.56 Model of a queue**
 
 ### Array Implementation of Queues
@@ -17,14 +17,14 @@ The basic operations on a queue are enqueue, which inserts an element at the end
 As with stacks, any list implementation is legal for queues. Like stacks, both the linked list and array implementations give fast O(1) running times for every operation. The linked list implementation is straightforward and left as an exercise. We will now discuss an array implementation of queues.
 
 For each queue data structure, we keep an array, QUEUE[], and the positions q_front and q_rear, which represent the ends of the queue. We also keep track of the number of elements that are actually in the queue, q_size. All this information is part of one structure, and as usual, except for the queue routines themselves, no routine should ever access these directly. The following figure shows a queue in some intermediate state. By the way, the cells that are blanks have undefined values in them. In particular, the first two cells have elements that used to be in the queue.
-![Alt text](Image/image17.png)
+![Alt text](image17.png)
 The operations should be clear. To enqueue an element x, we increment q_size and q_rear, then set QUEUE[q_rear] = x. To dequeue an element, we set the return value to QUEUE[q_front], decrement q_size, and then increment q_front. Other strategies are possible (this is discussed later). We will comment on checking for errors presently.
 
 There is one potential problem with this implementation. After 10 enqueues, the queue appears to be full, since q_front is now 10, and the next enqueue would be in a nonexistent position. However, there might only be a few elements in the queue, because several elements may have already been dequeued. Queues, like stacks, frequently stay small even in the presence of a lot of operations.
 
 The simple solution is that whenever q_front or q_rear gets to the end of the array, it is wrapped around to the beginning. The following figure shows the queue during some operations. This is known as a circular array implementation.
-![Alt text](Image/image18.png)
-![Alt text](Image/image19.png)
+![Alt text](image18.png)
+![Alt text](image19.png)
 The extra code required to implement the wraparound is minimal (although it probably doubles the running time). If incrementing either q_rear or q_front causes it to go past the array, the value is reset to the first position in the array.
 
 There are two warnings about the circular array implementation of queues. First, it is important to check the queue for emptiness, because a dequeue when the queue is empty will return an undefined value, silently.

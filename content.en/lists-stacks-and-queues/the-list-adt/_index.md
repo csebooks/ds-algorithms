@@ -32,13 +32,13 @@ Recall that a pointer variable is just a variable that contains the address wher
 
 field_name, where field_name is the name of the field we wish to examine. **Figure** 3.2 shows the actual representation of the list in **Figure 3.1.** The list contains five structures, which happen to reside in memory locations 1000, 800, 712, 992, and 692 respectively. The next pointer in the first structure has the value 800, which provides the indication of where the second structure is. The other structures each have a pointer that serves a similar purpose. Of course, in order to access this list, we need to know where the first cell can be found. A pointer variable can be used for this purpose. It is important to remember that a pointer is just a number. For the rest of this chapter, we will draw pointers with arrows, because they are more illustrative.
 
-![Alt text](Image/Linkedlist.png)
+![alt text](Linkedlist.png)
 
-![Alt text](Image/Linkedlist2.png)
+![alt text](Linkedlist2.png)
 
-![Alt text](Image/Linkedlist3.png)
+![alt text](Linkedlist3.png)
 
-![Alt text](Image/Linkedlist4.png)
+![alt text](Linkedlist4.png)
 
 To execute print_list(L) or find(L,key), we merely pass a pointer to the first element in the list and then traverse the list by following the next pointers. This operation is clearly linear-time, although the constant is likely to be larger than if an array implementation were used. The find_kth operation is no longer quite as efficient as an array implementation; find_kth(L,i) takes O(i) time and works by traversing down the list in the obvious manner. In practice, this bound is pessimistic, because frequently the calls to find_kth are in sorted order (by i). As an example, find_kth(L,2), find_kth(L,3), find_kth(L,4), find_kth(L,6) can all be executed in one scan down the list.
 
@@ -50,7 +50,7 @@ The insert command requires obtaining a new cell from the system by using an mal
 
 The description above is actually enough to get everything working, but there are several places where you are likely to go wrong. First of all, there is no really obvious way to insert at the front of the list from the definitions given. Second, deleting from the front of the list is a special case, because it changes the start of the list; careless coding will lose the list. A third problem concerns deletion in general. Although the pointer moves above are simple, the deletion algorithm requires us to keep track of the cell before the one that we want to delete.
 
-![Alt text](Image/Linkedlist5.png)
+![alt text](Linkedlist5.png)
 
 It turns out that one simple change solves all three problems. We will keep a sentinel node, which is sometimes referred to as a header or dummy node. This is a common practice, which we will see several times in the future. Our convention will be that the header is in position 0. Figure 3.5 shows a linked list with a header representing the list a~1~, a~2~, . . . , a~5~.
 
@@ -81,7 +81,7 @@ typedef node_ptr position;
 
 **Figure 3.6 Type declarations for linked lists**
 
-![Alt text](Image/Linkedlilst7.png)
+![Alt text](Linkedlilst7.png)
 
 ```c
 int
@@ -300,7 +300,7 @@ position p, tmp;
 
 **Figure 3.15 Correct way to delete a list**
 
-![Alt text](Image/Linkedlist16.png)
+![Alt text](Linkedlist16.png)
 
 ### Doubly Linked Lists
 
@@ -326,7 +326,7 @@ present, but if p~1~(x) = 10x^1000^ + 5x^14^ + 1 and p~2~(x) = 3x^1990^ - 2x^149
 
 then the running time is likely to be unacceptable. One can see that most of the time is spent multiplying zeros and stepping through what amounts to nonexistent parts of the input polynomials. This is always undesirable.
 
-![Alt text](Image/Linkedlist17.png)
+![Alt text](Linkedlist17.png)
 
 ```c
 typedef struct
@@ -418,7 +418,7 @@ poly1->coeff_array[i] * poly2->coeff_array[j];
 
 **Figure 3.21 Procedure to multiply two polynomials**
 
-![Alt text](Image/Linkedlist22.png)
+![Alt text](Linkedlist22.png)
 
 ```c
 typedef struct node *node_ptr;
@@ -505,7 +505,7 @@ What is needed is a list for each class, which contains the students in the clas
 
 As the figure shows, we have combined two lists into one. All lists use a header and are circular. To list all of the students in class C3, we start at C3 and traverse its list (by going right). The first cell belongs to student S1. Although there is no explicit information to this effect, this can be determined by following the student's linked list until the header is reached. Once this is done, we return to C3's list (we stored the position we were at in the course list before we traversed the student's list) and find another cell, which can be determined to belong to S3. We can continue and find that S4 and S5 are also in this class. In a similar manner, we can determine, for any student, all of the classes in which the student is registered.
 
-![Alt text](Image/LInkedlist27.png)
+![alt text](Linkedlist27.png)
 
 Using a circular list saves space but does so at the expense of time. In the worst case, if the first student was registered for every course, then every entry would need to be examined in order to determine all the course names for that student. Because in this application there are relatively few courses per student and few students per course, this is not likely to happen. If it were suspected that this could cause a problem, then each of the (nonheader) cells could have pointers directly back to the student and class header. This would double the space requirement, but simplify and speed up the implementation.
 
