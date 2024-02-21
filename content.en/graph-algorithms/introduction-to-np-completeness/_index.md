@@ -5,6 +5,7 @@ references:
     links:
         - https://visualgo.net/en/maxflow
         - https://visualgo.net/en/mvc
+        - https://visualgo.net/en/reductions
 ---
 
 ## Introduction to NP-Completeness

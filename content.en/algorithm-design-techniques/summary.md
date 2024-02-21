@@ -2,6 +2,8 @@
 title: 'Summary'
 weight: 6
 references:
+    link:
+        - https://visualgo.net/en/convexhull
     books:
         - b1:
             title: Data Structures and Algorithm Analysis in C by Mark Allen Weiss 
