@@ -1,6 +1,9 @@
 ---
 title: 'Network Flow Problems'
 weight: 4
+references:
+    links:
+        - https://visualgo.net/en/maxflow
 ---
 
 ## Network Flow Problems

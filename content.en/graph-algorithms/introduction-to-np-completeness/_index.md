@@ -1,6 +1,10 @@
 ---
 title: 'Introduction to NP-Completeness'
 weight: 7
+references:
+    links:
+        - https://visualgo.net/en/maxflow
+        - https://visualgo.net/en/mvc
 ---
 
 ## Introduction to NP-Completeness

@@ -1,6 +1,10 @@
 ---
 title: 'Minimum Spanning Tree'
 weight: 5
+references:
+    links:
+        - https://visualgo.net/en/mst?slide=1
+
 ---
 
 ## Minimum Spanning Tree

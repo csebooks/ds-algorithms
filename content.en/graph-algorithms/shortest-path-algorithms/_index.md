@@ -1,6 +1,9 @@
 ---
 title: 'Shortest-Path Algorithms'
 weight: 3
+references:
+    links:
+        - https://visualgo.net/en/sssp?slide=1
 ---
 
 ## Shortest-Path Algorithms

@@ -2,6 +2,8 @@
 title: 'Graph Algorithms'
 weight: 9
 references:
+    links:
+        - https://visualgo.net/en/dfsbfs?slide=1
     books:
         - b1:
             title: Data Structures and Algorithm Analysis in C by Mark Allen Weiss 
