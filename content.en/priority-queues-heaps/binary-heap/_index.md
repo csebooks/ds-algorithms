@@ -1,6 +1,9 @@
 ---
 title: 'Binary Heap'
 weight: 3
+references:
+    links:
+        - https://visualgo.net/en/heap?slide=1
 ---
 ## Binary Heap
 

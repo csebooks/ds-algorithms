@@ -9,6 +9,8 @@ references:
         - b2:
             title: Data_Structures_and_Algorithm_Analysis_2e By mark-allen-weiss
             url: https://www.google.co.in/books/edition/Data_Structures_and_Algorithm_Analysis_i/83RWbPynhkgC?hl=en&gbpv=1
+    links:
+        - https://visualgo.net/en/hashtable?slide=1
 ---
 
 # Hashing

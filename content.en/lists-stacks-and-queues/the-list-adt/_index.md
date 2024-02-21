@@ -1,6 +1,9 @@
 ---
 title: 'The List ADT'
 weight: 2
+references:
+    links:
+        - https://visualgo.net/en/list?slide=1
 ---
 
 
