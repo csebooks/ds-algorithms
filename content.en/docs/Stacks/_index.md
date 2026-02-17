@@ -1,6 +1,6 @@
 ---
-title: 'Trees'
-weight: 7
+title: 'Stacks'
+weight: 5
 references:
     books:
         - b1:

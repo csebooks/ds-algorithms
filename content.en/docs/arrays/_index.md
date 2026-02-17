@@ -1,6 +1,6 @@
 ---
-title: 'Trees'
-weight: 7
+title: 'Arrays'
+weight: 2
 references:
     books:
         - b1:

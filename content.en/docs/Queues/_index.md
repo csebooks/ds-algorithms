@@ -1,6 +1,6 @@
 ---
-title: 'Trees'
-weight: 7
+title: 'Queues'
+weight: 6
 references:
     books:
         - b1:

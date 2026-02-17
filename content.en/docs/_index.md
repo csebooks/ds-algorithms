@@ -1,6 +1,6 @@
 ---
 title: 'Data Strucures and Algorithms'
-weight: 1
+weight: 
 references:
     books:
         - b1:

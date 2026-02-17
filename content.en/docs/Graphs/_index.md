@@ -1,6 +1,6 @@
 ---
-title: 'Trees'
-weight: 7
+title: 'Graphs'
+weight: 8
 references:
     books:
         - b1:

@@ -1,6 +1,6 @@
 ---
-title: 'Trees'
-weight: 7
+title: 'Searching and sorting'
+weight: 9
 references:
     books:
         - b1:

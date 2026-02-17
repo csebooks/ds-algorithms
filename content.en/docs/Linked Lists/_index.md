@@ -1,6 +1,6 @@
 ---
-title: 'Trees'
-weight: 7
+title: 'Linked Lists'
+weight: 3
 references:
     books:
         - b1:
