@@ -10,7 +10,7 @@ references:
             title: Data_Structures_and_Algorithm_Analysis_2e By mark-allen-weiss
             url: https://www.google.co.in/books/edition/Data_Structures_and_Algorithm_Analysis_i/83RWbPynhkgC?hl=en&gbpv=1
 ---
-
+  
 ### Example 1-6
 **If f(n) = 5n + 3 and g(n) = n, can we say f(n) = O(g(n))?**
 
