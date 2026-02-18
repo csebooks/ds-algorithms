@@ -11,10 +11,7 @@ references:
             url: https://www.google.co.in/books/edition/Data_Structures_and_Algorithm_Analysis_i/83RWbPynhkgC?hl=en&gbpv=1
 
 ---
-I'll convert this PDF about Trees in Data Structures to clean Markdown format for you.
 
-```markdown
-# Chapter 7: Trees
 
 > Trees Of Herbs, Shrubs and Bushes
 
