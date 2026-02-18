@@ -1,6 +1,6 @@
 ---
-title: 'Stacks'
-weight: 5
+title: 'Linked Lists'
+weight: 3
 references:
     books:
         - b1:
@@ -12,4 +12,4 @@ references:
 
 ---
 
-# Chapter 5: Stacks
+# Chapter 3: Linked Lists
