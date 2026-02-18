@@ -53,7 +53,7 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
-          git submodule add -f https://github.com/alex-shpak/hugo-book themes/hugo-book
+          git submodule add -f https://github.com/csebooks/hugo-book themes/hugo-book
           hugo \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
