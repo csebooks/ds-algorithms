@@ -1,6 +1,7 @@
 ## Dev
 ```sh
-hugo server --themesDir ../
+git submodule add -f https://github.com/alex-shpak/hugo-book themes/hugo-book
+hugo server --minify
 ```
 
 
