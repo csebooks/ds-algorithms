@@ -1,6 +1,6 @@
 ---
 title: 'What is an Algorithm?'
-weight: 11
+weight: 2
 references:
     books:
         - b1:
@@ -11,16 +11,18 @@ references:
             url: https://www.google.co.in/books/edition/Data_Structures_and_Algorithm_Analysis_i/83RWbPynhkgC?hl=en&gbpv=1
 ---
 
-The method of solving a problem is known as an algorithm. More precisely, **an algorithm is a sequence of instructions that act on some input data to produce desired output in a finite number of steps.**
+An **algorithm** is just a **step-by-step procedure** to solve a problem.
 
-An algorithm must have the following properties:
+### Example  
+**Problem:** Find the largest number in an array.
 
-| Property | Description |
-|----------|-------------|
-| **(a) Input** | An algorithm must receive some input data supplied externally. |
-| **(b) Output** | An algorithm must produce at least one output as the result. |
-| **(c) Finiteness** | No matter what the input might be, the algorithm must terminate after a finite number of steps. For example, a procedure which goes on performing a series of steps infinitely is not an algorithm. |
-| **(d) Definiteness** | The steps to be performed in the algorithm must be clear and unambiguous. |
-| **(e) Effectiveness** | One must be able to perform the steps in the algorithm without applying any intelligence. For example, the step—*Select three numbers which form a Pythagorean triplet*—is not effective. |
+**Algorithm:**
+1. Assume the first element is the largest.
+2. Compare it with the next element.
+3. If the next element is bigger → update largest.
+4. Repeat until the end.
+5. Return the largest number.
+
+Simple. No complexity yet.
 
 ---

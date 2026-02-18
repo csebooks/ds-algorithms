@@ -1,6 +1,6 @@
 ---
 title: 'Why Analyze Algorithms?'
-weight: 1
+weight: 3
 references:
     books:
         - b1:
@@ -11,16 +11,43 @@ references:
             url: https://www.google.co.in/books/edition/Data_Structures_and_Algorithm_Analysis_i/83RWbPynhkgC?hl=en&gbpv=1
 ---
 
-Multiple algorithms may exist for solving a given problem. So, to be able to decide which algorithm to use, we need to analyze algorithms. There can be multiple yardsticks to determine which algorithm is better than the other. These include:
+Now important part.
 
-- **(a) Robustness** – Is the algorithm robust enough to tackle all types of valid and invalid inputs.
-- **(b) Maintainability** – Is it easy to alter the algorithm as needs change in future.
-- **(c) Scalability** – Can the algorithm deal with increase in the number of inputs.
-- **(d) Modularity** – Can the algorithm be broken down into smaller sections (modules).
-- **(e) Security** – Can the algorithm deal with malicious attacks.
-- **(f) User-friendliness** – Is it easy to use the algorithm.
-- **(g) Performance (efficiency)** – Does the algorithm take less time and memory space when implemented in a program.
+**Analysis of algorithm** means checking:
 
-Of these, the most popular yardstick used to analyze algorithms is **performance**. This is because it is easy to quantify time and space requirements of an algorithm.
+- ⏱ How much time it takes  
+- 💾 How much memory it uses  
+
+Mainly we focus on:
+
+1. **Time Complexity**
+2. **Space Complexity**
+
+or small inputs, almost all programs look fast.
+
+## Why Do We Need It?
+
+But what if input size becomes:
+
+- 10
+- 1,000
+- 1,00,000
+- 10,00,000
+
+Some algorithms become very slow as input grows.
+
+So we analyze to know:
+
+- Will it scale?
+- Will it handle large data?
+- Is it efficient?
 
 ---
+
+# Time Complexity
+
+Time complexity tells:
+
+> How running time increases when input size (n) increases.
+
+We measure growth using **Big-O Notation**.

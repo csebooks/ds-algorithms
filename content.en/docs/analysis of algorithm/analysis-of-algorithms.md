@@ -1,6 +1,6 @@
 ---
 title: 'Analysis of Algorithms'
-weight: 2
+weight: 5
 references:
     books:
         - b1:

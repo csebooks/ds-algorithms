@@ -1,6 +1,6 @@
 ---
 title: 'Algorithms: Justifying the means'
-weight: 10
+weight: 1
 references:
     books:
         - b1:
